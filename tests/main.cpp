@@ -8,6 +8,7 @@ using namespace std;
 
 char* crypt(char*, char*,int, int, int);
 
+
 int main() {
 
     char cle[]="azerty";
