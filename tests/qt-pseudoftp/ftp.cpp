@@ -1,5 +1,4 @@
 #include "ftp.h"
-#include <QtWidgets>
 #include <QtNetwork>
 #include <QDebug>
 
@@ -55,10 +54,12 @@ void Ftp::openDialog(){
 
     if(uploadChoice->isChecked()){
         QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString());
-        file_dirChoice->setText(fichier);
+        file_dirChoice->setText(fichier);        
+        file_dirChoice->setToolTip(fichier);
     }else if(downloadChoice->isChecked()){
         QString dossier = QFileDialog::getExistingDirectory(this);
         file_dirChoice->setText(dossier);
+         file_dirChoice->setToolTip(dossier);
     }
 }
 /**
@@ -149,7 +150,7 @@ void Ftp::on_transferButton_clicked(){
             || file_dirChoice->text().isEmpty()){
 
         if(QMessageBox::information(this, "Attention!",
-                                    "Merci de remplir toutes les informations!",NULL))
+                                    "Merci de remplir toutes les informations!"))
             return;
     }
 
@@ -161,7 +162,8 @@ void Ftp::on_transferButton_clicked(){
     url->setUserName(userInput->text());
     url->setPassword(pwdInput->text());
 
-    if(protoChoice->currentText()=="ftp://") url->setPort(22);
+    if(protoChoice->currentText()=="ftp://") url->setPort(21);
+    if(protoChoice->currentText()=="sftp://") url->setPort(22);
 
 
     progressDialog = new QProgressDialog(this);
@@ -181,7 +183,7 @@ void Ftp::on_transferButton_clicked(){
  * @param dest
  * @return success|fail
  *
- * c'est ici qu se passe l'upload
+ * c'est ici que se passe l'upload
  */
 bool Ftp::ftpUpload(QString fileToUpload, QString dest) {
 
@@ -330,10 +332,10 @@ void Ftp::requestFinished() {
  * @brief Ftp::requestError
  * @param err
  *
- * slot décleché par une erreur
+ * slot déclenché par une erreur
  */
 void Ftp::requestError(QNetworkReply::NetworkError err) {
      qDebug() << "error : "<< err;
-     QMessageBox::critical(this, "Erreur", tr("Erreur de transfert: %1.").arg(err));
+     QMessageBox::critical(this, "Erreur", tr( "Erreur de transfert: %1\n").arg(reply->errorString()));
      emit finished();
 }

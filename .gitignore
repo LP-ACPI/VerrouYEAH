@@ -1,2 +1,3 @@
 .gitignore
 /test/qt-google-drive
+/test/build-*
