@@ -1,9 +1,9 @@
 #include <cstring>
 #include "crypteur.h"
 
-#define PATH_CPP "../VerrouYEAH/tests/chiffrement/main.cpp"
-#define PATH_VY "../VerrouYEAH/tests/chiffrement/test.vy"
-#define PATH_TXT "../VerrouYEAH/tests/chiffrement/test.txt"
+#define PATH_CPP "main.cpp"
+#define PATH_VY "test.vy"
+#define PATH_TXT "test.txt"
 #define MYKEY "1234"
 
 using namespace std;

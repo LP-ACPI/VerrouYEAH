@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ramik/Bureau/partage_VM/LP_ACPI/VerrouYEAH/tests/chiffrement/crypteur.h
+string
+-
+openssl/des.h
+-
+
+/home/ramik/Bureau/partage_VM/LP_ACPI/VerrouYEAH/tests/chiffrement/main.cpp
+cstring
+-
+crypteur.h
+/home/ramik/Bureau/partage_VM/LP_ACPI/VerrouYEAH/tests/chiffrement/crypteur.h
+

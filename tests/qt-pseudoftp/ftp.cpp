@@ -336,6 +336,6 @@ void Ftp::requestFinished() {
  */
 void Ftp::requestError(QNetworkReply::NetworkError err) {
      qDebug() << "error : "<< err;
-     QMessageBox::critical(this, "Erreur", tr( "Erreur de transfert: %1\n").arg(reply->errorString()));
+     QMessageBox::critical(this, "Erreur", tr( "Erreur de transfert: %1").arg(err));
      emit finished();
 }
