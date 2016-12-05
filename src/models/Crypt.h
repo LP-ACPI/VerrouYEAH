@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //PROJECT_CRYPT_H
+#endif //CRYPT_H

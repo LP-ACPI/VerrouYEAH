@@ -2,8 +2,8 @@
 // Created by Valentin on 05/12/16.
 //
 
-#ifndef PROJECT_USER_H
-#define PROJECT_USER_H
+#ifndef USER_H
+#define USER_H
 
 
 class User {
@@ -11,4 +11,4 @@ class User {
 };
 
 
-#endif //PROJECT_USER_H
+#endif //USER_H
