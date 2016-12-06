@@ -35,14 +35,14 @@
              <number>10</number>
             </property>
             <item>
-             <widget class="QLabel" name="saveNameLabel">
+             <widget class="QLabel" name="backupNameLabel">
               <property name="text">
                <string>Nom</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="saveNameInput"/>
+             <widget class="QLineEdit" name="backupNameInput"/>
             </item>
            </layout>
           </item>
@@ -137,7 +137,7 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>saveNameInput</tabstop>
+  <tabstop>backupNameInput</tabstop>
   <tabstop>srcDirChoose</tabstop>
   <tabstop>trgDirChoose</tabstop>
   <tabstop>commentInput</tabstop>

@@ -17,13 +17,17 @@ SOURCES += main.cpp\
         Entities/user.cpp \
         Entities/backup.cpp \
         Views/homewindow.cpp \
-    Views/addbackupwindow.cpp
+    Views/addbackupwindow.cpp \
+    Views/authdialogwindow.cpp \
+    Views/backupitemwidget.cpp
 
 HEADERS  += configmanager.h \
-        Views/homewindow.h \
         Entities/user.h \
         Entities/backup.h \
-    Views/addbackupwindow.h
+        Views/homewindow.h \
+    Views/addbackupwindow.h \
+    Views/authdialogwindow.h \
+    Views/backupitemwidget.h
 
 FORMS    += Views/homewindow.ui \
         Views/firstauthdialog.ui \

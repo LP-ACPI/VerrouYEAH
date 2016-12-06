@@ -1,36 +1,79 @@
 #include "configmanager.h"
 #include <QDebug>
 #include <QJsonObject>
+#include <QJsonDocument>
 
-ConfigManager::ConfigManager(QString confFilename)
+#define DATAFILE "test_config.json"
+
+ConfigManager::ConfigManager()
 {
-    configFile.setFileName(confFilename);
+    appUser = new User;
+    loadConfig();
 }
 
-bool ConfigManager::loadConfig(){
+ConfigManager::~ConfigManager(){
 
-    QByteArray settings;
-    configFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    settings = configFile.readAll();
-    configFile.close();
+    saveConfig();
+    delete appUser;
+}
 
-    jsonDoc = QJsonDocument::fromJson(settings);
+bool ConfigManager::loadConfig() const {
 
-    if(jsonDoc.isNull()) return false;
-    return true;
+   QFile fileToLoad(QStringLiteral(DATAFILE));
+
+   if (!fileToLoad.open(QIODevice::ReadWrite)) {
+       qWarning("impossible d'ouvrir fichier");
+       return false;
+   }
+
+   QByteArray dataToLoad = fileToLoad.readAll();
+   QJsonDocument loadDoc(QJsonDocument::fromJson(dataToLoad));
+
+   QJsonObject user(loadDoc.object());
+
+   appUser->loadUser(user["utilisateur"].toObject());
+
+   return true;
 }
 
 
 bool ConfigManager::saveConfig(){
-    bool out;
-    configFile.open(QIODevice::WriteOnly);
-    if(configFile.write("{'title' : 'test'}")){
+    //fichier de sauvegarde
+    QFile saveFile( QStringLiteral(DATAFILE));
 
-        configFile.flush();
-        configFile.close();
-        if(jsonDoc.isNull()) out = false;
-        out = true;
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("écriture dans fichier échouée.");
+        return false;
     }
-    else out = false;
-    return out;
+
+    QJsonObject conf;//préparation du noeud
+
+    QJsonObject jsonUser;
+    appUser->saveUser(jsonUser);
+
+    conf["utilisateur"] = jsonUser;//créer noeud 'utilisateur' avec les attributs correspondants
+
+    QJsonDocument saveDoc(conf); //enregistrer le noeud racine
+
+    saveFile.write(saveDoc.toJson());
+
+    saveFile.close();
+
+    return true;
+}
+
+void ConfigManager::resetConfig(){
+    appUser = new User;
+}
+
+ User* ConfigManager::getUser(){
+    return appUser;
+}
+
+void ConfigManager::setUser(User &user) {
+    appUser = new User(user);
+}
+
+bool ConfigManager::noUser(){
+    return !appUser->exists();
 }

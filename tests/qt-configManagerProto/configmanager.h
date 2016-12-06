@@ -2,20 +2,28 @@
 #define CONFIGMANAGER_H
 
 #include <QFile>
-#include <QJsonDocument>
+#include <QJsonObject>
+#include <Entities/user.h>
 
 
 
 class ConfigManager
 {
 private:
-    QFile configFile;
-    QJsonDocument jsonDoc;
+    User *appUser;
 
 public:
-    ConfigManager(QString);
-    bool saveConfig();
-    bool loadConfig();
+    ConfigManager();
+    ~ConfigManager();
+
+    User* getUser();
+    void setUser(User&) ;
+    bool noUser();
+
+    bool saveConfig() ;
+    bool loadConfig() const;
+    void resetConfig();
+
 };
 
 #endif // CONFIGMANAGER_H

@@ -3,12 +3,11 @@
 
 #include "ui_addnewbackup.h"
 #include <QDialog>
+#include <Entities/backup.h>
 
 class AddBackupWindow : public QDialog, private Ui::AddNewBackup
 {
     Q_OBJECT
-private:
-
 public:
     explicit AddBackupWindow(QWidget *parent = 0);
     ~AddBackupWindow();

@@ -1,4 +1,6 @@
 #include "addbackupwindow.h"
+#include "backupitemwidget.h"
+#include "homewindow.h"
 #include <QFileDialog>
 
 AddBackupWindow::AddBackupWindow(QWidget *parent)
@@ -12,11 +14,20 @@ AddBackupWindow::~AddBackupWindow(){
 }
 
 void AddBackupWindow::on_newBackupButtonBox_accepted(){
-    on_newBackupButtonBox_rejected();
+    HomeWindow* parent = qobject_cast<HomeWindow*>(this->parent());
+
+    Backup bc;
+    bc.setName(backupNameInput->text());
+    bc.setSource(srcDirChoose->text());
+    bc.setTarget(trgDirChoose->text());
+    bc.setComent(commentInput->toPlainText());
+
+    parent->addBackup(bc);
+    this->close();
 }
 
 void AddBackupWindow::on_newBackupButtonBox_rejected(){
-    this->destroy();
+     this->close();
 }
 
 void AddBackupWindow::on_srcDirChoose_clicked(){

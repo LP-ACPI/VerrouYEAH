@@ -16,7 +16,7 @@ private:
     QString comment;
 
 public:
-    Backup(QString,QString,QString,QString);
+    Backup(QString nom = "",QString src="",QString trg="",QString com="");
     ~Backup();
 
     qint16 getId();
@@ -24,6 +24,20 @@ public:
     QString getSource();
     QString getTarget();
     QString getComent();
+
+
+    void setId(qint16);
+    void setName(QString);
+    void setSource(QString);
+    void setTarget(QString);
+    void setComent(QString);
+
+    void saveBackup(QJsonObject&) const;
+    void loadBackup(QJsonObject&);
+
+    void operator =(const Backup &b);
+    friend bool operator ==(const Backup&,const Backup&);
+    friend bool operator !=(const Backup&,const Backup&);
 
 };
 
