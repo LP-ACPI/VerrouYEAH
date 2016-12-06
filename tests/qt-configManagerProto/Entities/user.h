@@ -25,6 +25,7 @@ public:
 
     void addBackup(const Backup&);
     void removeBackup(Backup&);
+    void modifyBackup(Backup&);
 
     void saveUser(QJsonObject&) const;
     void loadUser(QJsonObject &);

@@ -18,10 +18,10 @@ HomeWindow::HomeWindow(QWidget *parent) :
     } else {
         QMessageBox::information(this, "Bienvenue!",
                                  "Bienvenue utilisateur "+confMan->getUser()->getNom());
-        listBackups();
-        connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
-            this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
     }
+    listBackups();
+    connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
+        this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
 }
 
 
@@ -58,23 +58,32 @@ void HomeWindow::addBackup(Backup &b){
     confMan->saveConfig();
 }
 
+void HomeWindow::modifBackup(Backup &b){
+
+    QListWidgetItem *item = backupList->currentItem();
+     BackupItemWidget *bcW = qobject_cast<BackupItemWidget*>(backupList->itemWidget(item));
+     b.setId(bcW->getBackup()->getId());
+     bcW->setBackup(&b);
+    confMan->getUser()->modifyBackup(b);
+    confMan->saveConfig();
+
+}
+
 void HomeWindow::on_newBackupButton_clicked(){
-    addWin = new AddBackupWindow(this);
-    addWin->show();
+    bcFormWin = new BackupFormWindow(this);
+    bcFormWin->show();
 }
 
-void HomeWindow::on_addWin_closed(){
-
-}
 
 void HomeWindow::onBackupItemClicked(QListWidgetItem *item)
 {
+    BackupItemWidget *bcW = qobject_cast<BackupItemWidget*>(backupList->itemWidget(item));
+    Backup *bc = bcW->getBackup();
+    bcFormWin = new BackupFormWindow(bc,this);
+    bcFormWin->show();
 
-
-//TODO - identifier ce block
-
-   if(QMessageBox::information(this, "",item->text()))
-       return;
+//   if(QMessageBox::information(this, "",bcW->getBackup()->getName()))
+//       return;
 
 }
 
@@ -88,10 +97,12 @@ void HomeWindow::on_actionRAZ_triggered(){
 
 void HomeWindow::removeBackup(Backup &b){
 //TODO - suppression individuelle
-//    bizarrement, on peut plus utiliser confMan ici
+//    on peut plus utiliser confMan ici
 //    un appel à lui fait tout péter
 
-  qDebug() << confMan->getUser()->getNom();
+    QListWidgetItem *item = backupList->currentItem();
+    backupList->removeItemWidget(item);
+    confMan->getUser()->removeBackup(b);
 
 
 //     confMan->saveConfig();

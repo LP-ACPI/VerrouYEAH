@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddNewBackup</class>
- <widget class="QDialog" name="AddNewBackup">
+ <class>BackupForm</class>
+ <widget class="QDialog" name="BackupForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -147,7 +147,7 @@
   <connection>
    <sender>newBackupButtonBox</sender>
    <signal>accepted()</signal>
-   <receiver>AddNewBackup</receiver>
+   <receiver>BackupForm</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -163,7 +163,7 @@
   <connection>
    <sender>newBackupButtonBox</sender>
    <signal>rejected()</signal>
-   <receiver>AddNewBackup</receiver>
+   <receiver>BackupForm</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

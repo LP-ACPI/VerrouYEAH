@@ -19,18 +19,18 @@ public:
     Backup(QString nom = "",QString src="",QString trg="",QString com="");
     ~Backup();
 
-    qint16 getId();
-    QString getName();
-    QString getSource();
-    QString getTarget();
-    QString getComent();
+    qint16 getId() const;
+    QString getName() const;
+    QString getSource() const;
+    QString getTarget() const;
+    QString getComent() const;
 
 
-    void setId(qint16);
-    void setName(QString);
-    void setSource(QString);
-    void setTarget(QString);
-    void setComent(QString);
+    void setId(const qint16);
+    void setName(const QString);
+    void setSource(const QString);
+    void setTarget(const QString);
+    void setComent(const QString);
 
     void saveBackup(QJsonObject&) const;
     void loadBackup(QJsonObject&);

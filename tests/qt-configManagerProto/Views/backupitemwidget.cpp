@@ -21,22 +21,29 @@ BackupItemWidget::BackupItemWidget(Backup *b,QWidget *parent) :
 }
 
 BackupItemWidget::~BackupItemWidget(){
-    delete this;
+    delete bc;
 }
 
 Backup* BackupItemWidget::getBackup() const {
     return bc;
 }
 
+void BackupItemWidget::setBackup( Backup *b) {
+    BackupName->setText(b->getName());
+    BackupSource->setText(b->getSource());
+    BackupCible->setText(b->getTarget());
+    bc->setName(b->getName());
+    bc->setSource(b->getSource());
+    bc->setTarget(b->getTarget());
+}
+
 void BackupItemWidget::on_trashButton_clicked(){
      HomeWindow* parent = qobject_cast<HomeWindow*>(this->parent());
-
+Q_ASSERT(parent);
      //TODO
-     Backup b(*bc);
 //qDebug() <<b.getId();
-//     parent->removeBackup(b);
-
-     close();
+     parent->removeBackup(*bc);
+//     deleteLater();
 //
 
 }

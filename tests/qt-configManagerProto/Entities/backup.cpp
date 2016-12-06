@@ -9,39 +9,39 @@ Backup::Backup(QString nom,QString src,QString trg,QString com)
 
 Backup::~Backup(){}
 
-qint16 Backup::getId(){
+qint16 Backup::getId() const{
     return id;
 }
 
-void Backup::setId(qint16 i){
+void Backup::setId(const qint16 i){
     id = i;
 }
 
-QString Backup::getName(){
+QString Backup::getName() const{
     return name;
 }
-void Backup::setName(QString n){
+void Backup::setName(const QString n) {
     name = n;
 }
 
-QString Backup::getSource(){
+QString Backup::getSource()const{
     return sourceDir;
 }
-void Backup::setSource(QString src){
+void Backup::setSource(const QString src){
     sourceDir = src;
 }
 
-QString Backup::getTarget(){
+QString Backup::getTarget()const{
     return targetDir;
 }
-void Backup::setTarget(QString trg){
+void Backup::setTarget(const QString trg){
     targetDir = trg;
 }
 
-QString Backup::getComent(){
+QString Backup::getComent()const{
     return comment;
 }
-void Backup::setComent(QString cmt){
+void Backup::setComent(const QString cmt){
     comment = cmt;
 }
 
@@ -49,7 +49,7 @@ void Backup::saveBackup (QJsonObject &obj) const{
     obj["id"] = id;
     obj["nom"] = name;
     obj["source"] = sourceDir;
-    obj["cible"] = sourceDir;
+    obj["cible"] = targetDir;
     obj["commentaire"] = comment;
 }
 

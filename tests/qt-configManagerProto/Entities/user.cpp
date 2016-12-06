@@ -36,8 +36,17 @@ void User::addBackup(const Backup &bc){
 
 void User::removeBackup(Backup &bc){
     qDebug() << bc.getId();
-//    backupList.removeAt(bc.getId());
-//    return true;
+    backupList.removeOne(bc);
+}
+
+
+void User::modifyBackup(Backup &bc){
+
+    for (int i=0; i < backupList.size(); i++) {
+        if (backupList.at(i).getId() == bc.getId()) {
+                    backupList.replace(i, bc);
+        }
+    }
 }
 
 void User::saveUser (QJsonObject &obj) const{

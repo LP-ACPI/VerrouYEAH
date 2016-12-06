@@ -1,16 +1,20 @@
 #ifndef ADDBACKUPWINDOW_H
 #define ADDBACKUPWINDOW_H
 
-#include "ui_addnewbackup.h"
+#include "ui_backupform.h"
 #include <QDialog>
 #include <Entities/backup.h>
 
-class AddBackupWindow : public QDialog, private Ui::AddNewBackup
+class BackupFormWindow : public QDialog, private Ui::BackupForm
 {
     Q_OBJECT
+private:
+    std::string flag;
+
 public:
-    explicit AddBackupWindow(QWidget *parent = 0);
-    ~AddBackupWindow();
+    explicit BackupFormWindow(QWidget *parent = 0);
+    explicit BackupFormWindow(Backup*, QWidget *parent = 0);
+    ~BackupFormWindow();
 
 protected slots:
     void on_newBackupButtonBox_accepted();

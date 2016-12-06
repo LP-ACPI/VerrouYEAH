@@ -18,6 +18,7 @@ public:
     ~BackupItemWidget();
 
     Backup* getBackup() const;
+    void setBackup(Backup*) ;
 
 protected slots:
     void on_trashButton_clicked();
