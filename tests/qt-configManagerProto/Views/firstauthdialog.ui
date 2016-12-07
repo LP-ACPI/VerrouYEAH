@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>246</width>
-    <height>193</height>
+    <height>207</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>43</x>
      <y>24</y>
      <width>169</width>
-     <height>139</height>
+     <height>143</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">

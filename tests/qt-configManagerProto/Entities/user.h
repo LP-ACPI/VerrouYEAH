@@ -24,11 +24,11 @@ public:
     QList<Backup> getBackups() const;
 
     void addBackup(const Backup&);
-    void removeBackup(Backup&);
+    void removeBackup(const Backup&);
     void modifyBackup(Backup&);
 
     void saveUser(QJsonObject&) const;
-    void loadUser(QJsonObject &);
+    void loadUser(const QJsonObject&);
 
     bool exists();
     void operator=(User&) ;

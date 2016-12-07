@@ -1,5 +1,7 @@
 #include "homewindow.h"
+#include "backupitemwidget.h"
 #include "ui_homewindow.h"
+#include "authdialogwindow.h"
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QDebug>
@@ -11,17 +13,17 @@ HomeWindow::HomeWindow(QWidget *parent) :
     setupUi(this);
 
     confMan = new ConfigManager;
-    athWin = new AuthDialogWindow(this);
 
     if(confMan->noUser()){
+        AuthDialogWindow* athWin = new AuthDialogWindow(this);
         athWin->show();
     } else {
         QMessageBox::information(this, "Bienvenue!",
-                                 "Bienvenue utilisateur "+confMan->getUser()->getNom());
+                                 "Bienvenue  "+confMan->getUser()->getNom());
     }
-    listBackups();
+    refresh();
     connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
-        this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
+            this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
 }
 
 
@@ -35,7 +37,8 @@ ConfigManager* HomeWindow::getConfig() const{
     return confMan;
 }
 
-void HomeWindow::listBackups(){
+void HomeWindow::refresh(){
+    backupList->clear();
     foreach(Backup bc, confMan->getUser()->getBackups()){
         QListWidgetItem *item = new QListWidgetItem;
         BackupItemWidget *bcW = new BackupItemWidget(&bc, this);
@@ -54,7 +57,7 @@ void HomeWindow::addBackup(Backup &b){
     backupList->addItem(item);
     backupList->setItemWidget(item,bcW);
 
-    confMan->getUser()->addBackup(b);
+    confMan->addBackup(b);
     confMan->saveConfig();
 }
 
@@ -64,13 +67,14 @@ void HomeWindow::modifBackup(Backup &b){
      BackupItemWidget *bcW = qobject_cast<BackupItemWidget*>(backupList->itemWidget(item));
      b.setId(bcW->getBackup()->getId());
      bcW->setBackup(&b);
-    confMan->getUser()->modifyBackup(b);
-    confMan->saveConfig();
-
+     confMan->majBackup(b);
+     confMan->saveConfig();
 }
 
 void HomeWindow::on_newBackupButton_clicked(){
     bcFormWin = new BackupFormWindow(this);
+    connect(bcFormWin, SIGNAL(accepted()),
+            this ,SLOT(onBackupFormWindowAccepted()));
     bcFormWin->show();
 }
 
@@ -81,35 +85,26 @@ void HomeWindow::onBackupItemClicked(QListWidgetItem *item)
     Backup *bc = bcW->getBackup();
     bcFormWin = new BackupFormWindow(bc,this);
     bcFormWin->show();
-
-//   if(QMessageBox::information(this, "",bcW->getBackup()->getName()))
-//       return;
-
 }
 
-void HomeWindow::on_actionRAZ_triggered(){
+void HomeWindow::onBackupFormWindowAccepted(){
 
-    confMan->resetConfig();
-    confMan->saveConfig();
-    //tentative de raffraichissement - backupList->clear(); fait tout péter
-    listBackups();
+    QMessageBox::information(this, "cryptage!",
+                             "cryptage!  ");
 }
 
 void HomeWindow::removeBackup(Backup &b){
-//TODO - suppression individuelle
-//    on peut plus utiliser confMan ici
-//    un appel à lui fait tout péter
-
+    confMan->delBackup(b);
+     confMan->saveConfig();
     QListWidgetItem *item = backupList->currentItem();
     backupList->removeItemWidget(item);
-    confMan->getUser()->removeBackup(b);
-
-
-//     confMan->saveConfig();
-//    User u(*confMan->getUser());
-//   u.removeBackup(b);
-//   confMan->setUser(u);
-//    QListWidgetItem &SRitem = backupList->item;
-//    BackupItemWidget *bcW = new BackupItemWidget(&b,this);
-// backupList->removeItemWidget(item);
+    refresh();
 }
+
+void HomeWindow::on_actionRAZ_triggered(){
+    confMan->resetConfig();
+    confMan->saveConfig();
+    refresh();
+}
+
+

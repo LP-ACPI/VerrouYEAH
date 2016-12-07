@@ -4,7 +4,7 @@
 qint16 Backup::cnt = 0;
 
 Backup::Backup(QString nom,QString src,QString trg,QString com)
-    :name(nom),sourceDir(src),targetDir(trg),comment(com),id(cnt++)
+    :id(cnt++),name(nom),sourceDir(src),targetDir(trg),comment(com)
 {}
 
 Backup::~Backup(){}
@@ -68,7 +68,6 @@ void Backup::operator =(const Backup &b) {
     targetDir = b.targetDir;
     comment = b.comment;
 }
-
 
 bool operator ==(const Backup &b1,const Backup &b2) {
     bool out = false;

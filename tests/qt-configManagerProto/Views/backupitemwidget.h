@@ -1,15 +1,15 @@
 #ifndef BACKUPITEMWIDGET_H
 #define BACKUPITEMWIDGET_H
-#include "backupitemwidget.h"
 #include "ui_backupwidget.h"
-
-#include <Entities/backup.h>
+#include "homewindow.h"
+#include "Entities/backup.h"
 
 
 class BackupItemWidget : public QWidget, private Ui::BackupWidget
 {
     Q_OBJECT
 private:
+    HomeWindow *_parent;
     Backup *bc;
 
 public:
@@ -21,7 +21,7 @@ public:
     void setBackup(Backup*) ;
 
 protected slots:
-    void on_trashButton_clicked();
+    void on_trashButton_pressed();
 
 };
 

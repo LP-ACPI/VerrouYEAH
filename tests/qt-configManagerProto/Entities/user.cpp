@@ -34,14 +34,16 @@ void User::addBackup(const Backup &bc){
     backupList.append(bcp);
 }
 
-void User::removeBackup(Backup &bc){
-    qDebug() << bc.getId();
-    backupList.removeOne(bc);
+void User::removeBackup(const Backup &bc){
+    for (int i=0; i < backupList.size(); i++) {
+        if (backupList.at(i).getId() == bc.getId()) {
+            backupList.removeAt(i);
+        }
+    }
 }
 
 
 void User::modifyBackup(Backup &bc){
-
     for (int i=0; i < backupList.size(); i++) {
         if (backupList.at(i).getId() == bc.getId()) {
                     backupList.replace(i, bc);
@@ -61,7 +63,7 @@ void User::saveUser (QJsonObject &obj) const{
     obj["sauvegardes"] = bcpArray;
 }
 
-void User::loadUser(QJsonObject &obj){
+void User::loadUser(const QJsonObject &obj){
     nom = obj["nom"].toString();
     mdp = obj["pass"].toString();
     backupList.clear();
@@ -79,6 +81,7 @@ void User::loadUser(QJsonObject &obj){
 void User::operator=(User &u)  {
     nom = u.nom;
     mdp = u.mdp;
+    backupList = u.getBackups();
 }
 
 bool User::exists(){

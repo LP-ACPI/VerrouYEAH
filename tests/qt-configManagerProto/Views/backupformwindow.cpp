@@ -37,15 +37,18 @@ void BackupFormWindow::on_newBackupButtonBox_accepted(){
 
     if(flag=="modif")
         parent->modifBackup(bc);
-    else
+    else {
         parent->addBackup(bc);
 
+        parent->getConfig()->cryptDirectory(srcDirChoose->text(),trgDirChoose->text()+"/cryptTest");
+    }
     this->close();
 }
 
 void BackupFormWindow::on_newBackupButtonBox_rejected(){
      this->close();
 }
+
 
 void BackupFormWindow::on_srcDirChoose_clicked(){
     QString dossier = QFileDialog::getExistingDirectory(this);

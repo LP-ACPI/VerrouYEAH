@@ -5,9 +5,9 @@
 #include "models/Crypt.h"
 #include "models/Config.h"
 
-#define PATH_SOURCE "../VerrouYEAH/src/fichier_source.txt"
-#define PATH_VY "../VerrouYEAH/src/fichier_crypte.vy"
-#define PATH_CIBLE "../VerrouYEAH/src/fichier_cible.txt"
+#define PATH_SOURCE "fichier_source.txt"
+#define PATH_VY "fichier_crypte.vy"
+#define PATH_CIBLE "fichier_cible.txt"
 #define MYKEY "1234"
 
 using namespace std;

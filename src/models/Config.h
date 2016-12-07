@@ -16,7 +16,7 @@ class Config {
 public:
     Config()
     {
-        std::ifstream conf_file("../VerrouYEAH/src/config.json");
+        std::ifstream conf_file("config.json");
         conf_file >> config;
     }
     /*

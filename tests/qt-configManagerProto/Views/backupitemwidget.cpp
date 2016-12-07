@@ -1,11 +1,11 @@
 #include "backupitemwidget.h"
-#include "homewindow.h"
 #include <QDebug>
 
 BackupItemWidget::BackupItemWidget(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+    _parent = qobject_cast<HomeWindow*>(parent);
 
 }
 
@@ -18,6 +18,9 @@ BackupItemWidget::BackupItemWidget(Backup *b,QWidget *parent) :
     BackupName->setText(bc->getName());
     BackupSource->setText(bc->getSource());
     BackupCible->setText(bc->getTarget());
+
+   _parent = qobject_cast<HomeWindow*>(parent);
+
 }
 
 BackupItemWidget::~BackupItemWidget(){
@@ -37,13 +40,10 @@ void BackupItemWidget::setBackup( Backup *b) {
     bc->setTarget(b->getTarget());
 }
 
-void BackupItemWidget::on_trashButton_clicked(){
-     HomeWindow* parent = qobject_cast<HomeWindow*>(this->parent());
-Q_ASSERT(parent);
+void BackupItemWidget::on_trashButton_pressed(){
+
      //TODO
-//qDebug() <<b.getId();
-     parent->removeBackup(*bc);
-//     deleteLater();
+     _parent->removeBackup(*bc);
 //
 
 }
