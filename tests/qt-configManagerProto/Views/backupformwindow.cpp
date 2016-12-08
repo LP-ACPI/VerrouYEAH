@@ -26,6 +26,7 @@ BackupFormWindow::~BackupFormWindow(){
     this->close();
 }
 
+
 void BackupFormWindow::on_newBackupButtonBox_accepted(){
     HomeWindow* parent = qobject_cast<HomeWindow*>(this->parent());
 
@@ -39,8 +40,7 @@ void BackupFormWindow::on_newBackupButtonBox_accepted(){
         parent->modifBackup(bc);
     else {
         parent->addBackup(bc);
-
-        parent->getConfig()->cryptDirectory(srcDirChoose->text(),trgDirChoose->text()+"/cryptTest");
+        emit crypting(&bc);
     }
     this->close();
 }

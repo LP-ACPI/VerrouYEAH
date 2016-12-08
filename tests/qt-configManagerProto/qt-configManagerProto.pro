@@ -31,8 +31,7 @@ HEADERS  += configmanager.h \
     Views/authdialogwindow.h \
     Views/backupitemwidget.h \
     Views/backupformwindow.h \
-    Services/Crypt.h \
-    Views/authdialogWindow.h
+    Services/Crypt.h
 
 FORMS    += Views/homewindow.ui \
         Views/firstauthdialog.ui \

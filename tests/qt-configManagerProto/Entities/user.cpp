@@ -1,5 +1,6 @@
 #include "user.h"
 #include <QDebug>
+#include <QDir>
 #include <QJsonArray>
 
 //User::User():nom(""),mdp(""){}
@@ -37,7 +38,10 @@ void User::addBackup(const Backup &bc){
 void User::removeBackup(const Backup &bc){
     for (int i=0; i < backupList.size(); i++) {
         if (backupList.at(i).getId() == bc.getId()) {
-            backupList.removeAt(i);
+            const QString dirName = bc.getTarget() + QLatin1Char('/') + bc.getName() + QLatin1String(".vy");
+            QDir dirToRemove(dirName);
+            if(dirToRemove.removeRecursively())
+                backupList.removeAt(i);
         }
     }
 }

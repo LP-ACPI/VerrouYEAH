@@ -6,15 +6,14 @@ BackupItemWidget::BackupItemWidget(QWidget *parent) :
 {
     setupUi(this);
     _parent = qobject_cast<HomeWindow*>(parent);
-
 }
-
 
 BackupItemWidget::BackupItemWidget(Backup *b,QWidget *parent) :
     QWidget(parent)
 {
-    bc = new Backup(*b);
     setupUi(this);
+
+    bc = new Backup(*b);
     BackupName->setText(bc->getName());
     BackupSource->setText(bc->getSource());
     BackupCible->setText(bc->getTarget());
@@ -41,11 +40,7 @@ void BackupItemWidget::setBackup( Backup *b) {
 }
 
 void BackupItemWidget::on_trashButton_pressed(){
-
-     //TODO
      _parent->removeBackup(*bc);
-//
-
 }
 
 

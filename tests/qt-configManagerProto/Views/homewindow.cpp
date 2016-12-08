@@ -8,11 +8,11 @@
 
 
 HomeWindow::HomeWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    confMan(new ConfigManager)
+
 {
     setupUi(this);
-
-    confMan = new ConfigManager;
 
     if(confMan->noUser()){
         AuthDialogWindow* athWin = new AuthDialogWindow(this);
@@ -22,19 +22,20 @@ HomeWindow::HomeWindow(QWidget *parent) :
                                  "Bienvenue  "+confMan->getUser()->getNom());
     }
     refresh();
+
+
     connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
             this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
+    connect(confMan, SIGNAL(cryptInProgress(quint64,quint64)),
+            this ,SLOT(cryptingProgress(quint64,quint64)));
+
+
 }
 
 
-HomeWindow::~HomeWindow()
-{
+HomeWindow::~HomeWindow() {
     delete confMan;
     this->close();
-}
-
-ConfigManager* HomeWindow::getConfig() const{
-    return confMan;
 }
 
 void HomeWindow::refresh(){
@@ -59,23 +60,59 @@ void HomeWindow::addBackup(Backup &b){
 
     confMan->addBackup(b);
     confMan->saveConfig();
+
+    if(cryptingDone())
+        bcW->setFocusPolicy(Qt::StrongFocus);
 }
 
 void HomeWindow::modifBackup(Backup &b){
 
     QListWidgetItem *item = backupList->currentItem();
      BackupItemWidget *bcW = qobject_cast<BackupItemWidget*>(backupList->itemWidget(item));
+
      b.setId(bcW->getBackup()->getId());
      bcW->setBackup(&b);
+
      confMan->majBackup(b);
      confMan->saveConfig();
+
+     bcW->setFocusPolicy(Qt::StrongFocus);
+
+}
+
+void HomeWindow::removeBackup(Backup &b){
+    confMan->delBackup(b);
+     confMan->saveConfig();
+    QListWidgetItem *item = backupList->currentItem();
+    backupList->removeItemWidget(item);
+    refresh();
+}
+
+ConfigManager* HomeWindow::getConfig() const{
+    return confMan;
 }
 
 void HomeWindow::on_newBackupButton_clicked(){
     bcFormWin = new BackupFormWindow(this);
-    connect(bcFormWin, SIGNAL(accepted()),
-            this ,SLOT(onBackupFormWindowAccepted()));
+
+    connect(bcFormWin, SIGNAL(crypting(Backup*)),
+            this ,SLOT(onBackupFormWindowAccepted(Backup*)));
+
     bcFormWin->show();
+}
+
+void HomeWindow::on_actionRAZ_triggered(){
+    confMan->resetConfig();
+    confMan->saveConfig();
+    refresh();
+
+    int reponse = QMessageBox::question(this, "Remise à zéro", "Souhaitez-vous vous authentifier à nouver ? (sinon, fermeture du programme)", QMessageBox ::Yes | QMessageBox::No);
+
+        if (reponse == QMessageBox::Yes){
+            AuthDialogWindow* athWin = new AuthDialogWindow(this);
+            athWin->show();
+        }   else if (reponse == QMessageBox::No)
+            this->close();
 }
 
 
@@ -87,24 +124,25 @@ void HomeWindow::onBackupItemClicked(QListWidgetItem *item)
     bcFormWin->show();
 }
 
-void HomeWindow::onBackupFormWindowAccepted(){
-
-    QMessageBox::information(this, "cryptage!",
-                             "cryptage!  ");
+void HomeWindow::onBackupFormWindowAccepted(Backup *bc){
+    cryptProgress=new QProgressDialog(this);
+    cryptProgress->resize(500, cryptProgress->height());
+    cryptProgress->setMinimumDuration(0);
+    cryptProgress->show();
+    const QString target = bc->getTarget()+ QLatin1Char('/')+bc->getName()+ QLatin1String(".vy");
+    if(confMan->cryptDirectory( bc->getSource(), target )){
+        cryptProgress->close();
+        emit cryptingDone();
+    }
 }
 
-void HomeWindow::removeBackup(Backup &b){
-    confMan->delBackup(b);
-     confMan->saveConfig();
-    QListWidgetItem *item = backupList->currentItem();
-    backupList->removeItemWidget(item);
-    refresh();
+void HomeWindow::cryptingProgress(quint64 done, quint64 total){
+    cryptProgress->setMaximum(total);
+    cryptProgress->setWindowTitle("crypting..: "+ QString::number(done) + " / " +QString::number(total));
+    cryptProgress->setMinimum(0);
+    cryptProgress->setValue(done);
 }
 
-void HomeWindow::on_actionRAZ_triggered(){
-    confMan->resetConfig();
-    confMan->saveConfig();
-    refresh();
-}
+
 
 

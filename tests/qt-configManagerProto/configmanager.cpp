@@ -109,6 +109,10 @@ void ConfigManager::operator=(ConfigManager &confMan){
 }
 
 bool ConfigManager::cryptDirectory(const QString &source,const QString &cible){
+    return cryptDirWithCount(source,cible,CountFiles(source)) > 0;
+}
+
+quint64 ConfigManager::cryptDirWithCount(const QString &source,const QString &cible, const quint64 total, quint64 crypted){
 
         QFileInfo srcFileInfo(source);
         if (srcFileInfo.isDir()) {
@@ -117,25 +121,31 @@ bool ConfigManager::cryptDirectory(const QString &source,const QString &cible){
             targetDir.cdUp();
 
             if (!targetDir.mkdir(QFileInfo(cible).fileName()))
-                return false;
+                return 0;
 
             QDir sourceDir(source);
             QStringList fileNames = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
 
             foreach (const QString &fileName, fileNames) {
-                const QString newsource  = source + QLatin1Char('/') + fileName;
-                const QString newcible = cible + QLatin1Char('/') + fileName;
+                const QString subSource  = source + QLatin1Char('/') + fileName;
+                const QString subCible = cible + QLatin1Char('/') + fileName;
+//NEIN!! - compteur RAZ au passage à  autre dossier
 
-                if (!cryptDirectory(newsource, newcible))
-                    return false;
+                   crypted =  cryptDirWithCount(subSource, subCible,total,crypted);
             }
         } else {
             crypt->cryptFile(source.toStdString(), cible.toStdString(), (char*)MYKEY);
+            crypted++;
         }
-        return true;
+        emit cryptInProgress(crypted,total);
+        return crypted;
 }
 
 bool ConfigManager::decryptDirectory(const QString &source,const QString &cible){
+    return decryptDirWithCount(source,cible, CountFiles(source)) > 0;
+}
+
+quint64 ConfigManager::decryptDirWithCount(const QString &source,const QString &cible, const quint64 total,quint64 decrypted){
 
         QFileInfo srcFileInfo(source);
         if (srcFileInfo.isDir()) {
@@ -144,21 +154,42 @@ bool ConfigManager::decryptDirectory(const QString &source,const QString &cible)
             targetDir.cdUp();
 
             if (!targetDir.mkdir(QFileInfo(cible).fileName()))
-                return false;
+                return 0;
 
             QDir sourceDir(source);
             QStringList fileNames = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
 
             foreach (const QString &fileName, fileNames) {
-                const QString newsource  = source + QLatin1Char('/') + fileName;
-                const QString newcible = cible + QLatin1Char('/') + fileName;
-
-                if (!decryptDirectory(newsource, newcible))
-                    return false;
+                const QString subSource  = source + QLatin1Char('/') + fileName;
+                const QString subCible = cible + QLatin1Char('/') + fileName;
+                decrypted = decryptDirWithCount(subSource, subCible,total,decrypted);
             }
         } else {
             crypt->decryptFile(source.toStdString(), cible.toStdString(),(char*) MYKEY);
+            emit cryptInProgress( decrypted,total);
         }
-        return true;
+        return decrypted;
 }
+
+int ConfigManager::CountFiles(const QString &source, int ctn){
+    QFileInfo srcInfo(source);
+    if (srcInfo.isDir()) {
+        QDir srcDir(source);
+
+        QStringList elements = srcDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
+
+        foreach (const QString &el, elements) {
+            const QString subEl  = source + QLatin1Char('/') + el;
+            QFileInfo srcInfo(subEl);
+             if (srcInfo.isDir())
+                 ctn+=CountFiles(subEl);
+             else
+                 ctn++;
+        }
+    }
+    return ctn;
+
+
+}
+
 

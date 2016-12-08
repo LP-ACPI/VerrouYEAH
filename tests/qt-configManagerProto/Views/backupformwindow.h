@@ -16,6 +16,9 @@ public:
     explicit BackupFormWindow(Backup*, QWidget *parent = 0);
     ~BackupFormWindow();
 
+signals:
+    void crypting(Backup *);
+
 protected slots:
     void on_newBackupButtonBox_accepted();
     void on_newBackupButtonBox_rejected();
