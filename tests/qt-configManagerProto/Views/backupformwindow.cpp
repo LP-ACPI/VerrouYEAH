@@ -7,7 +7,11 @@ BackupFormWindow::BackupFormWindow(QWidget *parent)
     : QDialog(parent)
 {
     setupUi(this);
+    backup = new Backup;
     flag = "new";
+
+    setWindowTitle("Ajouter une sauvegarde");
+    setWindowIcon(QPixmap(":/images/LetsEncrypt_Logo.png"));
 }
 
 
@@ -15,32 +19,39 @@ BackupFormWindow::BackupFormWindow(Backup *bc,QWidget *parent)
     : QDialog(parent)
 {
     setupUi(this);
-    backupNameInput->setText(bc->getName());
-    srcDirChoose->setText(bc->getSource());
-    trgDirChoose->setText(bc->getTarget());
-    commentInput->setPlainText(bc->getComent());
+
+    backup = new Backup(*bc);
+
+    setWindowTitle("Modifier la sauvegarde " + bc->getName());
+    setWindowIcon(QPixmap(":/images/LetsEncrypt_Logo.png"));
+
+    backupNameInput->setText(backup->getName());
+    srcDirChoose->setText(backup->getSource());
+    trgDirChoose->setText(backup->getTarget());
+    commentInput->setPlainText(backup->getComent());
+
     flag = "modif";
 }
 
 BackupFormWindow::~BackupFormWindow(){
+    delete backup;
     this->close();
 }
-
 
 void BackupFormWindow::on_newBackupButtonBox_accepted(){
     HomeWindow* parent = qobject_cast<HomeWindow*>(this->parent());
 
-    Backup bc;
-    bc.setName(backupNameInput->text());
-    bc.setSource(srcDirChoose->text());
-    bc.setTarget(trgDirChoose->text());
-    bc.setComent(commentInput->toPlainText());
+    Backup *oldBackup = new Backup(*backup);
+    backup->setName(backupNameInput->text());
+    backup->setSource(srcDirChoose->text());
+    backup->setTarget(trgDirChoose->text());
+    backup->setComent(commentInput->toPlainText());
 
-    if(flag=="modif")
-        parent->modifBackup(bc);
+    if(flag=="modif"){
+        parent->modifBackup(*oldBackup,*backup);
+    }
     else {
-        parent->addBackup(bc);
-        emit crypting(&bc);
+        parent->addBackup(*backup);
     }
     this->close();
 }

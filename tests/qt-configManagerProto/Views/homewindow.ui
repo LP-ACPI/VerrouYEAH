@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
-    <height>399</height>
+    <width>580</width>
+    <height>400</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>580</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>580</width>
+    <height>400</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>HomeWindow</string>
@@ -26,27 +38,28 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QListWidget" name="backupList">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>11</y>
+         <width>541</width>
+         <height>251</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="newBackupButton">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>10</y>
+         <y>270</y>
          <width>541</width>
-         <height>301</height>
+         <height>61</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QListWidget" name="backupList"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="newBackupButton">
-          <property name="text">
-           <string>Nouvelle sauvegarde</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <property name="text">
+        <string>Nouvelle sauvegarde</string>
+       </property>
       </widget>
      </widget>
     </item>
@@ -58,7 +71,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>579</width>
+     <width>580</width>
      <height>21</height>
     </rect>
    </property>
@@ -66,13 +79,31 @@
     <property name="title">
      <string>options</string>
     </property>
+    <addaction name="actionUtilisateur"/>
     <addaction name="actionRAZ"/>
    </widget>
+   <widget class="QMenu" name="menu_aide">
+    <property name="title">
+     <string>aide</string>
+    </property>
+    <addaction name="action_propos"/>
+   </widget>
    <addaction name="menuVerrouYEAH_accueil"/>
+   <addaction name="menu_aide"/>
   </widget>
   <action name="actionRAZ">
    <property name="text">
     <string>RAZ</string>
+   </property>
+  </action>
+  <action name="actionUtilisateur">
+   <property name="text">
+    <string>Utilisateur</string>
+   </property>
+  </action>
+  <action name="action_propos">
+   <property name="text">
+    <string>à propos</string>
    </property>
   </action>
  </widget>

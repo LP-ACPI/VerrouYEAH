@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/trash-icon.png</file>
+        <file>images/icone_temporaire.png</file>
+        <file>images/logo_temporaire.png</file>
+        <file>images/save-icon.png</file>
+        <file>images/LetsEncrypt_Logo.png</file>
+    </qresource>
+</RCC>

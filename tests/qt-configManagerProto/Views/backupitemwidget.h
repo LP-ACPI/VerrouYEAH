@@ -21,6 +21,7 @@ public:
     void setBackup(Backup*) ;
 
 protected slots:
+    //slots "intelligent" de Qt -> connexion gérée par Qt au signal correspondant
     void on_trashButton_pressed();
 
 };

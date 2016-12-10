@@ -5,6 +5,7 @@ BackupItemWidget::BackupItemWidget(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+
     _parent = qobject_cast<HomeWindow*>(parent);
 }
 
@@ -12,13 +13,27 @@ BackupItemWidget::BackupItemWidget(Backup *b,QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+    _parent = qobject_cast<HomeWindow*>(parent);
 
     bc = new Backup(*b);
     BackupName->setText(bc->getName());
     BackupSource->setText(bc->getSource());
     BackupCible->setText(bc->getTarget());
 
-   _parent = qobject_cast<HomeWindow*>(parent);
+
+   QPixmap saveIcon(":/images/save-icon.png");
+   icon->setScaledContents(true);
+   icon->setPixmap(saveIcon);
+
+   QIcon delButIcon(QPixmap(":/images/trash-icon.png"));
+   trashButton->setIconSize(QSize(30,50));
+   trashButton->setIcon(delButIcon);
+
+   setToolTip("<b>Nom : </b>" + bc->getName() + "<br/>" +
+              "<b>Source : </b>" + bc->getSource() + "<br/>"+
+              "<b>Cible : </b>" + bc->getTarget() + "<br/>"+
+              "<b>Commentaire : </b>" + bc->getComent() + "<br/>"
+   );
 
 }
 

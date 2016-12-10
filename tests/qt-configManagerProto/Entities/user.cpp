@@ -3,16 +3,11 @@
 #include <QDir>
 #include <QJsonArray>
 
-//User::User():nom(""),mdp(""){}
-
-
-User::User(User &u){
-    nom = u.getNom();
-    mdp = u.getMdp();
-    foreach (const Backup bcp, u.backupList) {
-        addBackup(bcp);
-    }
-}
+User::User(User &u):
+    nom( u.getNom()),
+    mdp( u.getMdp()),
+    backupList(u.getBackups())
+{}
 
 User::User(QString nom, QString mdp):nom(nom),mdp(mdp){}
 
@@ -21,36 +16,54 @@ User::~User(){}
 QString User::getNom() const{
     return nom;
 }
+
+void User::setNom(const QString n) {
+    nom = n;
+}
+
 QString User::getMdp() const{
     return mdp;
+}
+void User::setMdp(const QString m){
+    mdp = m;
 }
 
 QList<Backup> User::getBackups() const{
     return backupList;
 }
 
-void User::addBackup(const Backup &bc){
-    Backup bcp(bc);
-    bcp.setId(backupList.count());
-    backupList.append(bcp);
+void User::setBackups(const QList<Backup> b){
+    backupList = b;
+}
+
+void User::addBackup( Backup &bc){
+    bc.setId(backupList.size());
+    backupList.append(bc);
+}
+
+void User::modifyBackup(Backup &bc){
+    for (int i=0; i < backupList.size(); i++) {
+        if (backupList.at(i).getId() == bc.getId()) {
+            if(backupList.at(i).getName() != bc.getName() || backupList.at(i).getTarget() != bc.getTarget()){
+
+                 const QString oldName = backupList.at(i).getTarget()+ QLatin1Char('/')+backupList.at(i).getName() + QLatin1String(".vy");
+                 const QString newName = bc.getTarget()+ QLatin1Char('/')+bc.getName() + QLatin1String(".vy");
+
+                 QDir dir(oldName);
+                 dir.rename(oldName,newName);
+            }
+            backupList.replace(i, bc);
+        }
+    }
 }
 
 void User::removeBackup(const Backup &bc){
     for (int i=0; i < backupList.size(); i++) {
         if (backupList.at(i).getId() == bc.getId()) {
-            const QString dirName = bc.getTarget() + QLatin1Char('/') + bc.getName() + QLatin1String(".vy");
+            const QString dirName =  backupList.at(i).getTarget() + QLatin1Char('/') +  backupList.at(i).getName() + QLatin1String(".vy");
             QDir dirToRemove(dirName);
-            if(dirToRemove.removeRecursively())
-                backupList.removeAt(i);
-        }
-    }
-}
-
-
-void User::modifyBackup(Backup &bc){
-    for (int i=0; i < backupList.size(); i++) {
-        if (backupList.at(i).getId() == bc.getId()) {
-                    backupList.replace(i, bc);
+            dirToRemove.removeRecursively();
+            backupList.removeAt(i);
         }
     }
 }

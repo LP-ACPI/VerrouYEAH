@@ -1,11 +1,11 @@
 #ifndef USER_H
 #define USER_H
 
+#include "backup.h"
 #include <QApplication>
 #include <QJsonObject>
 #include <QString>
 
-#include "backup.h"
 
 class User
 {
@@ -19,11 +19,15 @@ public:
     User(QString nom="",QString mdp="");
     ~User();
 
+    void setNom(const QString) ;
+    void setMdp(const QString);
+    void setBackups(const QList<Backup>);
+
     QString getNom() const;
     QString getMdp() const;
     QList<Backup> getBackups() const;
 
-    void addBackup(const Backup&);
+    void addBackup(Backup&);
     void removeBackup(const Backup&);
     void modifyBackup(Backup&);
 

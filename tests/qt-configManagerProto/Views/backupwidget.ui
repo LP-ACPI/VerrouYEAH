@@ -6,24 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>443</width>
-    <height>70</height>
+    <width>503</width>
+    <height>67</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="icon">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>101</width>
-     <height>63</height>
+     <x>30</x>
+     <y>10</y>
+     <width>41</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>icon</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -32,22 +32,22 @@
   <widget class="QPushButton" name="trashButton">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>440</x>
      <y>10</y>
-     <width>75</width>
-     <height>41</height>
+     <width>41</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>Poubelle</string>
+    <string/>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>110</x>
      <y>0</y>
-     <width>231</width>
+     <width>291</width>
      <height>63</height>
     </rect>
    </property>
@@ -78,7 +78,7 @@
     <item>
      <widget class="QLabel" name="BackupCible">
       <property name="text">
-       <string>Fréquence</string>
+       <string>Cible</string>
       </property>
      </widget>
     </item>

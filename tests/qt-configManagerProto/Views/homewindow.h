@@ -22,17 +22,28 @@ public:
     ConfigManager* getConfig() const;
     void refresh();
     void addBackup(Backup&);
-    void modifBackup(Backup &);
+    void modifBackup(Backup &,Backup &);
     void removeBackup(Backup&);
+
 signals:
+    //signaux à émettre selon telle ou telle action
+    bool cryptingStart(Backup *);
     bool cryptingDone();
 
 protected slots:
+    //slots "intelligents" de Qt -> connexion gérée par Qt au signal correspondant
     void on_newBackupButton_clicked();
     void on_actionRAZ_triggered();
+    void on_actionUtilisateur_triggered();
+
+    //slots du développeur --> connexion à établir (cf .cpp)
     void onBackupItemClicked(QListWidgetItem*);
-    void onBackupFormWindowAccepted(Backup*);
-    void cryptingProgress(quint64,quint64);
+
+    void cryptingProgress(quint64,quint64);  //pour la barre de progression - évolution du cryptage (émission du signal cf.:ConfigManager::cryptDirWithCount)
+    void onCryptingStart(Backup *);                //action à effectuer au début du cryptage
+    void onCryptingDone();                                //action à effectuer à la fin du cryptage
+
+    void on_action_propos_triggered();
 };
 
 #endif // HOMEWINDOW_H

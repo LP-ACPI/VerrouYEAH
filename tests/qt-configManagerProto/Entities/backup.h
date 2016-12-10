@@ -7,13 +7,13 @@ class Backup
 {
 
 private:
-
     static qint16 cnt;
     qint16  id;
     QString name;
     QString sourceDir;
     QString targetDir;
     QString comment;
+    // TODO fréquence
 
 public:
     Backup(QString nom = "",QString src="",QString trg="",QString com="");
@@ -25,7 +25,6 @@ public:
     QString getTarget() const;
     QString getComent() const;
 
-
     void setId(const qint16);
     void setName(const QString);
     void setSource(const QString);
@@ -33,11 +32,12 @@ public:
     void setComent(const QString);
 
     void saveBackup(QJsonObject&) const;
-    void loadBackup(QJsonObject&);
+    void loadBackup(const QJsonObject&);
 
     void operator =(const Backup &b);
     friend bool operator ==(const Backup&,const Backup&);
     friend bool operator !=(const Backup&,const Backup&);
+    friend std::ostream& operator <<(std::ostream&, const Backup&);
 
 };
 
