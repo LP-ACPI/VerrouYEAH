@@ -1,4 +1,4 @@
 .gitignore
-/tests/qt-google-drive/*
-/tests/builds/*
-/protos_executables/*
+/tests/qt-google-drive
+/tests/builds
+/protos_executables

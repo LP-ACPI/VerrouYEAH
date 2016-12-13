@@ -31,7 +31,7 @@ HEADERS  += configmanager.h \
         Views/authdialogwindow.h \
         Views/backupitemwidget.h \
         Views/backupformwindow.h \
-        Services/Crypt.h
+        Services/Crypt.h \
 
 FORMS    += Views/homewindow.ui \
         Views/firstauthdialog.ui \
@@ -45,3 +45,5 @@ DEPENDPATH += $$PWD/opensslWin64
 
 RESOURCES += \
     resources.qrc
+
+

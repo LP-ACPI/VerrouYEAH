@@ -3,6 +3,8 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QApplication>
+#include <QDebug>
+
 
 int main(int argc, char *argv[])
 {
