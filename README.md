@@ -1,7 +1,7 @@
 
 # Projet: coffre fort electronique 
 
-*(Rév 2)*
+*(Rév 3)*
 
 ---
 
@@ -9,7 +9,7 @@
 
 ---
 
-### Prérquis pour l'utilisation
+### Prérequis pour l'utilisation
 
 - Qt 5.x : https://www.qt.io/download-open-source/
 - Libraire openssl : https://github.com/openssl/openssl
