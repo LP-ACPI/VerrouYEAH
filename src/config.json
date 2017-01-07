@@ -1,0 +1,28 @@
+{
+  "users": {
+    "login_user_1": {
+      "backups": [
+        {
+          "name": "Ma première sauvegarde",
+          "src": "chemin/source",
+          "dest": "chemin/destination",
+          "freq": "* * * * *",
+          "last_save": "JJ-MM-AAAA"
+        },
+        {
+          "name": "Ma seconde sauvegarde",
+          "src": "chemin/source",
+          "dest": "chemin/destination",
+          "freq": "* * * * *",
+          "last_save": "JJ-MM-AAAA"
+        }
+      ],
+      "password": "azerty"
+    },
+    "login_user_2": {
+      "backups": [],
+      "password": "azerty"
+    }
+  },
+  "verrouyeah": {}
+}
