@@ -1,0 +1,15 @@
+{
+    "utilisateur": {
+        "nom": "bitch",
+        "pass": "ttt",
+        "sauvegardes": [
+            {
+                "cible": "C:/Users/Marek/Desktop",
+                "commentaire": "",
+                "id": 1,
+                "nom": "gggg",
+                "source": "C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/src"
+            }
+        ]
+    }
+}

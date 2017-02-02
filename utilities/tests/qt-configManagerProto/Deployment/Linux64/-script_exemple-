@@ -1,0 +1,4 @@
+#!/bin/sh
+ export LD_LIBRARY_PATH=`pwd`/libs
+ export QT_QPA_PLATFORM_PLUGIN_PATH=`pwd`/platforms
+ #./$executable

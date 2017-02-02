@@ -1,0 +1,8 @@
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/CMakeFiles/edit_cache.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/CMakeFiles/rebuild_cache.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/src/CMakeFiles/Verrouyeah.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/src/CMakeFiles/edit_cache.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/src/CMakeFiles/rebuild_cache.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/src/tests/CMakeFiles/tests.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/src/tests/CMakeFiles/edit_cache.dir
+C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/src/tests/CMakeFiles/rebuild_cache.dir

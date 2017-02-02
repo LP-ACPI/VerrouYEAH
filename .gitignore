@@ -2,3 +2,5 @@
 /tests/qt-google-drive
 /tests/builds
 /protos_executables
+
+*.user

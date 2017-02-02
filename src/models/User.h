@@ -14,9 +14,17 @@ class User {
     std::string password;
     std::list<Backup> backups;
 public:
-    User(std::string log,std::string pass):
-            login(log),password(pass)
-    {}
+    User(std::string login="test",std::string pass="test")
+        :login(login),password(pass){}
+    User(User&);
+
+    std::string getPassword();
+    std::string getLogin();
+    std::list<Backup> getBackups();
+
+    void setPassword(std::string);
+    void setLogin(std::string);
+    void setBackups(std::list<Backup>);
 };
 
 

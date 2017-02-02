@@ -1,0 +1,15 @@
+{
+    "utilisateur": {
+        "nom": "m",
+        "pass": "mM",
+        "sauvegardes": [
+            {
+                "cible": "choisir destination",
+                "commentaire": "",
+                "id": 0,
+                "nom": "",
+                "source": "choisir la source"
+            }
+        ]
+    }
+}
