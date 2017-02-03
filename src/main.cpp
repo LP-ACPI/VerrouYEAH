@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "services/Crypt.h"
-#include "services/Config.h"
+#include "services/ConfigManager.h"
 
 #define PATH_SOURCE "fichier_source.txt"
 #define PATH_VY "fichier_crypte.vy"
@@ -20,7 +20,7 @@ using namespace std;
  */
 int main()
 {
-    Config conf(CONFIG_FILE);
+    ConfigManager conf(CONFIG_FILE);
     cout << conf << endl;
 
     Crypt c;

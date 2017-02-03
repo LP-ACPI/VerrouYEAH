@@ -1,0 +1,13 @@
+QMAKE_DEFAULT_INCDIRS = \
+    C:/StrawberryPerl/c/lib/gcc/x86_64-w64-mingw32/4.9.2/include \
+    C:/StrawberryPerl/c/include \
+    C:/StrawberryPerl/c/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed \
+    C:/StrawberryPerl/c/x86_64-w64-mingw32/include \
+    C:/StrawberryPerl/c/x86_64-w64-mingw32/include/c++ \
+    C:/StrawberryPerl/c/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32 \
+    C:/StrawberryPerl/c/x86_64-w64-mingw32/include/c++/backward
+QMAKE_DEFAULT_LIBDIRS = \
+    C:/StrawberryPerl/c/lib/gcc/x86_64-w64-mingw32/4.9.2 \
+    C:/StrawberryPerl/c/lib/gcc \
+    C:/StrawberryPerl/c/x86_64-w64-mingw32/lib \
+    C:/StrawberryPerl/c/lib

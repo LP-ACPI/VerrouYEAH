@@ -1,0 +1,12 @@
+INPUT(
+./debug\Backup.o
+./debug\Data.o
+./debug\Directory.o
+./debug\File.o
+./debug\Frequency.o
+./debug\Scheduler.o
+./debug\User.o
+./debug\Crypt.o
+./debug\main.o
+./debug\ConfigManager.o
+);

@@ -10,9 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET    = qt-configManagerProto
 TEMPLATE  = app
-
-
-INCLUDEPATH += $$PWD/opensslWin64
+CONFIG += c++11
 
 SOURCES += main.cpp\
         configmanager.cpp \
@@ -39,11 +37,13 @@ FORMS    += Views/homewindow.ui \
         Views/backupform.ui
 
 unix: LIBS += -lcrypto
-win32: LIBS += -L$$PWD/opensslWin64/ -llibeay32
-
-DEPENDPATH += $$PWD/opensslWin64
 
 RESOURCES += \
     resources.qrc
 
+win32: {
+     LIBS += -L$$PWD/opensslWin64/ -llibeay32
 
+    INCLUDEPATH += $$PWD/opensslWin64
+    DEPENDPATH += $$PWD/opensslWin64
+}

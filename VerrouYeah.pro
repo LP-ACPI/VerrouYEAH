@@ -1,4 +1,3 @@
-QMAKESPEC = QTDIR/mkspecs/win32-g++
 TEMPLATE    =	app
 CONFIG	+=  console c++11
 CONFIG	-=  app_bundle
@@ -7,12 +6,19 @@ TARGET	=   VerrouYEAH
 
 QT  +=	core
 
-unix:	LIBS	+=  -lcrypto
+unix :LIBS	+=  -lcrypto
 
-win32:{
-	 LIBS	+=  -L$$PWD/utilities/opensslWin64 -llibeay32
-	 INCLUDEPATH	+=	$$PWD/utilities/opensslWin64
+# pour pouvoir utiliser json.hpp sous windows -specs win32-g++
+win32-g++:{
+    #pour ceux qui ont des soucis comme moi niveau minGW|QT|openSSL
+    LIBS += -L$$PWD/utilities/openssl/lib/ -lcrypto
+
+    INCLUDEPATH += $$PWD/utilities/openssl/include
+    DEPENDPATH += $$PWD/utilities/openssl/include
+
+    PRE_TARGETDEPS += $$PWD/utilities/openssl/lib/libcrypto.a
 }
+
 
 INCLUDEPATH +=	$$PWD/includes
 
@@ -24,9 +30,9 @@ SOURCES	+=  \
     src/models/Frequency.cpp \
     src/models/Scheduler.cpp \
     src/models/User.cpp \
-    src/services/Config.cpp \
     src/services/Crypt.cpp \
-    src/main.cpp
+    src/main.cpp \
+    src/services/ConfigManager.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -36,8 +42,8 @@ HEADERS	+=  \
     src/models/Frequency.h \
     src/models/Scheduler.h \
     src/models/User.h \
-    src/services/Config.h \
-    src/services/Crypt.h
+    src/services/Crypt.h \
+    src/services/ConfigManager.h
 
 FORMS	+=  \
     src/views/backupform.ui \

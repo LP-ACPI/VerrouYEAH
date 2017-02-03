@@ -14,13 +14,11 @@ Backup::Backup(const Backup &backupToCopy)
     strcpy(key, backupToCopy.getKey());
 }
 
-
 char* Backup::getKey() const{
     char * copyKey = (char*)malloc(sizeof(char)*32);
     strcpy(copyKey,key);
     return copyKey;
 }
-
 string Backup::getName() const{
     return name;
 }
@@ -35,6 +33,33 @@ string Backup::getLastSave() const{
     //TODO type Date
     return last_save;
 }
+Frequency Backup::getFrequency() const{
+    return frequency;
+}
 Data Backup::getData() const{
     return data;
 }
+
+
+bool Backup::operator==(const Backup &backup){
+    return key == backup.getKey() && name == backup.getName();
+}
+
+void Backup::operator=(const Backup &backup){
+    strcpy(key,backup.getKey());
+    data = backup.getData();
+    name = backup.getName();
+    source = backup.getSource();
+    target = backup.getTarget();
+    last_save = backup.getLastSave();
+    frequency = backup.getFrequency();
+}
+
+ostream& operator<<(ostream &out, const Backup &backup){
+    out << "nom: " << backup.name << endl;
+    out << "\tclé: " << backup.key << endl;
+    out << "\tsource: " << backup.source << endl;
+    out << "\tdestination: " << backup.target << endl;
+    return out;
+}
+

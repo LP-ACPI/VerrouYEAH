@@ -55,9 +55,9 @@ SOURCES       = ../../../src/models/Backup.cpp \
 		../../../src/models/Frequency.cpp \
 		../../../src/models/Scheduler.cpp \
 		../../../src/models/User.cpp \
-		../../../src/services/Config.cpp \
 		../../../src/services/Crypt.cpp \
-		../../../src/main.cpp 
+		../../../src/main.cpp \
+		../../../src/services/ConfigManager.cpp 
 OBJECTS       = Backup.o \
 		Data.o \
 		Directory.o \
@@ -65,9 +65,9 @@ OBJECTS       = Backup.o \
 		Frequency.o \
 		Scheduler.o \
 		User.o \
-		Config.o \
 		Crypt.o \
-		main.o
+		main.o \
+		ConfigManager.o
 DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/common/unix.conf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/common/linux.conf \
@@ -203,6 +203,7 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/qt_config.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_post.prf \
+		../../../.qmake.stash \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/default_pre.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/resolve_config.prf \
@@ -221,17 +222,17 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		src/models/Frequency.h \
 		src/models/Scheduler.h \
 		src/models/User.h \
-		src/services/Config.h \
-		src/services/Crypt.h ../../../src/models/Backup.cpp \
+		src/services/Crypt.h \
+		src/services/ConfigManager.h ../../../src/models/Backup.cpp \
 		../../../src/models/Data.cpp \
 		../../../src/models/Directory.cpp \
 		../../../src/models/File.cpp \
 		../../../src/models/Frequency.cpp \
 		../../../src/models/Scheduler.cpp \
 		../../../src/models/User.cpp \
-		../../../src/services/Config.cpp \
 		../../../src/services/Crypt.cpp \
-		../../../src/main.cpp
+		../../../src/main.cpp \
+		../../../src/services/ConfigManager.cpp
 QMAKE_TARGET  = VerrouYEAH
 DESTDIR       = 
 TARGET        = VerrouYEAH
@@ -378,6 +379,7 @@ Makefile: ../../../VerrouYeah.pro /home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++/qm
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/qt_config.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/default_pre.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/features/resolve_config.prf \
@@ -526,6 +528,7 @@ Makefile: ../../../VerrouYeah.pro /home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++/qm
 /home/ramik/Qt/5.7/gcc_64/mkspecs/features/qt_config.prf:
 /home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/ramik/Qt/5.7/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/ramik/Qt/5.7/gcc_64/mkspecs/features/default_pre.prf:
 /home/ramik/Qt/5.7/gcc_64/mkspecs/features/resolve_config.prf:
@@ -605,23 +608,23 @@ User.o: ../../../src/models/User.cpp ../../../src/models/User.h \
 		../../../src/models/Data.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o User.o ../../../src/models/User.cpp
 
-Config.o: ../../../src/services/Config.cpp ../../../src/services/Config.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Config.o ../../../src/services/Config.cpp
-
 Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Crypt.o ../../../src/services/Crypt.cpp
 
 main.o: ../../../src/main.cpp ../../../src/services/Crypt.h \
-		../../../src/services/Config.h \
+		../../../src/services/ConfigManager.h \
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../src/main.cpp
+
+ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/ConfigManager.h \
+		../../../src/models/User.h \
+		../../../src/models/Backup.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ConfigManager.o ../../../src/services/ConfigManager.cpp
 
 ####### Install
 

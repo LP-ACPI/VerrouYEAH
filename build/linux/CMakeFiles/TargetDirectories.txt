@@ -1,2 +1,0 @@
-/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/build/linux/src/CMakeFiles/Verrouyeah.dir
-/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/build/linux/src/tests/CMakeFiles/tests.dir

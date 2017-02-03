@@ -5,9 +5,11 @@
 #ifndef BACKUP_H
 #define BACKUP_H
 
+#include <iostream>
 #include <string.h>
 #include <string>
 #include "Data.h"
+#include "Frequency.h"
 
 class Backup {
     char key[32];
@@ -15,16 +17,17 @@ class Backup {
     std::string source;
     std::string target;
     std::string last_save;//TODO type Date
+    Frequency frequency;
     Data data;
 
 public:
     Backup(const Backup&);
     Backup(
+            const char* key= (char*)malloc(sizeof(char)*32),
             std::string name="test",
-            char* key= (char*)malloc(sizeof(char)*32),
             std::string source="test",
-            std::string target = "test"
-            ,std::string last_save= "1/1/1970")
+            std::string target = "test",
+            std::string last_save= "1/1/1970")
         : name(name),source(source),target(target),last_save(last_save)
     {
         strcpy(this->key,key);
@@ -40,6 +43,12 @@ public:
     std::string getTarget() const;
     std::string getLastSave() const;//TODO type Date
     Data getData() const;
+    Frequency getFrequency() const;
+
+    bool operator==(const Backup&);
+    void operator=(const Backup&);
+
+    friend std::ostream& operator<<(std::ostream&, const Backup&);
 };
 
 

@@ -1,0 +1,298 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/StrawberryPerl/c/bin/gcc.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s: Assembler messages:
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:93: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:94: Warning: .seh_pushreg ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:95: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:96: Warning: .seh_setframe ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:97: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:98: Warning: .seh_stackalloc ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:100: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:101: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:103: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:104: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:105: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:106: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:107: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:108: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:110: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:111: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:112: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:113: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:114: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:115: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:117: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:118: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:119: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:120: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:121: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:122: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:124: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:125: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:126: Error: `movslq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:127: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:128: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:130: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:131: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:132: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:133: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:134: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:135: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:137: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:138: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:139: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:140: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:142: Warning: zero assumed for missing expression
+C:\Users\Marek\AppData\Local\Temp\ccjhZhfE.s:142: Warning: zero assumed for missing expression
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/StrawberryPerl/c/bin/gcc.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s: Assembler messages:
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:93: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:94: Warning: .seh_pushreg ignored for this target
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:95: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:96: Warning: .seh_setframe ignored for this target
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:97: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:98: Warning: .seh_stackalloc ignored for this target
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:100: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:101: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:103: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:104: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:105: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:106: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:107: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:108: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:110: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:111: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:112: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:113: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:114: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:115: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:117: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:118: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:119: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:120: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:121: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:122: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:124: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:125: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:126: Error: `movslq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:127: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:128: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:130: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:131: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:132: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:133: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:134: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:135: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:137: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:138: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:139: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:140: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:142: Warning: zero assumed for missing expression
+C:\Users\Marek\AppData\Local\Temp\cctoebqZ.s:142: Warning: zero assumed for missing expression
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/StrawberryPerl/c/bin/gcc.exe 
+Build flags: 
+Id flags: -Aa
+
+The output was:
+1
+<command-line>:0:1: error: missing '(' after predicate
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/StrawberryPerl/c/bin/gcc.exe 
+Build flags: 
+Id flags: -D__CLASSIC_C__
+
+The output was:
+1
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s: Assembler messages:
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:93: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:94: Warning: .seh_pushreg ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:95: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:96: Warning: .seh_setframe ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:97: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:98: Warning: .seh_stackalloc ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:100: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:101: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:103: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:104: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:105: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:106: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:107: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:108: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:110: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:111: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:112: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:113: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:114: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:115: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:117: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:118: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:119: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:120: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:121: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:122: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:124: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:125: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:126: Error: `movslq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:127: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:128: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:130: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:131: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:132: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:133: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:134: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:135: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:137: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:138: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:139: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:140: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:142: Warning: zero assumed for missing expression
+C:\Users\Marek\AppData\Local\Temp\ccHho2Kf.s:142: Warning: zero assumed for missing expression
+
+
+Checking whether the C compiler is IAR using "" did not match "IAR .+ Compiler":
+gcc.exe: fatal error: no input files
+compilation terminated.
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/StrawberryPerl/c/bin/g++.exe 
+Build flags: 
+Id flags: 
+
+The output was:
+1
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s: Assembler messages:
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:40: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:41: Warning: .seh_pushreg ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:42: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:43: Warning: .seh_setframe ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:44: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:45: Warning: .seh_stackalloc ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:47: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:48: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:50: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:51: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:52: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:53: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:54: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:55: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:57: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:58: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:59: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:60: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:61: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:62: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:64: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:65: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:66: Error: `movslq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:67: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:68: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:70: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:71: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:72: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:73: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:74: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:75: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:77: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:78: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:79: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:80: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:82: Warning: zero assumed for missing expression
+C:\Users\Marek\AppData\Local\Temp\ccYrnwah.s:82: Warning: zero assumed for missing expression
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/StrawberryPerl/c/bin/g++.exe 
+Build flags: 
+Id flags: -c
+
+The output was:
+1
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s: Assembler messages:
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:40: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:41: Warning: .seh_pushreg ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:42: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:43: Warning: .seh_setframe ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:44: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:45: Warning: .seh_stackalloc ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:47: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:48: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:50: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:51: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:52: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:53: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:54: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:55: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:57: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:58: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:59: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:60: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:61: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:62: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:64: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:65: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:66: Error: `movslq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:67: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:68: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:70: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:71: Error: bad register name `%rip)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:72: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:73: Error: `cltq' is only supported in 64-bit mode
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:74: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:75: Error: bad register name `%rax)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:77: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:78: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:79: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:80: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:82: Warning: zero assumed for missing expression
+C:\Users\Marek\AppData\Local\Temp\ccSUWYPq.s:82: Warning: zero assumed for missing expression
+
+
+Checking whether the CXX compiler is IAR using "" did not match "IAR .+ Compiler":
+g++.exe: fatal error: no input files
+compilation terminated.
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/cmake/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/MinGW/bin/mingw32-make.exe" "cmTC_625a7/fast"
+C:/MinGW/bin/mingw32-make.exe -f CMakeFiles\cmTC_625a7.dir\build.make CMakeFiles/cmTC_625a7.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/cmake/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_625a7.dir/testCCompiler.c.obj
+C:\StrawberryPerl\c\bin\gcc.exe     -o CMakeFiles\cmTC_625a7.dir\testCCompiler.c.obj   -c C:\Users\Marek\Desktop\partage_VM\LP_ACPI\VerrouYEAH\build\win\cmake\CMakeFiles\CMakeTmp\testCCompiler.c
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s: Assembler messages:
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:8: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:9: Warning: .seh_pushreg ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:10: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:11: Warning: .seh_setframe ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:12: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:13: Warning: .seh_stackalloc ignored for this target
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:15: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:16: Error: bad register name `%rdx'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:18: Error: bad register name `%rbp)'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:20: Error: bad register name `%rsp'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:21: Error: bad register name `%rbp'
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:23: Warning: zero assumed for missing expression
+C:\Users\Marek\AppData\Local\Temp\ccoR6meP.s:23: Warning: zero assumed for missing expression
+CMakeFiles\cmTC_625a7.dir\build.make:64: recipe for target 'CMakeFiles/cmTC_625a7.dir/testCCompiler.c.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTC_625a7.dir/testCCompiler.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/cmake/CMakeFiles/CMakeTmp'
+Makefile:125: recipe for target 'cmTC_625a7/fast' failed
+mingw32-make.exe: *** [cmTC_625a7/fast] Error 2
+
+

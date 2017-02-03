@@ -3,10 +3,6 @@ project(VerrouYeah)
 
 SET(INCLUDES "${INCLUDES} ${CMAKE_SOURCE_DIR}/includes")
 
-if (WIN32)
-    SET(INCLUDES "${INCLUDES} ${CMAKE_SOURCE_DIR}/utilities/opensslWin64")
-endif (WIN32)
-
 INCLUDE_DIRECTORIES(INCLUDES)
 
 set(SOURCE_FILES 
@@ -17,7 +13,7 @@ set(SOURCE_FILES
     ${CMAKE_SOURCE_DIR}/src/models/Frequency.cpp 
     ${CMAKE_SOURCE_DIR}/src/models/Scheduler.cpp 
     ${CMAKE_SOURCE_DIR}/src/models/User.cpp 
-    ${CMAKE_SOURCE_DIR}/src/services/Config.cpp 
+    ${CMAKE_SOURCE_DIR}/src/services/ConfigManager.cpp 
     ${CMAKE_SOURCE_DIR}/src/services/Crypt.cpp 
     main.cpp
 )
