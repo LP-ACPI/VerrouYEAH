@@ -5,8 +5,10 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include "Data.h"
 
-class File {
+
+class File : private Data {
 
 };
 

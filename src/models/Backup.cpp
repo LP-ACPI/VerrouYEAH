@@ -15,7 +15,7 @@ Backup::Backup(const Backup &backupToCopy)
 }
 
 char* Backup::getKey() const{
-    char * copyKey = (char*)malloc(sizeof(char)*32);
+    char * copyKey = (char*) malloc(sizeof(char)*32);
     strcpy(copyKey,key);
     return copyKey;
 }
@@ -42,7 +42,12 @@ Data Backup::getData() const{
 
 
 bool Backup::operator==(const Backup &backup){
-    return key == backup.getKey() && name == backup.getName();
+    return (strcmp(key, backup.getKey())==0);
+}
+
+
+bool Backup::operator!=(const Backup &backup){
+    return !operator==(backup);
 }
 
 void Backup::operator=(const Backup &backup){

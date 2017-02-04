@@ -1,7 +1,7 @@
 QT += core
 QT -= gui
 
-CONFIG += c++11
+CONFIG += console c++11
 
 TARGET = VerrouYeah-UnitTests
 CONFIG += console
@@ -9,11 +9,11 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-unix: LIBS += -lcrypto
+LIBS += -lcrypto
 # pour pouvoir utiliser json.hpp sous windows -specs win32-g++
 win32-g++:{
-    #pour ceux qui ont des soucis comme moi niveau minGW|QT|openSSL
-    LIBS += -L$$PWD/../../utilities/openssl/lib/ -lcrypto
+    #pour ceux qui ont des soucis niveau minGW|QT|openSSL
+    LIBS += -L$$PWD/../../utilities/openssl/lib/
 
     INCLUDEPATH += $$PWD/../../utilities/openssl/include
     DEPENDPATH += $$PWD/../../utilities/openssl/include
@@ -45,5 +45,6 @@ HEADERS	+=  \
     ../models/User.h \
     ../services/Crypt.h \
     ../services/ConfigManager.h \
-    persistancetest.hpp
+    persistancetest.hpp \
+    usertest.hpp
 

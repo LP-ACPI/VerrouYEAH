@@ -585,7 +585,8 @@ compiler_clean:
 ####### Compile
 
 Backup.o: ../../../src/models/Backup.cpp ../../../src/models/Backup.h \
-		../../../src/models/Data.h
+		../../../src/models/Data.h \
+		../../../src/models/Frequency.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Backup.o ../../../src/models/Backup.cpp
 
 Data.o: ../../../src/models/Data.cpp ../../../src/models/Data.h
@@ -605,7 +606,8 @@ Scheduler.o: ../../../src/models/Scheduler.cpp ../../../src/models/Scheduler.h
 
 User.o: ../../../src/models/User.cpp ../../../src/models/User.h \
 		../../../src/models/Backup.h \
-		../../../src/models/Data.h
+		../../../src/models/Data.h \
+		../../../src/models/Frequency.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o User.o ../../../src/models/User.cpp
 
 Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
@@ -616,6 +618,7 @@ main.o: ../../../src/main.cpp ../../../src/services/Crypt.h \
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
 		../../../src/models/Data.h \
+		../../../src/models/Frequency.h \
 		../../../includes/json.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../src/main.cpp
 
@@ -623,6 +626,7 @@ ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/C
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
 		../../../src/models/Data.h \
+		../../../src/models/Frequency.h \
 		../../../includes/json.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ConfigManager.o ../../../src/services/ConfigManager.cpp
 

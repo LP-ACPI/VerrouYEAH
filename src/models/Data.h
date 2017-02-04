@@ -5,9 +5,12 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include <iostream>
 
 class Data {
-
+protected:
+    std::string path;
+    std::string name;
 };
 
 

@@ -17,7 +17,8 @@ using json = nlohmann::json;
 class ConfigManager {
     private:
         json config;
-        std::string filename;
+        std::string configFilename;
+        static ConfigManager instance;
 
         json jsonifyUser(User*);
         json jsonifyBackup(Backup*);
@@ -26,19 +27,18 @@ class ConfigManager {
     public:
         ConfigManager(std::string configFilePath = "config.json")
         {
-            setJsonFile(configFilePath);
+            setUsersJsonFile(configFilePath);
         }
-
         User* loadUser(std::string);
-        Backup loadBackup(std::string);
+        std::list<std::string> loadUserList();
 
         json saveUser(User*);
 
-        void setJsonFile(std::string);
+        void setUsersJsonFile(std::string);
         void persist();
 
     friend std::ostream& operator <<(std::ostream&, const ConfigManager&);
-};
 
+};
 
 #endif //CONFIG_H

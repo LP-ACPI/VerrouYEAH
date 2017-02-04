@@ -22,51 +22,8 @@
       "password": "qwertz"
     },
     "login_toto": {
-      "backups": [
-        {
-          "dest": "chemin/destination",
-          "freq": "JJ-MM-AAAA",
-          "key": "1",
-          "last_save": "JJ-MM-AAAA",
-          "name": "Ma première sauvegarde",
-          "src": "chemin/source"
-        },
-        {
-          "dest": "chemin/destination",
-          "freq": "JJ-MM-AAAA",
-          "key": "2",
-          "last_save": "JJ-MM-AAAA",
-          "name": "Ma seconde sauvegarde",
-          "src": "chemin/source"
-        }
-      ],
-      "password": "qwertyop"
-    },
-    "login_user_1": {
-      "backups": [
-        {
-          "dest": "chemin/destination",
-          "freq": "* * * * *",
-          "key": "1",
-          "last_save": "JJ-MM-AAAA",
-          "name": "Ma première sauvegarde",
-          "src": "chemin/source"
-        },
-        {
-          "dest": "chemin/destination",
-          "freq": "* * * * *",
-          "key": "2",
-          "last_save": "JJ-MM-AAAA",
-          "name": "Ma seconde sauvegarde",
-          "src": "chemin/source"
-        }
-      ],
-      "password": "azerty"
-    },
-    "login_user_2": {
       "backups": null,
-      "password": "azerty"
+      "password": "qwertyop"
     }
-  },
-  "verrouyeah": {}
+  }
 }

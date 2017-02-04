@@ -228,7 +228,8 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../src/models/User.h \
 		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
-		../../../src/tests/persistancetest.hpp ../../../src/models/Backup.cpp \
+		../../../src/tests/persistancetest.hpp \
+		../../../src/tests/usertest.hpp ../../../src/models/Backup.cpp \
 		../../../src/models/Data.cpp \
 		../../../src/models/Directory.cpp \
 		../../../src/models/File.cpp \
@@ -570,7 +571,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/tests/persistancetest.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/tests/persistancetest.hpp ../../../src/tests/usertest.hpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/Scheduler.cpp ../../../src/models/User.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/tests/main.cpp $(DISTDIR)/
 
 
@@ -613,16 +614,19 @@ compiler_clean:
 
 Backup.o: ../../../src/models/Backup.cpp ../../../src/models/Backup.h \
 		../../../src/models/Data.h \
-		../../../src/models/Frequency.h
+		../../../src/models/Frequency.h \
+		../../../src/services/Crypt.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Backup.o ../../../src/models/Backup.cpp
 
 Data.o: ../../../src/models/Data.cpp ../../../src/models/Data.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Data.o ../../../src/models/Data.cpp
 
-Directory.o: ../../../src/models/Directory.cpp ../../../src/models/Directory.h
+Directory.o: ../../../src/models/Directory.cpp ../../../src/models/Directory.h \
+		../../../src/models/Data.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Directory.o ../../../src/models/Directory.cpp
 
-File.o: ../../../src/models/File.cpp ../../../src/models/File.h
+File.o: ../../../src/models/File.cpp ../../../src/models/File.h \
+		../../../src/models/Data.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o File.o ../../../src/models/File.cpp
 
 Frequency.o: ../../../src/models/Frequency.cpp ../../../src/models/Frequency.h
@@ -634,7 +638,8 @@ Scheduler.o: ../../../src/models/Scheduler.cpp ../../../src/models/Scheduler.h
 User.o: ../../../src/models/User.cpp ../../../src/models/User.h \
 		../../../src/models/Backup.h \
 		../../../src/models/Data.h \
-		../../../src/models/Frequency.h
+		../../../src/models/Frequency.h \
+		../../../src/services/Crypt.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o User.o ../../../src/models/User.cpp
 
 Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
@@ -645,6 +650,7 @@ ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/C
 		../../../src/models/Backup.h \
 		../../../src/models/Data.h \
 		../../../src/models/Frequency.h \
+		../../../src/services/Crypt.h \
 		../../../includes/json.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ConfigManager.o ../../../src/services/ConfigManager.cpp
 
@@ -654,8 +660,10 @@ main.o: ../../../src/tests/main.cpp ../../../src/tests/persistancetest.hpp \
 		../../../src/models/Backup.h \
 		../../../src/models/Data.h \
 		../../../src/models/Frequency.h \
+		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
-		../../../includes/json.hpp
+		../../../includes/json.hpp \
+		../../../src/tests/usertest.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../src/tests/main.cpp
 
 ####### Install

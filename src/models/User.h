@@ -24,12 +24,16 @@ public:
     std::list<Backup> getBackups();
 
     Backup getBackupAt(unsigned);
-    void addBackup(const Backup&);
+    void addBackup(const Backup);
     void removeBackup(const Backup);
+
+    void removeBackups();
+    void setBackups(std::list<Backup>);
+
+    bool hasBackup(const Backup);
 
     void setPassword(std::string);
     void setLogin(std::string);
-    void setBackups(std::list<Backup>);
 
 
     friend std::ostream& operator<<(std::ostream&, const User&);

@@ -12,21 +12,21 @@ User::User(User &user):
 }
 
 Backup User::getBackupAt(unsigned position){
-    if (backups.size() > position)
-    {
-        std::list<Backup>::iterator it = backups.begin();
-        std::advance(it, position);
+    if (backups.size() > position){
+        list<Backup>::iterator it = backups.begin();
+        advance(it, position);
         return *it;
     } else return NULL;
-
 }
 
-void User::addBackup(const Backup &backup){
-    backups.push_back(backup);
+void User::addBackup(const Backup backup){
+    if(!hasBackup(backup))
+        backups.push_back(backup);
 }
 
 void User::removeBackup(const Backup backup){
-    backups.remove(backup);
+    if(hasBackup(backup))
+        backups.remove(backup);
 }
 
 string User::getPassword()
@@ -35,8 +35,9 @@ string User::getPassword()
 string User::getLogin()
 { return login; }
 
-std::list<Backup> User::getBackups()
+list<Backup> User::getBackups()
 { return backups; }
+
 
 void User::setPassword(std::string newPass)
 { password = newPass; }
@@ -44,14 +45,27 @@ void User::setPassword(std::string newPass)
 void User:: setLogin(std::string newLogin)
 { login = newLogin; }
 
-void User::setBackups(std::list<Backup> newBackups)
-{
+void User::removeBackups(){
+    backups.clear();
+}
 
+void User::setBackups(list<Backup> newBackups)
+{
     for(Backup bc : newBackups )
     {
         addBackup(bc);
     }
+}
 
+bool User::hasBackup(Backup backup){
+    bool found = false;
+    for(Backup bc : backups){
+        if(bc == backup) {
+            found = true;
+            break;
+        }
+    }
+    return found;
 }
 
 ostream& operator<<(ostream &o, const User &user){

@@ -2,7 +2,7 @@
 #define PERSISTANCETEST_HPP
 
 #include <iostream>
-#include <string>
+#include <cstdio>
 #include <unittest.hpp>
 #include "../models/User.h"
 #include "../services/ConfigManager.h"
@@ -11,22 +11,25 @@
 #define PATH_VY "../fichier_crypte.vy"
 #define PATH_CIBLE "../fichier_cible.txt"
 #define LOCAL_CONFIG_FILE "../config.json"
-#define DISTANT_CONFIG_FILE "../config_dist.json"
+#define TEST_CONFIG_FILE "../config_dist.json"
 #define MYKEY "1234"
 
 using namespace std;
 
 class PersistanceTest{
 
+    static void testPreSet(){
+        remove(TEST_CONFIG_FILE);
+    }
 
-
-    static void loadedUsersTest(){
+    static void testChargementDUtilisateurs(){
         ConfigManager conf(LOCAL_CONFIG_FILE);
         User* test1 =  conf.loadUser("login_user_1");
         User* test2 =  conf.loadUser("login_user_2");
         Backup test_1_1stBcp = test1->getBackupAt(0);
         Backup test_1_2ndBcp = test1->getBackupAt(1);
 
+        UnitTest<void*>::insertTitle("Test chargement utilisateurs");
         UnitTest<string>::assertEquals("pass == 'azerty' ", test1->getPassword() ,(string) "azerty");
         UnitTest<string>::assertEquals("login == 'login_user_1' ", test1->getLogin() ,(string) "login_user_1");
         UnitTest<string>::assertEquals("pass == 'azerty' ", test2->getPassword() ,(string) "azerty");
@@ -35,7 +38,7 @@ class PersistanceTest{
         UnitTest<string>::assertEquals(test_1_2ndBcp.getName(),(string) "Ma seconde sauvegarde");
     }
 
-    static void savingUsersTest(){
+    static void testPersistanceDutilisateurs(){
         ConfigManager conf(LOCAL_CONFIG_FILE);
         User test1 = *conf.loadUser("login_user_1");
         User test(test1);
@@ -44,7 +47,8 @@ class PersistanceTest{
         User toto(test1);
         toto.setPassword("qwertyop");
         toto.setLogin("login_toto");
-        conf.setJsonFile(DISTANT_CONFIG_FILE);
+        toto.removeBackups();
+        conf.setUsersJsonFile(TEST_CONFIG_FILE);
         conf.saveUser(&test);
         conf.saveUser(&toto);
 
@@ -53,27 +57,34 @@ class PersistanceTest{
         Backup test_2_2ndBcp = test2->getBackupAt(1);
 
         User* testToto = conf.loadUser("login_toto");
-        Backup test_toto_1stBcp = test2->getBackupAt(0);
-        Backup test_toto_2ndBcp = test2->getBackupAt(1);
 
-        UnitTest<string>::assertEquals("pass == 'qwertz'\t", (string) "qwertz", test2->getPassword());
-        UnitTest<string>::assertEquals("login == 'login_test'\t", (string) "login_test",test2->getLogin());
+        UnitTest<void*>::insertTitle("Test persistance 1er utilisateur (avec login changé)");
+        UnitTest<string>::assertEquals("pass == 'qwertz'", (string) "qwertz", test2->getPassword());
+        UnitTest<string>::assertEquals("login == 'login_test'", (string) "login_test",test2->getLogin());
         UnitTest<string>::assertEquals((string) "Ma première sauvegarde",test_2_1stBcp.getName());
         UnitTest<string>::assertEquals((string) "Ma seconde sauvegarde", test_2_2ndBcp.getName());
 
-        UnitTest<string>::assertEquals("pass == 'qwertyop'\t", (string) "qwertyop", testToto->getPassword());
-        UnitTest<string>::assertEquals("login == 'login_toto'\t", (string) "login_toto",testToto->getLogin());
-        UnitTest<string>::assertEquals((string) "Ma première sauvegarde",test_toto_1stBcp.getName());
-        UnitTest<string>::assertEquals((string) "Ma seconde sauvegarde",test_toto_2ndBcp.getName());
+        UnitTest<void*>::insertTitle("Test persistance 2nd utilisateur");
+        UnitTest<string>::assertEquals("pass == 'qwertyop'", (string) "qwertyop", testToto->getPassword());
+        UnitTest<string>::assertEquals("login == 'logins_toto'", (string) "login_toto",testToto->getLogin());
+        UnitTest<size_t>::assertEquals((string) "pas de sauvegardes pour toto",0,toto.getBackups().size());
     }
 
+    static void chargementDesLogin(){
+        ConfigManager conf(LOCAL_CONFIG_FILE);
+        list<string> users = conf.loadUserList();
+
+
+    }
 
 public:
+
     static void executeTests()
     {
-        loadedUsersTest();
-        savingUsersTest();
-        UnitTest<void*>::results();
+        testPreSet();
+        testChargementDUtilisateurs();
+        testPersistanceDutilisateurs();
+        chargementDesLogin();
     }
 
 };

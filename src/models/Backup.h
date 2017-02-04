@@ -10,6 +10,8 @@
 #include <string>
 #include "Data.h"
 #include "Frequency.h"
+#include "../services/Crypt.h"
+
 
 class Backup {
     char key[32];
@@ -23,14 +25,17 @@ class Backup {
 public:
     Backup(const Backup&);
     Backup(
-            const char* key= (char*)malloc(sizeof(char)*32),
+            const char* key = "null",
             std::string name="test",
             std::string source="test",
             std::string target = "test",
             std::string last_save= "1/1/1970")
         : name(name),source(source),target(target),last_save(last_save)
     {
-        strcpy(this->key,key);
+        if(strcmp("null",key) == 0)
+            memcpy(this->key,Crypt::genKey(32),32);
+        else
+            strcpy(this->key,key);
     }
 
     void saveData();//TODO sauvegarde des données (data) vers des fichiers .vy
@@ -46,9 +51,11 @@ public:
     Frequency getFrequency() const;
 
     bool operator==(const Backup&);
+    bool operator!=(const Backup&);
     void operator=(const Backup&);
 
     friend std::ostream& operator<<(std::ostream&, const Backup&);
+
 };
 
 

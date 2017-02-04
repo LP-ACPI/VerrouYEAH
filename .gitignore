@@ -1,6 +1,7 @@
 .gitignore
 /tests/qt-google-drive
 /tests/builds
+/builds
 /protos_executables
 
 *.user

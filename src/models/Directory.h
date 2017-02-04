@@ -5,8 +5,12 @@
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
 
+#include "Data.h"
+#include <list>
 
-class Directory {
+class Directory : private Data {
+
+    std::list<Data> data;
 
 };
 

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstring>
 #include <openssl/des.h>
+#include <openssl/rand.h>
 
 using namespace std;
 
@@ -67,9 +68,11 @@ void Crypt::crypt_file_DES(string nom_source, string nom_destination, char* cle,
     destination.close();
 }
 
-char* Crypt::genKey()//TODO
+char* Crypt::genKey(size_t key_size)//TODO : if !RAND_bytes ->errmsg
 {
-    return NULL;
+    unsigned char key_gen[key_size];
+    RAND_bytes(key_gen,key_size);
+    return (char*)key_gen;
 }
 void Crypt::crypt(char* in, char* out, char* raw_key)
 {

@@ -1,7 +1,7 @@
 #ifndef UNITTEST_H
 #define UNITTEST_H
-#include <iostream>
 #include <sstream>
+#include <iostream>
 
 class TestInfo { //nécéssaire car template initialise ses statiques à chaque spécif. de T
 protected:
@@ -19,52 +19,63 @@ template <class T> class UnitTest : private TestInfo {
 public:
 
     void static assertTrue(bool expression){
-        msg << "(test n°" << ++countTests << ") : " ;
+        std::cout << "(test n°" << ++countTests << ") : " ;
         if(expression){
-            msg << "OK" << std::endl;
+            std::cout << "OK" << std::endl;
             countPassed++;
         }
         else
-            msg << "FAIL - Attendu TRUE. Reçu FALSE" << std::endl;
+            std::cout << "FAIL - Attendu TRUE. Reçu FALSE" << std::endl;
     }
 
      void static assertFalse(bool expression){ 
-        msg << "(test n°" << ++countTests << ") : " ;
+	std::cout << "(test n°" << ++countTests << ") : " ;
         if(!expression){
-            msg << "OK" << std::endl;
+	    std::cout << "OK" << std::endl;
             countPassed++;
         }else
-             msg << "FAIL - Attendu FALSE. Reçu TRUE" << std::endl;
+	     std::cout << "FAIL - Attendu FALSE. Reçu TRUE" << std::endl;
     }
 
      void static assertEquals(T objectExpected,T objectTested){
-       msg << "(test n°" << ++countTests <<  ") : " ;
+       std::cout << "(test n°" << ++countTests <<  ") : " ;
         if(objectExpected == objectTested){
-           msg << "OK" << std::endl;
+	   std::cout << "OK" << std::endl;
             countPassed++;
         }else
-           msg << "FAIL - Attendu:'" << objectExpected << "'. Reçu :'" << objectTested << "'"<< std::endl;
+	   std::cout << "FAIL - Attendu:'" << objectExpected << "'. Reçu :'" << objectTested << "'"<< std::endl;
     }
 
      void static assertTrue(std::string tag, bool expression){
-         msg << tag << " ";
+	 std::cout << tag << "\t";
          assertTrue(expression);
     }
 
      void static assertFalse(std::string tag, bool expression){
-        msg  << tag << " ";
+	std::cout  << tag << "\t";
         assertFalse(expression);
     }
 
     void static assertEquals(std::string tag, T objectExpected,T objectTested){
-        msg << tag << " ";
+	std::cout << tag << "\t";
         assertEquals(objectExpected,objectTested);
     }
 
     void static results(){
-        msg <<  "=====================" << std::endl;
-        msg <<  "Résutat: " << countPassed << "/" << countTests ;
-        std::cout << "\n" << msg.str() << "\n\n";
+	msg <<  "=================================" << std::endl;
+	msg <<  "\n\tRésutat: " << countPassed << "/" << countTests ;
+	std::cout << "\n" << msg.str() << "\n\n\n";
+    }
+
+    void static insertTitle(std::string title){
+	std::cout << std::endl << "\t";
+	for(unsigned i=0;i<title.length();i++)
+	    std::cout << "-";
+	std::cout << std::endl << "\t" << title << std::endl;
+	std::cout << "\t";
+	for(unsigned i=0;i<title.length();i++)
+	    std::cout << "-";
+	std::cout << std::endl ;
     }
 };
 
