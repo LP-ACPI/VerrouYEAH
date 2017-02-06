@@ -4,15 +4,21 @@
       "backups": [
         {
           "name": "Ma première sauvegarde",
-          "src": "chemin/source",
-          "dest": "chemin/destination",
+          "src": "chemin/source",    
+          "dest": {
+            "type" : "NORMAL",
+            "path" : "chemin/destination",
+          },
           "freq": "* * * * *",
           "last_save": "JJ-MM-AAAA"
         },
         {
           "name": "Ma seconde sauvegarde",
           "src": "chemin/source",
-          "dest": "chemin/destination",
+          "dest": {
+            "type" : "FTP",
+            "path" : "chemin/destination",
+          },
           "freq": "* * * * *",
           "last_save": "JJ-MM-AAAA"
         }

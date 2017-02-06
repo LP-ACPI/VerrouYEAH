@@ -19,24 +19,26 @@ public:
     User(std::string login="test",std::string pass="test")
         :login(login),password(pass){}
 
-    std::string getPassword();
-    std::string getLogin();
-    std::list<Backup> getBackups();
+    std::string getPassword() const;
+    std::string getLogin() const;
+    std::list<Backup> getBackups() const;
 
-    Backup getBackupAt(unsigned);
+    Backup getBackupAt(const unsigned);
     void addBackup(const Backup);
     void removeBackup(const Backup);
+    void replaceBackupAt(const unsigned,const Backup);
+    void replaceBackup(const Backup, const Backup);
 
     void removeBackups();
-    void setBackups(std::list<Backup>);
+    void setBackups(const std::list<Backup>);
 
     bool hasBackup(const Backup);
 
-    void setPassword(std::string);
-    void setLogin(std::string);
-
+    void setPassword(const std::string);
+    void setLogin(const std::string);
 
     friend std::ostream& operator<<(std::ostream&, const User&);
+    friend nlohmann::json& operator<<(nlohmann::json&, const User&);
 };
 
 

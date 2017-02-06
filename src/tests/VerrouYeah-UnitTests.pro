@@ -32,8 +32,8 @@ SOURCES	+=  \
     ../models/Scheduler.cpp \
     ../models/User.cpp \
     ../services/Crypt.cpp \
-    ../services/ConfigManager.cpp \
-    main.cpp
+    main.cpp \
+    ../services/ConfigManager.cpp
 
 HEADERS	+=  \
     ../models/Backup.h \
@@ -44,7 +44,8 @@ HEADERS	+=  \
     ../models/Scheduler.h \
     ../models/User.h \
     ../services/Crypt.h \
-    ../services/ConfigManager.h \
     persistancetest.hpp \
-    usertest.hpp
+    usertest.hpp \
+    datatest.hpp \
+    ../services/ConfigManager.h
 

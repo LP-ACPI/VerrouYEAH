@@ -18,24 +18,23 @@ class ConfigManager {
     private:
         json config;
         std::string configFilename;
-        static ConfigManager instance;
-
-        json jsonifyUser(User*);
-        json jsonifyBackup(Backup*);
         json merge(const json&, const json&);
 
     public:
         ConfigManager(std::string configFilePath = "config.json")
         {
-            setUsersJsonFile(configFilePath);
+            setJsonFile(configFilePath);
         }
         User* loadUser(std::string);
-        std::list<std::string> loadUserList();
+        std::list<std::string[2]> loadUserList();
 
         json saveUser(User*);
+        json saveUsersBackup(User*,Backup*);
+        //TODO loadDistantBackupList(User*)
 
-        void setUsersJsonFile(std::string);
+        void setJsonFile(std::string);
         void persist();
+        json getConfig() const;
 
     friend std::ostream& operator <<(std::ostream&, const ConfigManager&);
 

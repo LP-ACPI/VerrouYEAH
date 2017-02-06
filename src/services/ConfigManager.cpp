@@ -6,48 +6,56 @@
 
 using namespace std;
 
-list<string>ConfigManager::loadUserList(){
-    //TODO exception domaine "users" non trouvé à gérer
-    list<string> loginList;
+list<string[2]>ConfigManager::loadUserList(){
+    list<string[2]> loginPassList;
     json user_config = config["users"];
 
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it){
-        loginList.push_back(it.key());
+        string login = it.key();
+        string pass = user_config[it.key()]["password"];
+        loginPassList.push_back({login,pass});
     }
-    return loginList;
+    return loginPassList;
 }
 
 User* ConfigManager::loadUser(string login){
-    //TODO exception domaine "users" non trouvé à gérer
-    json user_config = config.at("users").at(login);
-    string password = user_config.at("password").get<string>();
+    json user_config =  config["users"][login];
+    string password = user_config["password"];
     User* user = new User(login,password);
 
-    json backups = user_config.at("backups");
-
+    json backups = user_config["backups"];
     for (json bc : backups)
     {
         string key = bc["key"];
         string name = bc["name"];
         string sourcePath = bc["src"];
-        string targetPath = bc["dest"];
+        string targetType = bc["dest"]["type"];
+        string targetPath = bc["dest"]["path"];
         //TODO : DateTime format
         string lastSave = bc["last_save"];
 
-        Backup backup(key.c_str(),name,sourcePath,targetPath,lastSave);
+        Backup backup(key.c_str(),name,sourcePath,targetPath,targetType,lastSave);
         user->addBackup(backup);
     }
     return user ;
 }
 
-json ConfigManager::saveUser(User* user){
-    json jsonUser = jsonifyUser(user);
-    config["users"] = merge(config["users"],jsonUser);
+json ConfigManager::saveUser(User *user){
+    json jsonUser;
+    config["users"] = merge(config["users"],jsonUser << *user);
     persist();
     return jsonUser;
 }
 
-void ConfigManager::setUsersJsonFile(string newConfigFileName){
+json ConfigManager::saveUsersBackup(User *user,Backup *backup){
+    json  jsonBackup = backup->toDistantJson();
+    config[user->getLogin()]["backups"] += jsonBackup;
+    config[user->getLogin()]["password"] = user->getPassword();
+    persist();
+    return jsonBackup;
+}
+
+void ConfigManager::setJsonFile(string newConfigFileName){
     configFilename = newConfigFileName;
     fstream newConfigFile;
     newConfigFile.exceptions( ifstream::failbit | ifstream::badbit );
@@ -68,34 +76,6 @@ void ConfigManager::persist(){
     configFile.close();
 }
 
-json ConfigManager::jsonifyUser(User *user){
-
-    //? -> persisté comme 'null' au lieu de '[]' si pas de sauvegardes, normal sinon.
-    json usersBackupsToPersist = json::array();
-
-    for(Backup bc : user->getBackups())
-        usersBackupsToPersist += jsonifyBackup(&bc);
-
-    json jsonUserDetails = {
-            {"password", user->getPassword()},
-            {"backups" , usersBackupsToPersist}
-        };
-
-    return json{{user->getLogin(),jsonUserDetails}};
-}
-
-json ConfigManager::jsonifyBackup(Backup* backup){
-
-    json jsonBackup = {
-        {"key", backup->getKey()},
-        {"name", backup->getName()},
-        {"src", backup->getSource()},
-        {"dest", backup->getTarget()},
-        {"freq", backup->getLastSave()},
-        {"last_save", backup->getLastSave()},
-    };
-    return jsonBackup;
-}
 
 json ConfigManager::merge(const json &a, const json &b)
 {

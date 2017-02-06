@@ -1,29 +1,54 @@
 {
-  "users": {
-    "login_test": {
-      "backups": [
-        {
-          "dest": "chemin/destination",
-          "freq": "JJ-MM-AAAA",
-          "key": "1",
-          "last_save": "JJ-MM-AAAA",
-          "name": "Ma première sauvegarde",
-          "src": "chemin/source"
+  "login_user_1": {
+    "backups": [
+      {
+        "Data": {
+          "dir_name_1": {
+            "data": [
+              {
+                "file": {
+                  "name": "file_name_1",
+                  "path": "file_path_1"
+                }
+              },
+              {
+                "file": {
+                  "name": "file_name_2",
+                  "path": "file_path_2"
+                }
+              },
+              {
+                "dir_name_2": {
+                  "data": [
+                    {
+                      "file": {
+                        "name": "file_name_3",
+                        "path": "file_path_3"
+                      }
+                    }
+                  ],
+                  "path": "dir_path_2"
+                }
+              },
+              {
+                "dir_name_3": {
+                  "data": [],
+                  "path": "dir_path_3"
+                }
+              }
+            ],
+            "path": "dir_path_1"
+          }
         },
-        {
-          "dest": "chemin/destination",
-          "freq": "JJ-MM-AAAA",
-          "key": "2",
-          "last_save": "JJ-MM-AAAA",
-          "name": "Ma seconde sauvegarde",
-          "src": "chemin/source"
-        }
-      ],
-      "password": "qwertz"
-    },
-    "login_toto": {
-      "backups": null,
-      "password": "qwertyop"
-    }
+        "key": "2",
+        "name": "Ma seconde sauvegarde"
+      },
+      {
+        "Data": [],
+        "key": "1",
+        "name": "Ma première sauvegarde"
+      }
+    ],
+    "password": "login_user_1"
   }
 }

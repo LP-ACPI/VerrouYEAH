@@ -3,3 +3,17 @@
 //
 
 #include "Frequency.h"
+
+
+
+void Frequency::operator=(const Frequency &freq){
+
+}
+
+bool Frequency::operator==(const Frequency &freq){
+
+}
+
+bool Frequency::operator!=(const Frequency &freq){
+
+}

@@ -54,8 +54,6 @@ class UserTest{
         test.removeBackup(backup3);
         test.removeBackup(backup4);
         UnitTest<size_t>::assertEquals("suppression 4 backups",0,test.getBackups().size());
-
-
     }
 
 public:

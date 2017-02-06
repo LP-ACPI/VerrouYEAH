@@ -8,6 +8,11 @@
 
 class Frequency {
 
+public:
+
+    void operator=(const Frequency&);
+    bool operator==(const Frequency&);
+    bool operator!=(const Frequency&);
 };
 
 

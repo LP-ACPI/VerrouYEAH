@@ -7,10 +7,44 @@
 
 #include "Data.h"
 #include <list>
+#include <json.hpp>
 
-class Directory : private Data {
+class Directory : public Data {
 
-    std::list<Data> data;
+protected:
+  // Liste des composants
+  std::list< Data* > dataList;
+
+public:
+  Directory(const Data &data):Data(data){
+      if(data.isDirData()){
+          Directory dir = data;
+          setDataList(dir.getDataList());
+      }
+
+  }//TODO exception
+
+  Directory(const Directory &dir):Data(dir)
+  {setDataList(dir.getDataList());}
+
+  Directory(std::string name = "test",
+          std::string path = "test")
+      : Data(name,path){}
+
+    void addData(Data*);
+    void removeData(Data*);
+    Data& getDataAt(const unsigned);
+
+    std::list<Data*> getDataList() const;
+    void setDataList(const std::list<Data*>);
+
+    bool hasData(const Data*);
+
+    virtual bool isDirData() const override;
+    virtual nlohmann::json to_json() const override;
+
+//    void operator=(const Data&);
+    void operator=(const Directory&);
 
 };
 
