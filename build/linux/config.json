@@ -1,36 +1,32 @@
 {
   "users": {
     "login_user_1": {
-      "backups": [
-        {
-          "key" : "1",
-          "name": "Ma première sauvegarde",
-          "src": "chemin/source",    
-          "dest": {
-            "type" : "NORMAL",
-            "path" : "chemin/destination"
-          },
-          "freq": "* * * * *",
-          "last_save": "JJ-MM-AAAA"
+      "password": "azerty",
+      "backups": [{
+        "key" : "1",
+        "name": "Ma première sauvegarde",
+        "src": "chemin/source",
+        "dest": {
+          "type": "NORMAL",
+          "path": "chemin/destination"
         },
-        {
-          "key" : "2",
-          "name": "Ma seconde sauvegarde",
-          "src": "chemin/source",
-          "dest": {
-            "type" : "FTP",
-            "path" : "chemin/destination"
-          },
-          "freq": "* * * * *",
-          "last_save": "JJ-MM-AAAA"
-        }
-      ],
-      "password": "azerty"
+        "freq": "* * * * *",
+        "last_save": "JJ-MM-AAAA"
+      }, {
+        "key" : "2",
+        "name": "Ma seconde sauvegarde",
+        "src": "chemin/source",
+        "dest": {
+          "type": "FTP",
+          "path": "chemin/destination"
+        },
+        "freq": "* * * * *",
+        "last_save": "JJ-MM-AAAA"
+      }]
     },
     "login_user_2": {
-      "backups": [],
-      "password": "azerty"
+      "password": "azerty",
+      "backups": []
     }
-  },
-  "verrouyeah": {}
+  }
 }

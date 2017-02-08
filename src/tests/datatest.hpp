@@ -52,8 +52,8 @@ class DataTest {
         test_dir_1.addData(&test_dir_2);
         test_dir_1.addData(&test_dir_3);
 
-//        Directory test_dir_4;
-//        test_dir_4 = test_dir_1;
+        Directory test_dir_4;
+        test_dir_4 = test_dir_1;
 
 //        json j = test_dir_4.to_json();
 //        cout << j.dump(2);

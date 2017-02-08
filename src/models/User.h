@@ -24,6 +24,7 @@ public:
     std::list<Backup> getBackups() const;
 
     Backup getBackupAt(const unsigned);
+    Backup getBackupByKey(const std::string);
     void addBackup(const Backup);
     void removeBackup(const Backup);
     void replaceBackupAt(const unsigned,const Backup);

@@ -11,33 +11,50 @@
 #include "../models/User.h"
 #include "../models/Backup.h"
 
-#include "json.hpp"
+#define LOCAL_CONFIG_FILE "../config.json"
+#define DISTANT_BACKUP_CONFIG_FILE "../config_dist.json"
+#include <json.hpp>
+
 using json = nlohmann::json;
 
 class ConfigManager {
-    private:
+
+private:
         json config;
         std::string configFilename;
-        json merge(const json&, const json&);
 
-    public:
-        ConfigManager(std::string configFilePath = "config.json")
-        {
-            setJsonFile(configFilePath);
+        json readOrInitRootUsers();
+        Data* parseDataFromJson(Data*,json&);
+
+        ConfigManager() : configFilename("config.json")
+        {}
+
+        ConfigManager(ConfigManager const&);
+
+public:
+        static ConfigManager& getInstance(){
+            static ConfigManager instance;
+            return instance;
         }
+
         User* loadUser(std::string);
-        std::list<std::string[2]> loadUserList();
+        std::list<std::string[2]> loadLoginPassList();
+        void loadUsersBackups(User*);
 
         json saveUser(User*);
         json saveUsersBackup(User*,Backup*);
-        //TODO loadDistantBackupList(User*)
-
         void setJsonFile(std::string);
         void persist();
-        json getConfig() const;
 
-    friend std::ostream& operator <<(std::ostream&, const ConfigManager&);
+        json getConfig() const
+        {   return config;  }
 
+        std::string getFilename() const
+        {   return configFilename;  }
+
+        json merge(const json&, const json&);
+        void operator=(ConfigManager const&)  = delete;
+        friend std::ostream& operator<<(std::ostream&, const ConfigManager&);
 };
 
 #endif //CONFIG_H

@@ -12,8 +12,6 @@
 class File : public Data {
 
 public:
-    File(const Data &data):Data(data)
-    {}
     File(const File &file):Data(file)
     {}
 
@@ -23,9 +21,11 @@ public:
 
     bool isDirData() const override;
     virtual nlohmann::json to_json() const override;
+    virtual Data* from_json(const nlohmann::json) override;
 
-//    void operator=(const Data&);
     void operator=(const File&);
+    friend std::ostream& operator<<(std::ostream&,const Data&);
+//    friend Data& operator>>(const nlohmann::json&, Data&);
 };
 
 

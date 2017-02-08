@@ -3,7 +3,6 @@
 #include <string>
 #include <cstring>
 
-
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -78,11 +77,11 @@ public:
         days_of_week = parser(str,N_DAY_OF_WEEK);
     }
     Frequency& operator=(const Frequency& target);
-    bool contain(char min,char hour,char dom,char month,char dow);
+    bool contains(char min,char hour,char dom,char month,char dow);
     bool isNow();
     bool since(time_t t);
     std::string toString();
+    friend std::ostream& operator<<(std::ostream&,Frequency&);
 };
-
 
 #endif //FREQ_FREQUENCY_H

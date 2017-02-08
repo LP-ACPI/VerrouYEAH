@@ -120,7 +120,7 @@ ostream& operator<<(ostream &out, const Backup &backup){
     out << "\tclé: " << backup.key << endl;
     out << "\tsource: " << backup.source << endl;
     out << "\tdestination: " << backup.target << endl;
-    out << "\tracine data: " << *backup.data << endl;
+//    out << "\tracine data: " << *backup.data << endl;
     return out;
 }
 
@@ -143,14 +143,13 @@ json& operator<<(json &j, const Backup &backup){
 
 
 json Backup::toDistantJson(){
-    json jData = data == NULL ? json::array():data->to_json();
+    json jData = data == NULL ? json::object():data->to_json();
 
-    json jOut = json({
-            {"key", key},
-            {"name", name},
-            {"Data", jData}
-        }
-    );
+    json jOut = json{{key,{
+                {"name", name},
+                {"Data", jData}
+
+                    }}};
     return jOut ;
 }
 

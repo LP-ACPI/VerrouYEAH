@@ -1,54 +1,38 @@
 {
   "login_user_1": {
-    "backups": [
-      {
+    "backups": {
+      "1": {
+        "Data": null,
+        "name": "Ma première sauvegarde"
+      },
+      "2": {
         "Data": {
           "dir_name_1": {
-            "data": [
-              {
-                "file": {
-                  "name": "file_name_1",
-                  "path": "file_path_1"
-                }
+            "data": {
+              "dir_name_2": {
+                "data": {
+                  "file": {
+                    "name": "file_name_3",
+                    "path": "file_path_3"
+                  }
+                },
+                "path": "dir_path_2"
               },
-              {
-                "file": {
-                  "name": "file_name_2",
-                  "path": "file_path_2"
-                }
+              "dir_name_3": {
+                "data": null,
+                "path": "dir_path_3"
               },
-              {
-                "dir_name_2": {
-                  "data": [
-                    {
-                      "file": {
-                        "name": "file_name_3",
-                        "path": "file_path_3"
-                      }
-                    }
-                  ],
-                  "path": "dir_path_2"
-                }
-              },
-              {
-                "dir_name_3": {
-                  "data": [],
-                  "path": "dir_path_3"
-                }
+              "file": {
+                "name": "file_name_2",
+                "path": "file_path_2"
               }
-            ],
+            },
             "path": "dir_path_1"
           }
         },
-        "key": "2",
         "name": "Ma seconde sauvegarde"
-      },
-      {
-        "Data": [],
-        "key": "1",
-        "name": "Ma première sauvegarde"
       }
-    ],
-    "password": "login_user_1"
+    },
+    "password": "azerty"
   }
 }

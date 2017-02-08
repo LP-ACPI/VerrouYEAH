@@ -9,7 +9,7 @@ using namespace std;
 using json = nlohmann::json;
 
 User::User(User &user):
-        login(user.getLogin()),password(user.getLogin())
+        login(user.getLogin()),password(user.getPassword())
 {
         setBackups(user.getBackups());
 }
@@ -20,6 +20,16 @@ Backup User::getBackupAt(const unsigned position){
         advance(it, position);
         return *it;
     } else throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
+}
+
+Backup User::getBackupByKey(const string key){
+    Backup outPut;
+    for(list<Backup>::iterator it = backups.begin();it!=backups.end();++it)
+        if(strcmp(key.c_str(),it->getKey())==0){
+            outPut = Backup(*it);
+            break;
+        }
+    return outPut;
 }
 
 void User::addBackup(const Backup backup){
@@ -78,8 +88,8 @@ bool User::hasBackup(const Backup backup){
 }
 
 ostream& operator<<(ostream &o, const User &user){
-    o << "login" << user.login << endl;
-    o << "pass:" << user.password << endl;
+    o << "login: " << user.login << endl;
+    o << "pass: " << user.password << endl;
     return o;
 }
 

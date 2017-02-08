@@ -122,7 +122,7 @@ Frequency& Frequency::operator=(const Frequency& src){
     }
     return *this;
 }
-bool Frequency::contain(char min,char hour,char dom,char month,char dow){
+bool Frequency::contains(char min,char hour,char dom,char month,char dow){
     //TODO tester les arguments
     return minutes[min] && hours[hour] && days_of_month[dom-1] && months[month-1] && days_of_week[dow];
 }
@@ -130,7 +130,7 @@ bool Frequency::isNow(){
     time_t t = time(0);
     tm * now = localtime(&t);
     cout << now->tm_min << " " << now->tm_hour << " " << now->tm_mday << " " << now->tm_mon << " " << now->tm_wday << endl;
-    return contain(now->tm_min,now->tm_hour,now->tm_mday,now->tm_mon,now->tm_wday);
+    return contains(now->tm_min,now->tm_hour,now->tm_mday,now->tm_mon,now->tm_wday);
 }
 bool Frequency::since(time_t t){
     time_t now = time(0);
@@ -141,8 +141,12 @@ bool Frequency::since(time_t t){
         date = localtime(&t);
         t+=60;
 
-    }while(!contain(date->tm_min,date->tm_hour,date->tm_mday,date->tm_mon,date->tm_wday));
+    }while(!contains(date->tm_min,date->tm_hour,date->tm_mday,date->tm_mon,date->tm_wday));
     char* dt = asctime(date);
     cout << "Date de la premiere frequence ratee: "<< dt << endl;
     return 1;
+}
+
+ostream& operator<<(ostream &o , Frequency &f){
+    return o << f.toString();
 }

@@ -16,13 +16,6 @@ protected:
   std::list< Data* > dataList;
 
 public:
-  Directory(const Data &data):Data(data){
-      if(data.isDirData()){
-          Directory dir = data;
-          setDataList(dir.getDataList());
-      }
-
-  }//TODO exception
 
   Directory(const Directory &dir):Data(dir)
   {setDataList(dir.getDataList());}
@@ -42,9 +35,10 @@ public:
 
     virtual bool isDirData() const override;
     virtual nlohmann::json to_json() const override;
+    virtual Data* from_json(const nlohmann::json) override;
 
-//    void operator=(const Data&);
     void operator=(const Directory&);
+//    friend Data& operator>>(const nlohmann::json&, Data&);
 
 };
 

@@ -42,3 +42,14 @@ nlohmann::json& operator<<(nlohmann::json &j, Data &data){
     return j;
 }
 
+//Data& operator>>(const nlohmann::json &j, Data &data){
+//    if(data.isDirData())
+//        j >> data ;
+//    else {
+//        data.setName(j["name"]);
+//        data.setPath(j["path"]);
+//    }
+//    cout << j.dump(2);
+//    return data;
+//}
+

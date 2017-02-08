@@ -27,6 +27,7 @@ public:
 
     virtual bool isDirData() const = 0;
     virtual nlohmann::json to_json() const = 0;
+    virtual Data* from_json(const nlohmann::json) = 0;
 
     std::string getPath() const;
     std::string getName() const;
@@ -37,8 +38,9 @@ public:
     bool operator==(const Data&);
     bool operator!=(const Data&);
 
-    friend std::ostream& operator<<(std::ostream&,const Data&);
+    friend std::ostream& operator<<(std::ostream &, const Data &);
     friend nlohmann::json& operator<<(nlohmann::json&, Data&);
+    friend Data& operator>>(const nlohmann::json&, Data&);
 };
 
 #endif //PROJECT_DATA_H
