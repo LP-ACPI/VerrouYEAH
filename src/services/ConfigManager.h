@@ -37,12 +37,18 @@ public:
             return instance;
         }
 
+        std::map<std::string,std::string>loadLoginPassList();
+
         User* loadUser(std::string);
-        std::list<std::string[2]> loadLoginPassList();
-        void loadUsersBackups(User*);
+        void loadUsersBackupData(User*,std::string);
+        void loadUsersBackupList(User*);
 
         json saveUser(User*);
         json saveUsersBackup(User*,Backup*);
+
+        void deleteUser(std::string);
+        void deleteUsersBackup(std::string,std::string);
+
         void setJsonFile(std::string);
         void persist();
 

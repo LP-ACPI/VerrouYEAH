@@ -26,10 +26,6 @@
         }
       ],
       "password": "qwertz"
-    },
-    "login_toto": {
-      "backups": null,
-      "password": "qwertyop"
     }
   }
 }

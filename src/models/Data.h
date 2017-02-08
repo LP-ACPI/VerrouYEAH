@@ -27,7 +27,6 @@ public:
 
     virtual bool isDirData() const = 0;
     virtual nlohmann::json to_json() const = 0;
-    virtual Data* from_json(const nlohmann::json) = 0;
 
     std::string getPath() const;
     std::string getName() const;

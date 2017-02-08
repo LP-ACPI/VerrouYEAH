@@ -74,31 +74,6 @@ json Directory::to_json() const{
     return jOut;
 }
 
-Data* Directory::from_json(const json j){
-    cout << j;
-    Directory *dir;
-    dir->setName(j);
-    dir->setPath(j["path"]);
-    json jData = j["data"];
-    for (json js : jData){
-        Data *data;
-        data = from_json(js);
-        dir->addData(data);
-    }
-    return dir;
-//        if(it.key() == "file"){
-//            File file;
-//            dir.addData(&file.from_json(it.value()));
-//        }
-//        else {
-//            Directory sub_dir;
-//            dir.addData(&sub_dir.from_json(it.value()));
-//        }
-
-//    return dir;
-
-}
-
 
 std::ostream& operator<<(std::ostream &o,const Directory &d){
     o << "name: " << d.getName() << " (path:" << d.getPath() << ")" << endl;
@@ -108,14 +83,3 @@ std::ostream& operator<<(std::ostream &o,const Directory &d){
     return o;
 }
 
-//Data& operator>>(const json &js, Directory &dir){
-
-//                cout << js.dump(2);
-//    json jDir = js["data"];
-//    for (json::iterator it = jDir.begin(); it != jDir.end(); ++it){
-//        Data* data;
-//        it.value() >> *data;
-//        dir.addData(data);
-//    }
-//    return dir;
-//}

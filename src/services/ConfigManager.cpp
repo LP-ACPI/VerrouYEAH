@@ -8,15 +8,15 @@
 
 using namespace std;
 
-list<string[2]>ConfigManager::loadLoginPassList(){
+map<string,string>ConfigManager::loadLoginPassList(){
 
-    list<string[2]> loginPassList;
+    map<string,string> loginPassList;
     json user_config = readOrInitRootUsers();
 
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it){
         string login = it.key();
         string pass = user_config[it.key()]["password"];
-        loginPassList.push_back({login,pass});
+        loginPassList[login] = pass;
     }
 
     return loginPassList;
@@ -83,11 +83,31 @@ Data* ConfigManager::parseDataFromJson( Data *data,json &jsonData){
     return data;
 }
 
-void ConfigManager::loadUsersBackups(User* user){
 
-        json users_backup = config.at(user->getLogin()).at("backups");
+void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
-        for (json::iterator it = users_backup.begin(); it != users_backup.end(); ++it){
+    json users_backup = config.at(user->getLogin())["backups"][backupKey];
+
+    if(users_backup["Data"] != NULL){
+
+        Data *data = parseDataFromJson(data,users_backup["Data"]);
+
+        //Mais pas ici.
+        cout << data->to_json().dump(2);
+
+        Backup new_backup = user->getBackupByKey(backupKey);
+        new_backup.setData(data);
+        Backup old_backup = user->getBackupByKey(backupKey);
+        user->replaceBackup(old_backup,new_backup);
+    }
+
+}
+
+void ConfigManager::loadUsersBackupList(User* user){
+
+        json users_backups = config.at(user->getLogin()).at("backups");
+
+        for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
 
             Data * data = parseDataFromJson(data,it.value().at("Data"));
             //Mais pas ici.
@@ -107,6 +127,20 @@ json ConfigManager::saveUser(User *user){
     return jsonUser;
 }
 
+
+void ConfigManager::deleteUser(string userLogin){
+
+    json user_config = readOrInitRootUsers();
+
+    for (json::iterator it = user_config.begin(); it != user_config.end(); ++it)
+        if(it.key() == userLogin)
+            config.at("users").erase(it.key());
+
+    persist();
+
+}
+
+
 json ConfigManager::saveUsersBackup(User *user,Backup *backup){
 
     json jsonBackup = backup->toDistantJson();
@@ -116,6 +150,18 @@ json ConfigManager::saveUsersBackup(User *user,Backup *backup){
     persist();
     return jsonBackup;
 }
+
+
+void ConfigManager::deleteUsersBackup(string userLogin,string bcKey){
+    json users_backups = config.at(userLogin).at("backups");
+
+    for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it)
+        if(it.key() == bcKey)
+            config.at(userLogin).at("backups").erase(it.key());
+    persist();
+
+}
+
 
 void ConfigManager::setJsonFile(string newConfigFileName){
     configFilename = newConfigFileName;
@@ -132,7 +178,7 @@ void ConfigManager::setJsonFile(string newConfigFileName){
 
 void ConfigManager::persist(){
     fstream configFile;
-    configFile.open(configFilename, fstream::in | fstream::out );
+    configFile.open(configFilename, fstream::in | fstream::out | fstream::trunc );
     configFile << setw(2) << config << endl;
     configFile.close();
 }

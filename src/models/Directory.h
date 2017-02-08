@@ -35,10 +35,8 @@ public:
 
     virtual bool isDirData() const override;
     virtual nlohmann::json to_json() const override;
-    virtual Data* from_json(const nlohmann::json) override;
 
     void operator=(const Directory&);
-//    friend Data& operator>>(const nlohmann::json&, Data&);
 
 };
 
