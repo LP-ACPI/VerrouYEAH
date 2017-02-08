@@ -7,6 +7,7 @@
 
 class UserTest{
 
+
     static void testUtilisateurTestPardefaut(){
         User test;
 
@@ -39,10 +40,11 @@ class UserTest{
 
         User test;
 
-        Backup backup1;
-        Backup backup2;
-        Backup backup3;
-        Backup backup4;
+        Backup backup1("backup1");
+        Backup backup2("backup2");
+        Backup backup3("backup3");
+        Backup backup4("backup4");
+
         test.addBackup(backup1);
         test.addBackup(backup2);
         test.addBackup(backup3);
@@ -54,7 +56,7 @@ class UserTest{
         test.removeBackup(backup3);
         test.removeBackup(backup4);
         UnitTest<size_t>::assertEquals("suppression 4 backups",0,test.getBackups().size());
-    }
+   }
 
 public:
     static void executeTests(){
