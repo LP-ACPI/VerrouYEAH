@@ -2,15 +2,15 @@
 // Created by Valentin on 05/12/16.
 //
 
-#include <iostream>
-#include "services/Crypt.h"
-#include "services/ConfigManager.h"
+#include <QApplication>
+#include <QLibraryInfo>
+#include <QTranslator>
+#include <QLocale>
+#include "views/authdialog.h"
 
 #define PATH_SOURCE "fichier_source.txt"
 #define PATH_VY "fichier_crypte.vy"
 #define PATH_CIBLE "fichier_cible.txt"
-#define CONFIG_FILE "config.json"
-#define MYKEY "1234"
 
 
 using namespace std;
@@ -18,14 +18,19 @@ using namespace std;
 /*
  * Main de test temporaire
  */
-int main()
+int main(int argc, char* argv[])
 {
-    ConfigManager conf(CONFIG_FILE);
-    cout << conf << endl;
+    Q_INIT_RESOURCE(res);
 
-    Crypt c;
-    cout << "Cryptage" << endl;
-    c.cryptFile(PATH_SOURCE,PATH_VY,(char*)MYKEY);
-    cout << "Decryptage" << endl;
-    c.decryptFile(PATH_VY,PATH_CIBLE,(char*)MYKEY);
+    QApplication a(argc, argv);
+    //traduction des dialogues usuels (textes des bouttons surtout, en anglais par défaut)
+    QString locale = QLocale::system().name().section('_',0,0);
+    QTranslator tr;
+    tr.load(QString("qt_")+locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&tr);
+
+    AuthDialog auth;
+    auth.show();
+
+    return a.exec();
 }

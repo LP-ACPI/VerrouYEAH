@@ -16,8 +16,7 @@ public:
         return instance;
     }
 
-    void setUser(User *user)
-    {   this->user =  user; }
+    void setUser(std::string);
 
     void createUsersBackup(Backup*);
     Backup getUsersBackup(std::string);

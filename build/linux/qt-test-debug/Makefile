@@ -713,7 +713,8 @@ UserController.o: ../../../src/controllers/UserController.cpp ../../../src/contr
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
 		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h
+		../../../src/services/Crypt.h \
+		../../../src/services/ConfigManager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UserController.o ../../../src/controllers/UserController.cpp
 
 ####### Install

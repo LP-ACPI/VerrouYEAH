@@ -52,4 +52,3 @@ HEADERS	+=  \
     ../services/ConfigManager.h \
     ../controllers/UsersBackupsController.h \
     ../controllers/UserController.h
-

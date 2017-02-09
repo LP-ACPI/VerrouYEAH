@@ -3,10 +3,13 @@
 
 #include <iostream>
 #include "../models/User.h"
+#include "../services/ConfigManager.h"
+#define CONFIG_FILE "../config_test.json"
 
 class UserController
 {
     std::map<std::string,std::string> userLoginPassCouples;
+    std::string generateHashedPass(std::string);
 
     UserController()
     {}
@@ -14,16 +17,24 @@ class UserController
 public:
 
     static UserController& getInstance(){
+        ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
         static UserController instance;
         return instance;
     }
-
     void loadLoginsPassCouples();
-    bool authentificateUser(User*);
 
-    void createUser(std::string,std::string);
-    void updateUser(User*);
-    void deleteUser(User*);
+    std::vector<std::string> getLoginList() {
+        std::vector<std::string> logins;
+        for(auto user : userLoginPassCouples)
+            logins.push_back(user.first);
+        return logins;
+    }
+
+    bool authentifyUser(std::string, std::string);
+
+    void updateUser(std::string,std::string,std::string);
+    bool createUser(std::string,std::string);
+    void deleteUser(std::string);
 };
 
 #endif // USERCONTROLLER_H

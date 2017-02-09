@@ -31,7 +31,7 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(240, 240, 240);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Nom Sauvegarde</string>
@@ -43,10 +43,10 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>0</y>
-     <width>111</width>
-     <height>81</height>
+     <x>210</x>
+     <y>10</y>
+     <width>81</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">

@@ -77,7 +77,7 @@ class PersistanceTest{
         UnitTest<void*>::insertTitle("Test persistance 2nd utilisateur");
         UnitTest<string>::assertEquals("pass == 'qwertyop'", (string) "qwertyop", testToto->getPassword());
         UnitTest<string>::assertEquals("login == 'login_toto'", (string) "login_toto",testToto->getLogin());
-        UnitTest<size_t>::assertEquals((string) "pas de sauvegardes pour toto",0,toto.getBackups().size());
+        UnitTest<uint32_t>::assertEquals((string) "pas de sauvegardes pour toto",0,toto.getBackups().size());
     }
 
     static void chargementCouplesLoginPass(){

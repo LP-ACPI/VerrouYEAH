@@ -1,5 +1,9 @@
 {
   "users": {
+    "654": {
+      "backups": null,
+      "password": "db00e4fdc8a6d8fc749a23649c9ec9343051ec47"
+    },
     "login_test": {
       "backups": [
         {
@@ -26,6 +30,10 @@
         }
       ],
       "password": "qwertz"
+    },
+    "login_toto": {
+      "backups": null,
+      "password": "qwertyop"
     }
   }
 }

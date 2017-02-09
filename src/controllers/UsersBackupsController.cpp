@@ -1,8 +1,13 @@
 #include "UsersBackupsController.h"
 #include "../services/ConfigManager.h"
 
+void UsersBackupsController::setUser(std::string login){
+    user = ConfigManager::getInstance().loadUser(login);
+}
 
 void UsersBackupsController::createUsersBackup(Backup *backup){
+    //TODO cryptage ici + démarrage du scheduler
+    //ou plutôt un BackupController qui s'en charge + met à jour du dossier distant
     user->addBackup(*backup);
     ConfigManager::getInstance().saveUser(user);
 }
@@ -11,8 +16,8 @@ Backup UsersBackupsController::getUsersBackup(std::string bcpKey){
     return user->getBackupByKey(bcpKey);
 }
 
-
 void UsersBackupsController::updateUsersBackup(Backup *backup){
+    //TODO: avertissement "modif' données sauvegardés"
     Backup old_backup = user->getBackupByKey(backup->getKey());
     user->replaceBackup(old_backup,*backup);
     ConfigManager::getInstance().saveUser(user);

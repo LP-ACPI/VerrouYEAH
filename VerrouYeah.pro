@@ -1,10 +1,12 @@
-TEMPLATE    =	app
-CONFIG	+=  console c++11
-CONFIG	-=  app_bundle
-CONFIG	-=  qt
-TARGET	=   VerrouYEAH
 
-QT  +=	core
+QT += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TEMPLATE    =	app
+CONFIG	+=  c++11
+CONFIG	-=  app_bundle
+TARGET	=   VerrouYEAH
 
 unix :LIBS	+=  -lcrypto
 
@@ -31,8 +33,13 @@ SOURCES	+=  \
     src/models/Scheduler.cpp \
     src/models/User.cpp \
     src/services/Crypt.cpp \
-    src/main.cpp \
-    src/services/ConfigManager.cpp
+    src/services/ConfigManager.cpp \
+    src/controllers/UserController.cpp \
+    src/controllers/UsersBackupsController.cpp \
+    src/views/authdialog.cpp \
+    src/views/mainwindow.cpp \
+    src/views/formsauvegarde.cpp \
+    src/main.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -43,10 +50,19 @@ HEADERS	+=  \
     src/models/Scheduler.h \
     src/models/User.h \
     src/services/Crypt.h \
-    src/services/ConfigManager.h
+    src/services/ConfigManager.h \
+    src/controllers/UserController.h \
+    src/controllers/UsersBackupsController.h \
+    src/views/authdialog.h \
+    src/views/mainwindow.h \
+    src/views/formsauvegarde.h
 
 FORMS	+=  \
-    src/views/backupform.ui \
-    src/views/backupwidget.ui \
-    src/views/firstauthdialog.ui \
-    src/views/homewindow.ui
+    src/views/forms/backupform.ui \
+    src/views/forms/backupwidget.ui \
+    src/views/forms/firstauthdialog.ui \
+    src/views/forms/homewindow.ui \
+    src/views/forms/formsauvegarde.ui
+
+RESOURCES += \
+    res/res.qrc

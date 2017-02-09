@@ -23,14 +23,24 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>HomeWindow</string>
+   <string>VerrouYeah !</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../res/res.qrc">
+    <normaloff>:/images/icone_temporaire.png</normaloff>:/images/icone_temporaire.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QFrame" name="zoneDrop">
       <property name="autoFillBackground">
        <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -46,6 +56,9 @@
          <width>541</width>
          <height>251</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
       </widget>
       <widget class="QPushButton" name="newBackupButton">
@@ -72,7 +85,7 @@
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuVerrouYEAH_accueil">
@@ -80,7 +93,6 @@
      <string>options</string>
     </property>
     <addaction name="actionUtilisateur"/>
-    <addaction name="actionRAZ"/>
    </widget>
    <widget class="QMenu" name="menu_aide">
     <property name="title">
@@ -108,6 +120,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>
