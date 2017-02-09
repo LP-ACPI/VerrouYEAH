@@ -10,6 +10,37 @@
 using namespace std;
 using json=nlohmann::json;
 
+//
+// Donnée :     un fichier json
+// Stratégie :  construit récursivement un arbre formé de Datas (Directory et Files) ayant pour base un Directory (càd l'objet implicite).
+//
+//
+Directory::Directory(json &jsonData)
+{
+    for (json::iterator it = jsonData.begin(); it != jsonData.end(); it++){
+
+        bool isAFile = it.key() == "file";
+
+        // Create a new File and add it to the Directory data
+        if( isAFile )
+        {
+            string fileName = it.value()["name"];
+            string filePath = it.value()["path"];
+            Data* newData = new File(fileName,filePath);
+            addData(newData);
+
+        // Else, create a new Directory and add it to the Directory data
+        }else{
+            Data* newData = new Directory(it.value()["data"]);
+            newData->setPath(it.value()["path"]);
+            newData->setName(it.key());
+            addData(newData);
+        }
+    }
+}
+
+
+
 void Directory::addData(Data *data){
     if(!hasData(data))
         dataList.push_back(data);

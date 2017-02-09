@@ -1,0 +1,33 @@
+{
+  "users": {
+    "login_test": {
+      "backups": [
+        {
+          "dest": {
+            "path": "chemin/destination",
+            "type": "NORMAL"
+          },
+          "freq": "JJ-MM-AAAA",
+          "key": "1",
+          "last_save": "JJ-MM-AAAA",
+          "name": "Ma première sauvegarde",
+          "note": "",
+          "src": "chemin/source"
+        },
+        {
+          "dest": {
+            "path": "chemin/destination",
+            "type": "FTP"
+          },
+          "freq": "JJ-MM-AAAA",
+          "key": "2",
+          "last_save": "JJ-MM-AAAA",
+          "name": "Ma seconde sauvegarde",
+          "note": "",
+          "src": "chemin/source"
+        }
+      ],
+      "password": "qwertz"
+    }
+  }
+}

@@ -62,6 +62,7 @@ User* ConfigManager::loadUser(string login){
 //NEED HELP: parcours recursif du dossier racine. ne récupére que le dernier fichier
 //(utilisé dans  loadUsersBackups(User*).
 //Data* en param pour conserver ce qui est parcourru)
+
 Data* ConfigManager::parseDataFromJson( Data *data,json &jsonData){
     for (json::iterator it = jsonData.begin(); it != jsonData.end(); ++it){
         if( it.key() == "file") {
@@ -90,7 +91,8 @@ void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
     if(users_backup["Data"] != NULL){
 
-        Data *data = parseDataFromJson(data,users_backup["Data"]);
+        //Data *data = parseDataFromJson(data,users_backup["Data"]);
+        Data *data = new Directory(users_backup["Data"]);
 
         //Mais pas ici.
         cout << data->to_json().dump(2);

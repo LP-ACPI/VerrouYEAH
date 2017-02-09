@@ -8,6 +8,7 @@
 #include "Data.h"
 #include <list>
 #include <json.hpp>
+using json=nlohmann::json;
 
 class Directory : public Data {
 
@@ -19,6 +20,8 @@ public:
 
   Directory(const Directory &dir):Data(dir)
   {setDataList(dir.getDataList());}
+
+  Directory(json &jsonData);
 
   Directory(std::string name = "test",
           std::string path = "test")
