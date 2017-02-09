@@ -17,6 +17,15 @@ class UserTest{
         UnitTest<size_t>::assertEquals("nb_backups == '0'",0,test.getBackups().size());
     }
 
+    static void testAjoutSauvegardesSansCle(){
+        UnitTest<void*>::insertTitle("Test ajout sauvegardes avec clés identiques");
+
+        Backup backup1();
+        cout << backup1.getKey() << endl;
+
+        //    UnitTest<std::string>::assertEquals("testAjout Sauvegardes Doublons",backup1.getKey(), backup2.getKey() );
+    }
+
     static void testAjoutSauvegardesDoublons(){
         UnitTest<void*>::insertTitle("Test ajout sauvegardes avec clés identiques");
 
@@ -63,6 +72,7 @@ public:
         testUtilisateurTestPardefaut();
         testAjoutSauvegardesDoublons();
         testSuppressionSauvegardes();
+        testAjoutSauvegardesSansCle();
     }
 };
 
