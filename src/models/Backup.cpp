@@ -16,7 +16,7 @@ Backup::Backup(const Backup &backupToCopy)
       lastSave(backupToCopy.getLastSave()),
       data(backupToCopy.getData())
 {
-    strcpy(key, backupToCopy.getKey());
+    strcpy(key, backupToCopy.getKey().c_str());
 }
 
 Backup::Backup(string name,
@@ -40,79 +40,84 @@ void Backup::recoverData(){
     //TODO chargement des données (data) depuis les fichiers .vy
 }
 
-char* Backup::getKey() const{
-    char * copyKey = (char*) malloc(sizeof(char)*32);
-    strcpy(copyKey,key);
-    return copyKey;
+string Backup::getKey() const{
+//    char * copyKey = (char*) malloc(sizeof(char)*32);
+//    strcpy(copyKey,key);
+    return string(key);
 }
-string Backup::getName() const{
-    return name;
-}
+string Backup::getName() const
+{    return name;   }
 
-string Backup::getSource() const{
-    return source;
-}
-string Backup::getTarget() const{
-    return target;
-}
-string Backup::getTargetType() const{
-    return targetType;
-}
+string Backup::getSource() const
+{    return source; }
+
+string Backup::getTarget() const
+{    return target; }
+
+string Backup::getTargetType() const
+{    return targetType; }
+
 string Backup::getLastSave() const{
     //TODO type Date
     return lastSave;
 }
-Frequency Backup::getFrequency() const{
-    return frequency;
-}
-const Data* Backup::getData() const{
-    return this->data;
-}
 
-void Backup::setKey(const char* key){
-    strcpy(this->key,key);
-}
-void Backup::setName(const string name){
-    this->name = name;
-}
-void Backup::setSource(const string sourcePath){
-    this->source = sourcePath;
-}
-void Backup::setTarget(const string targetPath){
-    this->target = targetPath;
-}
-void Backup::setTargetType(const string targetType){
-    this->targetType = targetType;
-}
+Frequency Backup::getFrequency() const
+{    return frequency;   }
+
+const Data* Backup::getData() const
+{    return this->data;  }
+
+string Backup::getNote() const
+{    return this->note;  }
+
+void Backup::setKey(const char* key)
+{    strcpy(this->key,key);     }
+
+void Backup::setName(const string name)
+{    this->name = name;      }
+
+void Backup::setSource(const string sourcePath)
+{    this->source = sourcePath;     }
+
+void Backup::setTarget(const string targetPath)
+{    this->target = targetPath;     }
+
+void Backup::setTargetType(const string targetType)
+{    this->targetType = targetType;     }
+
 void Backup::setLastSave(const string lastSave){
     //TODO type Date
     this->lastSave = lastSave;
 }
-void Backup::setData(const Data *data){
-    this->data = data;
-}
-void Backup::setFrequency(const Frequency frequency){
-    this->frequency = frequency;
-}
 
+void Backup::setFrequency(const Frequency frequency)
+{    this->frequency = frequency;  }
+
+void Backup::setData(const Data *data)
+{    this->data = data;     }
+
+void Backup::setNote(const string note)
+{   this->note = note;  }
 
 bool Backup::operator==(const Backup &backup){
-    return (strcmp(key, backup.getKey())==0);
+    return (strcmp(key, backup.getKey().c_str())==0);
 }
-
 
 bool Backup::operator!=(const Backup &backup){
     return !operator==(backup);
 }
 
 void Backup::operator=(const Backup &backup){
-    strcpy(key,backup.getKey());
-    data = backup.getData();
+    strcpy(key,backup.getKey().c_str());
     name = backup.getName();
     source = backup.getSource();
     target = backup.getTarget();
+    targetType = backup.getTargetType();
     lastSave = backup.getLastSave();
     frequency = backup.getFrequency();
+    data = backup.getData();
+    note = backup.getNote();
 }
 
 ostream& operator<<(ostream &out, const Backup &backup){
@@ -137,19 +142,20 @@ json& operator<<(json &j, const Backup &backup){
             },
             {"freq", backup.getLastSave()},
             {"last_save", backup.getLastSave()},
+            {"note", backup.getNote()},
     };
     return j;
 }
 
-
 json Backup::toDistantJson(){
     json jData = data == NULL ? json::object():data->to_json();
 
-    json jOut = json{{key,{
+    json jOut = json{{
+            key,{
                 {"name", name},
                 {"Data", jData}
-
-                    }}};
+            }
+    }};
     return jOut ;
 }
 

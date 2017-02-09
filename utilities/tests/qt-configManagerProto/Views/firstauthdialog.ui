@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>246</width>
-    <height>207</height>
+    <height>225</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,32 +19,34 @@
      <x>43</x>
      <y>24</y>
      <width>169</width>
-     <height>143</height>
+     <height>171</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="userNameLabel">
       <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>12</pointsize>
-       </font>
+       <font/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="text">
-       <string>Nom</string>
+       <string>Login</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="indent">
+       <number>1</number>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="userNameInput">
-      <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-     </widget>
+     <widget class="QLineEdit" name="userNameInput"/>
     </item>
     <item>
      <widget class="QLabel" name="userPassLabel">
@@ -56,6 +58,9 @@
       </property>
       <property name="text">
        <string>Mot de passe</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -94,10 +99,6 @@
    </layout>
   </widget>
  </widget>
- <tabstops>
-  <tabstop>userNameInput</tabstop>
-  <tabstop>userPassInput</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>

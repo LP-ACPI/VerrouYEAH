@@ -77,12 +77,12 @@ class PersistanceTest{
         UnitTest<void*>::insertTitle("Test persistance 2nd utilisateur");
         UnitTest<string>::assertEquals("pass == 'qwertyop'", (string) "qwertyop", testToto->getPassword());
         UnitTest<string>::assertEquals("login == 'login_toto'", (string) "login_toto",testToto->getLogin());
-        UnitTest<size_t>::assertEquals((string) "pas de sauvegardes pour toto",0,toto.getBackups().size());
+        UnitTest<uint32_t>::assertEquals((string) "pas de sauvegardes pour toto",0,toto.getBackups().size());
     }
 
     static void chargementCouplesLoginPass(){
         ConfigManager::getInstance().setJsonFile(TEST_CONFIG_FILE);
-        list<string[2]> users = ConfigManager::getInstance().loadLoginPassList();
+        map<string,string> users = ConfigManager::getInstance().loadLoginPassList();
 
         string loginsAttendus[2] = {"login_test","login_toto"};
         string passAttendus[2] = {"qwertz","qwertyop"};
@@ -90,11 +90,23 @@ class PersistanceTest{
         UnitTest<void*>::insertTitle("Test chargement couples login-mot de passe");
 
         unsigned i = 0;
-        for(string user[2] : users) {
-            UnitTest<string>::assertEquals("login == " +loginsAttendus[i],(string)loginsAttendus[i],  user[0]);
-            UnitTest<string>::assertEquals("pass == "+passAttendus[i],(string)passAttendus[i], user[1]);
+        for(auto user : users) {
+            UnitTest<string>::assertEquals("login == " +loginsAttendus[i],(string)loginsAttendus[i],  user.first);
+            UnitTest<string>::assertEquals("pass == "+passAttendus[i],(string)passAttendus[i], user.second);
             i++;
         }
+    }
+
+
+    static void testSuppressionDUtilisateur(){
+        ConfigManager::getInstance().setJsonFile(TEST_CONFIG_FILE);
+
+        ConfigManager::getInstance().deleteUser("login_toto");
+        map<string,string> users = ConfigManager::getInstance().loadLoginPassList();
+
+        UnitTest<void*>::insertTitle("Test suppression d'utilisateur");
+        UnitTest<int>::assertEquals("nombre d'utilisateurs == 1",1,users.size());
+
     }
 
     static void testPersistanceDesSauvegardesDUtilisateur(){
@@ -120,32 +132,37 @@ class PersistanceTest{
         test_user.replaceBackupAt(1,newBackup);
         Backup *backup_1 = new Backup(test_user.getBackupAt(0));
         Backup *backup_2 = new Backup(test_user.getBackupAt(1));
+        //Dans contrôleur correspondant: choix de telle ou telle sauvegarde à persister
+        // dans backup.getTarget
         ConfigManager::getInstance().saveUsersBackup(&test_user,backup_2);
         ConfigManager::getInstance().saveUsersBackup(&test_user,backup_1);
 
 
 //TODO tests
+        UnitTest<void*>::insertTitle("Test persistance donneés de sauvegardes");
 
+        json test;
+        test << backup_dir;
+        cout << test.dump(2) << endl;
 
-//        json test;
-//        test << backup_dir;
-//        cout << test.dump(2);
-    }
-    void static testLectureFichiersVides(){
-
-//        ConfigManager::getInstance().setJsonFile(".test");
-//        ConfigManager::getInstance().setJsonFile(".test_data");
     }
 
-    static void testMiseAJourDonneDeLaListeDeSauvegardesDUtilisateur(){
+    static void testChargementDeSauvegardeDUtilisateur(){
+        UnitTest<void*>::insertTitle("Test chargement de donneés de sauvegardes");
+
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
         User test_user = *ConfigManager::getInstance().loadUser("login_user_1");
-        Backup backup  = test_user.getBackupAt(0);
+//        Backup backup  = test_user.getBackupAt(0);
 
         ConfigManager::getInstance().setJsonFile(DISTANT_BACKUP_CONFIG_FILE);
-        ConfigManager::getInstance().loadUsersBackups(&test_user);
+        ConfigManager::getInstance().loadUsersBackupData(&test_user,"2");
 
+        Backup backup_test = test_user.getBackupByKey("2");
 
+        const Data* data_test = backup_test.getData();
+
+//        cout << "unit-test: "<< data_test->to_json().dump(2);
+//TODO Tests : debuggage en cours
     }
 
 public:
@@ -155,9 +172,9 @@ public:
         testChargementDUtilisateurs();
         testPersistanceDutilisateurs();
         chargementCouplesLoginPass();
+        testSuppressionDUtilisateur();
         testPersistanceDesSauvegardesDUtilisateur();
-        testMiseAJourDonneDeLaListeDeSauvegardesDUtilisateur();
-        testLectureFichiersVides();
+        testChargementDeSauvegardeDUtilisateur();
     }
 };
 

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/icone_temporaire.png</file>
+        <file>images/LetsEncrypt_Logo.png</file>
+        <file>images/Lock-Unlock-icon.png</file>
+        <file>images/Logo.svg</file>
+        <file>images/logo_temporaire.png</file>
+        <file>images/logo_temporaire_clef.png</file>
+        <file>images/save-icon.png</file>
+        <file>images/trash-icon.png</file>
+    </qresource>
+</RCC>

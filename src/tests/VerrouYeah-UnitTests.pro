@@ -33,7 +33,9 @@ SOURCES	+=  \
     ../models/User.cpp \
     ../services/Crypt.cpp \
     main.cpp \
-    ../services/ConfigManager.cpp
+    ../services/ConfigManager.cpp \
+    ../controllers/UsersBackupsController.cpp \
+    ../controllers/UserController.cpp
 
 HEADERS	+=  \
     ../models/Backup.h \
@@ -47,5 +49,6 @@ HEADERS	+=  \
     persistancetest.hpp \
     usertest.hpp \
     datatest.hpp \
-    ../services/ConfigManager.h
-
+    ../services/ConfigManager.h \
+    ../controllers/UsersBackupsController.h \
+    ../controllers/UserController.h

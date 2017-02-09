@@ -14,7 +14,7 @@ class UserTest{
         UnitTest<void*>::insertTitle("Test utilisateur 'test'");
         UnitTest<std::string>::assertEquals("login == 'test'","test",test.getLogin());
         UnitTest<std::string>::assertEquals("pass == 'test'","test",test.getPassword());
-        UnitTest<size_t>::assertEquals("nb_backups == '0'",0,test.getBackups().size());
+        UnitTest<uint32_t>::assertEquals("nb_backups == '0'",0,test.getBackups().size());
     }
 
     static void testAjoutSauvegardesSansCle(){
@@ -40,7 +40,7 @@ class UserTest{
         test.addBackup(backup3);
         test.addBackup(backup4);
 
-        UnitTest<size_t>::assertEquals("testAjout Sauvegardes Doublons",1,test.getBackups().size());
+        UnitTest<uint32_t>::assertEquals("testAjout Sauvegardes Doublons",1,test.getBackups().size());
     }
 
     static void testSuppressionSauvegardes(){
@@ -58,14 +58,16 @@ class UserTest{
         test.addBackup(backup2);
         test.addBackup(backup3);
         test.addBackup(backup4);
-        UnitTest<size_t>::assertEquals("ajout 4 backups",4,test.getBackups().size());
+        UnitTest<uint32_t>::assertEquals("ajout 4 backups",4,test.getBackups().size());
 
         test.removeBackup(backup1);
         test.removeBackup(backup2);
         test.removeBackup(backup3);
         test.removeBackup(backup4);
+
         UnitTest<size_t>::assertEquals("suppression 4 backups",0,test.getBackups().size());
-   }
+    }
+
 
 public:
     static void executeTests(){
