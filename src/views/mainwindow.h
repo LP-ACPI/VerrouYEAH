@@ -13,7 +13,9 @@ class MainWindow :
     Q_OBJECT
 
     static UsersBackupsController userBcController;
+
     FormSauvegarde *backupForm;
+
 public:
     explicit MainWindow(std::string,QWidget *parent = 0);
     ~MainWindow();

@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
@@ -34,6 +35,7 @@ public:
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QComboBox *loginList;
+    QCheckBox *favoriteUser;
     QSpacerItem *verticalSpacer;
     QLabel *userPassLabel;
     QLineEdit *userPassInput;
@@ -56,22 +58,22 @@ public:
     {
         if (AuthDialog->objectName().isEmpty())
             AuthDialog->setObjectName(QStringLiteral("AuthDialog"));
-        AuthDialog->resize(250, 300);
+        AuthDialog->resize(250, 335);
         AuthDialog->setMinimumSize(QSize(250, 300));
-        AuthDialog->setMaximumSize(QSize(250, 300));
+        AuthDialog->setMaximumSize(QSize(250, 335));
         QIcon icon;
         icon.addFile(QStringLiteral(":/images/icone_temporaire.png"), QSize(), QIcon::Normal, QIcon::Off);
         AuthDialog->setWindowIcon(icon);
         AuthDialog->setStyleSheet(QStringLiteral(""));
         authTabWidget = new QTabWidget(AuthDialog);
         authTabWidget->setObjectName(QStringLiteral("authTabWidget"));
-        authTabWidget->setGeometry(QRect(0, 0, 251, 301));
+        authTabWidget->setGeometry(QRect(0, 0, 251, 341));
         authTabWidget->setStyleSheet(QStringLiteral(""));
         authTab = new QWidget();
         authTab->setObjectName(QStringLiteral("authTab"));
         layoutWidget = new QWidget(authTab);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(20, 110, 211, 138));
+        layoutWidget->setGeometry(QRect(20, 110, 201, 191));
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -81,6 +83,18 @@ public:
 "font-size:21px;"));
 
         verticalLayout->addWidget(loginList);
+
+        favoriteUser = new QCheckBox(layoutWidget);
+        favoriteUser->setObjectName(QStringLiteral("favoriteUser"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(favoriteUser->sizePolicy().hasHeightForWidth());
+        favoriteUser->setSizePolicy(sizePolicy);
+        favoriteUser->setMinimumSize(QSize(0, 28));
+        favoriteUser->setAutoFillBackground(false);
+
+        verticalLayout->addWidget(favoriteUser);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -217,6 +231,10 @@ public:
     void retranslateUi(QDialog *AuthDialog)
     {
         AuthDialog->setWindowTitle(QApplication::translate("AuthDialog", "Authentification", 0));
+#ifndef QT_NO_TOOLTIP
+        favoriteUser->setToolTip(QApplication::translate("AuthDialog", "Connexion automaitique \303\240 cet utilisateur", 0));
+#endif // QT_NO_TOOLTIP
+        favoriteUser->setText(QApplication::translate("AuthDialog", "m\303\251moriser utilisateur", 0));
         userPassLabel->setText(QApplication::translate("AuthDialog", "Mot de passe", 0));
         logo->setText(QApplication::translate("AuthDialog", "Logo", 0));
         authTabWidget->setTabText(authTabWidget->indexOf(authTab), QApplication::translate("AuthDialog", "Identification", 0));

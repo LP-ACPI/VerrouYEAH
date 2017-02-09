@@ -17,13 +17,14 @@ using json=nlohmann::json;
 //
 Directory::Directory(json &jsonData)
 {
+
     for (json::iterator it = jsonData.begin(); it != jsonData.end(); it++){
 
         bool isAFile = it.key() == "file";
 
         // Create a new File and add it to the Directory data
-        if( isAFile )
-        {
+        if( isAFile ){
+
             string fileName = it.value()["name"];
             string filePath = it.value()["path"];
             Data* newData = new File(fileName,filePath);

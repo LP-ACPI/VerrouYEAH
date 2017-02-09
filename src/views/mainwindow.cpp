@@ -41,9 +41,6 @@ void MainWindow::dropEvent(QDropEvent *event)
              backupForm->show();
              backupForm->setSourceText(fileInfo.absoluteFilePath());
              event->acceptProposedAction();
-         } else {
-             QMessageBox::warning(this, "Attention!",
-                 "Cet élément n'est pas un dossier!");
          }
      }
 

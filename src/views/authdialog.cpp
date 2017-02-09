@@ -20,6 +20,7 @@ AuthDialog::AuthDialog(QWidget *parent):
     QPixmap appLogo(":/images/logo_temporaire.png");
     logo->setScaledContents(true);
     logo->setPixmap(appLogo);
+
 }
 
 AuthDialog::~AuthDialog(){
@@ -37,6 +38,7 @@ void AuthDialog::on_authButtonBox_accepted(){
         return;
     }
 
+    updateOrNotFavoriteUser(login);
     proceedToMainWindow(login);
 }
 
@@ -91,6 +93,12 @@ bool AuthDialog::validation(bool emptyInputs,bool nonCorrespondingConfirm){
         return false;
     }
     return true;
+}
+
+void AuthDialog::updateOrNotFavoriteUser(std::string userLogin){
+    if(favoriteUser->isChecked())
+        userController.setFavoriteUser(userLogin);
+    else userController.unsetFavoriteUser();
 }
 
 void AuthDialog::on_subscriptButtonBox_rejected(){

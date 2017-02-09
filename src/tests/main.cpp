@@ -10,6 +10,7 @@
 #include "persistancetest.hpp"
 #include "usertest.hpp"
 #include "datatest.hpp"
+#include "ftptest.hpp"
 
 
 using namespace std;
@@ -28,6 +29,7 @@ int main()
     UserTest::executeTests();
     PersistanceTest::executeTests();
     DataTest::executeTests();
+    FtpTest::executeTests();
 
     UnitTest<void*>::results();
 

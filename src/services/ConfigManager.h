@@ -24,7 +24,7 @@ private:
         std::string configFilename;
 
         json readOrInitRootUsers();
-        Data* parseDataFromJson(Data*,json&);
+        json readOrInitAppRoot();
 
         ConfigManager() : configFilename("config.json")
         {}
@@ -43,6 +43,9 @@ public:
         void loadUsersBackupData(User*,std::string);
         void loadUsersBackupList(User*);
 
+        void setFavoriteUser(std::string);
+        void unsetFavoriteUser();
+        User* loadFavoriteUser();
         json saveUser(User*);
         json saveUsersBackup(User*,Backup*);
 

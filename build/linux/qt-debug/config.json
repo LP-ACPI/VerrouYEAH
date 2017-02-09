@@ -1,0 +1,11 @@
+{
+  "VerrouYeah": {
+    "fav_user": "test"
+  },
+  "users": {
+    "test": {
+      "backups": null,
+      "password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
+    }
+  }
+}

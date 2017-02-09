@@ -6,7 +6,10 @@
 #include <QLibraryInfo>
 #include <QTranslator>
 #include <QLocale>
+#include <QDebug>
 #include "views/authdialog.h"
+#include "views/mainwindow.h"
+#include "controllers/UserController.h"
 
 #define PATH_SOURCE "fichier_source.txt"
 #define PATH_VY "fichier_crypte.vy"
@@ -29,8 +32,14 @@ int main(int argc, char* argv[])
     tr.load(QString("qt_")+locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&tr);
 
-    AuthDialog auth;
-    auth.show();
+    AuthDialog aWindow;
+
+
+    if(UserController::getInstance().favoriteUserExists()){
+        std::string userLogin = UserController::getInstance().getFavoriteUser();
+        aWindow.proceedToMainWindow(userLogin);
+   } else
+        aWindow.show();
 
     return a.exec();
 }

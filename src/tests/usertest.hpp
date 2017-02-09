@@ -20,10 +20,7 @@ class UserTest{
     static void testAjoutSauvegardesSansCle(){
         UnitTest<void*>::insertTitle("Test ajout sauvegardes avec clés identiques");
 
-        //Backup backup1();
-        //cout << backup1.getKey() << endl;
-
-        //    UnitTest<std::string>::assertEquals("testAjout Sauvegardes Doublons",backup1.getKey(), backup2.getKey() );
+//        UnitTest<std::string>::assertEquals("testAjout Sauvegardes Doublons",backup1.getKey(), backup2.getKey() );
     }
 
     static void testAjoutSauvegardesDoublons(){
@@ -74,7 +71,7 @@ public:
         testUtilisateurTestPardefaut();
         testAjoutSauvegardesDoublons();
         testSuppressionSauvegardes();
-        testAjoutSauvegardesSansCle();
+//        testAjoutSauvegardesSansCle();
     }
 };
 

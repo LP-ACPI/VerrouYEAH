@@ -14,7 +14,6 @@ public:
     void setSourceText(QString);
 
 private:
-    Ui::FormSauvegarde *ui;
 };
 
 #endif // FORMSAUVEGARDE_H

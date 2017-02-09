@@ -11,9 +11,10 @@ class AuthDialog :
 {
     Q_OBJECT
     static UserController userController;
-    void proceedToMainWindow(std::string);
+    void updateOrNotFavoriteUser(std::string);
     bool validation(bool,bool);
 public:
+    void proceedToMainWindow(std::string);
     explicit AuthDialog(QWidget *parent = 0);
     ~AuthDialog();
 

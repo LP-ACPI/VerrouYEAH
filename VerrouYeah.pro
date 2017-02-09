@@ -1,5 +1,5 @@
 
-QT += core gui
+QT += network core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,6 +34,7 @@ SOURCES	+=  \
     src/models/User.cpp \
     src/services/Crypt.cpp \
     src/services/ConfigManager.cpp \
+    src/services/ftp.cpp \
     src/controllers/UserController.cpp \
     src/controllers/UsersBackupsController.cpp \
     src/views/authdialog.cpp \
@@ -51,6 +52,7 @@ HEADERS	+=  \
     src/models/User.h \
     src/services/Crypt.h \
     src/services/ConfigManager.h \
+    src/services/ftp.h \
     src/controllers/UserController.h \
     src/controllers/UsersBackupsController.h \
     src/views/authdialog.h \

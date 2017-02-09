@@ -5,6 +5,7 @@
 #include "ConfigManager.h"
 #include "../models/Directory.h"
 #include "../models/File.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -28,7 +29,7 @@ User* ConfigManager::loadUser(string login){
     try{
         user_config = readOrInitRootUsers().at(login);
     }catch(exception){//TODO: Throw
-        cerr << "pas d'utilisateur" << login << endl;
+       cerr << "pas d'utilisateur" << login << endl;
     }
 
     string password = user_config["password"];
@@ -56,32 +57,8 @@ User* ConfigManager::loadUser(string login){
         backup.setFrequency(frequency);
         user->addBackup(backup);
     }
+
     return user ;
-}
-
-//NEED HELP: parcours recursif du dossier racine. ne récupére que le dernier fichier
-//(utilisé dans  loadUsersBackups(User*).
-//Data* en param pour conserver ce qui est parcourru)
-
-Data* ConfigManager::parseDataFromJson( Data *data,json &jsonData){
-    for (json::iterator it = jsonData.begin(); it != jsonData.end(); ++it){
-        if( it.key() == "file") {
-
-            data =  new File(it.value()["name"],it.value()["path"]);
-
-        } else {
-            //NEED HELP
-            Directory *dir = new Directory(it.key(),it.value()["path"]);
-            data =  parseDataFromJson(dir, it.value()["data"]);
-
-            dir->addData( data );
-            data = dir;
-
-        }
-            //Ici, on voit que le parcours es bien complet
-            cout << *data;
-    }
-    return data;
 }
 
 
@@ -91,18 +68,14 @@ void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
     if(users_backup["Data"] != NULL){
 
-        //Data *data = parseDataFromJson(data,users_backup["Data"]);
-        Data *data = new Directory(users_backup["Data"]);
-
-        //Mais pas ici.
-        cout << data->to_json().dump(2);
+        Directory *root = new Directory(users_backup["Data"]);
+        Data *data = &root->getDataAt(0);
 
         Backup new_backup = user->getBackupByKey(backupKey);
         new_backup.setData(data);
         Backup old_backup = user->getBackupByKey(backupKey);
         user->replaceBackup(old_backup,new_backup);
     }
-
 }
 
 void ConfigManager::loadUsersBackupList(User* user){
@@ -111,7 +84,7 @@ void ConfigManager::loadUsersBackupList(User* user){
 
         for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
 
-            Data * data = parseDataFromJson(data,it.value().at("Data"));
+            Data * data =  new Directory(it.value().at("Data"));
             //Mais pas ici.
             if(data != NULL)//Vérif nécessaire dans le cas de tests
                 cout << data->to_json().dump(2);
@@ -121,8 +94,27 @@ void ConfigManager::loadUsersBackupList(User* user){
         }
 }
 
-json ConfigManager::saveUser(User *user){
 
+void ConfigManager::setFavoriteUser(std::string login){
+    config["VerrouYeah"]["fav_user"] = login;
+    persist();
+}
+
+void ConfigManager::unsetFavoriteUser(){
+    config.at("VerrouYeah").erase("fav_user");
+    persist();
+}
+
+User* ConfigManager::loadFavoriteUser(){
+    json app_root = readOrInitAppRoot();
+    if(app_root["fav_user"]!= NULL){
+        return loadUser(app_root["fav_user"]);
+    } else
+        return NULL;
+
+}
+
+json ConfigManager::saveUser(User *user){
     json jsonUser;
     config["users"] = merge(config["users"],jsonUser << *user);
     persist();
@@ -170,12 +162,15 @@ void ConfigManager::setJsonFile(string newConfigFileName){
     config         = json::object();
 
     fstream configFile;
-    configFile.open(configFilename, fstream::in | fstream::out );
+    configFile.open(configFilename, fstream::in);
     if(!configFile){
         configFile.open(configFilename,  fstream::in | fstream::out | fstream::app);
-    } else configFile >> config;
+    } else {
+        try{
+            configFile >> config;
+        }catch(const std::invalid_argument&){}
+    }
     configFile.close();
-
 }
 
 void ConfigManager::persist(){
@@ -195,12 +190,23 @@ json ConfigManager::merge(const json &a, const json &b)
     return result.unflatten();
 }
 
+json ConfigManager::readOrInitAppRoot(){
+    json app_root;
+    try{
+         app_root = config.at("VerrouYeah");
+    }catch(const out_of_range&){
+        config["VerrouYeah"] = json({});
+        app_root = config.at("VerrouYeah");
+    }
+    return app_root;
+}
+
 json ConfigManager::readOrInitRootUsers(){
     json user_root;
     try{
          user_root = config.at("users");
     }catch(const out_of_range&){
-        config = "{\"users\" : {} }"_json;
+        config["users"] = json({});
         user_root = config.at("users");
     }
     return user_root;

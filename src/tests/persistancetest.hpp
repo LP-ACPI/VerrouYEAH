@@ -161,7 +161,9 @@ class PersistanceTest{
 
         const Data* data_test = backup_test.getData();
 
-//        cout << "unit-test: "<< data_test->to_json().dump(2);
+        cout << "unit-test: "<< data_test->to_json().dump(2);
+
+
 //TODO Tests : debuggage en cours
     }
 

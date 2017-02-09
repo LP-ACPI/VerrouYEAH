@@ -4,7 +4,7 @@
 #include <iostream>
 #include "../models/User.h"
 #include "../services/ConfigManager.h"
-#define CONFIG_FILE "../config_test.json"
+#define CONFIG_FILE "config.json"
 
 class UserController
 {
@@ -32,6 +32,10 @@ public:
 
     bool authentifyUser(std::string, std::string);
 
+    bool favoriteUserExists();
+    std::string getFavoriteUser();
+    void setFavoriteUser(std::string);
+    void unsetFavoriteUser();
     void updateUser(std::string,std::string,std::string);
     bool createUser(std::string,std::string);
     void deleteUser(std::string);

@@ -1,5 +1,7 @@
-QT += core
+QT += network core
 QT -= gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += console c++11
 
@@ -32,10 +34,11 @@ SOURCES	+=  \
     ../models/Scheduler.cpp \
     ../models/User.cpp \
     ../services/Crypt.cpp \
-    main.cpp \
     ../services/ConfigManager.cpp \
+    ../services/Ftp.cpp \
     ../controllers/UsersBackupsController.cpp \
-    ../controllers/UserController.cpp
+    ../controllers/UserController.cpp \
+    main.cpp
 
 HEADERS	+=  \
     ../models/Backup.h \
@@ -46,9 +49,11 @@ HEADERS	+=  \
     ../models/Scheduler.h \
     ../models/User.h \
     ../services/Crypt.h \
+    ../services/ConfigManager.h \
+    ../services/Ftp.h \
+    ../controllers/UsersBackupsController.h \
+    ../controllers/UserController.h \
     persistancetest.hpp \
     usertest.hpp \
     datatest.hpp \
-    ../services/ConfigManager.h \
-    ../controllers/UsersBackupsController.h \
-    ../controllers/UserController.h
+    ftptest.hpp

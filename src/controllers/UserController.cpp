@@ -2,6 +2,23 @@
 #include <openssl/sha.h>
 #include <QDebug>
 
+
+bool UserController::favoriteUserExists(){
+    return ConfigManager::getInstance().loadFavoriteUser() != NULL;
+}
+
+std::string UserController::getFavoriteUser(){
+    return ConfigManager::getInstance().loadFavoriteUser()->getLogin();
+}
+
+void UserController::setFavoriteUser(std::string userLogin){
+    ConfigManager::getInstance().setFavoriteUser(userLogin);
+}
+
+void UserController::unsetFavoriteUser(){
+    ConfigManager::getInstance().unsetFavoriteUser();
+}
+
 void UserController::loadLoginsPassCouples(){
     userLoginPassCouples = ConfigManager::getInstance().loadLoginPassList();
 }
