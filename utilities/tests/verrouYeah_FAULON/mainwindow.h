@@ -1,13 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "ui_mainwindow.h"
 #include <QMainWindow>
 
-namespace Ui {
-class MainWindow;
-}
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, Ui::MainWindow
 {
     Q_OBJECT
 

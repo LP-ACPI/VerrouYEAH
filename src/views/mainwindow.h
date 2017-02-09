@@ -13,14 +13,15 @@ class MainWindow :
     Q_OBJECT
 
     static UsersBackupsController userBcController;
-    FormSauvegarde *fBackup;
+    FormSauvegarde *backupForm;
 public:
     explicit MainWindow(std::string,QWidget *parent = 0);
     ~MainWindow();
-signals:
 
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
+signals:
+
 
 protected slots:
     void on_newBackupButton_clicked();

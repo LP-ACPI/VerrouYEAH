@@ -93,7 +93,7 @@ void BackupItemWidget::mouseMoveEvent(QMouseEvent *event)
       drag->setPixmap(dragIcon.scaledToHeight( 50 ));
 
        Qt::DropAction dropAction = drag->exec( Qt::CopyAction );
-       qDebug()<<  drag->target()
+       qDebug()<< drag->target()
                << dropAction
                << event->pos() .x();
 }

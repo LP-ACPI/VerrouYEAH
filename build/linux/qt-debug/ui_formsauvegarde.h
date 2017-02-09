@@ -39,13 +39,13 @@ public:
     QLineEdit *targetInput;
     QLabel *label_3;
     QDialogButtonBox *authButtonBox;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout;
     QLabel *label_4;
     QComboBox *comboBox;
     QSpacerItem *horizontalSpacer;
     QTimeEdit *timeEdit;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_5;
     QTextEdit *notesInput;
@@ -98,18 +98,18 @@ public:
         authButtonBox->setOrientation(Qt::Horizontal);
         authButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Save);
         authButtonBox->setCenterButtons(false);
-        widget = new QWidget(FormSauvegarde);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(30, 200, 281, 26));
-        horizontalLayout = new QHBoxLayout(widget);
+        layoutWidget = new QWidget(FormSauvegarde);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(30, 200, 281, 26));
+        horizontalLayout = new QHBoxLayout(layoutWidget);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        label_4 = new QLabel(widget);
+        label_4 = new QLabel(layoutWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
 
         horizontalLayout->addWidget(label_4);
 
-        comboBox = new QComboBox(widget);
+        comboBox = new QComboBox(layoutWidget);
         comboBox->setObjectName(QStringLiteral("comboBox"));
 
         horizontalLayout->addWidget(comboBox);
@@ -118,24 +118,24 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        timeEdit = new QTimeEdit(widget);
+        timeEdit = new QTimeEdit(layoutWidget);
         timeEdit->setObjectName(QStringLiteral("timeEdit"));
 
         horizontalLayout->addWidget(timeEdit);
 
-        widget1 = new QWidget(FormSauvegarde);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(30, 240, 281, 81));
-        horizontalLayout_2 = new QHBoxLayout(widget1);
+        layoutWidget1 = new QWidget(FormSauvegarde);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(30, 240, 281, 81));
+        horizontalLayout_2 = new QHBoxLayout(layoutWidget1);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_5 = new QLabel(widget1);
+        label_5 = new QLabel(layoutWidget1);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
         horizontalLayout_2->addWidget(label_5);
 
-        notesInput = new QTextEdit(widget1);
+        notesInput = new QTextEdit(layoutWidget1);
         notesInput->setObjectName(QStringLiteral("notesInput"));
 
         horizontalLayout_2->addWidget(notesInput);

@@ -22,6 +22,9 @@
     <height>400</height>
    </size>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>VerrouYeah !</string>
   </property>
@@ -69,6 +72,9 @@
          <width>541</width>
          <height>61</height>
         </rect>
+       </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Nouvelle sauvegarde</string>

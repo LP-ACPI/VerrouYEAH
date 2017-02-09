@@ -15,10 +15,10 @@ FormSauvegarde::FormSauvegarde(QWidget *parent) :
 
 }
 
-
 FormSauvegarde::~FormSauvegarde()
 {}
 
 void FormSauvegarde::setSourceText(QString cheminSource){
-
+    sourceInput->setText(cheminSource);
+    sourceInput->setToolTip(cheminSource);
 }

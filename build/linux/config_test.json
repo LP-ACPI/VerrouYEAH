@@ -1,9 +1,5 @@
 {
   "users": {
-    "654": {
-      "backups": null,
-      "password": "db00e4fdc8a6d8fc749a23649c9ec9343051ec47"
-    },
     "login_test": {
       "backups": [
         {
@@ -15,6 +11,7 @@
           "key": "1",
           "last_save": "JJ-MM-AAAA",
           "name": "Ma première sauvegarde",
+          "note": "",
           "src": "chemin/source"
         },
         {
@@ -26,14 +23,15 @@
           "key": "2",
           "last_save": "JJ-MM-AAAA",
           "name": "Ma seconde sauvegarde",
+          "note": "",
           "src": "chemin/source"
         }
       ],
       "password": "qwertz"
     },
-    "login_toto": {
+    "toto": {
       "backups": null,
-      "password": "qwertyop"
+      "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c"
     }
   }
 }

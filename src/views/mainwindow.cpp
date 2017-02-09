@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include <QtGui>
+#include <QMessageBox>
+
 UsersBackupsController MainWindow::userBcController = UsersBackupsController::getInstance();
 
 MainWindow::MainWindow(std::string user, QWidget *parent) :
@@ -7,16 +9,17 @@ MainWindow::MainWindow(std::string user, QWidget *parent) :
 {
     userBcController.setUser(user);
     setupUi(this);
-    newBackupButton->acceptDrops();
+    newBackupButton->setAcceptDrops(true);
 }
 
-MainWindow::~MainWindow()
-{}
+MainWindow::~MainWindow(){
+    delete backupForm;
+}
 
 
 void MainWindow::on_newBackupButton_clicked(){
-    FormSauvegarde *fenetreBackup = new FormSauvegarde(this);
-    fenetreBackup->show();
+    backupForm = new FormSauvegarde(this);
+    backupForm->show();
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -28,12 +31,20 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
-    if(event->mimeData()->hasUrls())
-    {
-        event->acceptProposedAction();
+    QList<QUrl> droppedUrls = event->mimeData()->urls();
+     int droppedUrlCnt = droppedUrls.size();
+     for(int i = 0; i < droppedUrlCnt; i++) {
+         QString localPath = droppedUrls[i].toLocalFile();
+         QFileInfo fileInfo(localPath);
+         if(fileInfo.isDir()) {
+             backupForm = new FormSauvegarde(this);
+             backupForm->show();
+             backupForm->setSourceText(fileInfo.absoluteFilePath());
+             event->acceptProposedAction();
+         } else {
+             QMessageBox::warning(this, "Attention!",
+                 "Cet élément n'est pas un dossier!");
+         }
+     }
 
-        FormSauvegarde *fenetreBackup = new FormSauvegarde(this);
-        fenetreBackup->show();
-        fenetreBackup->setSourceText(event->mimeData()->text());
-    }
 }
