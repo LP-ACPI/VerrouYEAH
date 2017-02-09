@@ -14,7 +14,6 @@ using json=nlohmann::json;
 // Donnée :     un fichier json
 // Stratégie :  construit récursivement un arbre formé de Datas (Directory et Files) ayant pour base un Directory (càd l'objet implicite).
 //
-//
 Directory::Directory(json &jsonData)
 {
 
