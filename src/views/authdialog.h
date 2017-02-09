@@ -1,7 +1,7 @@
 #ifndef AUTHDIALOG_H
 #define AUTHDIALOG_H
 
-#include "ui_firstauthdialog.h"
+#include "ui_authdialog.h"
 #include "../controllers/UserController.h"
 #include <QDialog>
 

@@ -15,5 +15,10 @@ FormSauvegarde::FormSauvegarde(QWidget *parent) :
 
 }
 
+
 FormSauvegarde::~FormSauvegarde()
 {}
+
+void FormSauvegarde::setSourceText(QString cheminSource){
+
+}

@@ -60,9 +60,9 @@ HEADERS	+=  \
 FORMS	+=  \
     src/views/forms/backupform.ui \
     src/views/forms/backupwidget.ui \
-    src/views/forms/firstauthdialog.ui \
-    src/views/forms/homewindow.ui \
-    src/views/forms/formsauvegarde.ui
+    src/views/forms/formsauvegarde.ui \
+    src/views/forms/mainwindow.ui \
+    src/views/forms/authdialog.ui
 
 RESOURCES += \
     res/res.qrc

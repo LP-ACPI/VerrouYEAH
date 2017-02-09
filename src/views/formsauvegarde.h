@@ -11,6 +11,7 @@ class FormSauvegarde : public QDialog, private Ui::FormSauvegarde
 public:
     explicit FormSauvegarde(QWidget *parent = 0);
     ~FormSauvegarde();
+    void setSourceText(QString);
 
 private:
     Ui::FormSauvegarde *ui;

@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ui_homewindow.h"
+#include "ui_mainwindow.h"
 #include "formsauvegarde.h"
 #include "../controllers/UsersBackupsController.h"
 #include <QMainWindow>
@@ -18,6 +18,9 @@ public:
     explicit MainWindow(std::string,QWidget *parent = 0);
     ~MainWindow();
 signals:
+
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
 
 protected slots:
     void on_newBackupButton_clicked();
