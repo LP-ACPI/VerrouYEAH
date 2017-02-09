@@ -1,17 +1,30 @@
 #include "Scheduler.h"
+#include <chrono>
+using namespace std;
+
 Scheduler Scheduler::instance = Scheduler();
 
-static Scheduler& Scheduler::getInstance()
+void Scheduler::saveLoop()
 {
-    return instance;
+    for(auto it = saves.begin();it != saves.end();++it)
+        if(it->getFrequency().isNow())
+            it->saveData();
+
+
+    if(loop)
+    {
+        this_thread::sleep_for(chrono::seconds(60));
+        saveLoop();
+    }
 }
+
 
 void Scheduler::start()
 {
     if(!loop)
     {
         loop = true;
-        th = new std::thread([this] {saveLoop();});
+        th = new thread([this] {saveLoop();});
     }
 }
 

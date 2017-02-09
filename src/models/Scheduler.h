@@ -14,19 +14,13 @@ class Scheduler {
 
     Scheduler():saves(std::vector<Backup>()),loop(false),th(NULL)
     {}
-
-    void saveLoop()
-    {
-        for(auto it = saves.begin();it != saves.end();++it)
-            if(it->getFrequency().isNow())
-                it->saveData();
-
-        if(loop)
-            saveLoop();
-    }
+    void saveLoop();
 
 public:
-    static Scheduler& getInstance();
+    static Scheduler& getInstance()
+    {
+        return instance;
+    }
     void start();
     void stop();
     void add(Backup& backup);
