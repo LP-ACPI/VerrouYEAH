@@ -7,7 +7,7 @@ void UsersBackupsController::setUser(std::string login){
 
 void UsersBackupsController::createUsersBackup(Backup *backup){
     //TODO cryptage ici + démarrage du scheduler
-    //ou plutôt un BackupController qui s'en charge + met à jour du dossier distant
+    //ou plutôt un BackupController qui s'en charge + mise à jour du dossier distant
     user->addBackup(*backup);
     ConfigManager::getInstance().saveUser(user);
 }

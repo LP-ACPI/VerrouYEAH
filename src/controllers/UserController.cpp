@@ -2,9 +2,12 @@
 #include <openssl/sha.h>
 #include <QDebug>
 
+void UserController::setCurrentUser(std::string login)
+{  currentUser = ConfigManager::getInstance().loadUser(login);   }
 
 bool UserController::favoriteUserExists(){
-    return ConfigManager::getInstance().loadFavoriteUser() != NULL;
+    currentUser = ConfigManager::getInstance().loadFavoriteUser() ;
+    return currentUser != NULL;
 }
 
 std::string UserController::getFavoriteUser(){
@@ -39,15 +42,14 @@ bool UserController::createUser(std::string userLogin, std::string userPass){
     return false;
 }
 
-void UserController::updateUser(std::string oldLogin,std::string newLogin, std::string newPass){
-    ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
-    ConfigManager::getInstance().deleteUser(oldLogin);
+void UserController::updateUser(std::string newLogin, std::string newPass){
+    deleteUser();
     createUser(newLogin,newPass);
 }
 
-void UserController::deleteUser(std::string  userLogin){
+void UserController::deleteUser(){
     ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
-    ConfigManager::getInstance().deleteUser(userLogin);
+    ConfigManager::getInstance().deleteUser(currentUser->getLogin());
 }
 
 std::string UserController::generateHashedPass(std::string userPass){

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>UserFormDialog</class>
+ <widget class="QDialog" name="UserFormDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>242</width>
-    <height>300</height>
+    <height>295</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTabWidget" name="modifyUser">
+  <widget class="QTabWidget" name="userFormTabs">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -43,11 +43,11 @@
    <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab">
+   <widget class="QWidget" name="modifyUser">
     <attribute name="title">
      <string>Modifcation</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -71,7 +71,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="loginInput">
         <property name="styleSheet">
          <string notr="true">font-size:25px</string>
         </property>
@@ -91,7 +91,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="autoUserCheck">
         <property name="layoutDirection">
          <enum>Qt::RightToLeft</enum>
         </property>
@@ -130,7 +130,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="passInput"/>
       </item>
       <item>
        <spacer name="horizontalSpacer">
@@ -161,7 +161,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_2">
+   <widget class="QWidget" name="deleteUser">
     <attribute name="title">
      <string>Suppression</string>
     </attribute>
@@ -178,7 +178,7 @@
       <string>warnicon</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -232,7 +232,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>UserFormDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -248,7 +248,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>UserFormDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

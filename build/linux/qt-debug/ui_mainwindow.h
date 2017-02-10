@@ -32,6 +32,7 @@ public:
     QAction *actionRAZ;
     QAction *actionUtilisateur;
     QAction *action_propos;
+    QAction *actionDeconnexion;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QFrame *zoneDrop;
@@ -59,6 +60,8 @@ public:
         actionUtilisateur->setObjectName(QStringLiteral("actionUtilisateur"));
         action_propos = new QAction(HomeWindow);
         action_propos->setObjectName(QStringLiteral("action_propos"));
+        actionDeconnexion = new QAction(HomeWindow);
+        actionDeconnexion->setObjectName(QStringLiteral("actionDeconnexion"));
         centralWidget = new QWidget(HomeWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setStyleSheet(QStringLiteral(""));
@@ -99,6 +102,8 @@ public:
         menuBar->addAction(menuVerrouYEAH_accueil->menuAction());
         menuBar->addAction(menu_aide->menuAction());
         menuVerrouYEAH_accueil->addAction(actionUtilisateur);
+        menuVerrouYEAH_accueil->addSeparator();
+        menuVerrouYEAH_accueil->addAction(actionDeconnexion);
         menu_aide->addAction(action_propos);
 
         retranslateUi(HomeWindow);
@@ -112,6 +117,7 @@ public:
         actionRAZ->setText(QApplication::translate("HomeWindow", "RAZ", 0));
         actionUtilisateur->setText(QApplication::translate("HomeWindow", "Utilisateur", 0));
         action_propos->setText(QApplication::translate("HomeWindow", "\303\240 propos", 0));
+        actionDeconnexion->setText(QApplication::translate("HomeWindow", "D\303\251connexion", 0));
         newBackupButton->setText(QApplication::translate("HomeWindow", "Nouvelle sauvegarde", 0));
         menuVerrouYEAH_accueil->setTitle(QApplication::translate("HomeWindow", "options", 0));
         menu_aide->setTitle(QApplication::translate("HomeWindow", "aide", 0));

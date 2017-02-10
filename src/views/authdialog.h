@@ -13,10 +13,12 @@ class AuthDialog :
     static UserController userController;
     void updateOrNotFavoriteUser(std::string);
     bool validation(bool,bool);
+
 public:
-    void proceedToMainWindow(std::string);
     explicit AuthDialog(QWidget *parent = 0);
     ~AuthDialog();
+
+    void proceedToMainWindow(std::string);
 
 protected slots:
     void on_authButtonBox_accepted();

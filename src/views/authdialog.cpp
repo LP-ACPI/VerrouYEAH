@@ -106,6 +106,7 @@ void AuthDialog::on_subscriptButtonBox_rejected(){
 }
 
 void AuthDialog::proceedToMainWindow(std::string login){
+    UserController::getInstance().setCurrentUser(login);
     MainWindow *mainWindow = new MainWindow(login);
     mainWindow->show();
     this->close();

@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include "ui_mainwindow.h"
-#include "formsauvegarde.h"
+#include "backupform.h"
+#include "userform.h"
 #include "../controllers/UsersBackupsController.h"
 #include <QMainWindow>
 
@@ -14,7 +15,8 @@ class MainWindow :
 
     static UsersBackupsController userBcController;
 
-    FormSauvegarde *backupForm;
+    BackupForm *backupForm;
+    UserForm *userForm;
 
 public:
     explicit MainWindow(std::string,QWidget *parent = 0);
@@ -27,7 +29,7 @@ signals:
 
 protected slots:
     void on_newBackupButton_clicked();
-
+    void on_actionUtilisateur_triggered();
 };
 
 #endif // MAINWINDOW_H

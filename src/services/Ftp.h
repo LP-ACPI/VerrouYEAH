@@ -26,13 +26,18 @@ public:
     Ftp(std::string host,
         std::string username,
         std::string pass,
+        int portNumber = 21,
         bool rewriteFile = true,
         QObject *parent=0): QObject(parent)
-    {   prepareFtp(host,username,pass,rewriteFile); }
+    {   prepareFtp(host,username,pass,portNumber,rewriteFile); }
 
     ~Ftp();
 
-    void prepareFtp(std::string,std::string,std::string,bool rewriteFile = true);
+    void prepareFtp(std::string,
+                    std::string,
+                    std::string,
+                    int portNumber,
+                    bool rewriteDownloadFile);
     bool ftpUpload(std::string,std::string);
     bool ftpDownload(std::string,std::string);
 

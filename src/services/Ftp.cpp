@@ -12,7 +12,11 @@
  *
  * only public, simple, SSL free ftp(or http) servers
  */
-void Ftp::prepareFtp(std::string host,std::string username,std::string pass, bool rewriteFile){
+void Ftp::prepareFtp(std::string host,
+                     std::string username,
+                     std::string pass,
+                     int portNumber,
+                     bool rewriteDownloadFile){
 
     networkAccessMan = new QNetworkAccessManager(this);
 
@@ -20,10 +24,10 @@ void Ftp::prepareFtp(std::string host,std::string username,std::string pass, boo
     url->setHost(this->host);
     url->setUserName(QString::fromStdString(username));
     url->setPassword(QString::fromStdString(pass));
-    url->setPort(21);
+    url->setPort(portNumber);
     requestCanceled = false;
 
-    rewriteDownloadedFile = rewriteFile;
+    rewriteDownloadedFile = rewriteDownloadFile;
 }
 
 /**
@@ -172,10 +176,11 @@ void Ftp::ftpReadyRead()
  */
 void Ftp::requestFinished() {
 
-    QNetworkReply *networkReply = (QNetworkReply*)sender();
-    if(!networkReply->error()){
-           std::cout << networkReply->objectName().toStdString() << " transféré!" << std::endl;
-    }
+    if(!networkReply->error())
+           std::cout << networkReply->objectName().toStdString()
+                << " transféré!"
+            << std::endl;
+
 
     networkReply->deleteLater();
     if(!requestCanceled){
@@ -187,7 +192,6 @@ void Ftp::requestFinished() {
             file = 0;
         }
     }
-
 
     emit finished();
 }

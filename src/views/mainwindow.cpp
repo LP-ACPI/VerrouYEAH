@@ -14,12 +14,18 @@ MainWindow::MainWindow(std::string user, QWidget *parent) :
 
 MainWindow::~MainWindow(){
     delete backupForm;
+    delete userForm;
 }
 
 
 void MainWindow::on_newBackupButton_clicked(){
-    backupForm = new FormSauvegarde(this);
+    backupForm = new BackupForm(this);
     backupForm->show();
+}
+
+void MainWindow::on_actionUtilisateur_triggered(){
+    userForm = new UserForm(this);
+    userForm->show();
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -37,7 +43,7 @@ void MainWindow::dropEvent(QDropEvent *event)
          QString localPath = droppedUrls[i].toLocalFile();
          QFileInfo fileInfo(localPath);
          if(fileInfo.isDir()) {
-             backupForm = new FormSauvegarde(this);
+             backupForm = new BackupForm(this);
              backupForm->show();
              backupForm->setSourceText(fileInfo.absoluteFilePath());
              event->acceptProposedAction();

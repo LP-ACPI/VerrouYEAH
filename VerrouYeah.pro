@@ -39,8 +39,9 @@ SOURCES	+=  \
     src/controllers/UsersBackupsController.cpp \
     src/views/authdialog.cpp \
     src/views/mainwindow.cpp \
-    src/views/formsauvegarde.cpp \
-    src/main.cpp
+    src/main.cpp \
+    src/views/backupform.cpp \
+    src/views/userform.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -57,14 +58,15 @@ HEADERS	+=  \
     src/controllers/UsersBackupsController.h \
     src/views/authdialog.h \
     src/views/mainwindow.h \
-    src/views/formsauvegarde.h
+    src/views/backupform.h \
+    src/views/userform.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
-    src/views/forms/formsauvegarde.ui \
     src/views/forms/mainwindow.ui \
     src/views/forms/authdialog.ui \
-    src/views/forms/userformdialog.ui
+    src/views/forms/userformdialog.ui \
+    src/views/forms/backupformdialog.ui
 
 RESOURCES += \
     res/res.qrc

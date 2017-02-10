@@ -234,7 +234,7 @@ public:
 #ifndef QT_NO_TOOLTIP
         favoriteUser->setToolTip(QApplication::translate("AuthDialog", "Connexion automaitique \303\240 cet utilisateur", 0));
 #endif // QT_NO_TOOLTIP
-        favoriteUser->setText(QApplication::translate("AuthDialog", "m\303\251moriser utilisateur", 0));
+        favoriteUser->setText(QApplication::translate("AuthDialog", "connexion automatique", 0));
         userPassLabel->setText(QApplication::translate("AuthDialog", "Mot de passe", 0));
         logo->setText(QApplication::translate("AuthDialog", "Logo", 0));
         authTabWidget->setTabText(authTabWidget->indexOf(authTab), QApplication::translate("AuthDialog", "Identification", 0));

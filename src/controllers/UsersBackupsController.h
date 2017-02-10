@@ -18,6 +18,9 @@ public:
 
     void setUser(std::string);
 
+    User* getUsersBackup() const
+    {   return user;    }
+
     void createUsersBackup(Backup*);
     Backup getUsersBackup(std::string);
     void updateUsersBackup(Backup*);

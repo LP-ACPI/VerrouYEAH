@@ -12,7 +12,9 @@ class UserController
     std::string generateHashedPass(std::string);
 
     UserController()
-    {}
+    { currentUser = NULL;   }
+
+    const User *currentUser;
 
 public:
 
@@ -36,9 +38,18 @@ public:
     std::string getFavoriteUser();
     void setFavoriteUser(std::string);
     void unsetFavoriteUser();
-    void updateUser(std::string,std::string,std::string);
+
+    const std::string getCurrentUserLogin() const
+    {   return currentUser->getLogin(); }
+
+    const std::string getCurrentUserPass() const
+    {   return currentUser->getPassword(); }
+
+    void setCurrentUser(std::string);
+
+    void updateUser(std::string,std::string);
     bool createUser(std::string,std::string);
-    void deleteUser(std::string);
+    void deleteUser();
 };
 
 #endif // USERCONTROLLER_H
