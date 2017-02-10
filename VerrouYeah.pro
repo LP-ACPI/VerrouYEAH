@@ -34,7 +34,7 @@ SOURCES	+=  \
     src/models/User.cpp \
     src/services/Crypt.cpp \
     src/services/ConfigManager.cpp \
-    src/services/ftp.cpp \
+    src/services/Ftp.cpp \
     src/controllers/UserController.cpp \
     src/controllers/UsersBackupsController.cpp \
     src/views/authdialog.cpp \
@@ -52,7 +52,7 @@ HEADERS	+=  \
     src/models/User.h \
     src/services/Crypt.h \
     src/services/ConfigManager.h \
-    src/services/ftp.h \
+    src/services/Ftp.h \
     src/controllers/UserController.h \
     src/controllers/UsersBackupsController.h \
     src/views/authdialog.h \
@@ -60,11 +60,11 @@ HEADERS	+=  \
     src/views/formsauvegarde.h
 
 FORMS	+=  \
-    src/views/forms/backupform.ui \
     src/views/forms/backupwidget.ui \
     src/views/forms/formsauvegarde.ui \
     src/views/forms/mainwindow.ui \
-    src/views/forms/authdialog.ui
+    src/views/forms/authdialog.ui \
+    src/views/forms/userformdialog.ui
 
 RESOURCES += \
     res/res.qrc

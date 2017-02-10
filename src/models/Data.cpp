@@ -41,5 +41,3 @@ nlohmann::json& operator<<(nlohmann::json &j, Data &data){
     j = data.to_json();
     return j;
 }
-
-

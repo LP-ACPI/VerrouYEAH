@@ -1,20 +1,17 @@
 QT += network core
 QT -= gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 CONFIG += console c++11
 
 TARGET = VerrouYeah-UnitTests
-CONFIG += console
 CONFIG -= app_bundle
 
 TEMPLATE = app
 
 LIBS += -lcrypto
-# pour pouvoir utiliser json.hpp sous windows -specs win32-g++
+
 win32-g++:{
-    #pour ceux qui ont des soucis niveau minGW|QT|openSSL
+
     LIBS += -L$$PWD/../../utilities/openssl/lib/
 
     INCLUDEPATH += $$PWD/../../utilities/openssl/include
@@ -56,4 +53,4 @@ HEADERS	+=  \
     persistancetest.hpp \
     usertest.hpp \
     datatest.hpp \
-    ftptest.hpp
+    ftptests.hpp

@@ -90,7 +90,7 @@ font-size:21px;</string>
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>mémoriser utilisateur</string>
+         <string>connexion automatique</string>
         </property>
        </widget>
       </item>

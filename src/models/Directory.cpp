@@ -8,16 +8,22 @@
 #include <stdexcept>
 
 using namespace std;
-using json=nlohmann::json;
+using json = nlohmann::json;
 
-//
-// Donnée :     un fichier json
-// Stratégie :  construit récursivement un arbre formé de Datas (Directory et Files) ayant pour base un Directory (càd l'objet implicite).
-//
-Directory::Directory(json &jsonData)
+/**
+ * @brief Directory::Directory
+ * @param nlohmann::json jsonDataTree
+ *
+ * Stratégie :  construit récursivement un arbre
+ *      formé de Datas (Directory et Files) ayant pour base
+ *      un Directory (càd l'objet implicite) construit par défaut
+ *      (la véritable racine est donc l'unique élément
+ *          de $dataList de cette Directory)
+ */
+Directory::Directory(json &jsonDataTree)
 {
 
-    for (json::iterator it = jsonData.begin(); it != jsonData.end(); it++){
+    for (json::iterator it = jsonDataTree.begin(); it != jsonDataTree.end(); it++){
 
         bool isAFile = it.key() == "file";
 
@@ -70,9 +76,8 @@ bool Directory::hasData(const Data *data){
     return found;
 }
 
-list<Data*> Directory::getDataList() const {
-    return dataList;
-}
+list<Data*> Directory::getDataList() const
+{    return dataList;   }
 
 void Directory::setDataList(const std::list<Data*> newDataList){
     dataList.clear();
@@ -81,9 +86,8 @@ void Directory::setDataList(const std::list<Data*> newDataList){
     }
 }
 
-
 bool Directory::isDirData() const
-{return true;}
+{   return true;    }
 
 
 void Directory::operator=(const Directory &dir){

@@ -7,16 +7,19 @@
 #define CONFIG_FILE "../config.json"
 #define MYKEY "1234"
 
+
+#include <QtCore/QCoreApplication>
 #include "persistancetest.hpp"
 #include "usertest.hpp"
 #include "datatest.hpp"
-#include "ftptest.hpp"
+#include "ftptests.hpp"
 
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
+    QCoreApplication app(argc,argv);
     ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
     cout << ConfigManager::getInstance() << endl;
 
@@ -32,6 +35,9 @@ int main()
     FtpTest::executeTests();
 
     UnitTest<void*>::results();
+
+    return EXIT_SUCCESS;
+
 
 }
 

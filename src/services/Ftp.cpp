@@ -1,23 +1,29 @@
-#include "ftp.h"
+#include "Ftp.h"
 #include <QtNetwork>
 #include <QDebug>
-
-//il me semble que ça change suivant si on est sous windows/unix
-#define DIR_SEP "\\"
+#include <iostream>
 
 /**
- * @brief Ftp::Ftp
- * @param parent
+ * @brief Ftp::prepareFtp
+ * @param host
+ * @param username
+ * @param pass
+ * @param rewriteFile = true
  *
- * Constructor
- *
+ * only public, simple, SSL free ftp(or http) servers
  */
-Ftp::Ftp():
-    networkAccessMan(new QNetworkAccessManager)
-{}
+void Ftp::prepareFtp(std::string host,std::string username,std::string pass, bool rewriteFile){
 
-Ftp::Ftp(std::string host,std::string username,std::string pass){
-    prepareFtp(host,username,pass);
+    networkAccessMan = new QNetworkAccessManager(this);
+
+    this->host = QString::fromStdString(host);
+    url->setHost(this->host);
+    url->setUserName(QString::fromStdString(username));
+    url->setPassword(QString::fromStdString(pass));
+    url->setPort(21);
+    requestCanceled = false;
+
+    rewriteDownloadedFile = rewriteFile;
 }
 
 /**
@@ -26,46 +32,45 @@ Ftp::Ftp(std::string host,std::string username,std::string pass){
 Ftp::~Ftp() {
     delete networkAccessMan;
     delete url;
-    if (file)
-        delete file;
 }
 
-void Ftp::prepareFtp(std::string host,std::string username,std::string pass){
-
-    networkAccessMan = new QNetworkAccessManager(this);
-
-    url = new QUrl;
-    url->setHost(QString::fromStdString(host));
-    url->setUserName(QString::fromStdString(username));
-    url->setPassword(QString::fromStdString(pass));
-}
 /**
  * @brief Ftp::ftpUpload
  * @param fileToUpload
  * @param destination
  * @return success|fail
- *
- * c'est ici que se passe l'upload
  */
-bool Ftp::ftpUpload(std::string fileToUpload, std::string destination) {
+bool Ftp::ftpUpload(std::string fileToUpload, std::string destination){
+
 
     file = new QFile(QString::fromStdString(fileToUpload));
     QFileInfo fileInfo(QString::fromStdString(fileToUpload));
-    url->setUrl(QString::fromStdString(destination));
 
-    if (!file->open(QIODevice::ReadOnly))
-        return false;
+    QString fullUploadPath = host + "/"
+            + QString::fromStdString(destination) + "/"
+            + fileInfo.fileName();
+
+    url->setUrl( fullUploadPath );
+
+    if (!file->open(QIODevice::ReadOnly)){
+        std::cerr << fileInfo.fileName().toStdString() << ": lecture fichier impossible!" << std::endl;
+        requestCanceled = true;
+    }
 
     QByteArray data = file->readAll();
-    QNetworkReply *reply = networkAccessMan->put((QNetworkRequest)*url, data);
-    reply->setObjectName(fileInfo.fileName());
+    if(data.count() <= 0){
+        std::cerr << fileInfo.fileName().toStdString() << ": fichier inateignable!" << std::endl;
+        requestCanceled = true;
+    }
 
-    connect(reply, SIGNAL(finished()), this, SLOT(requestFinished()));
-    connect(reply, SIGNAL(uploadProgress(qint64, qint64)),this, SLOT(uploadInProgress(qint64, qint64)));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(requestError(QNetworkReply::NetworkError)));
+    networkReply = networkAccessMan->put((QNetworkRequest)*url, data);
+    networkReply->setObjectName(fileInfo.fileName());
 
-    return true;
+    connect(networkReply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(transferInProgress(qint64, qint64)));
 
+    emit started();
+    std::cout << "téléversement de " << fileInfo.fileName().toStdString() << "..." << std::endl;
+    return startTransfert(networkReply);
 }
 
 /**
@@ -74,30 +79,61 @@ bool Ftp::ftpUpload(std::string fileToUpload, std::string destination) {
  * @param destination
  * @return success|fail
  *
- * download
  */
-bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationFilepath)
-{
-    url->setUrl(QString::fromStdString(filePathToDownload));
-    QNetworkReply *reply = networkAccessMan->get((QNetworkRequest)*url);
+bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationDir){
+
+    url->setUrl(host+"/"+QString::fromStdString(filePathToDownload));
+
+    networkReply = networkAccessMan->get((QNetworkRequest)*url);
 
     QFileInfo fileInfo(url->path());
 
-    file = new QFile(QString::fromStdString(destinationFilepath));
-
-    if(!file->open(QIODevice::WriteOnly))
-        return false;
-
-    reply->setObjectName(fileInfo.fileName());
+    QString fullNewFilePath = QString::fromStdString(destinationDir)
+            + QDir::separator()
+            + fileInfo.fileName();
 
 
-    connect(reply, SIGNAL(readyRead()), this, SLOT(ftpReadyRead()));
+    if (QFile::exists(fullNewFilePath)){
+        std::cout << fileInfo.fileName().toStdString() << " existe déjà" << std::endl;
+        requestCanceled = !rewriteDownloadedFile;
+    }
+
+    if(rewriteDownloadedFile){
+        file = new QFile(fullNewFilePath);
+        if(!file->open(QIODevice::WriteOnly)){//TODO throw? les abort de NetoworkReply s'en occuppent + signal error()
+            std::cerr << fileInfo.fileName().toStdString() << ": écriture impossible" << std::endl;
+            requestCanceled = true;
+        }
+    }
+
+    networkReply->setObjectName(fileInfo.fileName());
+
+    connect(networkReply, SIGNAL(readyRead()), this, SLOT(ftpReadyRead()));
+    connect(networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(transferInProgress(qint64, qint64)));
+
+    emit started();
+    std::cout << "téléchargement de " << fileInfo.fileName().toStdString() << "..." << std::endl;
+
+    return startTransfert(networkReply) || !rewriteDownloadedFile;
+}
+
+/**
+ * @brief Ftp::startTransfert
+ * @param reply
+ * @return
+ */
+bool Ftp::startTransfert(QNetworkReply *reply){
+
+#ifndef QT_NO_SSL
+   connect(reply, SIGNAL(sslErrors(QList<QSslError>)),this, SLOT(sslErrors(QList<QSslError>)));
+#endif
+
     connect(reply, SIGNAL(finished()), this, SLOT(requestFinished()));
-
-    connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadInProgress(qint64, qint64)));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(requestError(QNetworkReply::NetworkError)));
 
-    return true;
+    if(requestCanceled)
+        reply->abort();
+    return !requestCanceled;
 }
 
 /**
@@ -105,84 +141,81 @@ bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationFil
  * @param done
  * @param fileSize
  *
- * Slot déclenché+mis à jour durant la progression de l'upload
+ * Slot de progression
  *
  */
-void Ftp::uploadInProgress(qint64 done, qint64 fileSize) {
-    QNetworkReply *reply = (QNetworkReply*)sender();
-    qDebug() << "uploading..."<<"{\"ref\":\""
-            <<reply->objectName()
-           <<"\" , \"done\":\""
-          <<done
-         <<"\", \"total\":\""
-        <<fileSize
-       <<"\"}";
-    emit transferInProgress(done,fileSize);
+void Ftp::transferInProgress(qint64 done, qint64 fileSize){
+
+    if(requestCanceled)
+        return;
+
+    std::cout << "transfert :" << done <<"/" << fileSize << " octets"<< std::endl;
+    emit transferProgress(done,fileSize);
 }
 
 /**
  * @brief Ftp::ftpReadyRead
  *
- * Slot appelé durant download: récupérer dans un fichier ce qu'on reçoit par réseau
+ * Slot called in download: read file
  */
 void Ftp::ftpReadyRead()
 {
-    QNetworkReply *reply = (QNetworkReply*)sender();
+    if(requestCanceled)
+        return;
+
     if (file)
-        file->write(reply->readAll());
+        file->write(networkReply->readAll());
 }
-
-/**
- * @brief Ftp::downloadInProgress
- * @param done
- * @param fileSize
- *
- * Slot déclenché+mis à jour durant téléchargement (avec en données: taille théoriques de fichiers - taille reçue vs taille totale)
- */
-void Ftp::downloadInProgress(qint64 done, qint64 fileSize) {
-    QNetworkReply *reply = (QNetworkReply*)sender();
-    qDebug() << "download..."<<"{\"ref\":\""
-            <<reply->objectName()
-           <<"\" , \"done\":\""
-          <<done
-         <<"\", \"total\":\""
-        <<fileSize
-       <<"\"}";
-    emit transferInProgress(done,fileSize);
-}
-
 
 /**
  * @brief Ftp::requestFinished
- *
- * slot déclenché en fin de téléchargement/versement
- *
  */
 void Ftp::requestFinished() {
-    QNetworkReply *reply = (QNetworkReply*)sender();
-    if(!reply->error()){
-        qDebug() << "Fini"<<"{\"ref\":\""
-                <<reply->objectName()
-               <<" done!"
-              <<"\"}";
-    } else qDebug() << reply->errorString();
 
-    file->flush();
-    file->close();
-    reply->deleteLater();
-    delete file;
-    reply = 0;
-    file = 0;
-    networkAccessMan = 0;
+    QNetworkReply *networkReply = (QNetworkReply*)sender();
+    if(!networkReply->error()){
+           std::cout << networkReply->objectName().toStdString() << " transféré!" << std::endl;
+    }
+
+    networkReply->deleteLater();
+    if(!requestCanceled){
+        networkReply = 0;
+        if (file){
+            file->flush();
+            file->close();
+            delete file;
+            file = 0;
+        }
+    }
+
+
+    emit finished();
 }
 
 /**
  * @brief Ftp::requestError
  * @param err
  *
- * slot déclenché par une erreur
  */
 void Ftp::requestError(QNetworkReply::NetworkError err) {
      qDebug() << "error : "<< err;
-     emit finished();
+     emit error();
+
+}
+
+/**
+ * @brief Ftp::sslErrors
+ * @param sslErrors
+ */
+void Ftp::sslErrors(const QList<QSslError> &sslErrors)
+{
+#ifndef QT_NO_SSL
+    foreach (const QSslError &error, sslErrors)
+        fprintf(stderr, "SSL error: %s\n", qPrintable(error.errorString()));
+
+#else
+    Q_UNUSED(sslErrors);
+#endif
+    emit error();
+
 }

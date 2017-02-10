@@ -244,7 +244,6 @@ bool Ftp::ftpDownload(QString fileToDownload, QString dest)
  * @param fileSize
  *
  * Slot déclenché+mis à jour durant la progression de l'upload
- *
  */
 void Ftp::uploadInProgress(qint64 done, qint64 fileSize) {
     QNetworkReply *reply = (QNetworkReply*)sender();

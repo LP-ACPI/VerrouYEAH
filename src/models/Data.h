@@ -19,8 +19,8 @@ public:
     Data(const Data&);
 
     Data(std::string name = "test",
-       std::string path = "test"
-    ) : name(name),path(path)
+      std::string path = "test")
+        : name(name),path(path)
     {}
 
     virtual ~Data() {}
@@ -39,7 +39,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream &, const Data &);
     friend nlohmann::json& operator<<(nlohmann::json&, Data&);
-    friend Data& operator>>(const nlohmann::json&, Data&);
+
 };
 
 #endif //PROJECT_DATA_H

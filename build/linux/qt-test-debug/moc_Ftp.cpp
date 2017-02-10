@@ -9,6 +9,7 @@
 #include "../../../src/services/Ftp.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/QList>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'Ftp.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
@@ -19,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Ftp_t {
-    QByteArrayData data[11];
-    char stringdata0[145];
+    QByteArrayData data[13];
+    char stringdata0[161];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,22 +31,25 @@ struct qt_meta_stringdata_Ftp_t {
 static const qt_meta_stringdata_Ftp_t qt_meta_stringdata_Ftp = {
     {
 QT_MOC_LITERAL(0, 0, 3), // "Ftp"
-QT_MOC_LITERAL(1, 4, 8), // "finished"
-QT_MOC_LITERAL(2, 13, 0), // ""
-QT_MOC_LITERAL(3, 14, 5), // "error"
-QT_MOC_LITERAL(4, 20, 27), // "QNetworkReply::NetworkError"
-QT_MOC_LITERAL(5, 48, 18), // "transferInProgress"
-QT_MOC_LITERAL(6, 67, 12), // "ftpReadyRead"
-QT_MOC_LITERAL(7, 80, 16), // "uploadInProgress"
-QT_MOC_LITERAL(8, 97, 18), // "downloadInProgress"
-QT_MOC_LITERAL(9, 116, 15), // "requestFinished"
-QT_MOC_LITERAL(10, 132, 12) // "requestError"
+QT_MOC_LITERAL(1, 4, 7), // "started"
+QT_MOC_LITERAL(2, 12, 0), // ""
+QT_MOC_LITERAL(3, 13, 8), // "finished"
+QT_MOC_LITERAL(4, 22, 5), // "error"
+QT_MOC_LITERAL(5, 28, 16), // "transferProgress"
+QT_MOC_LITERAL(6, 45, 12), // "ftpReadyRead"
+QT_MOC_LITERAL(7, 58, 18), // "transferInProgress"
+QT_MOC_LITERAL(8, 77, 15), // "requestFinished"
+QT_MOC_LITERAL(9, 93, 12), // "requestError"
+QT_MOC_LITERAL(10, 106, 27), // "QNetworkReply::NetworkError"
+QT_MOC_LITERAL(11, 134, 9), // "sslErrors"
+QT_MOC_LITERAL(12, 144, 16) // "QList<QSslError>"
 
     },
-    "Ftp\0finished\0\0error\0QNetworkReply::NetworkError\0"
-    "transferInProgress\0ftpReadyRead\0"
-    "uploadInProgress\0downloadInProgress\0"
-    "requestFinished\0requestError"
+    "Ftp\0started\0\0finished\0error\0"
+    "transferProgress\0ftpReadyRead\0"
+    "transferInProgress\0requestFinished\0"
+    "requestError\0QNetworkReply::NetworkError\0"
+    "sslErrors\0QList<QSslError>"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,36 +59,38 @@ static const uint qt_meta_data_Ftp[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       3,       // signalCount
+       4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   54,    2, 0x06 /* Public */,
-       3,    1,   55,    2, 0x06 /* Public */,
-       5,    2,   58,    2, 0x06 /* Public */,
+       1,    0,   59,    2, 0x06 /* Public */,
+       3,    0,   60,    2, 0x06 /* Public */,
+       4,    0,   61,    2, 0x06 /* Public */,
+       5,    2,   62,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    0,   63,    2, 0x09 /* Protected */,
-       7,    2,   64,    2, 0x09 /* Protected */,
-       8,    2,   69,    2, 0x09 /* Protected */,
-       9,    0,   74,    2, 0x09 /* Protected */,
-      10,    1,   75,    2, 0x09 /* Protected */,
+       6,    0,   67,    2, 0x08 /* Private */,
+       7,    2,   68,    2, 0x08 /* Private */,
+       8,    0,   73,    2, 0x08 /* Private */,
+       9,    1,   74,    2, 0x08 /* Private */,
+      11,    1,   77,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4,    2,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void, QMetaType::ULongLong, QMetaType::ULongLong,    2,    2,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::LongLong, QMetaType::LongLong,    2,    2,
-    QMetaType::Void, QMetaType::LongLong, QMetaType::LongLong,    2,    2,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4,    2,
+    QMetaType::Void, 0x80000000 | 10,    2,
+    QMetaType::Void, 0x80000000 | 12,    2,
 
        0        // eod
 };
@@ -95,31 +101,32 @@ void Ftp::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         Ftp *_t = static_cast<Ftp *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->finished(); break;
-        case 1: _t->error((*reinterpret_cast< QNetworkReply::NetworkError(*)>(_a[1]))); break;
-        case 2: _t->transferInProgress((*reinterpret_cast< quint64(*)>(_a[1])),(*reinterpret_cast< quint64(*)>(_a[2]))); break;
-        case 3: _t->ftpReadyRead(); break;
-        case 4: _t->uploadInProgress((*reinterpret_cast< qint64(*)>(_a[1])),(*reinterpret_cast< qint64(*)>(_a[2]))); break;
-        case 5: _t->downloadInProgress((*reinterpret_cast< qint64(*)>(_a[1])),(*reinterpret_cast< qint64(*)>(_a[2]))); break;
+        case 0: _t->started(); break;
+        case 1: _t->finished(); break;
+        case 2: _t->error(); break;
+        case 3: _t->transferProgress((*reinterpret_cast< quint64(*)>(_a[1])),(*reinterpret_cast< quint64(*)>(_a[2]))); break;
+        case 4: _t->ftpReadyRead(); break;
+        case 5: _t->transferInProgress((*reinterpret_cast< qint64(*)>(_a[1])),(*reinterpret_cast< qint64(*)>(_a[2]))); break;
         case 6: _t->requestFinished(); break;
         case 7: _t->requestError((*reinterpret_cast< QNetworkReply::NetworkError(*)>(_a[1]))); break;
+        case 8: _t->sslErrors((*reinterpret_cast< const QList<QSslError>(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 1:
+        case 7:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QNetworkReply::NetworkError >(); break;
             }
             break;
-        case 7:
+        case 8:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QNetworkReply::NetworkError >(); break;
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QSslError> >(); break;
             }
             break;
         }
@@ -128,22 +135,29 @@ void Ftp::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         void **func = reinterpret_cast<void **>(_a[1]);
         {
             typedef void (Ftp::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::finished)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::started)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (Ftp::*_t)(QNetworkReply::NetworkError );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::error)) {
+            typedef void (Ftp::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::finished)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (Ftp::*_t)(quint64 , quint64 );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::transferInProgress)) {
+            typedef void (Ftp::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::error)) {
                 *result = 2;
+                return;
+            }
+        }
+        {
+            typedef void (Ftp::*_t)(quint64 , quint64 );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Ftp::transferProgress)) {
+                *result = 3;
                 return;
             }
         }
@@ -175,34 +189,39 @@ int Ftp::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }
 
 // SIGNAL 0
-void Ftp::finished()
+void Ftp::started()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, Q_NULLPTR);
 }
 
 // SIGNAL 1
-void Ftp::error(QNetworkReply::NetworkError _t1)
+void Ftp::finished()
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 1, _a);
+    QMetaObject::activate(this, &staticMetaObject, 1, Q_NULLPTR);
 }
 
 // SIGNAL 2
-void Ftp::transferInProgress(quint64 _t1, quint64 _t2)
+void Ftp::error()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, Q_NULLPTR);
+}
+
+// SIGNAL 3
+void Ftp::transferProgress(quint64 _t1, quint64 _t2)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
-    QMetaObject::activate(this, &staticMetaObject, 2, _a);
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 QT_END_MOC_NAMESPACE

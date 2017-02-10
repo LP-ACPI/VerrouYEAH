@@ -12,12 +12,14 @@
 class File : public Data {
 
 public:
-    File(const File &file):Data(file)
+    File(const File &file)
+        :Data(file)
     {}
 
     File(std::string name = "test",
-            std::string path = "test"
-    ) : Data(name,path){}
+      std::string path = "test")
+        : Data(name,path)
+    {}
 
     bool isDirData() const override;
     virtual nlohmann::json to_json() const override;

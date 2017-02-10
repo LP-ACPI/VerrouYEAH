@@ -19,13 +19,14 @@ protected:
 public:
 
   Directory(const Directory &dir):Data(dir)
-  {setDataList(dir.getDataList());}
+  { setDataList(dir.getDataList()); }
 
   Directory(json &jsonData);
 
   Directory(std::string name = "test",
           std::string path = "test")
-      : Data(name,path){}
+      : Data(name,path)
+  {}
 
     void addData(Data*);
     void removeData(Data*);

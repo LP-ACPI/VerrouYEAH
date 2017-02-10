@@ -68,11 +68,11 @@ void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
     if(users_backup["Data"] != NULL){
 
-        Directory *root = new Directory(users_backup["Data"]);
-        Data *data = &root->getDataAt(0);
+        Directory *abstract_root = new Directory(users_backup["Data"]);
+        Data *root_data = &abstract_root->getDataAt(0);
 
         Backup new_backup = user->getBackupByKey(backupKey);
-        new_backup.setData(data);
+        new_backup.setData(root_data);
         Backup old_backup = user->getBackupByKey(backupKey);
         user->replaceBackup(old_backup,new_backup);
     }
