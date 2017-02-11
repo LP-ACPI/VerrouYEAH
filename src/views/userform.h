@@ -11,9 +11,18 @@ class UserForm : public QDialog,
     Q_OBJECT
     static UserController userController;
 
+    void updateOrNotFavoriteUser(std::string);
+    bool isFormValid();
+
 public:
     explicit UserForm(QWidget *parent = 0);
     ~UserForm();
+
+protected slots:
+    void on_updateUserButtonBox_accepted();
+    void on_updateUserButtonBox_rejected();
+
+    void on_deleteUserButton_clicked();
 
 };
 

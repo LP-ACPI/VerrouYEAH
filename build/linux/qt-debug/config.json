@@ -1,11 +1,11 @@
 {
   "VerrouYeah": {
-    "fav_user": "test"
+    "auto_login": "toto"
   },
   "users": {
-    "test": {
+    "toto": {
       "backups": null,
-      "password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
+      "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c"
     }
   }
 }

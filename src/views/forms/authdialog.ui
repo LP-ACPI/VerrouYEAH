@@ -41,6 +41,12 @@
      <height>341</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -57,7 +63,7 @@
        <x>20</x>
        <y>110</y>
        <width>201</width>
-       <height>191</height>
+       <height>166</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -70,7 +76,7 @@ font-size:21px;</string>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="favoriteUser">
+       <widget class="QCheckBox" name="autoLoginUserCheck">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -86,6 +92,9 @@ font-size:21px;</string>
         <property name="toolTip">
          <string>Connexion automaitique à cet utilisateur</string>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
@@ -95,23 +104,10 @@ font-size:21px;</string>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="QLabel" name="userPassLabel">
         <property name="font">
          <font>
-          <family>Monospace</family>
+          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -146,7 +142,7 @@ font-size:21px;</string>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
+       <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -162,7 +158,7 @@ font-size:21px;</string>
        <widget class="QDialogButtonBox" name="authButtonBox">
         <property name="font">
          <font>
-          <family>Monospace</family>
+          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -222,9 +218,9 @@ font-size:21px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>40</y>
        <width>222</width>
-       <height>221</height>
+       <height>241</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -232,7 +228,7 @@ font-size:21px;</string>
        <widget class="QLabel" name="userPassLabel_3">
         <property name="font">
          <font>
-          <family>Monospace</family>
+          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -267,10 +263,23 @@ font-size:21px;</string>
        </widget>
       </item>
       <item>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QLabel" name="userPassLabel_2">
         <property name="font">
          <font>
-          <family>Monospace</family>
+          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -305,10 +314,23 @@ font-size:21px;</string>
        </widget>
       </item>
       <item>
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QLabel" name="userPassLabel_4">
         <property name="font">
          <font>
-          <family>Monospace</family>
+          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -359,7 +381,7 @@ font-size:21px;</string>
        <widget class="QDialogButtonBox" name="subscriptButtonBox">
         <property name="font">
          <font>
-          <family>Monospace</family>
+          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -370,7 +392,7 @@ font-size:21px;</string>
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="standardButtons">
-         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
         </property>
         <property name="centerButtons">
          <bool>true</bool>

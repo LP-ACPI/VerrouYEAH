@@ -41,9 +41,10 @@ public:
         void loadUsersBackupData(User*,std::string);
         void loadUsersBackupList(User*);
 
-        void setFavoriteUser(std::string);
-        void unsetFavoriteUser();
-        User* loadFavoriteUser();
+        User* loadAutoLoginUser();
+        void setAutoLoginUser(std::string);
+        void unsetAutoLoginUser();
+
         json saveUser(User*);
         json saveUsersBackup(User*,Backup*);
 

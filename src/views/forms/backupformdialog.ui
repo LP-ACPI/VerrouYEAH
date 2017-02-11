@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
+    <width>370</width>
     <height>391</height>
    </rect>
   </property>
@@ -16,11 +16,17 @@
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>30</y>
-     <width>251</width>
-     <height>31</height>
+     <x>22</x>
+     <y>31</y>
+     <width>301</width>
+     <height>35</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
    </property>
    <property name="font">
     <font>
@@ -43,11 +49,23 @@
   <widget class="QLabel" name="icon">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>290</x>
      <y>30</y>
-     <width>41</width>
-     <height>31</height>
+     <width>35</width>
+     <height>35</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
    </property>
    <property name="text">
     <string>icon</string>
@@ -57,8 +75,8 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>90</y>
-     <width>51</width>
+     <y>79</y>
+     <width>45</width>
      <height>31</height>
     </rect>
    </property>
@@ -69,34 +87,70 @@
   <widget class="QLineEdit" name="sourceInput">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>90</y>
-     <width>121</width>
-     <height>31</height>
+     <x>114</x>
+     <y>79</y>
+     <width>171</width>
+     <height>32</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>175</width>
+     <height>16777215</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="sourceChoiceButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>90</y>
-     <width>61</width>
-     <height>31</height>
+     <x>280</x>
+     <y>79</y>
+     <width>40</width>
+     <height>32</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="targetChoiceButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>150</y>
-     <width>61</width>
-     <height>31</height>
+     <x>280</x>
+     <y>119</y>
+     <width>40</width>
+     <height>32</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>32</height>
+    </size>
    </property>
    <property name="text">
     <string/>
@@ -105,19 +159,31 @@
   <widget class="QLineEdit" name="targetInput">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>150</y>
-     <width>121</width>
-     <height>31</height>
+     <x>114</x>
+     <y>119</y>
+     <width>171</width>
+     <height>32</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>175</width>
+     <height>16777215</height>
+    </size>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>150</y>
-     <width>51</width>
+     <y>119</y>
+     <width>31</width>
      <height>31</height>
     </rect>
    </property>
@@ -125,14 +191,20 @@
     <string>Cible</string>
    </property>
   </widget>
-  <widget class="QDialogButtonBox" name="saveButtonBox">
+  <widget class="QDialogButtonBox" name="sourceButtonBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>330</y>
-     <width>281</width>
-     <height>41</height>
+     <x>22</x>
+     <y>315</y>
+     <width>301</width>
+     <height>35</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
    </property>
    <property name="font">
     <font>
@@ -150,16 +222,16 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
    </property>
    <property name="centerButtons">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>200</y>
-     <width>281</width>
-     <height>26</height>
+     <x>22</x>
+     <y>158</y>
+     <width>302</width>
+     <height>34</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -171,7 +243,27 @@
      </widget>
     </item>
     <item>
-     <widget class="QComboBox" name="comboBox"/>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QComboBox" name="comboBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item>
      <spacer name="horizontalSpacer">
@@ -187,17 +279,24 @@
      </spacer>
     </item>
     <item>
-     <widget class="QTimeEdit" name="timeEdit"/>
+     <widget class="QTimeEdit" name="timeEdit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>240</y>
-     <width>281</width>
-     <height>81</height>
+     <x>22</x>
+     <y>198</y>
+     <width>302</width>
+     <height>111</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -216,6 +315,17 @@
     </item>
    </layout>
   </widget>
+  <zorder>lineEdit</zorder>
+  <zorder>label_2</zorder>
+  <zorder>sourceInput</zorder>
+  <zorder>sourceChoiceButton</zorder>
+  <zorder>targetChoiceButton</zorder>
+  <zorder>label_3</zorder>
+  <zorder>sourceButtonBox</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>icon</zorder>
+  <zorder>targetInput</zorder>
  </widget>
  <resources/>
  <connections/>

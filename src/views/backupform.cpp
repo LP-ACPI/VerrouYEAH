@@ -18,7 +18,7 @@ BackupForm::BackupForm(QWidget *parent) :
 BackupForm::~BackupForm()
 {}
 
-void BackupForm::setSourceText(QString cheminSource){
-    sourceInput->setText(cheminSource);
-    sourceInput->setToolTip(cheminSource);
+void BackupForm::setSourceText(QString sourcePath){
+    sourceInput->setText(sourcePath);
+    sourceInput->setToolTip(sourcePath);
 }

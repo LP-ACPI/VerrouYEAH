@@ -12,7 +12,6 @@ AuthDialog::AuthDialog(QWidget *parent):
     QDialog(parent)
 {
     setupUi(this);
-
     userController.loadLoginsPassCouples();
     for(std::string login : userController.getLoginList())
         loginList->addItem(QString::fromStdString(login));
@@ -21,10 +20,16 @@ AuthDialog::AuthDialog(QWidget *parent):
     logo->setScaledContents(true);
     logo->setPixmap(appLogo);
 
+    connect(loginList,SIGNAL(currentTextChanged(QString)),this,SLOT(onLoginListChanged(QString)));
+
+    QString auto_login_user = QString::fromStdString( userController.getFavoriteUser() );
+    bool isAutoLogin = loginList->count()==0 ? false : loginList->currentText() == auto_login_user;
+
+    autoLoginUserCheck->setChecked(isAutoLogin);
 }
 
 AuthDialog::~AuthDialog(){
-    this->close();
+    close();
 }
 
 
@@ -43,21 +48,14 @@ void AuthDialog::on_authButtonBox_accepted(){
 }
 
 void AuthDialog::on_authButtonBox_rejected(){
-    this->close();
+    close();
 }
 
 void AuthDialog::on_subscriptButtonBox_accepted(){
     std::string newLogin = newUserLoginInput->text().toStdString();
     std::string newPass = newUserPassInput->text().toStdString();
-    std::string newPassConfirm = newUserPassInputConfirm->text().toStdString();
 
-    bool emptyInputs = newUserLoginInput->text().isEmpty()
-            || newUserPassInput->text().isEmpty();
-    bool nonCorrespondingConfirm = newPass != newPassConfirm;
-
-    bool isValid = validation(emptyInputs,nonCorrespondingConfirm);
-
-    if(!isValid)
+    if(!isFormValid())
         return;
 
     if(!userController.createUser(newLogin,newPass)){
@@ -80,7 +78,25 @@ void AuthDialog::on_subscriptButtonBox_accepted(){
 
 }
 
-bool AuthDialog::validation(bool emptyInputs,bool nonCorrespondingConfirm){
+void AuthDialog::on_subscriptButtonBox_rejected(){
+    close();
+}
+
+void AuthDialog::onLoginListChanged(QString login){
+
+    bool isAutoLogin = login == QString::fromStdString( userController.getFavoriteUser() );
+
+    autoLoginUserCheck->setChecked(isAutoLogin);
+}
+
+bool AuthDialog::isFormValid(){
+    std::string newPass = newUserPassInput->text().toStdString();
+    std::string newPassConfirm = newUserPassInputConfirm->text().toStdString();
+
+    bool emptyInputs = newUserLoginInput->text().isEmpty()
+            || newUserPassInput->text().isEmpty();
+
+    bool nonCorrespondingConfirm = newPass != newPassConfirm;
     if(emptyInputs){
         QMessageBox::warning(this, "Attention!",
             "Merci de remplir toutes les informations");
@@ -96,18 +112,17 @@ bool AuthDialog::validation(bool emptyInputs,bool nonCorrespondingConfirm){
 }
 
 void AuthDialog::updateOrNotFavoriteUser(std::string userLogin){
-    if(favoriteUser->isChecked())
+    if(autoLoginUserCheck->isChecked())
         userController.setFavoriteUser(userLogin);
-    else userController.unsetFavoriteUser();
-}
-
-void AuthDialog::on_subscriptButtonBox_rejected(){
-    this->close();
+    else
+        userController.unsetFavoriteUser();
 }
 
 void AuthDialog::proceedToMainWindow(std::string login){
-    UserController::getInstance().setCurrentUser(login);
-    MainWindow *mainWindow = new MainWindow(login);
+    userController.setCurrentUser(login);
+    MainWindow *mainWindow = new MainWindow;
     mainWindow->show();
-    this->close();
+    close();
 }
+
+

@@ -8,19 +8,20 @@
 
 class UserController
 {
+    static UserController instance;
+
     std::map<std::string,std::string> userLoginPassCouples;
     std::string generateHashedPass(std::string);
 
     UserController()
-    { currentUser = NULL;   }
+    {}
 
-    const User *currentUser;
+    User *currentUser;
 
 public:
 
     static UserController& getInstance(){
         ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
-        static UserController instance;
         return instance;
     }
     void loadLoginsPassCouples();
@@ -39,15 +40,15 @@ public:
     void setFavoriteUser(std::string);
     void unsetFavoriteUser();
 
-    const std::string getCurrentUserLogin() const
-    {   return currentUser->getLogin(); }
+    std::string getCurrentUserLogin() const
+    {   return instance.currentUser->getLogin(); }
 
-    const std::string getCurrentUserPass() const
-    {   return currentUser->getPassword(); }
+    std::string getCurrentUserPass() const
+    {   return instance.currentUser->getPassword(); }
 
     void setCurrentUser(std::string);
 
-    void updateUser(std::string,std::string);
+    bool updateUser(std::string,std::string);
     bool createUser(std::string,std::string);
     void deleteUser();
 };

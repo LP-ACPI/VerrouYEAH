@@ -5,6 +5,7 @@
 
 class UsersBackupsController{
 
+    static UsersBackupsController instance;
     User* user;
 
     UsersBackupsController()
@@ -12,14 +13,13 @@ class UsersBackupsController{
 
 public:
     static UsersBackupsController& getInstance(){
-        static UsersBackupsController instance;
         return instance;
     }
 
     void setUser(std::string);
 
     User* getUsersBackup() const
-    {   return user;    }
+    {   return instance.user;    }
 
     void createUsersBackup(Backup*);
     Backup getUsersBackup(std::string);

@@ -20,8 +20,7 @@ using json = nlohmann::json;
  *      (la véritable racine est donc l'unique élément
  *          de $dataList de cette Directory)
  */
-Directory::Directory(json &jsonDataTree)
-{
+Directory::Directory(json &jsonDataTree){
 
     for (json::iterator it = jsonDataTree.begin(); it != jsonDataTree.end(); it++){
 

@@ -1,36 +1,39 @@
 #include "UsersBackupsController.h"
 #include "../services/ConfigManager.h"
+#include <QDebug>
+
+UsersBackupsController UsersBackupsController::instance = UsersBackupsController();
 
 void UsersBackupsController::setUser(std::string login){
-    user = ConfigManager::getInstance().loadUser(login);
+    instance.user = ConfigManager::getInstance().loadUser(login);
 }
 
 void UsersBackupsController::createUsersBackup(Backup *backup){
     //TODO cryptage ici + démarrage du scheduler
     //ou plutôt un BackupController qui s'en charge + mise à jour du dossier distant
-    user->addBackup(*backup);
+    instance.user->addBackup(*backup);
     ConfigManager::getInstance().saveUser(user);
 }
 
 Backup UsersBackupsController::getUsersBackup(std::string bcpKey){
-    return user->getBackupByKey(bcpKey);
+    return instance.user->getBackupByKey(bcpKey);
 }
 
 void UsersBackupsController::updateUsersBackup(Backup *backup){
     //TODO: avertissement "modif' données sauvegardés"
-    Backup old_backup = user->getBackupByKey(backup->getKey());
-    user->replaceBackup(old_backup,*backup);
-    ConfigManager::getInstance().saveUser(user);
+    Backup old_backup = instance.user->getBackupByKey(backup->getKey());
+    instance.user->replaceBackup(old_backup,*backup);
+    ConfigManager::getInstance().saveUser(instance.user);
 }
 
 void UsersBackupsController::deleteUsersBackup(std::string bcKey){
     //TODO: avertissement "suppression données sauvegardés"
-    Backup bc_to_delete = user->getBackupByKey(bcKey);
-    user->removeBackup(bc_to_delete);
-    ConfigManager::getInstance().deleteUsersBackup(user->getLogin(),bcKey);
-    ConfigManager::getInstance().saveUser(user);
+    Backup bc_to_delete = instance.user->getBackupByKey(bcKey);
+    instance.user->removeBackup(bc_to_delete);
+    ConfigManager::getInstance().deleteUsersBackup(instance.user->getLogin(),bcKey);
+    ConfigManager::getInstance().saveUser(instance.user);
 }
 
 std::list<Backup> UsersBackupsController::getUsersBackupList(){
-    return user->getBackups();
+    return instance.user->getBackups();
 }

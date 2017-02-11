@@ -84,31 +84,26 @@ void ConfigManager::loadUsersBackupList(User* user){
 
         for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
 
-            Data * data =  new Directory(it.value().at("Data"));
-            //Mais pas ici.
-            if(data != NULL)//Vérif nécessaire dans le cas de tests
-                cout << data->to_json().dump(2);
-            Backup backup(it.key().c_str());
-            backup.setData(data);
-            user->addBackup(backup);
+            loadUsersBackupData(user,it.key().c_str());
         }
 }
 
 
-void ConfigManager::setFavoriteUser(std::string login){
-    config["VerrouYeah"]["fav_user"] = login;
+void ConfigManager::setAutoLoginUser(std::string login){
+    config["VerrouYeah"]["auto_login"] = login;
     persist();
 }
 
-void ConfigManager::unsetFavoriteUser(){
-    config.at("VerrouYeah").erase("fav_user");
+void ConfigManager::unsetAutoLoginUser(){
+    config["VerrouYeah"]["auto_login"] = "";
     persist();
 }
 
-User* ConfigManager::loadFavoriteUser(){
+User* ConfigManager::loadAutoLoginUser(){
     json app_root = readOrInitAppRoot();
-    if(app_root["fav_user"]!= NULL){
-        return loadUser(app_root["fav_user"]);
+    json no_user = "";
+    if(app_root["auto_login"] != no_user){
+        return loadUser(app_root["auto_login"]);
     } else
         return NULL;
 
@@ -195,7 +190,7 @@ json ConfigManager::readOrInitAppRoot(){
     try{
          app_root = config.at("VerrouYeah");
     }catch(const out_of_range&){
-        config["VerrouYeah"] = json({});
+        config["VerrouYeah"]["auto_login"] = "";
         app_root = config.at("VerrouYeah");
     }
     return app_root;

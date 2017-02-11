@@ -11,8 +11,10 @@ class AuthDialog :
 {
     Q_OBJECT
     static UserController userController;
+
     void updateOrNotFavoriteUser(std::string);
-    bool validation(bool,bool);
+    bool isFormValid();
+    void checkIfUserFound();
 
 public:
     explicit AuthDialog(QWidget *parent = 0);
@@ -26,6 +28,8 @@ protected slots:
 
     void on_subscriptButtonBox_accepted();
     void on_subscriptButtonBox_rejected();
+
+    void onLoginListChanged(QString);
 };
 
 #endif // AUTHDIALOG_H

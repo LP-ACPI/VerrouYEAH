@@ -35,11 +35,10 @@ public:
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QComboBox *loginList;
-    QCheckBox *favoriteUser;
-    QSpacerItem *verticalSpacer;
+    QCheckBox *autoLoginUserCheck;
     QLabel *userPassLabel;
     QLineEdit *userPassInput;
-    QSpacerItem *verticalSpacer_2;
+    QSpacerItem *verticalSpacer;
     QDialogButtonBox *authButtonBox;
     QLabel *logo;
     QWidget *creationTab;
@@ -47,8 +46,10 @@ public:
     QVBoxLayout *verticalLayout_2;
     QLabel *userPassLabel_3;
     QLineEdit *newUserLoginInput;
+    QSpacerItem *verticalSpacer_4;
     QLabel *userPassLabel_2;
     QLineEdit *newUserPassInput;
+    QSpacerItem *verticalSpacer_5;
     QLabel *userPassLabel_4;
     QLineEdit *newUserPassInputConfirm;
     QSpacerItem *verticalSpacer_3;
@@ -68,12 +69,14 @@ public:
         authTabWidget = new QTabWidget(AuthDialog);
         authTabWidget->setObjectName(QStringLiteral("authTabWidget"));
         authTabWidget->setGeometry(QRect(0, 0, 251, 341));
+        authTabWidget->setContextMenuPolicy(Qt::NoContextMenu);
+        authTabWidget->setAutoFillBackground(false);
         authTabWidget->setStyleSheet(QStringLiteral(""));
         authTab = new QWidget();
         authTab->setObjectName(QStringLiteral("authTab"));
         layoutWidget = new QWidget(authTab);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(20, 110, 201, 191));
+        layoutWidget->setGeometry(QRect(20, 110, 201, 166));
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -84,26 +87,23 @@ public:
 
         verticalLayout->addWidget(loginList);
 
-        favoriteUser = new QCheckBox(layoutWidget);
-        favoriteUser->setObjectName(QStringLiteral("favoriteUser"));
+        autoLoginUserCheck = new QCheckBox(layoutWidget);
+        autoLoginUserCheck->setObjectName(QStringLiteral("autoLoginUserCheck"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(favoriteUser->sizePolicy().hasHeightForWidth());
-        favoriteUser->setSizePolicy(sizePolicy);
-        favoriteUser->setMinimumSize(QSize(0, 28));
-        favoriteUser->setAutoFillBackground(false);
+        sizePolicy.setHeightForWidth(autoLoginUserCheck->sizePolicy().hasHeightForWidth());
+        autoLoginUserCheck->setSizePolicy(sizePolicy);
+        autoLoginUserCheck->setMinimumSize(QSize(0, 28));
+        autoLoginUserCheck->setLayoutDirection(Qt::RightToLeft);
+        autoLoginUserCheck->setAutoFillBackground(false);
 
-        verticalLayout->addWidget(favoriteUser);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout->addItem(verticalSpacer);
+        verticalLayout->addWidget(autoLoginUserCheck);
 
         userPassLabel = new QLabel(layoutWidget);
         userPassLabel->setObjectName(QStringLiteral("userPassLabel"));
         QFont font;
-        font.setFamily(QStringLiteral("Monospace"));
+        font.setFamily(QStringLiteral("DejaVu Sans"));
         font.setPointSize(12);
         userPassLabel->setFont(font);
         userPassLabel->setStyleSheet(QStringLiteral(""));
@@ -123,9 +123,9 @@ public:
 
         verticalLayout->addWidget(userPassInput);
 
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout->addItem(verticalSpacer_2);
+        verticalLayout->addItem(verticalSpacer);
 
         authButtonBox = new QDialogButtonBox(layoutWidget);
         authButtonBox->setObjectName(QStringLiteral("authButtonBox"));
@@ -149,7 +149,7 @@ public:
         creationTab->setObjectName(QStringLiteral("creationTab"));
         layoutWidget_2 = new QWidget(creationTab);
         layoutWidget_2->setObjectName(QStringLiteral("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(10, 30, 222, 221));
+        layoutWidget_2->setGeometry(QRect(10, 40, 222, 241));
         verticalLayout_2 = new QVBoxLayout(layoutWidget_2);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -170,6 +170,10 @@ public:
 
         verticalLayout_2->addWidget(newUserLoginInput);
 
+        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_2->addItem(verticalSpacer_4);
+
         userPassLabel_2 = new QLabel(layoutWidget_2);
         userPassLabel_2->setObjectName(QStringLiteral("userPassLabel_2"));
         userPassLabel_2->setFont(font);
@@ -186,6 +190,10 @@ public:
         newUserPassInput->setEchoMode(QLineEdit::Password);
 
         verticalLayout_2->addWidget(newUserPassInput);
+
+        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_2->addItem(verticalSpacer_5);
 
         userPassLabel_4 = new QLabel(layoutWidget_2);
         userPassLabel_4->setObjectName(QStringLiteral("userPassLabel_4"));
@@ -213,7 +221,7 @@ public:
         subscriptButtonBox->setFont(font);
         subscriptButtonBox->setStyleSheet(QStringLiteral(""));
         subscriptButtonBox->setOrientation(Qt::Horizontal);
-        subscriptButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+        subscriptButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Save);
         subscriptButtonBox->setCenterButtons(true);
 
         verticalLayout_2->addWidget(subscriptButtonBox);
@@ -232,9 +240,9 @@ public:
     {
         AuthDialog->setWindowTitle(QApplication::translate("AuthDialog", "Authentification", 0));
 #ifndef QT_NO_TOOLTIP
-        favoriteUser->setToolTip(QApplication::translate("AuthDialog", "Connexion automaitique \303\240 cet utilisateur", 0));
+        autoLoginUserCheck->setToolTip(QApplication::translate("AuthDialog", "Connexion automaitique \303\240 cet utilisateur", 0));
 #endif // QT_NO_TOOLTIP
-        favoriteUser->setText(QApplication::translate("AuthDialog", "connexion automatique", 0));
+        autoLoginUserCheck->setText(QApplication::translate("AuthDialog", "connexion automatique", 0));
         userPassLabel->setText(QApplication::translate("AuthDialog", "Mot de passe", 0));
         logo->setText(QApplication::translate("AuthDialog", "Logo", 0));
         authTabWidget->setTabText(authTabWidget->indexOf(authTab), QApplication::translate("AuthDialog", "Identification", 0));

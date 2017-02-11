@@ -19,7 +19,7 @@ class MainWindow :
     UserForm *userForm;
 
 public:
-    explicit MainWindow(std::string,QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
     void dragEnterEvent(QDragEnterEvent *event);
@@ -30,6 +30,7 @@ signals:
 protected slots:
     void on_newBackupButton_clicked();
     void on_actionUtilisateur_triggered();
+    void on_actionDeconnexion_triggered();
 };
 
 #endif // MAINWINDOW_H

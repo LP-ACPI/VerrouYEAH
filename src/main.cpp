@@ -25,21 +25,20 @@ int main(int argc, char* argv[])
 {
     Q_INIT_RESOURCE(res);
 
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
     //traduction des dialogues usuels (textes des bouttons surtout, en anglais par défaut)
     QString locale = QLocale::system().name().section('_',0,0);
     QTranslator tr;
     tr.load(QString("qt_")+locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    a.installTranslator(&tr);
+    app.installTranslator(&tr);
 
-    AuthDialog aWindow;
-
+    AuthDialog *aWindow = new AuthDialog;
 
     if(UserController::getInstance().favoriteUserExists()){
         std::string userLogin = UserController::getInstance().getFavoriteUser();
-        aWindow.proceedToMainWindow(userLogin);
-   } else
-        aWindow.show();
-
-    return a.exec();
+        aWindow->proceedToMainWindow(userLogin);
+   } else {
+        aWindow->show();
+    }
+    return app.exec();
 }

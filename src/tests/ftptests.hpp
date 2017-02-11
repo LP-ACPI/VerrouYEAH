@@ -29,7 +29,7 @@ class FtpTest {
         UnitTest<bool>::assertTrue(upload_result);
     }
 
-    static void testTeleChargementDeFichier(){
+    static void testTeleChargementDeFichier() {
 
         UnitTest<void*>::insertTitle("Test download");
         Ftp ftpServDownl;

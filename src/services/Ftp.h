@@ -36,8 +36,8 @@ public:
     void prepareFtp(std::string,
                     std::string,
                     std::string,
-                    int portNumber,
-                    bool rewriteDownloadFile);
+                    int portNumber = 21,
+                    bool rewriteDownloadFile = true);
     bool ftpUpload(std::string,std::string);
     bool ftpDownload(std::string,std::string);
 

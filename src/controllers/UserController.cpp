@@ -2,24 +2,29 @@
 #include <openssl/sha.h>
 #include <QDebug>
 
+UserController UserController::instance = UserController();
+
 void UserController::setCurrentUser(std::string login)
-{  currentUser = ConfigManager::getInstance().loadUser(login);   }
+{  instance.currentUser = ConfigManager::getInstance().loadUser(login);   }
 
 bool UserController::favoriteUserExists(){
-    currentUser = ConfigManager::getInstance().loadFavoriteUser() ;
-    return currentUser != NULL;
+    instance.currentUser = ConfigManager::getInstance().loadAutoLoginUser() ;
+    return instance.currentUser != NULL;
 }
 
 std::string UserController::getFavoriteUser(){
-    return ConfigManager::getInstance().loadFavoriteUser()->getLogin();
+    if(favoriteUserExists())
+        return ConfigManager::getInstance().loadAutoLoginUser()->getLogin();
+    return "";
 }
 
 void UserController::setFavoriteUser(std::string userLogin){
-    ConfigManager::getInstance().setFavoriteUser(userLogin);
+    ConfigManager::getInstance().setAutoLoginUser(userLogin);
 }
 
 void UserController::unsetFavoriteUser(){
-    ConfigManager::getInstance().unsetFavoriteUser();
+    if(favoriteUserExists())
+        ConfigManager::getInstance().unsetAutoLoginUser();
 }
 
 void UserController::loadLoginsPassCouples(){
@@ -42,13 +47,12 @@ bool UserController::createUser(std::string userLogin, std::string userPass){
     return false;
 }
 
-void UserController::updateUser(std::string newLogin, std::string newPass){
+bool UserController::updateUser(std::string newLogin, std::string newPass){
     deleteUser();
-    createUser(newLogin,newPass);
+    return createUser(newLogin,newPass);
 }
 
 void UserController::deleteUser(){
-    ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
     ConfigManager::getInstance().deleteUser(currentUser->getLogin());
 }
 
