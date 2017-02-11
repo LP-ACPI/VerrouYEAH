@@ -16,6 +16,7 @@ class Crypt {
     void crypt_file_DES(std::string nom_source, std::string nom_destination, char* cle,int type);
 public:
     static char* genKey(size_t);
+    static std::string generateHashedPass(std::string);
     void crypt(char* in, char* out, char* raw_key);
     void decrypt(char* in, char* out, char* raw_key);
     void cryptFile(std::string nom_source, std::string nom_destination, char* cle);

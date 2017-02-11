@@ -9,6 +9,7 @@
 #include <cstring>
 #include <openssl/des.h>
 #include <openssl/rand.h>
+#include <openssl/sha.h>
 
 using namespace std;
 
@@ -74,6 +75,24 @@ char* Crypt::genKey(size_t key_size)//TODO : if !RAND_bytes ->errmsg
     RAND_bytes(key_gen,key_size);
     return (char*)key_gen;
 }
+
+std::string Crypt::generateHashedPass(std::string userPass){
+    unsigned char temp[SHA_DIGEST_LENGTH];
+    char buf[SHA_DIGEST_LENGTH*2];
+
+    memset(buf, 0x0, SHA_DIGEST_LENGTH*2);
+    memset(temp, 0x0, SHA_DIGEST_LENGTH);
+
+    SHA1((unsigned char *)userPass.c_str(), userPass.size(), temp);
+
+    for(int i=0; i < SHA_DIGEST_LENGTH; i++) {
+        sprintf((char*)&(buf[i*2]), "%02x", temp[i]);
+    }
+
+    std::string new_hashed_pass(buf);
+    return new_hashed_pass;
+}
+
 void Crypt::crypt(char* in, char* out, char* raw_key)
 {
     crypt_DES(in,out,raw_key,DES_ENCRYPT);

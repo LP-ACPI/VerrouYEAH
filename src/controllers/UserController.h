@@ -11,7 +11,7 @@ class UserController
     static UserController instance;
 
     std::map<std::string,std::string> userLoginPassCouples;
-    std::string generateHashedPass(std::string);
+    void loadLoginsPassCouples();
 
     UserController()
     {}
@@ -22,9 +22,9 @@ public:
 
     static UserController& getInstance(){
         ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
+        instance.loadLoginsPassCouples();
         return instance;
     }
-    void loadLoginsPassCouples();
 
     std::vector<std::string> getLoginList() {
         std::vector<std::string> logins;
@@ -41,16 +41,18 @@ public:
     void unsetFavoriteUser();
 
     std::string getCurrentUserLogin() const
-    {   return instance.currentUser->getLogin(); }
+    {   return currentUser->getLogin(); }
 
     std::string getCurrentUserPass() const
-    {   return instance.currentUser->getPassword(); }
+    {   return currentUser->getPassword(); }
 
     void setCurrentUser(std::string);
 
     bool updateUser(std::string,std::string);
     bool createUser(std::string,std::string);
     void deleteUser();
+
+    void operator=(UserController const&) = delete;
 };
 
 #endif // USERCONTROLLER_H

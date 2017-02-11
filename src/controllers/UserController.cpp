@@ -1,21 +1,19 @@
 #include "UserController.h"
-#include <openssl/sha.h>
-#include <QDebug>
+#include "../services/Crypt.h"
+
 
 UserController UserController::instance = UserController();
 
 void UserController::setCurrentUser(std::string login)
-{  instance.currentUser = ConfigManager::getInstance().loadUser(login);   }
+{  currentUser = ConfigManager::getInstance().loadUser(login);   }
 
-bool UserController::favoriteUserExists(){
-    instance.currentUser = ConfigManager::getInstance().loadAutoLoginUser() ;
-    return instance.currentUser != NULL;
+bool UserController::favoriteUserExists() {
+    std::string user_login = ConfigManager::getInstance().loadAutoLoginUserLogin() ;
+    return user_login != "";
 }
 
 std::string UserController::getFavoriteUser(){
-    if(favoriteUserExists())
-        return ConfigManager::getInstance().loadAutoLoginUser()->getLogin();
-    return "";
+    return ConfigManager::getInstance().loadAutoLoginUserLogin();;
 }
 
 void UserController::setFavoriteUser(std::string userLogin){
@@ -32,14 +30,14 @@ void UserController::loadLoginsPassCouples(){
 }
 
 bool UserController::authentifyUser(std::string userLogin, std::string userPass){
-    std::string hashed_pass = generateHashedPass(userPass);
+    std::string hashed_pass = Crypt::generateHashedPass(userPass);
     return userLoginPassCouples[userLogin] == hashed_pass;
 }
 
 
 bool UserController::createUser(std::string userLogin, std::string userPass){
-    if(!userLoginPassCouples.count(userLogin)){
-        std::string hashed_pass = generateHashedPass(userPass);
+    if(!userLoginPassCouples.count(userLogin)) {
+        std::string hashed_pass = Crypt::generateHashedPass(userPass);
         ConfigManager::getInstance().saveUser(new User(userLogin,hashed_pass));
         userLoginPassCouples[userLogin] = hashed_pass;
         return true;
@@ -48,28 +46,28 @@ bool UserController::createUser(std::string userLogin, std::string userPass){
 }
 
 bool UserController::updateUser(std::string newLogin, std::string newPass){
-    deleteUser();
-    return createUser(newLogin,newPass);
-}
+    bool update_user;
+    std::string hashed_pass = Crypt::generateHashedPass(newPass);
 
-void UserController::deleteUser(){
-    ConfigManager::getInstance().deleteUser(currentUser->getLogin());
-}
-
-std::string UserController::generateHashedPass(std::string userPass){
-    unsigned char temp[SHA_DIGEST_LENGTH];
-    char buf[SHA_DIGEST_LENGTH*2];
-
-    memset(buf, 0x0, SHA_DIGEST_LENGTH*2);
-    memset(temp, 0x0, SHA_DIGEST_LENGTH);
-
-    SHA1((unsigned char *)userPass.c_str(), userPass.size(), temp);
-
-    for(int i=0; i < SHA_DIGEST_LENGTH; i++) {
-     sprintf((char*)&(buf[i*2]), "%02x", temp[i]);
+    if(newLogin != getCurrentUserLogin()){
+        deleteUser();
+        update_user = createUser(newLogin,newPass);
+    } else {
+        ConfigManager::getInstance().saveUser(new User(newLogin,hashed_pass));
+        update_user = true;
     }
 
-    std::string new_hashed_pass(buf);
-    return new_hashed_pass;
+    if(update_user){
+        setCurrentUser(newLogin);
+        userLoginPassCouples[newLogin] = hashed_pass;
+    }
+
+    return update_user;
+}
+
+void UserController::deleteUser() {
+    unsetFavoriteUser();
+    ConfigManager::getInstance().deleteUser(getCurrentUserLogin());
+    loadLoginsPassCouples();
 }
 

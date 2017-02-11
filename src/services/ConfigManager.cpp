@@ -30,6 +30,7 @@ User* ConfigManager::loadUser(string login){
         user_config = readOrInitRootUsers().at(login);
     }catch(exception){//TODO: Throw
        cerr << "pas d'utilisateur" << login << endl;
+       return NULL;
     }
 
     string password = user_config["password"];
@@ -99,14 +100,9 @@ void ConfigManager::unsetAutoLoginUser(){
     persist();
 }
 
-User* ConfigManager::loadAutoLoginUser(){
+std::string ConfigManager::loadAutoLoginUserLogin(){
     json app_root = readOrInitAppRoot();
-    json no_user = "";
-    if(app_root["auto_login"] != no_user){
-        return loadUser(app_root["auto_login"]);
-    } else
-        return NULL;
-
+    return app_root["auto_login"];
 }
 
 json ConfigManager::saveUser(User *user){
@@ -117,16 +113,14 @@ json ConfigManager::saveUser(User *user){
 }
 
 
-void ConfigManager::deleteUser(string userLogin){
+void ConfigManager::deleteUser(std::string userLogin) {
 
     json user_config = readOrInitRootUsers();
 
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it)
         if(it.key() == userLogin)
             config.at("users").erase(it.key());
-
     persist();
-
 }
 
 
@@ -159,7 +153,7 @@ void ConfigManager::setJsonFile(string newConfigFileName){
     fstream configFile;
     configFile.open(configFilename, fstream::in);
     if(!configFile){
-        configFile.open(configFilename,  fstream::in | fstream::out | fstream::app);
+        configFile.open(configFilename, fstream::in | fstream::out | fstream::app);
     } else {
         try{
             configFile >> config;

@@ -10,7 +10,6 @@ class AuthDialog :
         private Ui::AuthDialog
 {
     Q_OBJECT
-    static UserController userController;
 
     void updateOrNotFavoriteUser(std::string);
     bool isFormValid();

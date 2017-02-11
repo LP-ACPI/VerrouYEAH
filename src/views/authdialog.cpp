@@ -5,15 +5,12 @@
 #include <QDebug>
 
 
-UserController AuthDialog::userController = UserController::getInstance();
-
 
 AuthDialog::AuthDialog(QWidget *parent):
     QDialog(parent)
 {
     setupUi(this);
-    userController.loadLoginsPassCouples();
-    for(std::string login : userController.getLoginList())
+    for(std::string login : UserController::getInstance().getLoginList())
         loginList->addItem(QString::fromStdString(login));
 
     QPixmap appLogo(":/images/logo_temporaire.png");
@@ -22,7 +19,7 @@ AuthDialog::AuthDialog(QWidget *parent):
 
     connect(loginList,SIGNAL(currentTextChanged(QString)),this,SLOT(onLoginListChanged(QString)));
 
-    QString auto_login_user = QString::fromStdString( userController.getFavoriteUser() );
+    QString auto_login_user = QString::fromStdString( UserController::getInstance().getFavoriteUser() );
     bool isAutoLogin = loginList->count()==0 ? false : loginList->currentText() == auto_login_user;
 
     autoLoginUserCheck->setChecked(isAutoLogin);
@@ -37,7 +34,7 @@ void AuthDialog::on_authButtonBox_accepted(){
     std::string login = loginList->currentText().toStdString();
     std::string pass = userPassInput->text().toStdString();
 
-    if(!userController.authentifyUser(login,pass)){
+    if(!UserController::getInstance().authentifyUser(login,pass)){
         QMessageBox::warning(this, "Attention!",
             "Erreur d'Authentification");
         return;
@@ -58,7 +55,7 @@ void AuthDialog::on_subscriptButtonBox_accepted(){
     if(!isFormValid())
         return;
 
-    if(!userController.createUser(newLogin,newPass)){
+    if(!UserController::getInstance().createUser(newLogin,newPass)){
         QMessageBox::warning(this, "Nouvel Utilisateur",
                 "l'utilisateur existe déjà !");
         return;
@@ -84,7 +81,9 @@ void AuthDialog::on_subscriptButtonBox_rejected(){
 
 void AuthDialog::onLoginListChanged(QString login){
 
-    bool isAutoLogin = login == QString::fromStdString( userController.getFavoriteUser() );
+    QString favoriteUser = QString::fromStdString( UserController::getInstance().getFavoriteUser() );
+
+    bool isAutoLogin = login == favoriteUser;
 
     autoLoginUserCheck->setChecked(isAutoLogin);
 }
@@ -113,13 +112,13 @@ bool AuthDialog::isFormValid(){
 
 void AuthDialog::updateOrNotFavoriteUser(std::string userLogin){
     if(autoLoginUserCheck->isChecked())
-        userController.setFavoriteUser(userLogin);
+        UserController::getInstance().setFavoriteUser(userLogin);
     else
-        userController.unsetFavoriteUser();
+        UserController::getInstance().unsetFavoriteUser();
 }
 
 void AuthDialog::proceedToMainWindow(std::string login){
-    userController.setCurrentUser(login);
+    UserController::getInstance().setCurrentUser(login);
     MainWindow *mainWindow = new MainWindow;
     mainWindow->show();
     close();

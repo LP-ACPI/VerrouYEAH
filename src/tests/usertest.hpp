@@ -67,6 +67,7 @@ class UserTest{
 
 
 public:
+
     static void executeTests(){
         testUtilisateurTestPardefaut();
         testAjoutSauvegardesDoublons();

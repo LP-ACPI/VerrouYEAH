@@ -41,7 +41,7 @@ public:
         void loadUsersBackupData(User*,std::string);
         void loadUsersBackupList(User*);
 
-        User* loadAutoLoginUser();
+        std::string loadAutoLoginUserLogin();
         void setAutoLoginUser(std::string);
         void unsetAutoLoginUser();
 
