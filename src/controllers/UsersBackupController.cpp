@@ -12,18 +12,17 @@ void UsersBackupController::setCurrentUser(){
 
 std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std::string bcpKey){
     Backup backup = user->getBackupByKey(bcpKey);
-    std::cout << user->getLogin()<<std::endl;
     std::map<std::string,std::string> backup_info = BackupController::getInstance().getInfoMapFromBackup(&backup);
     return backup_info;
 }
 
-void UsersBackupController::createUsersBackup(std::map<std::string,std::string> backupInfo){
+std::map<std::string,std::string> UsersBackupController::createUsersBackup(std::map<std::string,std::string> backupInfo){
     //TODO cryptage ici + démarrage du scheduler
     //ou plutôt un BackupController qui s'en charge + mise à jour du dossier distant (normal/ftp)
-
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     user->addBackup(new_backup);
     ConfigManager::getInstance().updateUser(user);
+    return BackupController::getInstance().getInfoMapFromBackup(&new_backup);
 }
 
 void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> backupInfo){

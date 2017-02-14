@@ -10,14 +10,8 @@ Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> 
     std::map<std::string,std::string>::iterator it = backupInfo.find("key");
     if(it != backupInfo.end())
         backup_from_info.setKey(backupInfo["key"].c_str());
-    else backup_from_info.setKey(Crypt::genKey(32));
-
-    std::cout << "getBackupFromInfoMap : clé pif"<<std::endl;
-    std::cout << backup_from_info.getKey() << std::endl;
-
-    for(auto bc : backupInfo){
-        std::cout << bc.first << ":" << bc.second << std::endl;
-    }
+    else
+        backup_from_info.setKey(Crypt::genKey(32));
 
     backup_from_info.setName(backupInfo["name"]);
     backup_from_info.setSource(backupInfo["source_path"]);

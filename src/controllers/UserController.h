@@ -22,11 +22,11 @@ public:
 
     static UserController& getInstance(){
         ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
-        instance.loadLoginsPassCouples();
         return instance;
     }
 
     std::vector<std::string> getLoginList() {
+        instance.loadLoginsPassCouples();
         std::vector<std::string> logins;
         for(auto user : userLoginPassCouples)
             logins.push_back(user.first);

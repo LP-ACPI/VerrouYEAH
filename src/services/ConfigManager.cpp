@@ -59,10 +59,8 @@ User* ConfigManager::loadUser(string login){
         backup.setFrequency(frequency);
         user->addBackup(backup);
     }
-cout <<"ConfigMan" << endl << *user ;
     return user ;
 }
-
 
 void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
@@ -128,10 +126,10 @@ void ConfigManager::deleteUser(std::string userLogin) {
 }
 
 void ConfigManager::updateUser(User *user){
-
-    json user_config = readOrInitRootUsers();
-    user_config[user->getLogin()] << *user;
-    config["users"] = user_config;
+    string login = user->getLogin();
+    json user_config = readOrInitRootUsers()[login];
+    user_config << *user;
+    config["users"][login]  = user_config[login];
     persist();
 }
 
@@ -168,7 +166,9 @@ void ConfigManager::setJsonFile(string newConfigFileName){
     } else {
         try{
             configFile >> config;
-        }catch(const std::invalid_argument&){}
+        } catch(const std::invalid_argument &e){
+            cerr << "erreur lecture fichier : " << e.what() << endl;
+        }
     }
     configFile.close();
 }

@@ -27,7 +27,8 @@ MainWindow::~MainWindow(){
 
 void MainWindow::initBackupList(){
 
-    for(std::map<std::string,std::string> info : UsersBackupController::getInstance().getUsersBackupInfoList())
+    for(std::map<std::string,std::string> info
+        : UsersBackupController::getInstance().getUsersBackupInfoList())
         addBackupItem(info);
 
 }
@@ -70,8 +71,10 @@ void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
 }
 
 void MainWindow::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
-    addBackupItem(backupInfo);
-    UsersBackupController::getInstance().createUsersBackup(backupInfo);
+
+    std::map<std::string,std::string> bc_info_wth_key
+            = UsersBackupController::getInstance().createUsersBackup(backupInfo);
+    addBackupItem(bc_info_wth_key);
 }
 
 

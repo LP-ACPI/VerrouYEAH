@@ -17,7 +17,6 @@
 
 class Backup {
 
-
     enum target_type{
         normal = 0,
         ftp = 1
@@ -29,7 +28,7 @@ class Backup {
     std::string source;
     std::string target;
     std::string targetType;
-    std::string lastSave;//TODO type Date
+    std::string lastSave;//TODO type Date -> prop: QDateTime (?) -> créer unu en accord avec Frequency?
     Frequency frequency;
     const Data* data;
     std::string note;
@@ -56,13 +55,11 @@ public:
           note(note)
     {
         if(strcmp("null",key) == 0){
-            //bug: au démarrage de l'appli, si aucune sauvegarde
-            //-> ne génére pas du alpha-num
-            //-> blem résolu si utilisé dans BackupController
-            memcpy(this->key,Crypt::genKey(32),32);
-        }else{
-            memcpy(this->key,key,32);
+            //byg - pas de génération alpha-num, mais d'octets (pas persistable en json)
+            //-> reglé dans BackupController
+            key = Crypt::genKey(32);
         }
+        setKey(key);
     }
     Backup(std::string,std::string,std::string,std::string,std::string,Frequency,Data*);
 

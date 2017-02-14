@@ -3,11 +3,13 @@
 #include "../controllers/UsersBackupController.h"
 #include <QFileIconProvider>
 #include <QStyle>
+#include <QDebug>
 
 BackupForm::BackupForm(QWidget *parent) :
     QDialog(parent),_backupKey("null")
 {   
     init();
+
     connect(this,SIGNAL(newBackupAdded(std::map<std::string,std::string>)),
             parent,SLOT(onNewBackupAdded(std::map<std::string,std::string>)));
 }
@@ -50,11 +52,13 @@ void BackupForm::setSourceText(QString sourcePath){
 void BackupForm::on_backupButtonBox_accepted(){
 
     std::map<std::string,std::string> backup_info;
-    backup_info["name"] = nameInput->text().toStdString();
-    backup_info["source_path"]= sourceInput->text().toStdString();
-    backup_info["target_path"] = targetInput->text().toStdString();
-    backup_info["target_type"] = "NORMAL";
-    backup_info["note"] = notesInput->toPlainText().toStdString();
+
+    backup_info["name"]         = nameInput->text().toStdString();
+    backup_info["source_path"]  = sourceInput->text().toStdString();
+    backup_info["target_path"]  = targetInput->text().toStdString();
+    backup_info["target_type"]  = "NORMAL";
+    backup_info["note"]         = notesInput->toPlainText().toStdString();
+
     QDateTime date_time;
     backup_info["last_save"] = date_time.currentDateTime().toString().toStdString();
 //    backup_info["frequency"] = "*-*-*-*-*";

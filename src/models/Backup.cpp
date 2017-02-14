@@ -20,6 +20,7 @@ Backup::Backup(const Backup &backupToCopy)
     strcpy(key, backupToCopy.getKey().c_str());
 }
 
+//Utile?
 Backup::Backup(string name,
                string src,
                string destPath,
@@ -28,9 +29,9 @@ Backup::Backup(string name,
                Frequency frequency,
                Data *data)
         : name(name), source(src), target(destPath), targetType(destType),
-          lastSave(lastSave),frequency(frequency),data(data)
+          lastSave(lastSave),frequency(frequency), data(data)
 {
-    memcpy(this->key,Crypt::genKey(32),32);
+    setKey(Crypt::genKey(32));
 }
 
 void Backup::saveData(){
@@ -110,14 +111,14 @@ bool Backup::operator!=(const Backup &backup){
 
 void Backup::operator=(const Backup &backup){
     strcpy(key,backup.getKey().c_str());
-    name = backup.getName();
-    source = backup.getSource();
-    target = backup.getTarget();
-    targetType = backup.getTargetType();
-    lastSave = backup.getLastSave();
-    frequency = backup.getFrequency();
-    data = backup.getData();
-    note = backup.getNote();
+    name        = backup.getName();
+    source      = backup.getSource();
+    target      = backup.getTarget();
+    targetType  = backup.getTargetType();
+    lastSave    = backup.getLastSave();
+    frequency   = backup.getFrequency();
+    data        = backup.getData();
+    note        = backup.getNote();
 }
 
 ostream& operator<<(ostream &out, const Backup &backup){
