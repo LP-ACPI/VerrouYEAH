@@ -14,6 +14,8 @@ public:
     static BackupController &getInstance()
     {   return instance; }
 
+    void updateBackupData(Backup*);
+
     Backup getBackupFromInfoMap(std::map<std::string,std::string>);
     std::map<std::string,std::string> getInfoMapFromBackup(Backup*);
 

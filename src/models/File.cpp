@@ -12,9 +12,9 @@ bool File::isDirData() const
 
 
 json File::to_json() const {
-    json j = json{{"file", {
+    json j = json{{name, {
                 {"path", path},
-                {"name", name},
+                {"type", "file"},
             }}
         };
     return j;

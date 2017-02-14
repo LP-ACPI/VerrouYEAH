@@ -11,23 +11,30 @@
             "data": {
               "dir_name_2": {
                 "data": {
-                  "file": {
-                    "name": "file_name_3",
-                    "path": "file_path_3"
+                  "file_name_1": {
+                    "path": "file_path_1",
+                    "type": "file"
+                  },
+                  "file_name_3": {
+                    "path": "file_path_3",
+                    "type": "file"
                   }
                 },
-                "path": "dir_path_2"
+                "path": "dir_path_2",
+                "type": "dir"
               },
               "dir_name_3": {
                 "data": null,
-                "path": "dir_path_3"
+                "path": "dir_path_3",
+                "type": "dir"
               },
-              "file": {
-                "name": "file_name_2",
-                "path": "file_path_2"
+              "file_name_2": {
+                "path": "file_path_2",
+                "type": "file"
               }
             },
-            "path": "dir_path_1"
+            "path": "dir_path_1",
+            "type": "dir"
           }
         },
         "name": "Ma seconde sauvegarde"

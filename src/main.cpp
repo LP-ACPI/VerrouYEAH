@@ -18,6 +18,9 @@ using namespace std;
  */
 int main(int argc, char* argv[])
 {
+
+    ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+
     Q_INIT_RESOURCE(res);
 
     QApplication app(argc, argv);
@@ -28,6 +31,7 @@ int main(int argc, char* argv[])
     app.installTranslator(&tr);
 
     AuthDialog *aWindow = new AuthDialog;
+
 
     if(UserController::getInstance().favoriteUserExists()){
 

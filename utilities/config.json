@@ -11,7 +11,8 @@
           "path": "chemin/destination"
         },
         "freq": "* * * * *",
-        "last_save": "JJ-MM-AAAA"
+        "last_save": "JJ-MM-AAAA",
+        "note" : ""
       }, {
         "key" : "2",
         "name": "Ma seconde sauvegarde",
@@ -21,11 +22,13 @@
           "path": "chemin/destination"
         },
         "freq": "* * * * *",
-        "last_save": "JJ-MM-AAAA"
+        "last_save": "JJ-MM-AAAA",
+        "note" : ""
       }]
     },
     "login_user_2": {
-      "password": "azerty",      "backups": []
+      "password": "azerty",      
+      "backups": []
     }
   }
 }

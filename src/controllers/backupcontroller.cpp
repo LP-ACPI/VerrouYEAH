@@ -1,18 +1,35 @@
 #include "backupcontroller.h"
+#include "UserController.h"
 #include "../services/Crypt.h"
+#include "../services/ConfigManager.h"
+#include <QDir>
 
 BackupController BackupController::instance = BackupController();
 
+void BackupController::updateBackupData(Backup *backup){
+    QFileInfo info(QString::fromStdString(backup->getSource()));
+    Data* root_dir = new Directory(info);
+    backup->setData(root_dir);
+
+    std::string distant_config = backup->getTarget() + QDir::separator().toLatin1() + backup->getName() + ".json";
+    ConfigManager::getInstance().setJsonFile(distant_config);
+
+    ConfigManager::getInstance().saveUsersBackupData(
+                UserController::getInstance().getCurrentUser(),backup
+        );
+
+    ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+}
 
 Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> backupInfo){
     Backup backup_from_info;
 
-    std::map<std::string,std::string>::iterator it = backupInfo.find("key");
-    if(it != backupInfo.end())
-        backup_from_info.setKey(backupInfo["key"].c_str());
-    else
-        backup_from_info.setKey(Crypt::genKey(32));
+//    std::map<std::string,std::string>::iterator it = backupInfo.find("key");
+//    if(it != backupInfo.end())
+//    else
+//        backup_from_info.setKey();
 
+    backup_from_info.setKey(backupInfo["key"].c_str());
     backup_from_info.setName(backupInfo["name"]);
     backup_from_info.setSource(backupInfo["source_path"]);
     backup_from_info.setTarget(backupInfo["target_path"]);

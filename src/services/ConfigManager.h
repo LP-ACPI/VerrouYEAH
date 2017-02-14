@@ -11,6 +11,8 @@
 #include "../models/User.h"
 #include "../models/Backup.h"
 
+#define LOCAL_CONFIG_FILE "config.json"
+
 #include <json.hpp>
 
 using json = nlohmann::json;
@@ -21,10 +23,11 @@ private:
         json config;
         std::string configFilename;
 
-        json readOrInitRootUsers();
+        json readOrInitUserRoot();
+        json readOrInitUserBackups(std::string);
         json readOrInitAppRoot();
 
-        ConfigManager() : configFilename("config.json")
+        ConfigManager()
         {}
 
         ConfigManager(ConfigManager const&);

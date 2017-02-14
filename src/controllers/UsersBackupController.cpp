@@ -17,19 +17,27 @@ std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std:
 }
 
 std::map<std::string,std::string> UsersBackupController::createUsersBackup(std::map<std::string,std::string> backupInfo){
-    //TODO : persistance Data + cryptage (new_backup.saveData) + démarrage du scheduler
+    //TODO : cryptage (new_backup.saveData) + démarrage du scheduler
     //ou plutôt un BackupController qui s'en charge
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
+    new_backup.setKey(Crypt::genKey(32));
     user->addBackup(new_backup);
+
+    BackupController::getInstance().updateBackupData(&new_backup);
+
     ConfigManager::getInstance().updateUser(user);
-    return BackupController::getInstance().getInfoMapFromBackup(&new_backup);
+    backupInfo["key"] = new_backup.getKey();
+    return backupInfo;
 }
 
 void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> backupInfo){
     //TODO: avertissement "modif' données sauvegardés"
+
     Backup backup_to_update = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     Backup old_backup = user->getBackupByKey(backup_to_update.getKey());
     user->replaceBackup(old_backup,backup_to_update);
+
+    BackupController::getInstance().updateBackupData(&backup_to_update);
     ConfigManager::getInstance().updateUser(user);
 }
 

@@ -4,7 +4,6 @@
 #include <iostream>
 #include "../models/User.h"
 #include "../services/ConfigManager.h"
-#define CONFIG_FILE "config.json"
 
 class UserController
 {
@@ -21,7 +20,6 @@ class UserController
 public:
 
     static UserController& getInstance(){
-        ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
         return instance;
     }
 

@@ -7,6 +7,7 @@
 
 #include "Data.h"
 #include <list>
+#include <QFileInfo>
 #include <json.hpp>
 using json=nlohmann::json;
 
@@ -21,7 +22,9 @@ public:
   Directory(const Directory &dir):Data(dir)
   { setDataList(dir.getDataList()); }
 
-  Directory(json &jsonData);
+  Directory(json&);
+
+  Directory(QFileInfo&,std::string rootPath = "");
 
   Directory(std::string name = "test",
           std::string path = "test")

@@ -12,7 +12,7 @@ using namespace std;
 map<string,string>ConfigManager::loadLoginPassList(){
 
     map<string,string> loginPassList;
-    json user_config = readOrInitRootUsers();
+    json user_config = readOrInitUserRoot();
 
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it){
         string login = it.key();
@@ -27,7 +27,7 @@ User* ConfigManager::loadUser(string login){
 
     json user_config;
     try{
-        user_config = readOrInitRootUsers().at(login);
+        user_config = readOrInitUserRoot().at(login);
     }catch(exception){//TODO: Throw
        cerr << "pas d'utilisateur" << login << endl;
        return NULL;
@@ -68,8 +68,7 @@ void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
     if(users_backup["Data"] != NULL){
 
-        Directory *abstract_root = new Directory(users_backup["Data"]);
-        Data *root_data = &abstract_root->getDataAt(0);
+        Directory *root_data = new Directory(users_backup["Data"]);
 
         Backup new_backup = user->getBackupByKey(backupKey);
         new_backup.setData(root_data);
@@ -116,7 +115,7 @@ json ConfigManager::saveUser(User *user){
 
 void ConfigManager::deleteUser(std::string userLogin) {
 
-    json user_config = readOrInitRootUsers();
+    json user_config = readOrInitUserRoot();
 
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it)
         if(it.key() == userLogin)
@@ -126,9 +125,11 @@ void ConfigManager::deleteUser(std::string userLogin) {
 }
 
 void ConfigManager::updateUser(User *user){
-    string login = user->getLogin();
-    json user_config = readOrInitRootUsers()[login];
+    string login        = user->getLogin();
+    json user_config    = readOrInitUserRoot()[login];
+
     user_config << *user;
+
     config["users"][login]  = user_config[login];
     persist();
 }
@@ -136,17 +137,17 @@ void ConfigManager::updateUser(User *user){
 
 json ConfigManager::saveUsersBackupData(User *user,Backup *backup){
 
-    json jsonBackup = backup->toDistantJson();
-    json usersBackups = config[user->getLogin()]["backups"];
-    config[user->getLogin()]["backups"] = merge(usersBackups,jsonBackup);
-    config[user->getLogin()]["password"] = user->getPassword();
+    json jsonBackup     = backup->toDistantJson();
+    json usersBackups   = readOrInitUserBackups(user->getLogin());
+    config[user->getLogin()]["backups"]     = merge(usersBackups,jsonBackup);
+    config[user->getLogin()]["password"]    = user->getPassword();
     persist();
     return jsonBackup;
 }
 
 
 void ConfigManager::deleteUsersBackupData(string userLogin,string bcKey){
-        json users_backups = config.at(userLogin).at("backups");
+        json users_backups = readOrInitUserBackups(userLogin);
 
     for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it)
         if(it.key() == bcKey)
@@ -190,6 +191,7 @@ json ConfigManager::merge(const json &a, const json &b)
     return result.unflatten();
 }
 
+
 json ConfigManager::readOrInitAppRoot(){
     json app_root;
     try{
@@ -201,7 +203,7 @@ json ConfigManager::readOrInitAppRoot(){
     return app_root;
 }
 
-json ConfigManager::readOrInitRootUsers(){
+json ConfigManager::readOrInitUserRoot(){
     json user_root;
     try{
          user_root = config.at("users");
@@ -210,6 +212,17 @@ json ConfigManager::readOrInitRootUsers(){
         user_root = config.at("users");
     }
     return user_root;
+}
+
+json ConfigManager::readOrInitUserBackups(string userLogin){
+    json bakups_root;
+    try{
+         bakups_root = config.at(userLogin).at("backups");
+    }catch(const out_of_range&){
+        config[userLogin]["backups"] = json::array();
+        bakups_root = config.at(userLogin).at("backups");
+    }
+    return bakups_root;
 }
 
 ostream& operator<<(ostream &out, const ConfigManager &configuration){

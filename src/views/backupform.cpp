@@ -1,9 +1,10 @@
 #include "backupform.h"
 #include "ui_backupformdialog.h"
 #include "../controllers/UsersBackupController.h"
+#include <QFileDialog>
 #include <QFileIconProvider>
+#include <QMessageBox>
 #include <QStyle>
-#include <QDebug>
 
 BackupForm::BackupForm(QWidget *parent) :
     QDialog(parent),_backupKey("null")
@@ -51,6 +52,9 @@ void BackupForm::setSourceText(QString sourcePath){
 
 void BackupForm::on_backupButtonBox_accepted(){
 
+    if(!isFormValid())
+        return;
+
     std::map<std::string,std::string> backup_info;
 
     backup_info["name"]         = nameInput->text().toStdString();
@@ -58,6 +62,7 @@ void BackupForm::on_backupButtonBox_accepted(){
     //TODO - destination favorites d'utilisateur + form
     backup_info["target_path"]  = targetInput->text().toStdString();
     backup_info["target_type"]  = "NORMAL";
+
     backup_info["note"]         = noteInput->toPlainText().toStdString();
 
     //TODO - lastSave : DateTime
@@ -78,4 +83,28 @@ void BackupForm::on_backupButtonBox_accepted(){
 
 void BackupForm::on_backupButtonBox_rejected(){
     close();
+}
+
+bool BackupForm::isFormValid(){
+    bool empty_entries = sourceInput->text().isEmpty()
+            || nameInput->text().isEmpty()
+            || targetInput->text().isEmpty();
+
+    if(empty_entries){
+        QMessageBox::warning(this, "Attention!",
+          "Merci de remplir toutes les informations");
+      return false;
+    }
+    return true;
+}
+
+void BackupForm::on_sourceChoiceButton_clicked(){
+    QString dossier = QFileDialog::getExistingDirectory();
+    sourceInput->setText(dossier);
+}
+
+
+void BackupForm::on_targetChoiceButton_clicked(){
+    QString dossier = QFileDialog::getExistingDirectory();
+    targetInput->setText(dossier);
 }

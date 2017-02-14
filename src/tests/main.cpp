@@ -36,9 +36,7 @@ int main(int argc, char* argv[])
 
     UnitTest<void*>::results();
 
-    return app.exec();
-
-
+    return EXIT_SUCCESS;
 }
 
 
