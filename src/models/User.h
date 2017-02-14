@@ -42,5 +42,4 @@ public:
     friend nlohmann::json& operator<<(nlohmann::json&, const User&);
 };
 
-
 #endif //USER_H

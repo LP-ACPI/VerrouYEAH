@@ -29,9 +29,9 @@ class Backup {
     std::string target;
     std::string targetType;
     std::string lastSave;//TODO type Date -> prop: QDateTime (?) -> créer unu en accord avec Frequency?
+    std::string note;
     Frequency frequency;
     const Data* data;
-    std::string note;
 
 public:
     Backup(const Backup&);
@@ -42,17 +42,17 @@ public:
             std::string target = "test",
             std::string targetType = target_type_tag[target_type::normal],
             std::string lastSave= "1/1/1970",
-            Frequency freq = Frequency(),
             std::string note = "test",
+            Frequency freq = Frequency(),
             const Data *data = NULL)
         : name(name),
           source(source),
           target(target),
           targetType(targetType),
           lastSave(lastSave),
+          note(note),
           frequency(freq),
-          data(data),
-          note(note)
+          data(data)
     {
         if(strcmp("null",key) == 0){
             //byg - pas de génération alpha-num, mais d'octets (pas persistable en json)
@@ -73,9 +73,9 @@ public:
     std::string getTarget() const;
     std::string getTargetType() const;
     std::string getLastSave() const;//TODO type Date
+    std::string getNote() const;
     Frequency getFrequency() const;
     const Data* getData() const;
-    std::string getNote() const;
 
     void setKey(const char*);
     void setName(const std::string);
@@ -83,9 +83,9 @@ public:
     void setTarget(const std::string);
     void setTargetType(const std::string);
     void setLastSave(const std::string);//TODO type Date
+    void setNote(const std::string);
     void setFrequency(const Frequency);
     void setData(const Data*);
-    void setNote(const std::string);
 
 
     bool operator==(const Backup&);

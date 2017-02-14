@@ -3,21 +3,12 @@
     "auto_login": "toto"
   },
   "users": {
+    "test": {
+      "backups": null,
+      "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c"
+    },
     "toto": {
-      "backups": [
-        {
-          "dest": {
-            "path": "",
-            "type": "NORMAL"
-          },
-          "freq": "* * * * *",
-          "key": "Jt0jk9N6L5cdFnDLSWV3bvYghhol4Eg",
-          "last_save": "mar. févr. 14 12:09:33 2017",
-          "name": "Nom Sauvegarde",
-          "note": "",
-          "src": ""
-        }
-      ],
+      "backups": [],
       "password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
     }
   }

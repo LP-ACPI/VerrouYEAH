@@ -208,7 +208,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
+     <family>DejaVu Sans</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -303,7 +303,7 @@
     <item>
      <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>Notes</string>
+       <string>Note</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -311,7 +311,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QTextEdit" name="notesInput"/>
+     <widget class="QPlainTextEdit" name="noteInput"/>
     </item>
    </layout>
   </widget>

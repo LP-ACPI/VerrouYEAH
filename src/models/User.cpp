@@ -26,7 +26,7 @@ Backup User::getBackupByKey(const string key){
     Backup outPut;
     for(list<Backup>::iterator it = backups.begin();it!=backups.end();++it)
         if(key == it->getKey()){
-            outPut = Backup(*it);
+            outPut = (*it);
             break;
         }
     return outPut;

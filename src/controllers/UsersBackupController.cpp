@@ -17,8 +17,8 @@ std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std:
 }
 
 std::map<std::string,std::string> UsersBackupController::createUsersBackup(std::map<std::string,std::string> backupInfo){
-    //TODO cryptage ici + démarrage du scheduler
-    //ou plutôt un BackupController qui s'en charge + mise à jour du dossier distant (normal/ftp)
+    //TODO : persistance Data + cryptage (new_backup.saveData) + démarrage du scheduler
+    //ou plutôt un BackupController qui s'en charge
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     user->addBackup(new_backup);
     ConfigManager::getInstance().updateUser(user);

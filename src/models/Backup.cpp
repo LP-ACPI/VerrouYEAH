@@ -14,6 +14,8 @@ Backup::Backup(const Backup &backupToCopy)
       source(backupToCopy.getSource()),
       target(backupToCopy.getTarget()),
       targetType(backupToCopy.getTargetType()),
+      note(backupToCopy.getNote()),
+      frequency(backupToCopy.getFrequency()),
       lastSave(backupToCopy.getLastSave()),
       data(backupToCopy.getData())
 {
@@ -72,34 +74,34 @@ const Data* Backup::getData() const
 string Backup::getNote() const
 {    return this->note;  }
 
-void Backup::setKey(const char* key)
-{    memcpy(this->key,key,32);     }
+void Backup::setKey(const char* _key)
+{    memcpy(this->key,_key,32);     }
 
-void Backup::setName(const string name)
-{    this->name = name;      }
+void Backup::setName(const string _name)
+{    this->name = _name;      }
 
 void Backup::setSource(const string sourcePath)
 {    this->source = sourcePath;     }
 
-void Backup::setTarget(const string targetPath)
-{    this->target = targetPath;     }
+void Backup::setTarget(const string _targetPath)
+{    this->target = _targetPath;     }
 
-void Backup::setTargetType(const string targetType)
-{    this->targetType = targetType;     }
+void Backup::setTargetType(const string _targetType)
+{    this->targetType = _targetType;     }
 
-void Backup::setLastSave(const string lastSave){
+void Backup::setLastSave(const string _lastSave){
     //TODO type Date
-    this->lastSave = lastSave;
+    this->lastSave = _lastSave;
 }
 
-void Backup::setFrequency(const Frequency frequency)
-{    this->frequency = frequency;  }
+void Backup::setFrequency(const Frequency _frequency)
+{    this->frequency = _frequency;  }
 
-void Backup::setData(const Data *data)
-{    this->data = data;     }
+void Backup::setData(const Data *_data)
+{    this->data = _data;     }
 
-void Backup::setNote(const string note)
-{   this->note = note;  }
+void Backup::setNote(const string _note)
+{    this->note = _note;  }
 
 bool Backup::operator==(const Backup &backup){
     return (strcmp(key, backup.getKey().c_str())==0);
@@ -126,7 +128,7 @@ ostream& operator<<(ostream &out, const Backup &backup){
     out << "\tclé: " << backup.key << endl;
     out << "\tsource: " << backup.source << endl;
     out << "\tdestination: " << backup.target << endl;
-//    out << "\tracine data: " << *backup.data << endl;
+    out << "\tracine data: " << *backup.data << endl;
     return out;
 }
 

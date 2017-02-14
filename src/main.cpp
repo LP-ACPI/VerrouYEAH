@@ -11,11 +11,6 @@
 #include "views/mainwindow.h"
 #include "controllers/UserController.h"
 
-#define PATH_SOURCE "fichier_source.txt"
-#define PATH_VY "fichier_crypte.vy"
-#define PATH_CIBLE "fichier_cible.txt"
-
-
 using namespace std;
 
 /*

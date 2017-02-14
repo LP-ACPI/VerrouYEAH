@@ -11,12 +11,13 @@ class BackupController
     {}
 
 public:
-    static BackupController getInstance()
+    static BackupController &getInstance()
     {   return instance; }
 
     Backup getBackupFromInfoMap(std::map<std::string,std::string>);
     std::map<std::string,std::string> getInfoMapFromBackup(Backup*);
 
+    void operator=(BackupController const&) = delete;
 
 };
 

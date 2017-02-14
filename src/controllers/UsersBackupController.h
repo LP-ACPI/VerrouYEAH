@@ -25,6 +25,8 @@ public:
     void deleteUsersBackup(std::string);
     std::list<std::map<std::string,std::string>> getUsersBackupInfoList();
     std::list<std::string> getUsersBackupKeyList();
+
+    void operator=(UsersBackupController const&) = delete;
 };
 
 #endif // USERSBACKUPSCONTROLLER_H

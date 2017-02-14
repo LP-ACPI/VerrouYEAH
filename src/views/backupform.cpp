@@ -24,7 +24,7 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
     nameInput->setText(QString::fromStdString(backup_info["name"]));
     sourceInput->setText(QString::fromStdString(backup_info["source_path"]));
     targetInput->setText(QString::fromStdString(backup_info["target_path"]));
-    notesInput->setPlainText(QString::fromStdString(backup_info["note"]));
+    noteInput->setPlainText(QString::fromStdString(backup_info["note"]));
 
     connect(this,SIGNAL(BackupUpdated(std::map<std::string,std::string>)),
             parent,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
@@ -55,12 +55,15 @@ void BackupForm::on_backupButtonBox_accepted(){
 
     backup_info["name"]         = nameInput->text().toStdString();
     backup_info["source_path"]  = sourceInput->text().toStdString();
+    //TODO - destination favorites d'utilisateur + form
     backup_info["target_path"]  = targetInput->text().toStdString();
     backup_info["target_type"]  = "NORMAL";
-    backup_info["note"]         = notesInput->toPlainText().toStdString();
+    backup_info["note"]         = noteInput->toPlainText().toStdString();
 
+    //TODO - lastSave : DateTime
     QDateTime date_time;
     backup_info["last_save"] = date_time.currentDateTime().toString().toStdString();
+    //TODO - implém fréquence + form
 //    backup_info["frequency"] = "*-*-*-*-*";
 
     if(_backupKey == "null")
