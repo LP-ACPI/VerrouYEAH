@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="nameInput">
    <property name="geometry">
     <rect>
      <x>22</x>
@@ -191,7 +191,7 @@
     <string>Cible</string>
    </property>
   </widget>
-  <widget class="QDialogButtonBox" name="sourceButtonBox">
+  <widget class="QDialogButtonBox" name="backupButtonBox">
    <property name="geometry">
     <rect>
      <x>22</x>
@@ -315,17 +315,17 @@
     </item>
    </layout>
   </widget>
-  <zorder>lineEdit</zorder>
+  <zorder>nameInput</zorder>
   <zorder>label_2</zorder>
-  <zorder>sourceInput</zorder>
   <zorder>sourceChoiceButton</zorder>
   <zorder>targetChoiceButton</zorder>
   <zorder>label_3</zorder>
-  <zorder>sourceButtonBox</zorder>
+  <zorder>backupButtonBox</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>icon</zorder>
   <zorder>targetInput</zorder>
+  <zorder>sourceInput</zorder>
  </widget>
  <resources/>
  <connections/>

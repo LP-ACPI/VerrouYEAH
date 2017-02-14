@@ -36,12 +36,14 @@ SOURCES	+=  \
     src/services/ConfigManager.cpp \
     src/services/Ftp.cpp \
     src/controllers/UserController.cpp \
-    src/controllers/UsersBackupsController.cpp \
     src/views/authdialog.cpp \
     src/views/mainwindow.cpp \
     src/main.cpp \
     src/views/backupform.cpp \
-    src/views/userform.cpp
+    src/views/userform.cpp \
+    src/views/backupwidget.cpp \
+    src/controllers/BackupController.cpp \
+    src/controllers/UsersBackupController.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -55,11 +57,13 @@ HEADERS	+=  \
     src/services/ConfigManager.h \
     src/services/Ftp.h \
     src/controllers/UserController.h \
-    src/controllers/UsersBackupsController.h \
     src/views/authdialog.h \
     src/views/mainwindow.h \
     src/views/backupform.h \
-    src/views/userform.h
+    src/views/userform.h \
+    src/views/backupwidget.h \
+    src/controllers/UsersBackupController.h \
+    src/controllers/BackupController.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \

@@ -38,10 +38,13 @@ public:
     bool favoriteUserExists();
     std::string getFavoriteUser();
     void setFavoriteUser(std::string);
-    void unsetFavoriteUser();
+    void unsetFavoriteUser(std::string);
 
     std::string getCurrentUserLogin() const
     {   return currentUser->getLogin(); }
+
+    User* getCurrentUser() const
+    {   return currentUser; }
 
     std::string getCurrentUserPass() const
     {   return currentUser->getPassword(); }

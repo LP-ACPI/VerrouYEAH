@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>545</width>
-    <height>67</height>
+    <height>80</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>30</x>
      <y>10</y>
-     <width>41</width>
-     <height>41</height>
+     <width>61</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
@@ -32,10 +32,10 @@
   <widget class="QPushButton" name="trashButton">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>10</y>
+     <x>470</x>
+     <y>20</y>
      <width>41</width>
-     <height>51</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -46,14 +46,14 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>0</y>
+     <y>10</y>
      <width>261</width>
-     <height>66</height>
+     <height>61</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="BackupName">
+     <widget class="QLabel" name="backupName">
       <property name="font">
        <font>
         <family>Monospace</family>
@@ -66,7 +66,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="BackupSource">
+     <widget class="QLabel" name="backupSource">
       <property name="lineWidth">
        <number>1</number>
       </property>
@@ -76,7 +76,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="BackupCible">
+     <widget class="QLabel" name="backupTarget">
       <property name="text">
        <string>Cible</string>
       </property>
@@ -84,13 +84,13 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="decryptButton">
+  <widget class="QPushButton" name="configButton">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>390</x>
      <y>10</y>
-     <width>41</width>
-     <height>51</height>
+     <width>61</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">

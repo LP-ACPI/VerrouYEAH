@@ -5,7 +5,9 @@
 UserController UserController::instance = UserController();
 
 void UserController::setCurrentUser(std::string login)
-{  currentUser = ConfigManager::getInstance().loadUser(login);   }
+{
+  currentUser = ConfigManager::getInstance().loadUser(login);
+}
 
 bool UserController::favoriteUserExists() {
     std::string user_login = ConfigManager::getInstance().loadAutoLoginUserLogin() ;
@@ -20,9 +22,9 @@ void UserController::setFavoriteUser(std::string userLogin){
     ConfigManager::getInstance().setAutoLoginUser(userLogin);
 }
 
-void UserController::unsetFavoriteUser(){
+void UserController::unsetFavoriteUser(std::string userLogin){
     if(favoriteUserExists())
-        ConfigManager::getInstance().unsetAutoLoginUser();
+        ConfigManager::getInstance().unsetAutoLoginUser(userLogin);
 }
 
 void UserController::loadLoginsPassCouples(){
@@ -66,7 +68,6 @@ bool UserController::updateUser(std::string newLogin, std::string newPass){
 }
 
 void UserController::deleteUser() {
-    unsetFavoriteUser();
     ConfigManager::getInstance().deleteUser(getCurrentUserLogin());
     loadLoginsPassCouples();
 }

@@ -35,8 +35,10 @@ int main(int argc, char* argv[])
     AuthDialog *aWindow = new AuthDialog;
 
     if(UserController::getInstance().favoriteUserExists()){
+
         std::string userLogin = UserController::getInstance().getFavoriteUser();
         aWindow->proceedToMainWindow(userLogin);
+
    } else {
         aWindow->show();
     }

@@ -8,7 +8,6 @@
 #include <iostream>
 #include <cstring>
 #include <openssl/des.h>
-#include <openssl/rand.h>
 #include <openssl/sha.h>
 
 using namespace std;
@@ -69,11 +68,23 @@ void Crypt::crypt_file_DES(string nom_source, string nom_destination, char* cle,
     destination.close();
 }
 
-char* Crypt::genKey(size_t key_size)//TODO : if !RAND_bytes ->errmsg
-{
-    unsigned char key_gen[key_size];
-    RAND_bytes(key_gen,key_size);
-    return (char*)key_gen;
+char* Crypt::genKey(size_t key_size){
+    //Changement: RAND_Bytes renvoyait des valeurs difficilement lisibles/écrivables depuis/dans un json
+    //-> que des valeurs alpha-num
+    char key[key_size];
+    static const char alphanum[] =
+            "0123456789"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            "abcdefghijklmnopqrstuvwxyz";
+
+        for (int i = 0; i < key_size-1; i++) {
+            key[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+        }
+
+    key[key_size-1] = 0;
+
+    return key;
+
 }
 
 std::string Crypt::generateHashedPass(std::string userPass){

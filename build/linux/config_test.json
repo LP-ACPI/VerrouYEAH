@@ -1,4 +1,7 @@
 {
+  "VerrouYeah": {
+    "auto_login": ""
+  },
   "users": {
     "login_test": {
       "backups": [
@@ -7,7 +10,7 @@
             "path": "chemin/destination",
             "type": "NORMAL"
           },
-          "freq": "JJ-MM-AAAA",
+          "freq": "* * * * *",
           "key": "1",
           "last_save": "JJ-MM-AAAA",
           "name": "Ma première sauvegarde",
@@ -19,7 +22,7 @@
             "path": "chemin/destination",
             "type": "FTP"
           },
-          "freq": "JJ-MM-AAAA",
+          "freq": "* * * * *",
           "key": "2",
           "last_save": "JJ-MM-AAAA",
           "name": "Ma seconde sauvegarde",

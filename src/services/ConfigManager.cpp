@@ -44,21 +44,22 @@ User* ConfigManager::loadUser(string login){
         string sourcePath = bc["src"];
         string targetType = bc["dest"]["type"];
         string targetPath = bc["dest"]["path"];
+        string note = bc["note"];
         //TODO : DateTime format
         string lastSave = bc["last_save"];
         string frequency = bc["freq"];
 
-        Backup backup;
-        backup.setKey(key.c_str());
+        Backup backup(key.c_str());
         backup.setName(name);
         backup.setSource(sourcePath);
         backup.setTarget(targetPath);
         backup.setTargetType(targetType);
         backup.setLastSave(lastSave);
+        backup.setNote(note);
         backup.setFrequency(frequency);
         user->addBackup(backup);
     }
-
+cout <<"ConfigMan" << endl << *user ;
     return user ;
 }
 
@@ -81,12 +82,12 @@ void ConfigManager::loadUsersBackupData(User *user, string backupKey){
 
 void ConfigManager::loadUsersBackupList(User* user){
 
-        json users_backups = config.at(user->getLogin()).at("backups");
+    json users_backups = config.at(user->getLogin()).at("backups");
 
-        for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
+    for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
 
-            loadUsersBackupData(user,it.key().c_str());
-        }
+        loadUsersBackupData(user,it.key().c_str());
+    }
 }
 
 
@@ -95,8 +96,10 @@ void ConfigManager::setAutoLoginUser(std::string login){
     persist();
 }
 
-void ConfigManager::unsetAutoLoginUser(){
-    config["VerrouYeah"]["auto_login"] = "";
+void ConfigManager::unsetAutoLoginUser(std::string userLogin){
+    json app_root = readOrInitAppRoot();
+    if(app_root["auto_login"] == userLogin)
+        config["VerrouYeah"]["auto_login"] = "";
     persist();
 }
 
@@ -120,11 +123,20 @@ void ConfigManager::deleteUser(std::string userLogin) {
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it)
         if(it.key() == userLogin)
             config.at("users").erase(it.key());
+    unsetAutoLoginUser(userLogin);
+    persist();
+}
+
+void ConfigManager::updateUser(User *user){
+
+    json user_config = readOrInitRootUsers();
+    user_config[user->getLogin()] << *user;
+    config["users"] = user_config;
     persist();
 }
 
 
-json ConfigManager::saveUsersBackup(User *user,Backup *backup){
+json ConfigManager::saveUsersBackupData(User *user,Backup *backup){
 
     json jsonBackup = backup->toDistantJson();
     json usersBackups = config[user->getLogin()]["backups"];
@@ -135,8 +147,8 @@ json ConfigManager::saveUsersBackup(User *user,Backup *backup){
 }
 
 
-void ConfigManager::deleteUsersBackup(string userLogin,string bcKey){
-    json users_backups = config.at(userLogin).at("backups");
+void ConfigManager::deleteUsersBackupData(string userLogin,string bcKey){
+        json users_backups = config.at(userLogin).at("backups");
 
     for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it)
         if(it.key() == bcKey)
@@ -144,7 +156,6 @@ void ConfigManager::deleteUsersBackup(string userLogin,string bcKey){
     persist();
 
 }
-
 
 void ConfigManager::setJsonFile(string newConfigFileName){
     configFilename = newConfigFileName;

@@ -1,6 +1,6 @@
 #include "authdialog.h"
 #include "mainwindow.h"
-#include "../controllers/UsersBackupsController.h"
+#include "../controllers/UsersBackupController.h"
 #include <QMessageBox>
 #include <QDebug>
 
@@ -114,10 +114,11 @@ void AuthDialog::updateOrNotFavoriteUser(std::string userLogin){
     if(autoLoginUserCheck->isChecked())
         UserController::getInstance().setFavoriteUser(userLogin);
     else
-        UserController::getInstance().unsetFavoriteUser();
+        UserController::getInstance().unsetFavoriteUser(userLogin);
 }
 
 void AuthDialog::proceedToMainWindow(std::string login){
+
     UserController::getInstance().setCurrentUser(login);
     MainWindow *mainWindow = new MainWindow;
     mainWindow->show();

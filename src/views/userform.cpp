@@ -1,5 +1,5 @@
 #include "userform.h"
-#include "../controllers/UsersBackupsController.h"
+#include "../controllers/UsersBackupController.h"
 #include "authdialog.h"
 #include <QMessageBox>
 
@@ -31,11 +31,9 @@ UserForm::~UserForm(){
 
 void UserForm::on_updateUserButtonBox_accepted(){
 
-
-    if(fullUserUpdateIsNecessary()){
+    if(fullUserUpdateIsNecessary())
         if(!updateUser())
             return;
-    }
 
     std::string new_login = userLoginInput->text().toStdString();
     updateOrNotFavoriteUser(new_login);
@@ -136,6 +134,6 @@ void UserForm::updateOrNotFavoriteUser(std::string userLogin){
     if(autoLoginUserCheck->isChecked())
         UserController::getInstance().setFavoriteUser(userLogin);
     else
-        UserController::getInstance().unsetFavoriteUser();
+        UserController::getInstance().unsetFavoriteUser(userLogin);
 
 }

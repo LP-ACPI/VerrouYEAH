@@ -58,8 +58,9 @@ SOURCES       = ../../../src/models/Backup.cpp \
 		../../../src/services/Crypt.cpp \
 		../../../src/services/ConfigManager.cpp \
 		../../../src/services/Ftp.cpp \
-		../../../src/controllers/UsersBackupsController.cpp \
+		../../../src/controllers/UsersBackupController.cpp \
 		../../../src/controllers/UserController.cpp \
+		../../../src/controllers/BackupController.cpp \
 		../../../src/tests/main.cpp moc_Ftp.cpp
 OBJECTS       = Backup.o \
 		Data.o \
@@ -71,8 +72,9 @@ OBJECTS       = Backup.o \
 		Crypt.o \
 		ConfigManager.o \
 		Ftp.o \
-		UsersBackupsController.o \
+		UsersBackupController.o \
 		UserController.o \
+		BackupController.o \
 		main.o \
 		moc_Ftp.o
 DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
@@ -236,8 +238,9 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
 		../../../src/services/Ftp.h \
-		../../../src/controllers/UsersBackupsController.h \
+		../../../src/controllers/UsersBackupController.h \
 		../../../src/controllers/UserController.h \
+		../../../src/controllers/BackupController.h \
 		../../../src/tests/persistancetest.hpp \
 		../../../src/tests/usertest.hpp \
 		../../../src/tests/datatest.hpp \
@@ -251,8 +254,9 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../src/services/Crypt.cpp \
 		../../../src/services/ConfigManager.cpp \
 		../../../src/services/Ftp.cpp \
-		../../../src/controllers/UsersBackupsController.cpp \
+		../../../src/controllers/UsersBackupController.cpp \
 		../../../src/controllers/UserController.cpp \
+		../../../src/controllers/BackupController.cpp \
 		../../../src/tests/main.cpp
 QMAKE_TARGET  = VerrouYeah-UnitTests
 DESTDIR       = 
@@ -588,8 +592,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/services/Ftp.h ../../../src/controllers/UsersBackupsController.h ../../../src/controllers/UserController.h ../../../src/tests/persistancetest.hpp ../../../src/tests/usertest.hpp ../../../src/tests/datatest.hpp ../../../src/tests/ftptests.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/Scheduler.cpp ../../../src/models/User.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/services/Ftp.cpp ../../../src/controllers/UsersBackupsController.cpp ../../../src/controllers/UserController.cpp ../../../src/tests/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/services/Ftp.h ../../../src/controllers/UsersBackupController.h ../../../src/controllers/UserController.h ../../../src/controllers/BackupController.h ../../../src/tests/persistancetest.hpp ../../../src/tests/usertest.hpp ../../../src/tests/datatest.hpp ../../../src/tests/ftptests.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/Scheduler.cpp ../../../src/models/User.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/services/Ftp.cpp ../../../src/controllers/UsersBackupController.cpp ../../../src/controllers/UserController.cpp ../../../src/controllers/BackupController.cpp ../../../src/tests/main.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -728,11 +732,11 @@ compiler_clean: compiler_moc_header_clean
 ####### Compile
 
 Backup.o: ../../../src/models/Backup.cpp ../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h
+		../../../src/models/Frequency.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Backup.o ../../../src/models/Backup.cpp
 
 Data.o: ../../../src/models/Data.cpp ../../../src/models/Data.h \
@@ -748,8 +752,8 @@ Directory.o: ../../../src/models/Directory.cpp ../../../src/models/Directory.h \
 		../../../src/services/ConfigManager.h \
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h
+		../../../src/services/Crypt.h \
+		../../../src/models/Frequency.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Directory.o ../../../src/models/Directory.cpp
 
 File.o: ../../../src/models/File.cpp ../../../src/models/File.h \
@@ -762,20 +766,20 @@ Frequency.o: ../../../src/models/Frequency.cpp ../../../src/models/Frequency.h
 
 Scheduler.o: ../../../src/models/Scheduler.cpp ../../../src/models/Scheduler.h \
 		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h
+		../../../src/models/Frequency.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scheduler.o ../../../src/models/Scheduler.cpp
 
 User.o: ../../../src/models/User.cpp ../../../src/models/User.h \
 		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h
+		../../../src/models/Frequency.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o User.o ../../../src/models/User.cpp
 
 Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
@@ -784,11 +788,11 @@ Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
 ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/ConfigManager.h \
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
 		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h \
 		../../../src/models/File.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
@@ -1091,25 +1095,16 @@ Ftp.o: ../../../src/services/Ftp.cpp ../../../src/services/Ftp.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ftp.o ../../../src/services/Ftp.cpp
 
-UsersBackupsController.o: ../../../src/controllers/UsersBackupsController.cpp ../../../src/controllers/UsersBackupsController.h \
+UsersBackupController.o: ../../../src/controllers/UsersBackupController.cpp ../../../src/controllers/UsersBackupController.h \
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
 		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h \
-		../../../src/services/ConfigManager.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UsersBackupsController.o ../../../src/controllers/UsersBackupsController.cpp
-
-UserController.o: ../../../src/controllers/UserController.cpp ../../../src/controllers/UserController.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h \
+		../../../src/controllers/BackupController.h \
+		../../../src/controllers/UserController.h \
 		../../../src/services/ConfigManager.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
@@ -1173,7 +1168,27 @@ UserController.o: ../../../src/controllers/UserController.cpp ../../../src/contr
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UsersBackupController.o ../../../src/controllers/UsersBackupController.cpp
+
+UserController.o: ../../../src/controllers/UserController.cpp ../../../src/controllers/UserController.h \
+		../../../src/models/User.h \
+		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		../../../src/models/Frequency.h \
+		../../../src/services/ConfigManager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UserController.o ../../../src/controllers/UserController.cpp
+
+BackupController.o: ../../../src/controllers/BackupController.cpp ../../../src/controllers/backupcontroller.h \
+		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		../../../src/models/Frequency.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BackupController.o ../../../src/controllers/BackupController.cpp
 
 main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCoreApplication \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1232,9 +1247,9 @@ main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCo
 		../../../includes/json.hpp \
 		../../../src/models/User.h \
 		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
 		../../../src/models/Directory.h \
 		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
 		../../../src/tests/usertest.hpp \
 		../../../src/tests/datatest.hpp \

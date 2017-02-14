@@ -47,9 +47,9 @@ public:
     {
         if (HomeWindow->objectName().isEmpty())
             HomeWindow->setObjectName(QStringLiteral("HomeWindow"));
-        HomeWindow->resize(580, 400);
-        HomeWindow->setMinimumSize(QSize(580, 400));
-        HomeWindow->setMaximumSize(QSize(580, 400));
+        HomeWindow->resize(580, 540);
+        HomeWindow->setMinimumSize(QSize(580, 540));
+        HomeWindow->setMaximumSize(QSize(580, 540));
         HomeWindow->setAcceptDrops(true);
         QIcon icon;
         icon.addFile(QStringLiteral(":/images/icone_temporaire.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -77,11 +77,11 @@ public:
         zoneDrop->setFrameShadow(QFrame::Raised);
         backupList = new QListWidget(zoneDrop);
         backupList->setObjectName(QStringLiteral("backupList"));
-        backupList->setGeometry(QRect(11, 11, 541, 251));
+        backupList->setGeometry(QRect(11, 11, 541, 391));
         backupList->setStyleSheet(QStringLiteral(""));
         newBackupButton = new QPushButton(zoneDrop);
         newBackupButton->setObjectName(QStringLiteral("newBackupButton"));
-        newBackupButton->setGeometry(QRect(10, 270, 541, 61));
+        newBackupButton->setGeometry(QRect(10, 410, 541, 61));
         newBackupButton->setAcceptDrops(true);
 
         verticalLayout->addWidget(zoneDrop);

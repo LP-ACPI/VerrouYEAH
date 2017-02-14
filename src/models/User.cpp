@@ -90,6 +90,9 @@ bool User::hasBackup(const Backup backup){
 ostream& operator<<(ostream &o, const User &user){
     o << "login: " << user.login << endl;
     o << "pass: " << user.password << endl;
+    o << "backups: " << endl;
+    for(Backup backup : user.getBackups())
+        o << "\t" << backup << endl;
     return o;
 }
 

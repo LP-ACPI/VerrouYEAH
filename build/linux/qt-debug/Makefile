@@ -59,17 +59,20 @@ SOURCES       = ../../../src/models/Backup.cpp \
 		../../../src/services/ConfigManager.cpp \
 		../../../src/services/Ftp.cpp \
 		../../../src/controllers/UserController.cpp \
-		../../../src/controllers/UsersBackupsController.cpp \
 		../../../src/views/authdialog.cpp \
 		../../../src/views/mainwindow.cpp \
 		../../../src/main.cpp \
 		../../../src/views/backupform.cpp \
-		../../../src/views/userform.cpp qrc_res.cpp \
+		../../../src/views/userform.cpp \
+		../../../src/views/backupwidget.cpp \
+		../../../src/controllers/BackupController.cpp \
+		../../../src/controllers/UsersBackupController.cpp qrc_res.cpp \
 		moc_Ftp.cpp \
 		moc_authdialog.cpp \
 		moc_mainwindow.cpp \
 		moc_backupform.cpp \
-		moc_userform.cpp
+		moc_userform.cpp \
+		moc_backupwidget.cpp
 OBJECTS       = Backup.o \
 		Data.o \
 		Directory.o \
@@ -81,18 +84,21 @@ OBJECTS       = Backup.o \
 		ConfigManager.o \
 		Ftp.o \
 		UserController.o \
-		UsersBackupsController.o \
 		authdialog.o \
 		mainwindow.o \
 		main.o \
 		backupform.o \
 		userform.o \
+		backupwidget.o \
+		BackupController.o \
+		UsersBackupController.o \
 		qrc_res.o \
 		moc_Ftp.o \
 		moc_authdialog.o \
 		moc_mainwindow.o \
 		moc_backupform.o \
-		moc_userform.o
+		moc_userform.o \
+		moc_backupwidget.o
 DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/common/unix.conf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/common/linux.conf \
@@ -257,11 +263,13 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../src/services/ConfigManager.h \
 		../../../src/services/Ftp.h \
 		../../../src/controllers/UserController.h \
-		../../../src/controllers/UsersBackupsController.h \
 		../../../src/views/authdialog.h \
 		../../../src/views/mainwindow.h \
 		../../../src/views/backupform.h \
-		../../../src/views/userform.h ../../../src/models/Backup.cpp \
+		../../../src/views/userform.h \
+		../../../src/views/backupwidget.h \
+		../../../src/controllers/UsersBackupController.h \
+		../../../src/controllers/BackupController.h ../../../src/models/Backup.cpp \
 		../../../src/models/Data.cpp \
 		../../../src/models/Directory.cpp \
 		../../../src/models/File.cpp \
@@ -272,12 +280,14 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../src/services/ConfigManager.cpp \
 		../../../src/services/Ftp.cpp \
 		../../../src/controllers/UserController.cpp \
-		../../../src/controllers/UsersBackupsController.cpp \
 		../../../src/views/authdialog.cpp \
 		../../../src/views/mainwindow.cpp \
 		../../../src/main.cpp \
 		../../../src/views/backupform.cpp \
-		../../../src/views/userform.cpp
+		../../../src/views/userform.cpp \
+		../../../src/views/backupwidget.cpp \
+		../../../src/controllers/BackupController.cpp \
+		../../../src/controllers/UsersBackupController.cpp
 QMAKE_TARGET  = VerrouYEAH
 DESTDIR       = 
 TARGET        = VerrouYEAH
@@ -623,8 +633,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../res/res.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/services/Ftp.h ../../../src/controllers/UserController.h ../../../src/controllers/UsersBackupsController.h ../../../src/views/authdialog.h ../../../src/views/mainwindow.h ../../../src/views/backupform.h ../../../src/views/userform.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/Scheduler.cpp ../../../src/models/User.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/services/Ftp.cpp ../../../src/controllers/UserController.cpp ../../../src/controllers/UsersBackupsController.cpp ../../../src/views/authdialog.cpp ../../../src/views/mainwindow.cpp ../../../src/main.cpp ../../../src/views/backupform.cpp ../../../src/views/userform.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/services/Ftp.h ../../../src/controllers/UserController.h ../../../src/views/authdialog.h ../../../src/views/mainwindow.h ../../../src/views/backupform.h ../../../src/views/userform.h ../../../src/views/backupwidget.h ../../../src/controllers/UsersBackupController.h ../../../src/controllers/BackupController.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/Scheduler.cpp ../../../src/models/User.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/services/Ftp.cpp ../../../src/controllers/UserController.cpp ../../../src/views/authdialog.cpp ../../../src/views/mainwindow.cpp ../../../src/main.cpp ../../../src/views/backupform.cpp ../../../src/views/userform.cpp ../../../src/views/backupwidget.cpp ../../../src/controllers/BackupController.cpp ../../../src/controllers/UsersBackupController.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../src/views/forms/backupwidget.ui ../../../src/views/forms/mainwindow.ui ../../../src/views/forms/authdialog.ui ../../../src/views/forms/userformdialog.ui ../../../src/views/forms/backupformdialog.ui $(DISTDIR)/
 
 
@@ -659,14 +669,15 @@ qrc_res.cpp: ../../../res/res.qrc \
 		../../../res/images/save-icon.png \
 		../../../res/images/Logo.svg \
 		../../../res/images/Lock-Unlock-icon.png \
+		../../../res/images/config-icon.png \
 		../../../res/images/logo_temporaire.png \
 		../../../res/images/trash-icon.png \
 		../../../res/images/logo_temporaire_clef.png
 	/home/ramik/Qt/5.7/gcc_64/bin/rcc -name res ../../../res/res.qrc -o qrc_res.cpp
 
-compiler_moc_header_make_all: moc_Ftp.cpp moc_authdialog.cpp moc_mainwindow.cpp moc_backupform.cpp moc_userform.cpp
+compiler_moc_header_make_all: moc_Ftp.cpp moc_authdialog.cpp moc_mainwindow.cpp moc_backupform.cpp moc_userform.cpp moc_backupwidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Ftp.cpp moc_authdialog.cpp moc_mainwindow.cpp moc_backupform.cpp moc_userform.cpp
+	-$(DEL_FILE) moc_Ftp.cpp moc_authdialog.cpp moc_mainwindow.cpp moc_backupform.cpp moc_userform.cpp moc_backupwidget.cpp
 moc_Ftp.cpp: /home/ramik/Qt/5.7/gcc_64/include/QtCore/QUrl \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurl.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
@@ -988,11 +999,32 @@ moc_mainwindow.cpp: ui_mainwindow.h \
 		../../../src/models/Frequency.h \
 		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
-		../../../src/controllers/UsersBackupsController.h \
+		../../../src/views/backupwidget.h \
+		ui_backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QWidget \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qframe.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyle.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../src/controllers/UsersBackupController.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMainWindow \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
 		../../../src/views/mainwindow.h \
 		/home/ramik/Qt/5.7/gcc_64/bin/moc
 	/home/ramik/Qt/5.7/gcc_64/bin/moc $(DEFINES) -I/home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++ -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/includes -I/home/ramik/Qt/5.7/gcc_64/include -I/home/ramik/Qt/5.7/gcc_64/include/QtWidgets -I/home/ramik/Qt/5.7/gcc_64/include/QtGui -I/home/ramik/Qt/5.7/gcc_64/include/QtNetwork -I/home/ramik/Qt/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../src/views/mainwindow.h -o moc_mainwindow.cpp
@@ -1211,6 +1243,128 @@ moc_userform.cpp: ui_userformdialog.h \
 		../../../src/views/userform.h \
 		/home/ramik/Qt/5.7/gcc_64/bin/moc
 	/home/ramik/Qt/5.7/gcc_64/bin/moc $(DEFINES) -I/home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++ -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/includes -I/home/ramik/Qt/5.7/gcc_64/include -I/home/ramik/Qt/5.7/gcc_64/include/QtWidgets -I/home/ramik/Qt/5.7/gcc_64/include/QtGui -I/home/ramik/Qt/5.7/gcc_64/include/QtNetwork -I/home/ramik/Qt/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../src/views/userform.h -o moc_userform.cpp
+
+moc_backupwidget.cpp: ui_backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QWidget \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmargins.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrect.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsize.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpalette.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qcolor.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qrgb.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qrgba64.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qbrush.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qmatrix.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpolygon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qregion.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qline.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtransform.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpainterpath.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qimage.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpixelformat.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpixmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qfont.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qfontinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qcursor.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qkeysequence.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurlquery.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvector2d.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qframe.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyle.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../src/views/backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/bin/moc
+	/home/ramik/Qt/5.7/gcc_64/bin/moc $(DEFINES) -I/home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++ -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/includes -I/home/ramik/Qt/5.7/gcc_64/include -I/home/ramik/Qt/5.7/gcc_64/include/QtWidgets -I/home/ramik/Qt/5.7/gcc_64/include/QtGui -I/home/ramik/Qt/5.7/gcc_64/include/QtNetwork -I/home/ramik/Qt/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../src/views/backupwidget.h -o moc_backupwidget.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1619,81 +1773,8 @@ UserController.o: ../../../src/controllers/UserController.cpp ../../../src/contr
 		../../../src/models/Directory.h \
 		../../../src/models/Frequency.h \
 		../../../src/services/Crypt.h \
-		../../../src/services/ConfigManager.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UserController.o ../../../src/controllers/UserController.cpp
-
-UsersBackupsController.o: ../../../src/controllers/UsersBackupsController.cpp ../../../src/controllers/UsersBackupsController.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UsersBackupsController.o ../../../src/controllers/UsersBackupsController.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UserController.o ../../../src/controllers/UserController.cpp
 
 authdialog.o: ../../../src/views/authdialog.cpp ../../../src/views/authdialog.h \
 		ui_authdialog.h \
@@ -1810,11 +1891,32 @@ authdialog.o: ../../../src/views/authdialog.cpp ../../../src/views/authdialog.h 
 		ui_backupformdialog.h \
 		../../../src/views/userform.h \
 		ui_userformdialog.h \
-		../../../src/controllers/UsersBackupsController.h \
+		../../../src/views/backupwidget.h \
+		ui_backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QWidget \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qframe.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyle.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../src/controllers/UsersBackupController.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMainWindow \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMessageBox \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmessagebox.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug
@@ -1933,11 +2035,34 @@ mainwindow.o: ../../../src/views/mainwindow.cpp ../../../src/views/mainwindow.h 
 		../../../src/models/Frequency.h \
 		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
-		../../../src/controllers/UsersBackupsController.h \
+		../../../src/views/backupwidget.h \
+		ui_backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QWidget \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qframe.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyle.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../src/controllers/UsersBackupController.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMainWindow \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		../../../src/views/authdialog.h \
+		ui_authdialog.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/QtGui \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/QtGuiDepends \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QtCore \
@@ -1973,10 +2098,8 @@ mainwindow.o: ../../../src/views/mainwindow.cpp ../../../src/views/mainwindow.h 
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtemporarydir.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QScopedPointer \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtemporaryfile.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractproxymodel.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qidentityproxymodel.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsortfilterproxymodel.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlistmodel.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qjsonarray.h \
@@ -2041,7 +2164,6 @@ mainwindow.o: ../../../src/views/mainwindow.cpp ../../../src/views/mainwindow.h 
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlinkedlist.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmessageauthenticationcode.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qqueue.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedvaluerollback.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstack.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextboundaryfinder.h \
@@ -2142,7 +2264,6 @@ mainwindow.o: ../../../src/views/mainwindow.cpp ../../../src/views/mainwindow.h 
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtextlist.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtexttable.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qdesktopservices.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtguiversion.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMessageBox \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmessagebox.h
@@ -2277,11 +2398,32 @@ main.o: ../../../src/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QAppli
 		ui_backupformdialog.h \
 		../../../src/views/userform.h \
 		ui_userformdialog.h \
-		../../../src/controllers/UsersBackupsController.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMainWindow \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../../src/views/backupwidget.h \
+		ui_backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QWidget \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qframe.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyle.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabbar.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../src/controllers/UsersBackupController.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMainWindow \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../src/main.cpp
 
 backupform.o: ../../../src/views/backupform.cpp ../../../src/views/backupform.h \
@@ -2501,8 +2643,220 @@ userform.o: ../../../src/views/userform.cpp ../../../src/views/userform.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvector2d.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		../../../src/controllers/UsersBackupsController.h
+		../../../src/controllers/UsersBackupController.h \
+		../../../src/views/authdialog.h \
+		ui_authdialog.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMessageBox \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o userform.o ../../../src/views/userform.cpp
+
+backupwidget.o: ../../../src/views/backupwidget.cpp ../../../src/views/backupwidget.h \
+		ui_backupwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QWidget \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmargins.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrect.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsize.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpalette.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qcolor.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qrgb.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qrgba64.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qbrush.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qmatrix.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpolygon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qregion.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qline.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtransform.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpainterpath.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qimage.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpixelformat.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qpixmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qfont.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qfontinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qcursor.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qkeysequence.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurlquery.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvector2d.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QListWidgetItem \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qlistview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qframe.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qvalidator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregularexpression.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qicon.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qstyle.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QFileIconProvider \
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qfileiconprovider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o backupwidget.o ../../../src/views/backupwidget.cpp
+
+BackupController.o: ../../../src/controllers/BackupController.cpp ../../../src/controllers/backupcontroller.h \
+		../../../src/models/Backup.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		../../../src/models/Frequency.h \
+		../../../src/services/Crypt.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BackupController.o ../../../src/controllers/BackupController.cpp
+
+UsersBackupController.o: ../../../src/controllers/UsersBackupController.cpp ../../../src/controllers/UsersBackupController.h \
+		../../../src/models/User.h \
+		../../../src/models/Backup.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		../../../src/models/Frequency.h \
+		../../../src/services/Crypt.h \
+		../../../src/controllers/BackupController.h \
+		../../../src/services/ConfigManager.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UsersBackupController.o ../../../src/controllers/UsersBackupController.cpp
 
 qrc_res.o: qrc_res.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_res.o qrc_res.cpp
@@ -2521,6 +2875,9 @@ moc_backupform.o: moc_backupform.cpp
 
 moc_userform.o: moc_userform.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_userform.o moc_userform.cpp
+
+moc_backupwidget.o: moc_backupwidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_backupwidget.o moc_backupwidget.cpp
 
 ####### Install
 

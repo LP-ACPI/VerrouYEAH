@@ -38,18 +38,18 @@ public:
         std::map<std::string,std::string>loadLoginPassList();
 
         User* loadUser(std::string);
+        json saveUser(User*);
+        void deleteUser(std::string);
+        void updateUser(User*);
+
         void loadUsersBackupData(User*,std::string);
+        json saveUsersBackupData(User*,Backup*);
+        void deleteUsersBackupData(std::string,std::string);
         void loadUsersBackupList(User*);
 
         std::string loadAutoLoginUserLogin();
         void setAutoLoginUser(std::string);
-        void unsetAutoLoginUser();
-
-        json saveUser(User*);
-        json saveUsersBackup(User*,Backup*);
-
-        void deleteUser(std::string);
-        void deleteUsersBackup(std::string,std::string);
+        void unsetAutoLoginUser(std::string);
 
         void setJsonFile(std::string);
         void persist();

@@ -4,8 +4,47 @@
   },
   "users": {
     "toto": {
-      "backups": null,
-      "password": "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
+      "toto": {
+        "backups": [
+          {
+            "dest": {
+              "path": "",
+              "type": "NORMAL"
+            },
+            "freq": "* * * * *",
+            "key": "WXIIwo7J4ogHFZQxwQ2RQ0DRJKRETPV",
+            "last_save": "mar. févr. 14 10:15:18 2017",
+            "name": "tessssstes",
+            "note": "",
+            "src": ""
+          },
+          {
+            "dest": {
+              "path": "",
+              "type": "NORMAL"
+            },
+            "freq": "* * * * *",
+            "key": "L8rqDiZSkZfoEDAmGTXXqqvkCd5WKE2",
+            "last_save": "mar. févr. 14 10:15:54 2017",
+            "name": "Nom Sauvegarde",
+            "note": "",
+            "src": ""
+          },
+          {
+            "dest": {
+              "path": "",
+              "type": "NORMAL"
+            },
+            "freq": "* * * * *",
+            "key": "5tUbO4bNPB0TxnkWrSaQyUuEa0X9Q5m",
+            "last_save": "mar. févr. 14 10:15:59 2017",
+            "name": "Nom Sauvegarde",
+            "note": "",
+            "src": ""
+          }
+        ],
+        "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c"
+      }
     }
   }
 }

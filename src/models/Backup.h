@@ -5,13 +5,13 @@
 #ifndef BACKUP_H
 #define BACKUP_H
 
+#include "../services/Crypt.h"
 #include <iostream>
 #include <string.h>
 #include <string>
 #include "Data.h"
 #include "Directory.h"
 #include "Frequency.h"
-#include "../services/Crypt.h"
 
 #include "json.hpp"
 
@@ -55,10 +55,14 @@ public:
           data(data),
           note(note)
     {
-        if(strcmp("null",key) == 0)
+        if(strcmp("null",key) == 0){
+            //bug: au démarrage de l'appli, si aucune sauvegarde
+            //-> ne génére pas du alpha-num
+            //-> blem résolu si utilisé dans BackupController
             memcpy(this->key,Crypt::genKey(32),32);
-        else
-            strcpy(this->key,key);
+        }else{
+            memcpy(this->key,key,32);
+        }
     }
     Backup(std::string,std::string,std::string,std::string,std::string,Frequency,Data*);
 

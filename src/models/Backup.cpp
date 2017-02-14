@@ -2,6 +2,7 @@
 // Created by Valentin on 05/12/16.
 //
 #include "Backup.h"
+#include <sstream>
 
 using namespace std;
 using json = nlohmann::json;
@@ -40,11 +41,10 @@ void Backup::recoverData(){
     //TODO chargement des données (data) depuis les fichiers .vy
 }
 
-string Backup::getKey() const{
-//    char * copyKey = (char*) malloc(sizeof(char)*32);
-//    strcpy(copyKey,key);
+string Backup::getKey() const {
     return string(key);
 }
+
 string Backup::getName() const
 {    return name;   }
 
@@ -72,7 +72,7 @@ string Backup::getNote() const
 {    return this->note;  }
 
 void Backup::setKey(const char* key)
-{    strcpy(this->key,key);     }
+{    memcpy(this->key,key,32);     }
 
 void Backup::setName(const string name)
 {    this->name = name;      }
@@ -140,7 +140,7 @@ json& operator<<(json &j, const Backup &backup){
                     {"path", backup.getTarget()}
                 }
             },
-            {"freq", backup.getLastSave()},
+            {"freq", backup.getFrequency().toString()},
             {"last_save", backup.getLastSave()},
             {"note", backup.getNote()},
     };
