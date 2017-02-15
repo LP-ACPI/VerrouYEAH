@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\configmanager.o
+./debug\user.o
+./debug\backup.o
+./debug\homewindow.o
+./debug\authdialogwindow.o
+./debug\backupitemwidget.o
+./debug\backupformwindow.o
+./debug\Crypt.o
+./debug\qrc_resources.o
+./debug\moc_configmanager.o
+./debug\moc_homewindow.o
+./debug\moc_authdialogwindow.o
+./debug\moc_backupitemwidget.o
+./debug\moc_backupformwindow.o
+);

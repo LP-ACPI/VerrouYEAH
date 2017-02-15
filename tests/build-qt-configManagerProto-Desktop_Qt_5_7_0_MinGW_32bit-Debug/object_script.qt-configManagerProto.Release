@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\configmanager.o
+./release\user.o
+./release\backup.o
+./release\homewindow.o
+./release\authdialogwindow.o
+./release\backupitemwidget.o
+./release\backupformwindow.o
+./release\Crypt.o
+./release\qrc_resources.o
+./release\moc_configmanager.o
+./release\moc_homewindow.o
+./release\moc_authdialogwindow.o
+./release\moc_backupitemwidget.o
+./release\moc_backupformwindow.o
+);

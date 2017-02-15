@@ -11,15 +11,24 @@ TARGET	=   VerrouYEAH
 unix :LIBS	+=  -lcrypto
 
 # pour pouvoir utiliser json.hpp sous windows -specs win32-g++
-win32-g++:{
-    #pour ceux qui ont des soucis comme moi niveau minGW|QT|openSSL
-    LIBS += -L$$PWD/utilities/openssl/lib/ -lcrypto
+#win32-g++:{
+#    #pour ceux qui ont des soucis comme moi niveau minGW|QT|openSSL
+#    LIBS += -L$$PWD/utilities/openssl/lib/ -lcrypto
 
-    INCLUDEPATH += $$PWD/utilities/openssl/include
-    DEPENDPATH += $$PWD/utilities/openssl/include
+#    INCLUDEPATH += $$PWD/utilities/openssl/include
+#    DEPENDPATH += $$PWD/utilities/openssl/include
 
-    PRE_TARGETDEPS += $$PWD/utilities/openssl/lib/libcrypto.a
-}
+#    PRE_TARGETDEPS += $$PWD/utilities/openssl/lib/libcrypto.a
+#}
+
+win32: LIBS += -L$$PWD/utilities/mingw32/lib/ -lcrypto
+
+INCLUDEPATH += $$PWD/utilities/mingw32/include
+DEPENDPATH += $$PWD/utilities/mingw32/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/utilities/mingw32/lib/crypto.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/utilities/mingw32/lib/libcrypto.a
+
 
 
 INCLUDEPATH +=	$$PWD/includes
@@ -74,3 +83,5 @@ FORMS	+=  \
 
 RESOURCES += \
     res/res.qrc
+
+
