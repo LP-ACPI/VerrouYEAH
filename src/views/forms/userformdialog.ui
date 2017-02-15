@@ -283,7 +283,7 @@ text-align:center;</string>
        <x>30</x>
        <y>72</y>
        <width>201</width>
-       <height>206</height>
+       <height>208</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">

@@ -1,5 +1,6 @@
 #include "backupwidget.h"
 #include "backupform.h"
+#include "../controllers/BackupController.h"
 #include <QFileIconProvider>
 
 BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
@@ -37,6 +38,10 @@ void BackupWidget::on_configButton_clicked(){
 
     connect(backupForm,SIGNAL(BackupUpdated(std::map<std::string,std::string>)),
             this,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
+}
+
+void BackupWidget::on_decryptButton_clicked(){
+    BackupController::getInstance().decryptBackup(backupKey);
 }
 
 void BackupWidget::onBackupUpdated(std::map<std::string,std::string> backupInfo){

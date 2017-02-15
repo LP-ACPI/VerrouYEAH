@@ -28,7 +28,7 @@ void UserController::unsetFavoriteUser(std::string userLogin){
 }
 
 void UserController::loadLoginsPassCouples(){
-    userLoginPassCouples = ConfigManager::getInstance().loadLoginPassList();
+    userLoginPassCouples = ConfigManager::getInstance().loadLoginPassCouples();
 }
 
 bool UserController::authentifyUser(std::string userLogin, std::string userPass){

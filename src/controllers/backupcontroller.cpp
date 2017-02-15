@@ -7,11 +7,14 @@
 BackupController BackupController::instance = BackupController();
 
 void BackupController::updateBackupData(Backup *backup){
-    QFileInfo info(QString::fromStdString(backup->getSource()));
-    Data* root_dir = new Directory(info);
-    backup->setData(root_dir);
 
-    std::string distant_config = backup->getTarget() + QDir::separator().toLatin1() + backup->getName() + ".json";
+    backup->saveData();
+
+    std::string distant_config = backup->getTarget()
+            + QDir::separator().toLatin1()
+            + UserController::getInstance().getCurrentUserLogin()
+            + ".json";
+
     ConfigManager::getInstance().setJsonFile(distant_config);
 
     ConfigManager::getInstance().saveUsersBackupData(
@@ -19,6 +22,10 @@ void BackupController::updateBackupData(Backup *backup){
         );
 
     ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+}
+
+void BackupController::decryptBackup(std::string backupKey){
+    UserController::getInstance().getCurrentUser()->getBackupByKey(backupKey).recoverData();
 }
 
 Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> backupInfo){

@@ -4,7 +4,20 @@
   },
   "users": {
     "toto": {
-      "backups": [],
+      "backups": [
+        {
+          "dest": {
+            "path": "/home/ramik/Bureau",
+            "type": "NORMAL"
+          },
+          "freq": "* * * * *",
+          "key": "MaiRrV41mtzxlYvKWrO72tK0LK0e1zL",
+          "last_save": "mer. févr. 15 19:57:26 2017",
+          "name": "Nom Sauvegarde",
+          "note": "",
+          "src": "/home/ramik/Bureau/partage_VM/Cours Epsi"
+        }
+      ],
       "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c"
     }
   }

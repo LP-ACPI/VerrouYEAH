@@ -38,7 +38,7 @@ public:
             return instance;
         }
 
-        std::map<std::string,std::string>loadLoginPassList();
+        std::map<std::string,std::string>loadLoginPassCouples();
 
         User* loadUser(std::string);
         json saveUser(User*);

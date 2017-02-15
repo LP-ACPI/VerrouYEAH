@@ -84,7 +84,6 @@ char* Crypt::genKey(size_t key_size){
     key[key_size-1] = 0;
 
     return key;
-
 }
 
 std::string Crypt::generateHashedPass(std::string userPass){

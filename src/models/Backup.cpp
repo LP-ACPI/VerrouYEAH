@@ -2,24 +2,24 @@
 // Created by Valentin on 05/12/16.
 //
 #include "Backup.h"
-#include <sstream>
+#include "../services/CompressCrypt.h"
 
 using namespace std;
 using json = nlohmann::json;
 
-const char* Backup::target_type_tag[2] = {"NORMAL","FTP"};
+const char* Backup::targetTypeTag[2] = {"NORMAL","FTP"};
 
 Backup::Backup(const Backup &backupToCopy)
     : name(backupToCopy.getName()),
       source(backupToCopy.getSource()),
       target(backupToCopy.getTarget()),
       targetType(backupToCopy.getTargetType()),
+      lastSave(backupToCopy.getLastSave()),
       note(backupToCopy.getNote()),
       frequency(backupToCopy.getFrequency()),
-      lastSave(backupToCopy.getLastSave()),
       data(backupToCopy.getData())
 {
-    strcpy(key, backupToCopy.getKey().c_str());
+    setKey(backupToCopy.getKey().c_str());
 }
 
 //Utile?
@@ -38,10 +38,32 @@ Backup::Backup(string name,
 
 void Backup::saveData(){
     //TODO sauvegarde des données (data) vers des fichiers .vy
+
+    QFileInfo info(QString::fromStdString(getSource()));
+    Data* root_dir = new Directory(info);
+    setData(root_dir);
+
+    QString target_path = QString::fromStdString(getTarget() + QDir::separator().toLatin1() + getName());
+    CompressCrypt::getInstance().cryptDir(info.filePath(),target_path,key);
+    CompressCrypt::getInstance().compressDir(target_path,target_path+".vy");
+    QDir dir(target_path);
+    dir.removeRecursively();
+
 }
 
 void Backup::recoverData(){
+    //Decrypt cible vers source
+
     //TODO chargement des données (data) depuis les fichiers .vy
+    // -> form de choix de destinations preferes à scanner pour éventuelle sauvegarde
+    //
+    if(targetType == targetTypeTag[type::normal]){
+        QString path = QString::fromStdString(getTarget()+ QDir::separator().toLatin1() + getName());
+        CompressCrypt::getInstance().decompressDir(path+".vy",path+"_temp");
+        CompressCrypt::getInstance().decryptDir(path+"_temp",path,key);
+        QDir dir(path+"_temp");
+        dir.removeRecursively();
+    }
 }
 
 string Backup::getKey() const {

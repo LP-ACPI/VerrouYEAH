@@ -15,6 +15,7 @@ public:
     {   return instance; }
 
     void updateBackupData(Backup*);
+    void decryptBackup(std::string);
 
     Backup getBackupFromInfoMap(std::map<std::string,std::string>);
     std::map<std::string,std::string> getInfoMapFromBackup(Backup*);

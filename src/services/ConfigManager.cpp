@@ -9,18 +9,18 @@
 
 using namespace std;
 
-map<string,string>ConfigManager::loadLoginPassList(){
+map<string,string>ConfigManager::loadLoginPassCouples(){
 
-    map<string,string> loginPassList;
+    map<string,string> login_pass_couples;
     json user_config = readOrInitUserRoot();
 
     for (json::iterator it = user_config.begin(); it != user_config.end(); ++it){
         string login = it.key();
         string pass = user_config[it.key()]["password"];
-        loginPassList[login] = pass;
+        login_pass_couples[login] = pass;
     }
 
-    return loginPassList;
+    return login_pass_couples;
 }
 
 User* ConfigManager::loadUser(string login){
@@ -61,32 +61,6 @@ User* ConfigManager::loadUser(string login){
     }
     return user ;
 }
-
-void ConfigManager::loadUsersBackupData(User *user, string backupKey){
-
-    json users_backup = config.at(user->getLogin())["backups"][backupKey];
-
-    if(users_backup["Data"] != NULL){
-
-        Directory *root_data = new Directory(users_backup["Data"]);
-
-        Backup new_backup = user->getBackupByKey(backupKey);
-        new_backup.setData(root_data);
-        Backup old_backup = user->getBackupByKey(backupKey);
-        user->replaceBackup(old_backup,new_backup);
-    }
-}
-
-void ConfigManager::loadUsersBackupList(User* user){
-
-    json users_backups = config.at(user->getLogin()).at("backups");
-
-    for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
-
-        loadUsersBackupData(user,it.key().c_str());
-    }
-}
-
 
 void ConfigManager::setAutoLoginUser(std::string login){
     config["VerrouYeah"]["auto_login"] = login;
@@ -135,12 +109,39 @@ void ConfigManager::updateUser(User *user){
 }
 
 
+void ConfigManager::loadUsersBackupData(User *user, string backupKey){
+
+    json users_backup = config.at(user->getLogin())["backups"][backupKey];
+
+    if(users_backup["Data"] != NULL){
+
+        Directory *root_data = new Directory(users_backup["Data"]);
+
+        Backup new_backup = user->getBackupByKey(backupKey);
+        new_backup.setData(root_data);
+        Backup old_backup = user->getBackupByKey(backupKey);
+        user->replaceBackup(old_backup,new_backup);
+    }
+}
+
+void ConfigManager::loadUsersBackupList(User* user){
+
+    json users_backups = config.at(user->getLogin()).at("backups");
+
+    for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
+
+        loadUsersBackupData(user,it.key().c_str());
+    }
+}
+
 json ConfigManager::saveUsersBackupData(User *user,Backup *backup){
 
     json jsonBackup     = backup->toDistantJson();
     json usersBackups   = readOrInitUserBackups(user->getLogin());
-    config[user->getLogin()]["backups"]     = merge(usersBackups,jsonBackup);
-    config[user->getLogin()]["password"]    = user->getPassword();
+    if(usersBackups[backup->getKey()]["Data"] != NULL)
+        config[user->getLogin()]["backups"][backup->getKey()]["Data"] = json::object();
+    config[user->getLogin()]["backups"]  = merge(usersBackups,jsonBackup);
+    config[user->getLogin()]["password"] = user->getPassword();
     persist();
     return jsonBackup;
 }
@@ -154,6 +155,15 @@ void ConfigManager::deleteUsersBackupData(string userLogin,string bcKey){
             config.at(userLogin).at("backups").erase(it.key());
     persist();
 
+}
+
+json ConfigManager::merge(const json &a, const json &b) {
+    json result = a.flatten();
+    json tmp    = b.flatten();
+
+    for (json::iterator it = tmp.begin(); it != tmp.end(); ++it)
+        result[it.key()] = it.value();
+    return result.unflatten();
 }
 
 void ConfigManager::setJsonFile(string newConfigFileName){
@@ -179,16 +189,6 @@ void ConfigManager::persist(){
     configFile.open(configFilename, fstream::in | fstream::out | fstream::trunc );
     configFile << setw(2) << config << endl;
     configFile.close();
-}
-
-json ConfigManager::merge(const json &a, const json &b)
-{
-    json result = a.flatten();
-    json tmp    = b.flatten();
-
-    for (json::iterator it = tmp.begin(); it != tmp.end(); ++it)
-        result[it.key()] = it.value();
-    return result.unflatten();
 }
 
 

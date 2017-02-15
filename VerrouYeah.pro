@@ -8,7 +8,9 @@ CONFIG	+=  c++11
 CONFIG	-=  app_bundle
 TARGET	=   VerrouYEAH
 
-unix :LIBS	+=  -lcrypto
+
+#   mingW64
+
 
 # pour pouvoir utiliser json.hpp sous windows -specs win32-g++
 #win32-g++:{
@@ -21,17 +23,23 @@ unix :LIBS	+=  -lcrypto
 #    PRE_TARGETDEPS += $$PWD/utilities/openssl/lib/libcrypto.a
 #}
 
-win32: LIBS += -L$$PWD/utilities/mingw32/lib/ -lcrypto
 
-INCLUDEPATH += $$PWD/utilities/mingw32/include
-DEPENDPATH += $$PWD/utilities/mingw32/include
+unix: LIBS	+=  -lcrypto
 
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/utilities/mingw32/lib/crypto.lib
-else:win32-g++: PRE_TARGETDEPS += $$PWD/utilities/mingw32/lib/libcrypto.a
+#   mingW32
 
 
+win32: {
+    LIBS += -L$$PWD/utilities/openssl_mingw32/lib/ -lcrypto
 
-INCLUDEPATH +=	$$PWD/includes
+    INCLUDEPATH += $$PWD/utilities/openssl_mingw32/include
+    DEPENDPATH += $$PWD/utilities/openssl_mingw32/include
+
+    win32:!win32-g++: PRE_TARGETDEPS += $$PWD/utilities/openssl_mingw32/lib/crypto.lib
+    else:win32-g++: PRE_TARGETDEPS += $$PWD/utilities/openssl_mingw32/lib/libcrypto.a
+}
+
+INCLUDEPATH +=$$PWD/includes/
 
 SOURCES	+=  \
     src/models/Backup.cpp \
@@ -52,7 +60,8 @@ SOURCES	+=  \
     src/views/userform.cpp \
     src/views/backupwidget.cpp \
     src/controllers/BackupController.cpp \
-    src/controllers/UsersBackupController.cpp
+    src/controllers/UsersBackupController.cpp \
+    src/services/CompressCrypt.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -72,7 +81,8 @@ HEADERS	+=  \
     src/views/userform.h \
     src/views/backupwidget.h \
     src/controllers/UsersBackupController.h \
-    src/controllers/BackupController.h
+    src/controllers/BackupController.h \
+    src/services/CompressCrypt.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
@@ -83,5 +93,3 @@ FORMS	+=  \
 
 RESOURCES += \
     res/res.qrc
-
-

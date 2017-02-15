@@ -17,11 +17,11 @@
 
 class Backup {
 
-    enum target_type{
+    enum type{
         normal = 0,
         ftp = 1
     };
-    static const char *target_type_tag[];
+    static const char *targetTypeTag[];
 
     char key[32];
     std::string name;
@@ -40,7 +40,7 @@ public:
             std::string name="test",
             std::string source="test",
             std::string target = "test",
-            std::string targetType = target_type_tag[target_type::normal],
+            std::string targetType = targetTypeTag[type::normal],
             std::string lastSave= "1/1/1970",
             std::string note = "test",
             Frequency freq = Frequency(),

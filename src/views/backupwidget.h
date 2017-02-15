@@ -27,6 +27,7 @@ signals:
 public slots:
     void on_configButton_clicked();
     void on_trashButton_clicked();
+    void on_decryptButton_clicked();
 
     void onBackupUpdated(std::map<std::string,std::string>);
 
