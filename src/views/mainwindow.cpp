@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QMessageBox>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -67,7 +68,8 @@ void MainWindow::on_actionDeconnexion_triggered(){
 }
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
-//    qDebug() << *backupItem;
+   BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
+    qDebug() <<  QString::fromStdString(bcW->getBackupKey());
 }
 
 void MainWindow::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
@@ -95,8 +97,6 @@ void MainWindow::onBackupDeleted(std::string backupKey){
 
 }
     UsersBackupController::getInstance().deleteUsersBackup(backupKey);
-//    QListWidgetItem *item = backupList->currentItem();
-
 }
 
 

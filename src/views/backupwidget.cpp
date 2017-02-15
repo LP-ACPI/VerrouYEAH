@@ -2,6 +2,7 @@
 #include "backupform.h"
 #include "../controllers/BackupController.h"
 #include <QFileIconProvider>
+#include <QDebug>
 
 BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
 {
@@ -43,6 +44,7 @@ void BackupWidget::on_configButton_clicked(){
 void BackupWidget::on_decryptButton_clicked(){
     BackupController::getInstance().decryptBackup(backupKey);
 }
+
 
 void BackupWidget::onBackupUpdated(std::map<std::string,std::string> backupInfo){
     backupName->setText(QString::fromStdString(backupInfo["name"]));

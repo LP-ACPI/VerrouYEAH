@@ -29,13 +29,8 @@ void BackupController::decryptBackup(std::string backupKey){
 }
 
 Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> backupInfo){
-    Backup backup_from_info;
 
-//    std::map<std::string,std::string>::iterator it = backupInfo.find("key");
-//    if(it != backupInfo.end())
-//    else
-//        backup_from_info.setKey();
-
+    Backup backup_from_info("");
     backup_from_info.setKey(backupInfo["key"].c_str());
     backup_from_info.setName(backupInfo["name"]);
     backup_from_info.setSource(backupInfo["source_path"]);
@@ -50,8 +45,8 @@ Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> 
 }
 
 std::map<std::string,std::string> BackupController::getInfoMapFromBackup(Backup* backupToInfo){
-    std::map<std::string,std::string> backup_info;
 
+    std::map<std::string,std::string> backup_info;
     backup_info["key"] = backupToInfo->getKey();
     backup_info["name"] = backupToInfo->getName();
     backup_info["source_path"] = backupToInfo->getSource();

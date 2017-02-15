@@ -8,36 +8,7 @@ CONFIG	+=  c++11
 CONFIG	-=  app_bundle
 TARGET	=   VerrouYEAH
 
-
-#   mingW64
-
-
-# pour pouvoir utiliser json.hpp sous windows -specs win32-g++
-#win32-g++:{
-#    #pour ceux qui ont des soucis comme moi niveau minGW|QT|openSSL
-#    LIBS += -L$$PWD/utilities/openssl/lib/ -lcrypto
-
-#    INCLUDEPATH += $$PWD/utilities/openssl/include
-#    DEPENDPATH += $$PWD/utilities/openssl/include
-
-#    PRE_TARGETDEPS += $$PWD/utilities/openssl/lib/libcrypto.a
-#}
-
-
-unix: LIBS	+=  -lcrypto
-
-#   mingW32
-
-
-win32: {
-    LIBS += -L$$PWD/utilities/openssl_mingw32/lib/ -lcrypto
-
-    INCLUDEPATH += $$PWD/utilities/openssl_mingw32/include
-    DEPENDPATH += $$PWD/utilities/openssl_mingw32/include
-
-    win32:!win32-g++: PRE_TARGETDEPS += $$PWD/utilities/openssl_mingw32/lib/crypto.lib
-    else:win32-g++: PRE_TARGETDEPS += $$PWD/utilities/openssl_mingw32/lib/libcrypto.a
-}
+LIBS	+=  -lcrypto
 
 INCLUDEPATH +=$$PWD/includes/
 
@@ -61,7 +32,8 @@ SOURCES	+=  \
     src/views/backupwidget.cpp \
     src/controllers/BackupController.cpp \
     src/controllers/UsersBackupController.cpp \
-    src/services/CompressCrypt.cpp
+    src/services/CompressCrypt.cpp \
+    src/views/progressdialog.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -82,14 +54,16 @@ HEADERS	+=  \
     src/views/backupwidget.h \
     src/controllers/UsersBackupController.h \
     src/controllers/BackupController.h \
-    src/services/CompressCrypt.h
+    src/services/CompressCrypt.h \
+    src/views/progressdialog.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
     src/views/forms/mainwindow.ui \
     src/views/forms/authdialog.ui \
     src/views/forms/userformdialog.ui \
-    src/views/forms/backupformdialog.ui
+    src/views/forms/backupformdialog.ui \
+    src/views/forms/progressdialog.ui
 
 RESOURCES += \
     res/res.qrc

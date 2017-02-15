@@ -23,13 +23,11 @@ Backup User::getBackupAt(const unsigned position){
 }
 
 Backup User::getBackupByKey(const string key){
-    Backup outPut;
-    for(list<Backup>::iterator it = backups.begin();it!=backups.end();++it)
-        if(key == it->getKey()){
-            outPut = (*it);
-            break;
-        }
-    return outPut;
+
+    list<Backup>::iterator it = backups.begin();
+    while(key != it->getKey() && it != backups.end())
+        ++it;
+    return (*it);
 }
 
 void User::addBackup(const Backup backup){

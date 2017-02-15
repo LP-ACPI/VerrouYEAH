@@ -13,6 +13,8 @@ BackupForm::BackupForm(QWidget *parent) :
 
     connect(this,SIGNAL(newBackupAdded(std::map<std::string,std::string>)),
             parent,SLOT(onNewBackupAdded(std::map<std::string,std::string>)));
+
+    setWindowTitle("Nouvelle Sauvegarde");
 }
 
 BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
@@ -22,6 +24,7 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 
     std::map<std::string,std::string> backup_info = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
 
+
     nameInput->setText(QString::fromStdString(backup_info["name"]));
     sourceInput->setText(QString::fromStdString(backup_info["source_path"]));
     targetInput->setText(QString::fromStdString(backup_info["target_path"]));
@@ -30,6 +33,7 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
     connect(this,SIGNAL(BackupUpdated(std::map<std::string,std::string>)),
             parent,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
 
+    setWindowTitle("Modification de "+nameInput->text());
 
 }
 

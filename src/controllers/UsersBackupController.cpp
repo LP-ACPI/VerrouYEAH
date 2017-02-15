@@ -12,6 +12,7 @@ void UsersBackupController::setCurrentUser(){
 
 std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std::string bcpKey){
     Backup backup = user->getBackupByKey(bcpKey);
+
     std::map<std::string,std::string> backup_info = BackupController::getInstance().getInfoMapFromBackup(&backup);
     return backup_info;
 }
@@ -19,6 +20,7 @@ std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std:
 std::map<std::string,std::string> UsersBackupController::createUsersBackup(std::map<std::string,std::string> backupInfo){
     //TODO : cryptage (new_backup.saveData) + démarrage du scheduler
     //ou plutôt un BackupController qui s'en charge
+
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     new_backup.setKey(Crypt::genKey(32));
     user->addBackup(new_backup);

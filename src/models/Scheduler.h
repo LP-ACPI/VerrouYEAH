@@ -8,9 +8,9 @@
 
 class Scheduler {
     static Scheduler instance;
-    bool loop;
-    std::thread* th;
     std::vector<Backup> saves;
+    std::thread* th;
+    bool loop;
 
     Scheduler():saves(std::vector<Backup>()),loop(false),th(NULL)
     {}

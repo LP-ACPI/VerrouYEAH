@@ -138,8 +138,7 @@ json ConfigManager::saveUsersBackupData(User *user,Backup *backup){
 
     json jsonBackup     = backup->toDistantJson();
     json usersBackups   = readOrInitUserBackups(user->getLogin());
-    if(usersBackups[backup->getKey()]["Data"] != NULL)
-        config[user->getLogin()]["backups"][backup->getKey()]["Data"] = json::object();
+
     config[user->getLogin()]["backups"]  = merge(usersBackups,jsonBackup);
     config[user->getLogin()]["password"] = user->getPassword();
     persist();
@@ -170,8 +169,7 @@ void ConfigManager::setJsonFile(string newConfigFileName){
     configFilename = newConfigFileName;
     config         = json::object();
 
-    fstream configFile;
-    configFile.open(configFilename, fstream::in);
+    fstream configFile(configFilename, fstream::in);
     if(!configFile){
         configFile.open(configFilename, fstream::in | fstream::out | fstream::app);
     } else {

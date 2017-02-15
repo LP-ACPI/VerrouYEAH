@@ -52,7 +52,7 @@ Directory::Directory(json &jsonDataTree){
  * @param QString : rootDirTree
  *
  * Comme c++ standard n'as pas de notion concrète de dossier
- * (sans lib du type boost ou l'API Windows. Mais Qt fait le boulot)
+ * (sans lib de type boost ou l'API Windows. Mais Qt fait le boulot)
  * ce constructeur parcours récursivement un dossier dont le chemin est passé en paramètre
  * pour s'enregistrer ses données.
  */
@@ -66,7 +66,6 @@ Directory::Directory(QFileInfo &rootDirTree,string rootPath){
         setName(rootDirTree.fileName().toStdString());
         setPath(rootPath);
         const QFileInfoList element_list = dir.entryInfoList();
-
 
         for (QFileInfo el_info : element_list) {
             if (el_info.fileName() != ".." && el_info.fileName() != ".") {

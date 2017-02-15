@@ -29,7 +29,7 @@ public:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
 signals:
-
+    void itemSelected();
 
 protected slots:
     void on_newBackupButton_clicked();
