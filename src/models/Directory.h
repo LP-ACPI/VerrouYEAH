@@ -19,8 +19,7 @@ protected:
 
 public:
 
-  Directory(const Directory &dir):Data(dir)
-  { setDataList(dir.getDataList()); }
+  Directory(const Directory&);
 
   Directory(json&);
 

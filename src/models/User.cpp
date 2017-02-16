@@ -18,7 +18,7 @@ Backup User::getBackupAt(const unsigned position){
     if (backups.size() > position){
         list<Backup>::iterator it = backups.begin();
         advance(it, position);
-        return *it;
+        return (*it);
     } else throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
 }
 

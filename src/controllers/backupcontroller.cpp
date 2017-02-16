@@ -4,6 +4,8 @@
 #include "../services/ConfigManager.h"
 #include <QDir>
 
+#define LOCAL_CONFIG_FILE "config.json"
+
 BackupController BackupController::instance = BackupController();
 
 void BackupController::updateBackupData(Backup *backup){
@@ -47,14 +49,14 @@ Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> 
 std::map<std::string,std::string> BackupController::getInfoMapFromBackup(Backup* backupToInfo){
 
     std::map<std::string,std::string> backup_info;
-    backup_info["key"] = backupToInfo->getKey();
-    backup_info["name"] = backupToInfo->getName();
-    backup_info["source_path"] = backupToInfo->getSource();
-    backup_info["target_path"] = backupToInfo->getTarget();
-    backup_info["target_type"] = backupToInfo->getTargetType();
-    backup_info["last_save"] = backupToInfo->getLastSave();
-    backup_info["note"] = backupToInfo->getNote();
-    backup_info["frequency"] = backupToInfo->getFrequency().toString();
+    backup_info["key"]			= backupToInfo->getKey();
+    backup_info["name"]		= backupToInfo->getName();
+    backup_info["source_path"]	= backupToInfo->getSource();
+    backup_info["target_path"]	= backupToInfo->getTarget();
+    backup_info["target_type"]	= backupToInfo->getTargetType();
+    backup_info["last_save"]	= backupToInfo->getLastSave();
+    backup_info["note"]		= backupToInfo->getNote();
+    backup_info["frequency"]	= backupToInfo->getFrequency().toString();
 
     return backup_info;
 

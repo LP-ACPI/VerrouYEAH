@@ -11,6 +11,8 @@
 #include "views/mainwindow.h"
 #include "controllers/UserController.h"
 
+#define LOCAL_CONFIG_FILE "config.json"
+
 using namespace std;
 
 /*

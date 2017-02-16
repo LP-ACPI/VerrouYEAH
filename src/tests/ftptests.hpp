@@ -6,7 +6,7 @@
 #define TEST_USER "2114434"
 #define TEST_PASS "verrouyeah1test"
 
-#define TEST_UPLOAD_FILE "config.json"
+#define TEST_UPLOAD_FILE "../config.json"
 #define TEST_UPLOAD_DEST "backpackcloud.dx.am"
 
 #define TEST_DOWNLOAD_FILE "backpackcloud.dx.am/Guide_Rootard.pdf"

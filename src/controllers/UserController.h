@@ -7,7 +7,6 @@
 
 class UserController
 {
-    static UserController instance;
 
     std::map<std::string,std::string> userLoginPassCouples;
     void loadLoginsPassCouples();
@@ -20,11 +19,12 @@ class UserController
 public:
 
     static UserController& getInstance(){
+        static UserController instance;
         return instance;
     }
 
     std::vector<std::string> getLoginList() {
-        instance.loadLoginsPassCouples();
+        loadLoginsPassCouples();
         std::vector<std::string> logins;
         for(auto user : userLoginPassCouples)
             logins.push_back(user.first);

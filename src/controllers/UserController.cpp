@@ -2,9 +2,10 @@
 #include "../services/Crypt.h"
 
 
-UserController UserController::instance = UserController();
+//UserController UserController::instance = UserController();
 
-void UserController::setCurrentUser(std::string login) {
+void UserController::setCurrentUser(std::string login)
+{
   currentUser = ConfigManager::getInstance().loadUser(login);
 }
 

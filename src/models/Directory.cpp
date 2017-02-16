@@ -13,6 +13,14 @@
 using namespace std;
 using json = nlohmann::json;
 
+
+Directory::Directory(const Directory &dir)
+    : Data(dir){
+
+    setDataList(dir.getDataList());
+}
+
+
 /**
  * @brief Directory::Directory
  * @param nlohmann::json jsonDataTree
@@ -151,7 +159,7 @@ json Directory::to_json() const{
 }
 
 
-std::ostream& operator<<(std::ostream &o,const Directory &d){
+std::ostream&operator<<(std::ostream &o,const Directory &d){
     o << "name: " << d.getName() << " (path:" << d.getPath() << ")" << endl;
     o << "data: " << endl;
          for(Data *data : d.getDataList())

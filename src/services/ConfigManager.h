@@ -10,9 +10,6 @@
 
 #include "../models/User.h"
 #include "../models/Backup.h"
-
-#define LOCAL_CONFIG_FILE "config.json"
-
 #include <json.hpp>
 
 using json = nlohmann::json;

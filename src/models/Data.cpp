@@ -34,7 +34,7 @@ bool Data::operator!=(const Data &data){
 }
 
 ostream& operator<<(ostream &out, const Data &data){
-    return out << data.name << " (path: " << data.path << ")" << endl;
+    return out << data << endl;
 }
 
 nlohmann::json& operator<<(nlohmann::json &j, Data &data){

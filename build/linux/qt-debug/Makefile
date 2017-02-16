@@ -3173,7 +3173,8 @@ mainwindow.o: ../../../src/views/mainwindow.cpp ../../../src/views/mainwindow.h 
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qdesktopservices.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtGui/qtguiversion.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QMessageBox \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmessagebox.h
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../../src/views/mainwindow.cpp
 
 main.o: ../../../src/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QApplication \
@@ -3931,7 +3932,8 @@ backupwidget.o: ../../../src/views/backupwidget.cpp ../../../src/views/backupwid
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
 		../../../src/models/Frequency.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/QFileIconProvider \
-		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qfileiconprovider.h
+		/home/ramik/Qt/5.7/gcc_64/include/QtWidgets/qfileiconprovider.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o backupwidget.o ../../../src/views/backupwidget.cpp
 
 BackupController.o: ../../../src/controllers/BackupController.cpp ../../../src/controllers/backupcontroller.h \
