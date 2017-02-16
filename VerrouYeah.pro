@@ -33,7 +33,9 @@ SOURCES	+=  \
     src/controllers/BackupController.cpp \
     src/controllers/UsersBackupController.cpp \
     src/services/CompressCrypt.cpp \
-    src/views/progressdialog.cpp
+    src/views/progressdialog.cpp \
+    src/views/detailssauvegarde.cpp \
+
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -55,7 +57,8 @@ HEADERS	+=  \
     src/controllers/UsersBackupController.h \
     src/controllers/BackupController.h \
     src/services/CompressCrypt.h \
-    src/views/progressdialog.h
+    src/views/progressdialog.h  \
+    src/views/detailssauvegarde.h \
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
@@ -63,7 +66,8 @@ FORMS	+=  \
     src/views/forms/authdialog.ui \
     src/views/forms/userformdialog.ui \
     src/views/forms/backupformdialog.ui \
-    src/views/forms/progressdialog.ui
+    src/views/forms/progressdialog.ui \
+    src/views/forms/detailssauvegarde.ui \
 
 RESOURCES += \
     res/res.qrc

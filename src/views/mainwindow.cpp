@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "authdialog.h"
+#include "detailssauvegarde.h"
 
 #include <QtGui>
 #include <QMessageBox>
@@ -68,8 +69,11 @@ void MainWindow::on_actionDeconnexion_triggered(){
 }
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
-   BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
-    qDebug() <<  QString::fromStdString(bcW->getBackupKey());
+    //qDebug() << *backupItem;
+    //backupItem->listWidget();
+     BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
+     DetailsSauvegarde* details = new DetailsSauvegarde(this,bcW);
+     details->show();
 }
 
 void MainWindow::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
