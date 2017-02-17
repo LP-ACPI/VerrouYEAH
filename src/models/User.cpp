@@ -2,6 +2,7 @@
 // Created by Valentin on 05/12/16.
 //
 #include "User.h"
+#include "../services/ConfigManager.h"
 #include <stdexcept>
 #include <algorithm>
 
@@ -14,6 +15,65 @@ User::User(User &user):
         setBackups(user.getBackups());
 }
 
+void User::addFavoriteTarget(AbsTarget *favTarget){
+    if(!hasFavoriteTarget(favTarget))
+        favoriteTargets.push_back(favTarget);
+    else throw invalid_argument("Il existe déja une destination du même nom...");
+}
+
+list<AbsTarget*> User::getFavoriteTargets() const{
+    return favoriteTargets;
+}
+
+void User::setFavoriteTargets(const std::list<AbsTarget*> favTargetList){
+    favoriteTargets.clear();
+    for(AbsTarget *favTarget : favTargetList )
+        addFavoriteTarget(favTarget);
+}
+
+AbsTarget *User::getFavoriteTargetByKey(const std::string key){
+    list<AbsTarget*>::iterator it = favoriteTargets.begin();
+    while((*it)->getId() != key && it!=favoriteTargets.end())
+        ++it;
+    if(it != favoriteTargets.end())
+        return (*it);
+    else
+        throw invalid_argument("exception: recherche de destination qui n'existe pas...");
+}
+
+AbsTarget *User::getFavoriteTargetByTag(const std::string tag){
+    list<AbsTarget*>::iterator it = favoriteTargets.begin();
+    while((*it)->getTag() != tag && it!=favoriteTargets.end())
+        ++it;
+    if(it != favoriteTargets.end())
+        return (*it);
+    else
+        throw invalid_argument("exception: recherche de destination qui n'existe pas...");
+}
+
+void User::replaceFavoriteTarget(AbsTarget *oldTarget, AbsTarget *newTarget){
+    if(!hasFavoriteTarget(newTarget) || oldTarget->getTag() == newTarget->getTag())
+        replace(favoriteTargets.begin(),favoriteTargets.end(),oldTarget,newTarget);
+    else throw invalid_argument("il existe déjà une autre destination de ce nom...");
+
+}
+
+void User::removeFavoriteTarget(AbsTarget *favTarget){
+    if(hasFavoriteTarget(favTarget))
+        favoriteTargets.remove(favTarget);
+}
+
+bool User::hasFavoriteTarget(AbsTarget *favTarget){
+    bool found = false;
+    for(AbsTarget *favT : favoriteTargets){
+        if(favT == favTarget) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+
 Backup User::getBackupAt(const unsigned position){
     if (backups.size() > position){
         list<Backup>::iterator it = backups.begin();
@@ -23,16 +83,19 @@ Backup User::getBackupAt(const unsigned position){
 }
 
 Backup User::getBackupByKey(const string key){
-
     list<Backup>::iterator it = backups.begin();
     while(key != it->getKey() && it != backups.end())
         ++it;
-    return (*it);
+    if(it != backups.end())
+        return (*it);
+    else
+        throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
 }
 
 void User::addBackup(const Backup backup){
     if(!hasBackup(backup))
         backups.push_back(backup);
+    else throw invalid_argument("Il existe déja une sauvegarde du même nom...");
 }
 
 void User::removeBackup(const Backup backup){
@@ -40,29 +103,15 @@ void User::removeBackup(const Backup backup){
         backups.remove(backup);
 }
 
-string User::getPassword() const
-{ return password; }
-
-string User::getLogin() const
-{ return login; }
-
-list<Backup> User::getBackups() const
-{ return backups; }
-
-void User::setPassword(const std::string newPass)
-{ password = newPass; }
-
-void User:: setLogin(const std::string newLogin)
-{ login = newLogin; }
-
 void User::removeBackups(){
     backups.clear();
 }
 
 void User::replaceBackup(const Backup oldBackup, const Backup newBackup){
-    replace(backups.begin(),backups.end(),oldBackup,newBackup);
+    if(!hasBackup(newBackup) ||  newBackup.getName() == oldBackup.getName())
+        replace(backups.begin(),backups.end(),oldBackup,newBackup);
+    else throw invalid_argument("Il existe déja une autre sauvegarde du même nom...");
 }
-
 
 void User::replaceBackupAt(const unsigned position,const Backup newBackup){
     replaceBackup(getBackupAt(position),newBackup);
@@ -96,15 +145,24 @@ ostream& operator<<(ostream &o, const User &user){
 
 json& operator<<(json &j, const User &user){
 
+    json favoriteTargets;
+
+    for(AbsTarget *fvT : user.getFavoriteTargets()){
+        json jFavTarg;
+        jFavTarg << *fvT;
+        favoriteTargets = ConfigManager::getInstance().merge(favoriteTargets,jFavTarg );
+    }
+
     json usersBackupsToPersist = json::array();
 
-        for(Backup bc : user.getBackups()){
-            json jsonBc;
-            usersBackupsToPersist += jsonBc << bc;
-        }
+    for(Backup bc : user.getBackups()){
+        json jsonBc;
+        usersBackupsToPersist += jsonBc << bc;
+    }
 
     j = {{user.getLogin(), {
                 {"password", user.getPassword()},
+                {"fav_dests" , favoriteTargets},
                 {"backups" , usersBackupsToPersist}
             }
         }};

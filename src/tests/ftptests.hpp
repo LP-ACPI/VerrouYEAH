@@ -19,9 +19,9 @@
 class FtpTest {
     static void testTeleversementDeFichier(){
         UnitTest<void*>::insertTitle("Test upload");
-        Ftp ftpServUpl;
-        ftpServUpl.prepareFtp(TEST_HOST,TEST_USER,TEST_PASS);
-        bool upload_result = ftpServUpl.ftpUpload(TEST_UPLOAD_FILE,TEST_UPLOAD_DEST);
+
+         Ftp::getInstance().prepareFtp(TEST_HOST,TEST_USER,TEST_PASS);
+        bool upload_result =  Ftp::getInstance().ftpUpload(TEST_UPLOAD_FILE,TEST_UPLOAD_DEST);
 
         QEventLoop loopUp;
         QObject::connect(&ftpServUpl, SIGNAL(finished()), &loopUp, SLOT(quit()));
@@ -32,9 +32,8 @@ class FtpTest {
     static void testTeleChargementDeFichier() {
 
         UnitTest<void*>::insertTitle("Test download");
-        Ftp ftpServDownl;
-        ftpServDownl.prepareFtp(TEST_HOST,TEST_USER,TEST_PASS);
-        bool download_result = ftpServDownl.ftpDownload(TEST_DOWNLOAD_FILE,TEST_DOWNLOAD_DEST);
+        Ftp::getInstance().prepareFtp(TEST_HOST,TEST_USER,TEST_PASS);
+        bool download_result =  Ftp::getInstance().ftpDownload(TEST_DOWNLOAD_FILE,TEST_DOWNLOAD_DEST);
 
         QEventLoop loopDwn;
         QObject::connect(&ftpServDownl, SIGNAL(finished()), &loopDwn, SLOT(quit()));

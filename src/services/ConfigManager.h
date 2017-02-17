@@ -12,6 +12,8 @@
 #include "../models/Backup.h"
 #include <json.hpp>
 
+#define LOCAL_CONFIG_FILE "config.json"
+
 using json = nlohmann::json;
 
 class ConfigManager {
@@ -42,10 +44,10 @@ public:
         void deleteUser(std::string);
         void updateUser(User*);
 
-        void loadUsersBackupData(User*,std::string);
-        json saveUsersBackupData(User*,Backup*);
+        Backup* getUsersDistantBackup(std::string,std::string);
+        json saveUsersBackupData(Backup*);
         void deleteUsersBackupData(std::string,std::string);
-        void loadUsersBackupList(User*);
+        std::list<Backup*> getUsersDistantBackupList(User*);
 
         std::string loadAutoLoginUserLogin();
         void setAutoLoginUser(std::string);

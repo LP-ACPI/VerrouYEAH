@@ -28,6 +28,8 @@ void Ftp::prepareFtp(std::string host,
     requestCanceled = false;
 
     rewriteDownloadedFile = rewriteDownloadFile;
+
+    connect(this,SIGNAL(error()),this,SLOT(cancelTranfer()));
 }
 
 /**
@@ -72,7 +74,7 @@ bool Ftp::ftpUpload(std::string fileToUpload, std::string destination){
 
     connect(networkReply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(transferInProgress(qint64, qint64)));
 
-    emit started();
+    emit uploadStarted();
     std::cout << "téléversement de " << fileInfo.fileName().toStdString() << "..." << std::endl;
     return startTransfert(networkReply);
 }
@@ -115,7 +117,7 @@ bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationDir
     connect(networkReply, SIGNAL(readyRead()), this, SLOT(ftpReadyRead()));
     connect(networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(transferInProgress(qint64, qint64)));
 
-    emit started();
+    emit downloadStarted();
     std::cout << "téléchargement de " << fileInfo.fileName().toStdString() << "..." << std::endl;
 
     return startTransfert(networkReply) || !rewriteDownloadedFile;
@@ -221,5 +223,9 @@ void Ftp::sslErrors(const QList<QSslError> &sslErrors)
     Q_UNUSED(sslErrors);
 #endif
     emit error();
+}
 
+void Ftp::cancelTranfer(){
+    networkReply->abort();
+    requestCanceled = true;
 }

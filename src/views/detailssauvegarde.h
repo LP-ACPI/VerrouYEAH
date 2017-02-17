@@ -1,24 +1,23 @@
 #ifndef DETAILSSAUVEGARDE_H
 #define DETAILSSAUVEGARDE_H
 
+#include "ui_detailssauvegarde.h"
 #include <QDialog>
 #include <QListWidget>
 #include "backupwidget.h"
 
-namespace Ui {
-class DetailsSauvegarde;
-}
-
-class DetailsSauvegarde : public  QDialog
+class DetailsSauvegarde : public  QDialog, private Ui::DetailsSauvegarde
 {
     Q_OBJECT
 
+    QWidget _parent;
+
 public:
-    explicit DetailsSauvegarde(QWidget *parent = 0,  BackupWidget *backupItem = 0);
+    explicit DetailsSauvegarde(std::string, QWidget *parent = 0);
     ~DetailsSauvegarde();
 
 private:
-    Ui::DetailsSauvegarde *ui;
+
 };
 
 #endif // DETAILSSAUVEGARDE_H

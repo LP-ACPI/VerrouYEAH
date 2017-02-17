@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "authdialog.h"
-#include "detailssauvegarde.h"
+#include "progressdialog.h"
 
 #include <QtGui>
 #include <QMessageBox>
@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow(){
+    if(detailBakcupDialog)
+        delete detailBakcupDialog;
     if(backupForm)
         delete backupForm;
     if(userForm)
@@ -57,7 +59,6 @@ void MainWindow::on_newBackupButton_clicked(){
 
 void MainWindow::on_actionUtilisateur_triggered(){
     userForm = new UserForm(this);
-    userForm->setModal(true);
     userForm->show();
 }
 
@@ -69,24 +70,13 @@ void MainWindow::on_actionDeconnexion_triggered(){
 }
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
-    //qDebug() << *backupItem;
-    //backupItem->listWidget();
      BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
-     DetailsSauvegarde* details = new DetailsSauvegarde(this,bcW);
-     details->show();
+     detailBakcupDialog = new DetailsSauvegarde(bcW->getBackupKey(),this);
+     detailBakcupDialog->show();
 }
 
-void MainWindow::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
-
-    std::map<std::string,std::string> bc_info_wth_key
-            = UsersBackupController::getInstance().createUsersBackup(backupInfo);
-    addBackupItem(bc_info_wth_key);
-}
-
-
-void MainWindow::onBackupUpdated(std::map<std::string,std::string> backupInfo){
-
-    UsersBackupController::getInstance().updateUsersBackup(backupInfo);
+void MainWindow::onBackupAdd(std::map<std::string, std::string> generatedBcInfo){
+    addBackupItem(generatedBcInfo);
 }
 
 void MainWindow::onBackupDeleted(std::string backupKey){

@@ -1,5 +1,7 @@
 #include "CompressCrypt.h"
 #include <iostream>
+#include <QCoreApplication>
+#include <QDebug>
 
 CompressCrypt::CompressCrypt(QObject *parent) :
     QObject(parent)
@@ -17,55 +19,51 @@ bool CompressCrypt::compressDir(const QString &sourceFolder, const QString &dest
 
     dataStream.setDevice(&file);
 
-    emit compressStarted();
+    emit(compressStarted());
 
-    totalFileCount = countFiles(sourceFolder,0);
+    totalDataCount = countFiles(sourceFolder,0);
 
     bool success = compress(sourceFolder, "",0) > 0;
     file.close();
 
-    emit compressDone();
+    emit(compressDone());
 
     return success;
 }
 
-quint64 CompressCrypt::compress(const QString &sourceFolder,const QString &prefex, quint64 count){
+quint64 CompressCrypt::compress(const QString &source,const QString &prefex, quint64 count){
 
-    QDir dir(sourceFolder);
-    if(!dir.exists())
-        return 0;
+    QDir dir(source);
+    if(dir.exists()){
 
-    dir.setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Hidden);
-    QFileInfoList foldersList = dir.entryInfoList();
+        dir.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs | QDir::Hidden);
+        QFileInfoList subElemsList = dir.entryInfoList();
 
-    for(int i=0; i<foldersList.length(); i++)
-    {
-        QString folderName = foldersList.at(i).fileName();
-        QString folderPath = dir.absolutePath()+QDir::separator()+folderName;
-        QString newPrefex = prefex+QDir::separator()+folderName;
+        for(int i=0; i<subElemsList.length(); i++)
+        {
+            QString sourceName = subElemsList.at(i).fileName();
+            QString sourcePath = subElemsList.at(i).filePath();
+            QString newPrefex = prefex+"/"+sourceName;
 
-        count = compress(folderPath, newPrefex,count);
-    }
+            count = compress(sourcePath, newPrefex,count);
+            QCoreApplication::processEvents();
+        }
 
-    dir.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden);
-    QFileInfoList filesList = dir.entryInfoList();
+    } else {
 
-    for(int i=0; i<filesList.length(); i++)
-    {
-
-        QFile file(filesList.at(i).filePath());
-
+        QFile file(source);
         if(!file.open(QIODevice::ReadOnly))
             return 0;
 
-        dataStream << QString(prefex+QDir::separator()+filesList.at(i).fileName());
+        dataStream << prefex;
         dataStream << qCompress(file.readAll());
 
         file.close();
+
         count++;
-        emit compressInProgress(count,totalFileCount);
     }
-    return true;
+    emit(compressInProgress(count,totalDataCount));
+    return count;
 }
 
 bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &destinationFolder) {
@@ -84,7 +82,7 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
 
     dataStream.setDevice(&file);
 
-    emit decompressStarted();
+    emit(decompressStarted());
 
     while(!dataStream.atEnd())
     {
@@ -92,11 +90,12 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
         QByteArray data;
 
         dataStream >> fileName >> data;
+        data.size();
 
         QString subfolder;
         for(int i=fileName.length()-1; i>0; i--)
         {
-            if((QString(fileName.at(i)) == QString("\\")) || (QString(fileName.at(i)) == QString("/")))
+            if(QString(fileName.at(i)) ==QString("/") || QString(fileName.at(i)) ==QString("\\"))
             {
                 subfolder = fileName.left(i);
                 dir.mkpath(destinationFolder+subfolder);
@@ -112,11 +111,12 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
         }
         outFile.write(qUncompress(data));
         outFile.close();
+        QCoreApplication::processEvents();
     }
 
     file.close();
 
-    emit decompressDone();
+    emit(decompressDone());
 
     return true;
 }
@@ -127,9 +127,9 @@ bool CompressCrypt::cryptDir(const QString &source,const QString &cible, char *k
     if(!sourceDir.exists())
         return false;
 
-    emit cryptingStarted();
+    emit(cryptingStarted());
 
-    totalFileCount = countFiles(source,0);
+    totalDataCount = countFiles(source,0);
     bool success = cryptDirWithCount(source,cible,0,key) > 0;
 
     emit cryptingDone();
@@ -137,76 +137,76 @@ bool CompressCrypt::cryptDir(const QString &source,const QString &cible, char *k
     return success;
 }
 
-quint64 CompressCrypt::cryptDirWithCount(const QString &source,const QString &cible, quint64 crypted ,char *key){
+quint64 CompressCrypt::cryptDirWithCount(const QString &source,const QString &cible, quint64 crypted , char *key){
 
-    QFileInfo srcFileInfo(source);
-    if (srcFileInfo.isDir()) {
+    QDir sourceDir(source);
+    if (sourceDir.exists()) {
 
         QDir targetDir;
         if (!targetDir.mkpath(cible))
             return -1;
 
-        QDir sourceDir(source);
         sourceDir.setFilter(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
         QStringList sub_dirs = sourceDir.entryList();
 
         foreach (const QString &sub_dir_name, sub_dirs) {
-            const QString subSource  = source + QDir::separator() + sub_dir_name;
-            const QString subCible = cible +  QDir::separator()  + sub_dir_name;
+            const QString subSource  = source +"/" + sub_dir_name;
+            const QString subCible = cible +"/" + sub_dir_name;
             crypted = cryptDirWithCount(subSource, subCible,crypted,key);
+            QCoreApplication::processEvents();
         }
     } else {
         cryptMan.cryptFile(source.toStdString(), cible.toStdString(), key);
         crypted++;
     }
-    emit cryptInProgress(crypted,totalFileCount);
+    emit(cryptInProgress(crypted,totalDataCount));
     return crypted;
-
 }
 
-bool CompressCrypt::decryptDir(const QString &source,const QString &cible, char* key){
+bool CompressCrypt::decryptDir(const QString &source,const QString &cible,  char* key){
 
     QDir sourceDir(source);
     if(!sourceDir.exists())
         return false;
 
-    emit decryptingStarted();
-    totalFileCount = countFiles(source,0);
+    emit(decryptingStarted());
+    totalDataCount = countFiles(source,0);
 
     bool success = decryptDirWithCount(source,cible,0, key) > 0;
-    emit decryptingDone();
+    emit(decryptingDone());
 
     return success;
 }
 
-quint64 CompressCrypt::decryptDirWithCount(const QString &source,const QString &cible,quint64 decrypted,char* key){
+quint64 CompressCrypt::decryptDirWithCount(const QString &source,const QString &cible,quint64 decrypted, char* key){
 
-    QFileInfo srcFileInfo(source);
-    if (srcFileInfo.isDir()) {
+    QDir sourceDir(source);
+    if (sourceDir.exists()) {
 
         QDir targetDir;
         if (!targetDir.mkpath(cible))
             return -1;
 
-        QDir sourceDir(source);
         sourceDir.setFilter(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
         QStringList sub_dirs = sourceDir.entryList();
 
         foreach (const QString &sub_dir_name, sub_dirs) {
-            const QString subSource  = source + QDir::separator() + sub_dir_name;
-            const QString subCible = cible + QDir::separator() + sub_dir_name;
+            const QString subSource  = source +"/" + sub_dir_name;
+            const QString subCible = cible + "/" + sub_dir_name;
 
             decrypted = decryptDirWithCount(subSource, subCible, decrypted, key);
+            QCoreApplication::processEvents();
         }
     } else {
         cryptMan.decryptFile(source.toStdString(), cible.toStdString(), key);
         decrypted++;
     }
-    emit decryptInProgress(decrypted,totalFileCount);
+    emit(decryptInProgress(decrypted,totalDataCount));
     return decrypted;
 }
 
 quint64 CompressCrypt::countFiles(const QString &source, quint64 ctn){
+
     QFileInfo srcInfo(source);
     if (srcInfo.isDir()) {
         QDir srcDir(source);
@@ -214,7 +214,7 @@ quint64 CompressCrypt::countFiles(const QString &source, quint64 ctn){
         QStringList elements = srcDir.entryList();
 
         foreach (const QString &el, elements) {
-            const QString subEl  = source + QDir::separator() + el;
+            const QString subEl  = source +"/" + el;
             QFileInfo srcInfo(subEl);
              if (srcInfo.isDir())
                  ctn+=countFiles(subEl);

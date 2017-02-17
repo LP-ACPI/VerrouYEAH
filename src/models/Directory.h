@@ -30,6 +30,10 @@ public:
       : Data(name,path)
   {}
 
+  ~Directory(){
+        for(Data *dt : getDataList())
+            delete dt;
+  }
     void addData(Data*);
     void removeData(Data*);
     Data& getDataAt(const unsigned);
