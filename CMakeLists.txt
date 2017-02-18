@@ -17,5 +17,5 @@ set(SOURCE_FILES
     ${CMAKE_SOURCE_DIR}/src/services/Crypt.cpp 
     main.cpp
 )
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lpthread")
 add_subdirectory(src)
