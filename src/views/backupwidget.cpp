@@ -28,7 +28,6 @@ void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
     backupKey = backupInfo["key"];
     backupName->setText(QString::fromStdString(backupInfo["name"]));
     backupSource->setText(QString::fromStdString(backupInfo["source_path"]));
-    backupTarget->setText(QString::fromStdString(backupInfo["target_tag"]));
 
     std::string targetType = TargetController::getInstance().getFavoriteTargetsType(backupInfo["target_id"]);
     if(targetType == "FTP")
@@ -36,9 +35,13 @@ void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
     else
         targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_id"]);
 
-    QString tool_tip_text = "<b>Key: </b> "+ QString::fromStdString(backupKey)+
-                                            "<br/><b>target:</b>"+QString::fromStdString(targetInfo["target_tag"])+
-                                            "";
+    backupTarget->setText("("+QString::fromStdString(targetType)+
+                           ") "+QString::fromStdString(targetInfo["tag"]));
+
+    QString tool_tip_text = "<b>Nom: </b> "+ QString::fromStdString(backupInfo["name"])+
+                                          "<br/><b>destination:</b>("+QString::fromStdString(targetType)+
+                                            ") "+QString::fromStdString(targetInfo["tag"])+
+                                            "<br/>est accessible : " +QString::fromStdString(backupInfo["data_loaded"]);
 
 
     setToolTip(tool_tip_text);

@@ -137,23 +137,23 @@ void ProgressDialog::onDecompressBegan(){
         topLabel->setText("Décompression en cours");
         topBar->setMaximum(0);
         topBar->setMinimum(0);
-
     } else {
-
         midLabel->setText("Décompression en cours" );
         midBar->setDisabled(false);
         topLabel->setText("Téléchargement terminé");
-        midBar->setMaximum(100);
-        midBar->setValue(100);
+        midBar->setMaximum(0);
+        midBar->setValue(0);
     }
 }
 
 void ProgressDialog::onDecryptBegan(){
     if(!isFtp){
+        topBar->setMaximum(100);
         topBar->setValue(100);
         midBar->setDisabled(false);
         topLabel->setText("Décompression terminée");
     } else {
+        mid->setMaximum(100);
         midBar->setValue(100);
         bottomBar->setDisabled(false);
         midLabel->setText("Décompression terminée");

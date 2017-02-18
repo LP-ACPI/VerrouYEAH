@@ -42,54 +42,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>0</y>
-     <width>251</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="backupName">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>28</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Monospace</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>NomSauvegarde</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="backupSource">
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="text">
-       <string>Source</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="backupTarget">
-      <property name="text">
-       <string>Cible</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QPushButton" name="configButton">
    <property name="geometry">
     <rect>
@@ -114,6 +66,60 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="backupTarget">
+   <property name="geometry">
+    <rect>
+     <x>91</x>
+     <y>50</y>
+     <width>249</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cible</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="backupName">
+   <property name="geometry">
+    <rect>
+     <x>91</x>
+     <y>0</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>NomSauvegarde</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="backupSource">
+   <property name="geometry">
+    <rect>
+     <x>91</x>
+     <y>30</y>
+     <width>249</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="text">
+    <string>Source</string>
    </property>
   </widget>
  </widget>

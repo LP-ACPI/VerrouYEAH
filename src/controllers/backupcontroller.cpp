@@ -41,13 +41,11 @@ std::map<std::string,std::string> BackupController::getInfoMapFromBackup(Backup*
     backup_info["key"]                   = backupToInfo->getKey();
     backup_info["name"]               = backupToInfo->getName();
     backup_info["source_path"] = backupToInfo->getSource();
-    backup_info["target_id"]       = backupToInfo->getTarget()->getId();
-    backup_info["target_tag"]     = backupToInfo->getTarget()->getTag();
-    backup_info["target_path"]     = backupToInfo->getTarget()->getPath();
+    backup_info["target_id"]        = backupToInfo->getTarget()->getId();
     backup_info["last_save"]       = backupToInfo->getLastSave();
     backup_info["note"]                = backupToInfo->getNote();
     backup_info["frequency"]     = backupToInfo->getFrequency().toString();
-    backup_info["data_loaded"] = backupToInfo->hasLoadedData() ? "true" : "false";
+    backup_info["data_loaded"] = backupToInfo->hasLoadedData() ? "oui" : "non";
 
     return backup_info;
 

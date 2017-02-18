@@ -4,6 +4,7 @@
 #include "Backup.h"
 #include "../services/CompressCrypt.h"
 #include "../services/ConfigManager.h"
+#include <QDebug>
 
 using namespace std;
 using json = nlohmann::json;
@@ -71,8 +72,11 @@ void Backup::saveNormalData(){
 }
 
 void Backup::restoreNormalData(){
-    QString decrypt_from = QString::fromStdString(target->getPath()+ name);
-    QString decrypt_to = QString::fromStdString("recovery/"+name);
+    QString decrypt_from = QString::fromStdString(target->getPath()+"/"+ name);
+    QString decrypt_to = QString::fromStdString("decrypt/"+name);
+    qDebug() << decrypt_from;
+    qDebug() << decrypt_to;
+
     CompressCrypt::getInstance().decompressDir(decrypt_from+".vy",decrypt_from+"_temp");
     CompressCrypt::getInstance().decryptDir(decrypt_from+"_temp",decrypt_to,key);
     QDir dir(decrypt_from+"_temp");
