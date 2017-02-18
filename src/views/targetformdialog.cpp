@@ -33,7 +33,8 @@ TargetFormDialog::TargetFormDialog(std::string targetKey, QWidget *parent)
         hostInput->setText(QString::fromStdString(ftpTargetInfo["host"]));
         usernameInput->setText(QString::fromStdString(ftpTargetInfo["username"]));
         passInput->setText(QString::fromStdString(ftpTargetInfo["pass"]));
-        pathInput->setText(QString::fromStdString(ftpTargetInfo["path"]));        
+        pathInput->setText(QString::fromStdString(ftpTargetInfo["path"]));
+        portInput->setText(QString::fromStdString(ftpTargetInfo["port"]));
 
         connect(this,SIGNAL(postFtpTargetData(std::map<std::string,std::string>)),
                                      this,SLOT(onFtpTargetUpdate(std::map<std::string,std::string>)));
@@ -51,19 +52,23 @@ TargetFormDialog::TargetFormDialog(std::string targetKey, QWidget *parent)
 void TargetFormDialog::refreshLayout(QString selectedType){
     if(selectedType == "FTP"){
         dirChoice->hide();
-        hostInput->show();
-        passInput->show();
+        portLabel->show();
+        portInput->show();
         pathInput->show();
+        passInput->show();
+        hostInput->show();
         usernameInput->show();
-        setMinimumHeight(325);
-        setMaximumHeight(325);
-        buttonBox->move(buttonBox->pos().x(), 280);
+        setMinimumHeight(350);
+        setMaximumHeight(350);
+        buttonBox->move(buttonBox->pos().x(), 310);
     } else {
-        usernameInput->hide();
-        hostInput->hide();
-        passInput->hide();
-        pathInput->hide();
         dirChoice->show();
+        portLabel->hide();
+        portInput->hide();
+        pathInput->hide();
+        passInput->hide();
+        hostInput->hide();
+        usernameInput->hide();
         setMinimumHeight(225);
         setMaximumHeight(225);
         buttonBox->move(buttonBox->pos().x(), 160);
@@ -86,6 +91,7 @@ void TargetFormDialog::on_buttonBox_accepted(){
         targetInfo["host"] = hostInput->text().toStdString();
         targetInfo["username"] = usernameInput->text().toStdString();
         targetInfo["path"] = pathInput->text().toStdString();
+        targetInfo["port"] = portInput->text().toStdString();
         emit postFtpTargetData(targetInfo);
     }    else   {
         if(!isNormalFormValid())

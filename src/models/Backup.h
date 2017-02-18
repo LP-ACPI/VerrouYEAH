@@ -35,6 +35,8 @@ class Backup {
     void saveNormalData();
     void restoreNormalData();
 
+    bool loadFtpJson() ;
+    bool loadNormalJson() ;
 public:
     Backup(const Backup&);
     Backup(
@@ -72,6 +74,8 @@ public:
     Frequency getFrequency() const;
     const Data* getData() const;
     bool hasLoadedData() const;
+
+    bool loadDistantJson() ;
     std::string getOwnersLogin() const;
     std::string getOwnersPass() const;
 

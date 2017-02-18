@@ -80,6 +80,7 @@ User* ConfigManager::loadUser(string login){
         backup.setOwnersPass(password);
         AbsTarget *target = user->getFavoriteTargetByTag(targetTag);
         backup.setTarget(target);
+        backup.loadDistantJson();
 
         user->addBackup(backup);
     }
@@ -134,18 +135,17 @@ void ConfigManager::updateUser(User *user){
 }
 
 
-Backup* ConfigManager::getUsersDistantBackup(string login, string backupKey){
+Backup* ConfigManager::getUserBackupsData(string login, string backupKey){
 
      json users_backup = readOrInitUserBackups(login)[backupKey];
 
     if(users_backup["Data"] != NULL){
 
         Directory *root_data = new Directory(users_backup["Data"]);
-
         Backup *new_backup = new Backup(backupKey.c_str());
+        new_backup->setDataLoaded(root_data ? true : false);
         new_backup->setData(root_data);
         new_backup->setName(users_backup["name"]);
-        new_backup->setOwnersLogin(login);
         new_backup->setLastSave(users_backup["last_save"]);
         return new_backup;
 
@@ -159,7 +159,7 @@ list<Backup*> ConfigManager::getUsersDistantBackupList(User* user){
     list<Backup*> backup_list;
     for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
 
-        Backup *new_backup = getUsersDistantBackup(user->getLogin(),it.key().c_str());
+        Backup *new_backup = getUserBackupsData(user->getLogin(),it.key().c_str());
         backup_list.push_back(new_backup);
     }
     return backup_list;

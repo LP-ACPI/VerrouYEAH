@@ -71,7 +71,7 @@ void MainWindow::on_actionDeconnexion_triggered(){
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
      BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
-     detailBakcupDialog = new DetailsSauvegarde(bcW->getBackupKey(),this);
+     detailBakcupDialog = new BackupDetailsDialog(bcW->getBackupKey(),this);
      detailBakcupDialog->show();
 }
 

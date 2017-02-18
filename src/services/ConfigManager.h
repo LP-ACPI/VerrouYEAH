@@ -39,13 +39,13 @@ public:
 
         std::map<std::string,std::string>loadLoginPassCouples();
 
-        User* loadUser(std::string);
         json saveUser(User*);
+        User* loadUser(std::string);
         void deleteUser(std::string);
         void updateUser(User*);
 
-        Backup* getUsersDistantBackup(std::string,std::string);
         json saveUsersBackupData(Backup*);
+        Backup* getUserBackupsData(std::string,std::string);
         void deleteUsersBackupData(std::string,std::string);
         std::list<Backup*> getUsersDistantBackupList(User*);
 

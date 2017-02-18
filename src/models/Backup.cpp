@@ -19,8 +19,8 @@ Backup::Backup(const Backup &backupToCopy)
         dataIsLoaded(backupToCopy.hasLoadedData())
 {
     setKey(backupToCopy.getKey().c_str());
-    ownerLogPass[0] = backupToCopy.getOwnersLogin();
-    ownerLogPass[1] = backupToCopy.getOwnersPass();
+    setOwnersLogin(backupToCopy.getOwnersLogin());
+    setOwnersPass( backupToCopy.getOwnersPass() );
 }
 
 void Backup::saveData(){
@@ -72,7 +72,7 @@ void Backup::saveNormalData(){
 
 void Backup::restoreNormalData(){
     QString decrypt_from = QString::fromStdString(target->getPath()+ name);
-    QString decrypt_to = QString::fromStdString(source+"/vy.recovery/"+name);
+    QString decrypt_to = QString::fromStdString("recovery/"+name);
     CompressCrypt::getInstance().decompressDir(decrypt_from+".vy",decrypt_from+"_temp");
     CompressCrypt::getInstance().decryptDir(decrypt_from+"_temp",decrypt_to,key);
     QDir dir(decrypt_from+"_temp");
@@ -85,6 +85,38 @@ void Backup::saveFtpData(){
 
 void Backup::restoreFtpData(){
 
+}
+
+bool Backup::loadDistantJson(){
+    if(target->getType() == "FTP")
+        return loadFtpJson();
+    else
+        return loadNormalJson();
+}
+
+bool Backup::loadFtpJson() {
+
+}
+
+bool Backup::loadNormalJson() {
+    std::string distant_config = getTarget()->getPath()
+            + QDir::separator().toLatin1()
+            + getOwnersLogin()
+            + ".config";
+
+    QFile file(QString::fromStdString(distant_config));
+    if(file.exists()){
+        ConfigManager::getInstance().setJsonFile(distant_config);
+        Backup *distant_partial_backup =  ConfigManager::getInstance().getUserBackupsData(getOwnersLogin(),key );
+        if(distant_partial_backup){
+            setDataLoaded(distant_partial_backup->hasLoadedData());
+            setData(distant_partial_backup->getData());
+            setLastSave(distant_partial_backup->getLastSave());
+            ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+        }
+        return true && hasLoadedData();
+    }
+    return false;
 }
 
 string Backup::getKey() const
@@ -143,14 +175,17 @@ bool Backup::operator!=(const Backup &backup){
 }
 
 void Backup::operator=(const Backup &backup){
-    strcpy(key,backup.getKey().c_str());
-    name        = backup.getName();
-    source      = backup.getSource();
-    target      = backup.getTarget();
-    lastSave    = backup.getLastSave();
-    frequency   = backup.getFrequency();
-    data        = backup.getData();
-    note        = backup.getNote();
+    name                = backup.getName();
+    source              = backup.getSource();
+    target               = backup.getTarget();
+    lastSave           = backup.getLastSave();
+    frequency       = backup.getFrequency();
+    data                   = backup.getData();
+    note                   = backup.getNote();
+    dataIsLoaded = backup.hasLoadedData();
+    setKey(backup.getKey().c_str());
+    setOwnersLogin(backup.getOwnersLogin());
+    setOwnersPass( backup.getOwnersPass() );
 }
 
 ostream& operator<<(ostream &out, const Backup &backup){
