@@ -3,11 +3,9 @@
 
 #include <iostream>
 #include "../models/User.h"
-#include "../services/ConfigManager.h"
 
 class UserController
 {
-    static UserController instance;
 
     std::map<std::string,std::string> userLoginPassCouples;
     void loadLoginsPassCouples();
@@ -20,16 +18,11 @@ class UserController
 public:
 
     static UserController& getInstance(){
+        static UserController instance;
         return instance;
     }
 
-    std::vector<std::string> getLoginList() {
-        instance.loadLoginsPassCouples();
-        std::vector<std::string> logins;
-        for(auto user : userLoginPassCouples)
-            logins.push_back(user.first);
-        return logins;
-    }
+    std::vector<std::string> getLoginList();
 
     bool authentifyUser(std::string, std::string);
 
@@ -40,10 +33,8 @@ public:
 
     std::string getCurrentUserLogin() const
     {   return currentUser->getLogin(); }
-
     User* getCurrentUser() const
     {   return currentUser; }
-
     std::string getCurrentUserPass() const
     {   return currentUser->getPassword(); }
 

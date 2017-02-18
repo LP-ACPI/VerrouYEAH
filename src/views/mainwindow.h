@@ -5,6 +5,8 @@
 #include "backupform.h"
 #include "userform.h"
 #include "backupwidget.h"
+#include "detailssauvegarde.h"
+
 #include "../controllers/UsersBackupController.h"
 #include <QMainWindow>
 
@@ -14,11 +16,11 @@ class MainWindow :
 {
     Q_OBJECT
 
-    static UsersBackupController userBcController;
-
     QList<BackupWidget*> backupWidgetList;
+    DetailsSauvegarde *detailBakcupDialog;
     BackupForm *backupForm;
     UserForm *userForm;
+
     void addBackupItem(std::map<std::string,std::string>);
     void initBackupList();
 
@@ -37,9 +39,8 @@ protected slots:
     void on_actionDeconnexion_triggered();
 
     void onBackupItemClicked(QListWidgetItem*);
-    void onNewBackupAdded(std::map<std::string,std::string>);
-    void onBackupUpdated(std::map<std::string,std::string>);
     void onBackupDeleted(std::string);
+    void onBackupAdd(std::map<std::string,std::string>);
 };
 
 #endif // MAINWINDOW_H

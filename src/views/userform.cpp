@@ -10,6 +10,7 @@ UserForm::UserForm(QWidget *parent)
     : QDialog(parent), _parent(parent)
 {
     setupUi(this);
+    setModal(true);
 
     QString login = QString::fromStdString(UserController::getInstance().getCurrentUserLogin());
 

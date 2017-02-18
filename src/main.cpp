@@ -10,6 +10,9 @@
 #include "views/authdialog.h"
 #include "views/mainwindow.h"
 #include "controllers/UserController.h"
+#include "services/ConfigManager.h"
+
+#define LOCAL_CONFIG_FILE "config.json"
 
 using namespace std;
 

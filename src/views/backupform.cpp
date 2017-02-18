@@ -1,18 +1,23 @@
 #include "backupform.h"
-#include "ui_backupformdialog.h"
 #include "../controllers/UsersBackupController.h"
+#include "../controllers/TargetController.h"
 #include <QFileDialog>
 #include <QFileIconProvider>
 #include <QMessageBox>
 #include <QStyle>
+#include <QDateTime>
+#include <QDebug>
 
 BackupForm::BackupForm(QWidget *parent) :
     QDialog(parent),_backupKey("null")
 {   
     init();
 
-    connect(this,SIGNAL(newBackupAdded(std::map<std::string,std::string>)),
-            parent,SLOT(onNewBackupAdded(std::map<std::string,std::string>)));
+    connect(this,SIGNAL(postCreateBackupData(std::map<std::string,std::string>)),
+            this,SLOT(onNewBackupAdded(std::map<std::string,std::string>)));
+
+    connect(this,SIGNAL(addNewBackup(std::map<std::string,std::string>)),
+            parent,SLOT(onBackupAdd(std::map<std::string,std::string>)));
 
     setWindowTitle("Nouvelle Sauvegarde");
 }
@@ -24,14 +29,13 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 
     std::map<std::string,std::string> backup_info = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
 
-
     nameInput->setText(QString::fromStdString(backup_info["name"]));
-    sourceInput->setText(QString::fromStdString(backup_info["source_path"]));
-    targetInput->setText(QString::fromStdString(backup_info["target_path"]));
+    sourceChoiceButton->setText(QString::fromStdString(backup_info["source_path"]));
+    targetChoiceButton->setText(QString::fromStdString(backup_info["target_tag"]));
     noteInput->setPlainText(QString::fromStdString(backup_info["note"]));
 
-    connect(this,SIGNAL(BackupUpdated(std::map<std::string,std::string>)),
-            parent,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
+    connect(this,SIGNAL(postUpdateBackupData(std::map<std::string,std::string>)),
+            this,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
 
     setWindowTitle("Modification de "+nameInput->text());
 
@@ -39,18 +43,18 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 
 void BackupForm::init(){
     setupUi(this);
-    icon->setPixmap(QFileIconProvider().icon(QFileIconProvider::Folder).pixmap(32,32));
-    sourceChoiceButton->setIcon(QFileIconProvider().icon(QFileIconProvider::Folder));
-    targetChoiceButton->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+    setModal(true);
+    progressDialog = new ProgressDialog(this);
+    targetChoice = new TargetChoiceDialog(this);
+
+    icon->setPixmap(QFileIconProvider().icon(QFileIconProvider::File).pixmap(30,30));
+    sourceIcon->setPixmap(QFileIconProvider().icon(QFileIconProvider::Folder).pixmap(25,25));
+    targetIcon->setPixmap(style()->standardIcon(QStyle::SP_DialogSaveButton).pixmap(25,25));
 }
 
-
-BackupForm::~BackupForm()
-{}
-
 void BackupForm::setSourceText(QString sourcePath){
-    sourceInput->setText(sourcePath);
-    sourceInput->setToolTip(sourcePath);
+    sourceChoiceButton->setText(sourcePath);
+    sourceChoiceButton->setToolTip(sourcePath);
 }
 
 
@@ -59,13 +63,10 @@ void BackupForm::on_backupButtonBox_accepted(){
     if(!isFormValid())
         return;
 
-    std::map<std::string,std::string> backup_info;
-
     backup_info["name"]         = nameInput->text().toStdString();
-    backup_info["source_path"]  = sourceInput->text().toStdString();
+    backup_info["source_path"]  = sourceChoiceButton->text().toStdString();
     //TODO - destination favorites d'utilisateur + form
-    backup_info["target_path"]  = targetInput->text().toStdString();
-    backup_info["target_type"]  = "NORMAL";
+    backup_info["target_tag"]  = targetChoiceButton->text().toStdString();
 
     backup_info["note"]         = noteInput->toPlainText().toStdString();
 
@@ -75,24 +76,43 @@ void BackupForm::on_backupButtonBox_accepted(){
     //TODO - implém fréquence + form
 //    backup_info["frequency"] = "*-*-*-*-*";
 
-    if(_backupKey == "null")
-        emit newBackupAdded(backup_info);
-    else {
+    hide();
+    if(_backupKey == "null"){
+        emit postCreateBackupData(backup_info);
+    } else {
         backup_info["key"] = _backupKey;
-        emit BackupUpdated(backup_info);
+        emit postUpdateBackupData(backup_info);
     }
-
-    close();
 }
 
 void BackupForm::on_backupButtonBox_rejected(){
     close();
 }
 
+void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
+    //TODO : verif si FTP/NORMAL + Upload
+
+    progressDialog->init();
+    progressDialog->show();
+
+    std::map<std::string,std::string> bc_info_wth_key
+            = UsersBackupController::getInstance().addNewUsersBackup(backupInfo);
+    emit addNewBackup(bc_info_wth_key);
+}
+
+
+void BackupForm::onBackupUpdated(std::map<std::string,std::string> backupInfo){
+    progressDialog = new ProgressDialog(this);
+    //TODO : verif si FTP/NORMAL + Upload
+    progressDialog->init();
+    progressDialog->show();
+    UsersBackupController::getInstance().updateUsersBackup(backupInfo);
+}
+
 bool BackupForm::isFormValid(){
-    bool empty_entries = sourceInput->text().isEmpty()
+    bool empty_entries = sourceChoiceButton->text().isEmpty()
             || nameInput->text().isEmpty()
-            || targetInput->text().isEmpty();
+            || targetChoiceButton->text().isEmpty();
 
     if(empty_entries){
         QMessageBox::warning(this, "Attention!",
@@ -103,12 +123,17 @@ bool BackupForm::isFormValid(){
 }
 
 void BackupForm::on_sourceChoiceButton_clicked(){
-    QString dossier = QFileDialog::getExistingDirectory();
-    sourceInput->setText(dossier);
+    QString sourceDir = QFileDialog::getExistingDirectory();
+    sourceChoiceButton->setText(sourceDir);
+    sourceChoiceButton->setToolTip(sourceDir);
 }
 
-
 void BackupForm::on_targetChoiceButton_clicked(){
-    QString dossier = QFileDialog::getExistingDirectory();
-    targetInput->setText(dossier);
+    targetChoice->show();
+}
+
+void BackupForm::onTargetSelected(QString targetTag){
+    targetChoiceButton->setText(targetTag);
+    targetChoiceButton->setToolTip(targetTag);
+    backup_info["target_id"] = TargetController::getInstance().targetCouplesTagKey()[targetTag.toStdString()];
 }

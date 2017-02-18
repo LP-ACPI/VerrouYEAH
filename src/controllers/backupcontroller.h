@@ -2,11 +2,13 @@
 #define BACKUPCONTROLLER_H
 
 #include "../models/Backup.h"
+#include <json.hpp>
 
 class BackupController
 {
-    static BackupController instance;
 
+    static BackupController instance;
+    
     BackupController()
     {}
 
@@ -14,15 +16,19 @@ public:
     static BackupController &getInstance()
     {   return instance; }
 
-    void updateBackupData(Backup*);
-    void decryptBackup(std::string);
+    bool updateDataIfAccessible(Backup*);
+
+    void restoreBackupData(std::string);
+
+    bool isBackupFtp(std::string);
 
     Backup getBackupFromInfoMap(std::map<std::string,std::string>);
     std::map<std::string,std::string> getInfoMapFromBackup(Backup*);
 
     void operator=(BackupController const&) = delete;
 
-    const Data* getData(std::string la_cle);
+   nlohmann::json getJsonifiedDataTree(std::string);
+
 
 };
 

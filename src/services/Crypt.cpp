@@ -68,10 +68,10 @@ void Crypt::crypt_file_DES(string nom_source, string nom_destination, char* cle,
     destination.close();
 }
 
-char* Crypt::genKey(size_t key_size){
-    //Changement: RAND_Bytes renvoyait des valeurs difficilement lisibles/écrivables depuis/dans un json
-    //-> que des valeurs alpha-num
-    char key[key_size];
+ char* Crypt::genKey( size_t key_size) {
+
+     char* key;
+    memset(key,0,key_size);
     static const char alphanum[] =
             "0123456789"
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

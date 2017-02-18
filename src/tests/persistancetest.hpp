@@ -57,8 +57,8 @@ class PersistanceTest{
         Backup test_2_1stBcp= test2->getBackupAt(0);
         Backup test_2_2ndBcp= test2->getBackupAt(1);
 
-        Backup test_toto_1stBcp;
-        Backup test_toto_2ndBcp;
+        Backup test_toto_1stBcp("");
+        Backup test_toto_2ndBcp("");
 
         try {
             test_toto_1stBcp = testToto->getBackupAt(0);
@@ -82,7 +82,7 @@ class PersistanceTest{
 
     static void chargementCouplesLoginPass(){
         ConfigManager::getInstance().setJsonFile(TEST_CONFIG_FILE);
-        map<string,string> users = ConfigManager::getInstance().loadLoginPassList();
+        map<string,string> users = ConfigManager::getInstance().loadLoginPassCouples();
 
         string loginsAttendus[2] = {"login_test","login_toto"};
         string passAttendus[2] = {"qwertz","qwertyop"};
@@ -102,7 +102,7 @@ class PersistanceTest{
         ConfigManager::getInstance().setJsonFile(TEST_CONFIG_FILE);
 
         ConfigManager::getInstance().deleteUser("login_toto");
-        map<string,string> users = ConfigManager::getInstance().loadLoginPassList();
+        map<string,string> users = ConfigManager::getInstance().loadLoginPassCouples();
 
         UnitTest<void*>::insertTitle("Test suppression d'utilisateur");
         UnitTest<int>::assertEquals("nombre d'utilisateurs == 1",1,users.size());

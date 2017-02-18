@@ -1,4 +1,3 @@
-
 QT += network core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -18,25 +17,30 @@ SOURCES	+=  \
     src/models/Directory.cpp \
     src/models/File.cpp \
     src/models/Frequency.cpp \
-    src/models/Scheduler.cpp \
     src/models/User.cpp \
+    src/models/FtpTarget.cpp \
+    src/controllers/UserController.cpp \
+    src/controllers/BackupController.cpp \
+    src/controllers/UsersBackupController.cpp \
+    src/controllers/TargetController.cpp \
+    src/services/Scheduler.cpp \
     src/services/Crypt.cpp \
     src/services/ConfigManager.cpp \
     src/services/Ftp.cpp \
-    src/controllers/UserController.cpp \
+    src/services/CompressCrypt.cpp \
     src/views/authdialog.cpp \
     src/views/mainwindow.cpp \
-    src/main.cpp \
     src/views/backupform.cpp \
     src/views/userform.cpp \
     src/views/backupwidget.cpp \
-    src/controllers/BackupController.cpp \
-    src/controllers/UsersBackupController.cpp \
-    src/services/CompressCrypt.cpp \
     src/views/progressdialog.cpp \
     src/views/detailssauvegarde.cpp \
-    src/models/qjsonmodel.cpp
-
+    src/views/targetformdialog.cpp \
+    src/views/targetchoicedialog.cpp \
+    src/views/QJsonModel.cpp \
+    src/main.cpp \
+    src/models/absTarget.cpp \
+    src/models/Target.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -44,23 +48,29 @@ HEADERS	+=  \
     src/models/Directory.h \
     src/models/File.h \
     src/models/Frequency.h \
-    src/models/Scheduler.h \
     src/models/User.h \
+    src/models/FtpTarget.h \
+    src/controllers/UserController.h \
+    src/controllers/UsersBackupController.h \
+    src/controllers/BackupController.h \
+    src/controllers/TargetController.h \
+    src/services/Scheduler.h \
+    src/services/CompressCrypt.h \
     src/services/Crypt.h \
     src/services/ConfigManager.h \
     src/services/Ftp.h \
-    src/controllers/UserController.h \
     src/views/authdialog.h \
     src/views/mainwindow.h \
     src/views/backupform.h \
     src/views/userform.h \
     src/views/backupwidget.h \
-    src/controllers/UsersBackupController.h \
-    src/controllers/BackupController.h \
-    src/services/CompressCrypt.h \
     src/views/progressdialog.h  \
     src/views/detailssauvegarde.h \
-    src/models/qjsonmodel.h
+    src/views/targetchoicedialog.h \
+    src/views/targetformdialog.h \
+    src/views/QJsonModel.h \
+    src/models/absTarget.h \
+    src/models/Target.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
@@ -70,6 +80,8 @@ FORMS	+=  \
     src/views/forms/backupformdialog.ui \
     src/views/forms/progressdialog.ui \
     src/views/forms/detailssauvegarde.ui \
+    src/views/forms/targetformdialog.ui \
+    src/views/forms/targetchoicedialog.ui \
     src/views/forms/frequencydialog.ui
 
 RESOURCES += \

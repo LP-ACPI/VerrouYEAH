@@ -19,8 +19,7 @@ protected:
 
 public:
 
-  Directory(const Directory &dir):Data(dir)
-  { setDataList(dir.getDataList()); }
+  Directory(const Directory&);
 
   Directory(json&);
 
@@ -31,6 +30,10 @@ public:
       : Data(name,path)
   {}
 
+  ~Directory(){
+        for(Data *dt : getDataList())
+            delete dt;
+  }
     void addData(Data*);
     void removeData(Data*);
     Data& getDataAt(const unsigned);

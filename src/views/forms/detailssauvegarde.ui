@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="nameLabel">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -46,7 +46,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="targetPathLabel">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -59,7 +59,7 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="sourcePathLabel">
    <property name="geometry">
     <rect>
      <x>30</x>

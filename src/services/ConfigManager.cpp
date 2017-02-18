@@ -5,6 +5,8 @@
 #include "ConfigManager.h"
 #include "../models/Directory.h"
 #include "../models/File.h"
+#include "../models/FtpTarget.h"
+#include "../models/Target.h"
 #include <QDebug>
 
 using namespace std;
@@ -36,29 +38,52 @@ User* ConfigManager::loadUser(string login){
     string password = user_config["password"];
     User* user      = new User(login,password);
 
+    json favorite_targets = user_config["fav_dests"];
+
+    for (json::iterator it = favorite_targets.begin(); it != favorite_targets.end(); ++it){
+        string tag = it.key();
+        string type = favorite_targets[it.key()]["type"];
+        string path = favorite_targets[it.key()]["path"];
+        AbsTarget *fav_trg;
+        if(type == "FTP"){
+            FtpTarget *fav_trg = new FtpTarget(tag,path);
+            fav_trg->setHost(favorite_targets[it.key()]["host"]);
+            fav_trg->setUserName(favorite_targets[it.key()]["username"]);
+            fav_trg->setFtpPass(favorite_targets[it.key()]["pass"]);
+            fav_trg->setPort(favorite_targets[it.key()]["port"]);
+            user->addFavoriteTarget(fav_trg);
+        } else {
+            fav_trg = new Target(tag,path);
+            user->addFavoriteTarget(fav_trg);
+        }
+    }
+
     json backups = user_config["backups"];
     for (json bc : backups) {
 
         string key = bc["key"];
         string name = bc["name"];
         string sourcePath = bc["src"];
-        string targetType = bc["dest"]["type"];
-        string targetPath = bc["dest"]["path"];
         string note = bc["note"];
         //TODO : DateTime format
         string lastSave = bc["last_save"];
         string frequency = bc["freq"];
+        string targetTag = bc["dest"]["tag"];
 
         Backup backup(key.c_str());
         backup.setName(name);
         backup.setSource(sourcePath);
-        backup.setTarget(targetPath);
-        backup.setTargetType(targetType);
         backup.setLastSave(lastSave);
         backup.setNote(note);
         backup.setFrequency(frequency);
+        backup.setOwnersLogin(login);
+        backup.setOwnersPass(password);
+        AbsTarget *target = user->getFavoriteTargetByTag(targetTag);
+        backup.setTarget(target);
+
         user->addBackup(backup);
     }
+
     return user ;
 }
 
@@ -109,38 +134,44 @@ void ConfigManager::updateUser(User *user){
 }
 
 
-void ConfigManager::loadUsersBackupData(User *user, string backupKey){
+Backup* ConfigManager::getUsersDistantBackup(string login, string backupKey){
 
-    json users_backup = config.at(user->getLogin())["backups"][backupKey];
+     json users_backup = readOrInitUserBackups(login)[backupKey];
 
     if(users_backup["Data"] != NULL){
 
         Directory *root_data = new Directory(users_backup["Data"]);
 
-        Backup new_backup = user->getBackupByKey(backupKey);
-        new_backup.setData(root_data);
-        Backup old_backup = user->getBackupByKey(backupKey);
-        user->replaceBackup(old_backup,new_backup);
-    }
+        Backup *new_backup = new Backup(backupKey.c_str());
+        new_backup->setData(root_data);
+        new_backup->setName(users_backup["name"]);
+        new_backup->setOwnersLogin(login);
+        new_backup->setLastSave(users_backup["last_save"]);
+        return new_backup;
+
+    }    else
+        return NULL;
 }
 
-void ConfigManager::loadUsersBackupList(User* user){
+list<Backup*> ConfigManager::getUsersDistantBackupList(User* user){
 
-    json users_backups = config.at(user->getLogin()).at("backups");
-
+    json users_backups = readOrInitUserBackups(user->getLogin());
+    list<Backup*> backup_list;
     for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it){
 
-        loadUsersBackupData(user,it.key().c_str());
+        Backup *new_backup = getUsersDistantBackup(user->getLogin(),it.key().c_str());
+        backup_list.push_back(new_backup);
     }
+    return backup_list;
 }
 
-json ConfigManager::saveUsersBackupData(User *user,Backup *backup){
+json ConfigManager::saveUsersBackupData(Backup *backup){
 
-    json jsonBackup     = backup->toDistantJson();
-    json usersBackups   = readOrInitUserBackups(user->getLogin());
+    json jsonBackup      = backup->toDistantJson();
+    json usersBackups   = readOrInitUserBackups(backup->getOwnersLogin());
 
-    config[user->getLogin()]["backups"]  = merge(usersBackups,jsonBackup);
-    config[user->getLogin()]["password"] = user->getPassword();
+    config[backup->getOwnersLogin()]["backups"]  = merge(usersBackups,jsonBackup);
+    config[backup->getOwnersLogin()]["password"] =backup->getOwnersPass();
     persist();
     return jsonBackup;
 }

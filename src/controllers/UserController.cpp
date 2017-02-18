@@ -1,10 +1,10 @@
 #include "UserController.h"
+#include "../services/ConfigManager.h"
 #include "../services/Crypt.h"
 
 
-UserController UserController::instance = UserController();
-
-void UserController::setCurrentUser(std::string login) {
+void UserController::setCurrentUser(std::string login)
+{
   currentUser = ConfigManager::getInstance().loadUser(login);
 }
 
@@ -22,12 +22,15 @@ void UserController::setFavoriteUser(std::string userLogin){
 }
 
 void UserController::unsetFavoriteUser(std::string userLogin){
-    if(favoriteUserExists())
-        ConfigManager::getInstance().unsetAutoLoginUser(userLogin);
+    ConfigManager::getInstance().unsetAutoLoginUser(userLogin);
 }
 
-void UserController::loadLoginsPassCouples(){
-    userLoginPassCouples = ConfigManager::getInstance().loadLoginPassCouples();
+std::vector<std::string> UserController::getLoginList() {
+    loadLoginsPassCouples();
+    std::vector<std::string> logins;
+    for(auto user : userLoginPassCouples)
+        logins.push_back(user.first);
+    return logins;
 }
 
 bool UserController::authentifyUser(std::string userLogin, std::string userPass){
@@ -70,4 +73,9 @@ void UserController::deleteUser() {
     ConfigManager::getInstance().deleteUser(getCurrentUserLogin());
     loadLoginsPassCouples();
 }
+
+void UserController::loadLoginsPassCouples(){
+    userLoginPassCouples = ConfigManager::getInstance().loadLoginPassCouples();
+}
+
 

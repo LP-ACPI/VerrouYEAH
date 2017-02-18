@@ -17,34 +17,35 @@ std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std:
     return backup_info;
 }
 
-std::map<std::string,std::string> UsersBackupController::createUsersBackup(std::map<std::string,std::string> backupInfo){
-    //TODO : cryptage (new_backup.saveData) + démarrage du scheduler
+std::map<std::string,std::string> UsersBackupController::addNewUsersBackup(std::map<std::string,std::string> backupInfo){
+    //TODO :
     //ou plutôt un BackupController qui s'en charge
-
+    backupInfo["key"] = std::string(Crypt::genKey(32));
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
-    new_backup.setKey(Crypt::genKey(32));
+    new_backup.setOwnersLogin(user->getLogin());
+    new_backup.setOwnersPass(user->getPassword());
+    new_backup.saveData();
     user->addBackup(new_backup);
 
-    BackupController::getInstance().updateBackupData(&new_backup);
-
     ConfigManager::getInstance().updateUser(user);
-    backupInfo["key"] = new_backup.getKey();
     return backupInfo;
 }
 
 void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> backupInfo){
     //TODO: avertissement "modif' données sauvegardés"
-
+    //déplacer vers nouvelle desti + suppr ancienne -> dans backup.saveData?replaceBackup?
     Backup backup_to_update = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
+    backup_to_update.setOwnersLogin(user->getLogin());
+    backup_to_update.setOwnersPass(user->getPassword());
     Backup old_backup = user->getBackupByKey(backup_to_update.getKey());
     user->replaceBackup(old_backup,backup_to_update);
-
-    BackupController::getInstance().updateBackupData(&backup_to_update);
+    backup_to_update.saveData();
     ConfigManager::getInstance().updateUser(user);
 }
 
 void UsersBackupController::deleteUsersBackup(std::string bcKey){
     //TODO: avertissement "suppression données sauvegardés"
+    // + supprimer le fichier .vy
     Backup bc_to_delete = user->getBackupByKey(bcKey);
     user->removeBackup(bc_to_delete);
     ConfigManager::getInstance().updateUser(user);
@@ -60,12 +61,10 @@ std::list<std::map<std::string,std::string>> UsersBackupController::getUsersBack
     return backup_list_info;
 }
 
-
-std::list<std::string> UsersBackupController::getUsersBackupKeyList(){
-    std::list<std::string> key_list;
+std::list<std::string> UsersBackupController::getUsersBackupNameList(){
+    std::list<std::string> name_list;
     for(std::map<std::string,std::string> info : getUsersBackupInfoList())
-        key_list.push_back(info["key"]);
-    return key_list;
-
+        name_list.push_back(info["name"]);
+    return name_list;
 }
 

@@ -9,6 +9,8 @@ class BackupWidget : public QWidget, private Ui::BackupWidget
 {
     Q_OBJECT
     std::string backupKey;
+    std::map<std::string,std::string> targetInfo;
+
     QWidget *_parent;
 
 public:

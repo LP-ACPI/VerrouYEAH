@@ -11,7 +11,7 @@ class CompressCrypt : public QObject
 {
     Q_OBJECT
     explicit CompressCrypt(QObject *parent = 0);
-    quint64 totalFileCount;
+    quint64 totalDataCount;
 
 public:
     static CompressCrypt &getInstance(){
@@ -31,6 +31,7 @@ signals:
     void compressDone();
 
     void decompressStarted();
+    void decompressInProgress(quint64,quint64);
     void decompressDone();
 
     void cryptingStarted();
@@ -54,5 +55,6 @@ private:
     quint64 countFiles(const QString&, quint64 initCount = 0);
 
 };
+
 
 #endif // FOLDERCOMPRESSOR_H

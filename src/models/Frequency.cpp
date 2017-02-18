@@ -18,6 +18,7 @@ void Frequency::setup(){
     days_of_week = new char[N_DAY_OF_WEEK];
     memset(days_of_week, INIT_VALUE, N_DAY_OF_WEEK);
 }
+
 char* Frequency::parser(string expr,char size){
     char* tab = new char[size];
     memset(tab, 0, size);
