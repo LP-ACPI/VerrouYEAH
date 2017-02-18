@@ -60,7 +60,7 @@ std::map<std::string,std::string> BackupController::getInfoMapFromBackup(Backup*
 
 }
 
-Data* BackupController::getData(std::string la_cle){
+const Data* BackupController::getData(std::string la_cle){
     User* user = UserController::getInstance().getCurrentUser();
     Backup backupByKey = user->getBackupByKey(la_cle);
     return backupByKey.getData();

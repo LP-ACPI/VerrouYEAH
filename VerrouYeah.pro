@@ -35,6 +35,7 @@ SOURCES	+=  \
     src/services/CompressCrypt.cpp \
     src/views/progressdialog.cpp \
     src/views/detailssauvegarde.cpp \
+    src/models/qjsonmodel.cpp
 
 
 HEADERS	+=  \
@@ -59,6 +60,7 @@ HEADERS	+=  \
     src/services/CompressCrypt.h \
     src/views/progressdialog.h  \
     src/views/detailssauvegarde.h \
+    src/models/qjsonmodel.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
@@ -68,6 +70,8 @@ FORMS	+=  \
     src/views/forms/backupformdialog.ui \
     src/views/forms/progressdialog.ui \
     src/views/forms/detailssauvegarde.ui \
+    src/views/forms/frequencydialog.ui
 
 RESOURCES += \
     res/res.qrc
+

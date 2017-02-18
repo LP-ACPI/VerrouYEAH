@@ -22,7 +22,7 @@ public:
 
     void operator=(BackupController const&) = delete;
 
-    Data* getData(std::string la_cle);
+    const Data* getData(std::string la_cle);
 
 };
 
