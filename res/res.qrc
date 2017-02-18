@@ -8,5 +8,7 @@
         <file>images/logo_temporaire_clef.png</file>
         <file>images/save-icon.png</file>
         <file>images/trash-icon.png</file>
+        <file>images/config-icon.png</file>
+        <file>images/plus-sign.png</file>
     </qresource>
 </RCC>

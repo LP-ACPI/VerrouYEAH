@@ -6,9 +6,20 @@
 #include "File.h"
 #include "../services/ConfigManager.h"
 #include <stdexcept>
+#include <QDir>
+#include <QDebug>
+#include <QDirIterator>
 
 using namespace std;
 using json = nlohmann::json;
+
+
+Directory::Directory(const Directory &dir)
+    : Data(dir){
+
+    setDataList(dir.getDataList());
+}
+
 
 /**
  * @brief Directory::Directory
@@ -23,13 +34,13 @@ using json = nlohmann::json;
 Directory::Directory(json &jsonDataTree){
 
     for (json::iterator it = jsonDataTree.begin(); it != jsonDataTree.end(); it++){
-
-        bool isAFile = it.key() == "file";
+        string type  = it.value()["type"];
+        bool isAFile = type == "file";
 
         // Create a new File and add it to the Directory data
         if( isAFile ){
 
-            string fileName = it.value()["name"];
+            string fileName = it.key();
             string filePath = it.value()["path"];
             Data* newData = new File(fileName,filePath);
             addData(newData);
@@ -44,11 +55,48 @@ Directory::Directory(json &jsonDataTree){
     }
 }
 
+/**
+ * @brief Directory::Directory
+ * @param QString : rootDirTree
+ *
+ * Comme c++ standard n'as pas de notion concrète de dossier
+ * (sans lib de type boost ou l'API Windows. Mais Qt fait le boulot)
+ * ce constructeur parcours récursivement un dossier dont le chemin est passé en paramètre
+ * pour s'enregistrer ses données.
+ */
+Directory::Directory(QFileInfo &rootDirTree,string rootPath){
 
+    if(rootDirTree.isDir()){
+
+        rootPath += rootDirTree.fileName().toStdString() +"/";
+
+        QDir dir(rootDirTree.filePath());
+        setName(rootDirTree.fileName().toStdString());
+        setPath(rootPath);
+        const QFileInfoList element_list = dir.entryInfoList();
+
+        for (QFileInfo el_info : element_list) {
+            if (el_info.fileName() != ".." && el_info.fileName() != ".") {
+                if (el_info.isFile()){
+                    string file_name = el_info.fileName().toStdString();
+                    string file_path = rootPath+file_name;
+                    Data *sub_data   = new File(file_name,file_path);
+                    addData(sub_data);
+                } else {
+                    Data *sub_data = new Directory(el_info,rootPath);
+                    addData(sub_data);
+                }
+            }
+        }
+    } else {
+        cerr << rootPath << " n'est pas un repertoire!" << endl;
+    }
+}
 
 void Directory::addData(Data *data){
-    if(!hasData(data))
+    if(!hasData(data)){
         dataList.push_back(data);
+    }
 }
 
 void Directory::removeData(Data *data){
@@ -97,19 +145,21 @@ void Directory::operator=(const Directory &dir){
 
 json Directory::to_json() const{
     json dataCol;
-    for(Data *data : getDataList())
-        dataCol = ConfigManager::getInstance().merge( dataCol, data->to_json() );
+    for(Data *data : getDataList()){
+        dataCol = ConfigManager::getInstance().merge( dataCol , data->to_json());
+    }
 
     json jOut = json{{getName(), {
+                {"type", "dir"},
                 {"path", path},
-                {"data", dataCol == NULL ? json::object():dataCol}
+                {"data", dataCol}
           }
     }};
     return jOut;
 }
 
 
-std::ostream& operator<<(std::ostream &o,const Directory &d){
+std::ostream&operator<<(std::ostream &o,const Directory &d){
     o << "name: " << d.getName() << " (path:" << d.getPath() << ")" << endl;
     o << "data: " << endl;
          for(Data *data : d.getDataList())

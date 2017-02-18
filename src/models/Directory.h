@@ -7,6 +7,7 @@
 
 #include "Data.h"
 #include <list>
+#include <QFileInfo>
 #include <json.hpp>
 using json=nlohmann::json;
 
@@ -18,16 +19,21 @@ protected:
 
 public:
 
-  Directory(const Directory &dir):Data(dir)
-  { setDataList(dir.getDataList()); }
+  Directory(const Directory&);
 
-  Directory(json &jsonData);
+  Directory(json&);
+
+  Directory(QFileInfo&,std::string rootPath = "");
 
   Directory(std::string name = "test",
           std::string path = "test")
       : Data(name,path)
   {}
 
+  ~Directory(){
+        for(Data *dt : getDataList())
+            delete dt;
+  }
     void addData(Data*);
     void removeData(Data*);
     Data& getDataAt(const unsigned);

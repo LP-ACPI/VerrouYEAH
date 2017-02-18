@@ -12,9 +12,9 @@ bool File::isDirData() const
 
 
 json File::to_json() const {
-    json j = json{{"file", {
+    json j = json{{name, {
                 {"path", path},
-                {"name", name},
+                {"type", "file"},
             }}
         };
     return j;
@@ -26,7 +26,7 @@ void File::operator=(const File &file){
     path = file.getPath();
 }
 
-std::ostream& operator<<(std::ostream &o,const File &f){
+std::ostream&operator<<(std::ostream &o,const File &f){
     o << "name: " << f.getName() << " (path:" << f.getPath() << ")" << endl;
 
     return o;

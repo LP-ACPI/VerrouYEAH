@@ -20,16 +20,16 @@ private:
     bool rewriteDownloadedFile;
 
     bool startTransfert(QNetworkReply*);
-public:
-    Ftp(QObject *parent=0): QObject(parent)
+
+    explicit Ftp(QObject *parent=0): QObject(parent)
     {   url = new QUrl; }
-    Ftp(std::string host,
-        std::string username,
-        std::string pass,
-        int portNumber = 21,
-        bool rewriteFile = true,
-        QObject *parent=0): QObject(parent)
-    {   prepareFtp(host,username,pass,portNumber,rewriteFile); }
+
+
+public:
+    static Ftp &getInstance(){
+        static Ftp instance;
+        return instance;
+    }
 
     ~Ftp();
 
@@ -45,7 +45,8 @@ public:
     {    rewriteDownloadedFile = rewriteFile;   }
 
 signals:
-    void started();
+    void downloadStarted();
+    void uploadStarted();
     void finished();
     void error();
     void transferProgress(quint64,quint64);
@@ -56,6 +57,7 @@ private slots:
     void requestFinished();
     void requestError(QNetworkReply::NetworkError);
     void sslErrors(const QList<QSslError>&);
+    void cancelTranfer();
 };
 
 

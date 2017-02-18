@@ -24,12 +24,12 @@ class PersistanceTest{
     static void testChargementDUtilisateurs(){
 
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+        UnitTest<void*>::insertTitle("Test chargement utilisateurs");
         User* test1 =  ConfigManager::getInstance().loadUser("login_user_1");
         User* test2 =  ConfigManager::getInstance().loadUser("login_user_2");
         Backup test_1_1stBcp = test1->getBackupAt(0);
         Backup test_1_2ndBcp = test1->getBackupAt(1);
 
-        UnitTest<void*>::insertTitle("Test chargement utilisateurs");
         UnitTest<string>::assertEquals("pass == 'azerty' ", test1->getPassword() ,(string) "azerty");
         UnitTest<string>::assertEquals("login == 'login_user_1' ", test1->getLogin() ,(string) "login_user_1");
         UnitTest<string>::assertEquals("pass == 'azerty' ", test2->getPassword() ,(string) "azerty");
@@ -57,8 +57,8 @@ class PersistanceTest{
         Backup test_2_1stBcp= test2->getBackupAt(0);
         Backup test_2_2ndBcp= test2->getBackupAt(1);
 
-        Backup test_toto_1stBcp;
-        Backup test_toto_2ndBcp;
+        Backup test_toto_1stBcp("");
+        Backup test_toto_2ndBcp("");
 
         try {
             test_toto_1stBcp = testToto->getBackupAt(0);
@@ -82,7 +82,7 @@ class PersistanceTest{
 
     static void chargementCouplesLoginPass(){
         ConfigManager::getInstance().setJsonFile(TEST_CONFIG_FILE);
-        map<string,string> users = ConfigManager::getInstance().loadLoginPassList();
+        map<string,string> users = ConfigManager::getInstance().loadLoginPassCouples();
 
         string loginsAttendus[2] = {"login_test","login_toto"};
         string passAttendus[2] = {"qwertz","qwertyop"};
@@ -102,7 +102,7 @@ class PersistanceTest{
         ConfigManager::getInstance().setJsonFile(TEST_CONFIG_FILE);
 
         ConfigManager::getInstance().deleteUser("login_toto");
-        map<string,string> users = ConfigManager::getInstance().loadLoginPassList();
+        map<string,string> users = ConfigManager::getInstance().loadLoginPassCouples();
 
         UnitTest<void*>::insertTitle("Test suppression d'utilisateur");
         UnitTest<int>::assertEquals("nombre d'utilisateurs == 1",1,users.size());
@@ -134,8 +134,8 @@ class PersistanceTest{
         Backup *backup_2 = new Backup(test_user.getBackupAt(1));
         //Dans contrôleur correspondant: choix de telle ou telle sauvegarde à persister
         // dans backup.getTarget
-        ConfigManager::getInstance().saveUsersBackup(&test_user,backup_2);
-        ConfigManager::getInstance().saveUsersBackup(&test_user,backup_1);
+        ConfigManager::getInstance().saveUsersBackupData(&test_user,backup_2);
+        ConfigManager::getInstance().saveUsersBackupData(&test_user,backup_1);
 
 
 //TODO tests

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FavoriteTargetDialog</class>
+ <widget class="QDialog" name="FavoriteTargetDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>271</width>
+    <height>337</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>280</y>
+     <width>231</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="tagInput">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>68</y>
+     <width>227</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Etiquette</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="dirChoice">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>221</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Chemin</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="passInput">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>190</y>
+     <width>227</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>mot de passe</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>41</x>
+     <y>21</y>
+     <width>189</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Type</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QComboBox" name="typeChoice">
+      <property name="minimumSize">
+       <size>
+        <width>130</width>
+        <height>32</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>NORMAL</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>FTP</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLineEdit" name="hostInput">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>110</y>
+     <width>227</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Host</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="usernameInput">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>150</y>
+     <width>227</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>identifiant</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="pathInput">
+   <property name="geometry">
+    <rect>
+     <x>22</x>
+     <y>231</y>
+     <width>227</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>endroit de stockage</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>dirChoice</zorder>
+  <zorder>buttonBox</zorder>
+  <zorder>typeChoice</zorder>
+  <zorder>label</zorder>
+  <zorder>tagInput</zorder>
+  <zorder>label_2</zorder>
+  <zorder>pushButton_2</zorder>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>FavoriteTargetDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>FavoriteTargetDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,11 +1,12 @@
 #include "UserController.h"
+#include "../services/ConfigManager.h"
 #include "../services/Crypt.h"
 
 
-UserController UserController::instance = UserController();
-
 void UserController::setCurrentUser(std::string login)
-{  currentUser = ConfigManager::getInstance().loadUser(login);   }
+{
+  currentUser = ConfigManager::getInstance().loadUser(login);
+}
 
 bool UserController::favoriteUserExists() {
     std::string user_login = ConfigManager::getInstance().loadAutoLoginUserLogin() ;
@@ -20,13 +21,16 @@ void UserController::setFavoriteUser(std::string userLogin){
     ConfigManager::getInstance().setAutoLoginUser(userLogin);
 }
 
-void UserController::unsetFavoriteUser(){
-    if(favoriteUserExists())
-        ConfigManager::getInstance().unsetAutoLoginUser();
+void UserController::unsetFavoriteUser(std::string userLogin){
+    ConfigManager::getInstance().unsetAutoLoginUser(userLogin);
 }
 
-void UserController::loadLoginsPassCouples(){
-    userLoginPassCouples = ConfigManager::getInstance().loadLoginPassList();
+std::vector<std::string> UserController::getLoginList() {
+    loadLoginsPassCouples();
+    std::vector<std::string> logins;
+    for(auto user : userLoginPassCouples)
+        logins.push_back(user.first);
+    return logins;
 }
 
 bool UserController::authentifyUser(std::string userLogin, std::string userPass){
@@ -66,8 +70,12 @@ bool UserController::updateUser(std::string newLogin, std::string newPass){
 }
 
 void UserController::deleteUser() {
-    unsetFavoriteUser();
     ConfigManager::getInstance().deleteUser(getCurrentUserLogin());
     loadLoginsPassCouples();
 }
+
+void UserController::loadLoginsPassCouples(){
+    userLoginPassCouples = ConfigManager::getInstance().loadLoginPassCouples();
+}
+
 

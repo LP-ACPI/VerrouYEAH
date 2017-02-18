@@ -9,19 +9,30 @@
 #include <string>
 #include <list>
 #include "Backup.h"
+#include "absTarget.h"
 
 class User {
     std::string login;
     std::string password;
     std::list<Backup> backups;
+    std::list<AbsTarget*> favoriteTargets;
 public:
     User(User&);
     User(std::string login="test",std::string pass="test")
         :login(login),password(pass){}
 
-    std::string getPassword() const;
-    std::string getLogin() const;
-    std::list<Backup> getBackups() const;
+    ~User(){
+        for(AbsTarget *tg : getFavoriteTargets())
+            delete tg;
+    }
+    void addFavoriteTarget(AbsTarget*);
+    std::list<AbsTarget*> getFavoriteTargets() const;
+    void setFavoriteTargets(const std::list<AbsTarget*>);
+    AbsTarget* getFavoriteTargetByKey(const std::string);
+    AbsTarget* getFavoriteTargetByTag(const std::string);
+    void removeFavoriteTarget(AbsTarget*);
+    void replaceFavoriteTarget(AbsTarget*, AbsTarget*);
+    bool hasFavoriteTarget(AbsTarget*);
 
     Backup getBackupAt(const unsigned);
     Backup getBackupByKey(const std::string);
@@ -29,18 +40,24 @@ public:
     void removeBackup(const Backup);
     void replaceBackupAt(const unsigned,const Backup);
     void replaceBackup(const Backup, const Backup);
-
     void removeBackups();
     void setBackups(const std::list<Backup>);
-
     bool hasBackup(const Backup);
+    std::list<Backup> getBackups() const
+    { return backups; }
 
-    void setPassword(const std::string);
-    void setLogin(const std::string);
+    std::string getPassword() const
+    { return password; }
+    std::string getLogin() const
+    { return login; }
+
+    void setPassword(const std::string newPass)
+    { password = newPass; }
+    void setLogin(const std::string newLogin)
+    { login = newLogin; }
 
     friend std::ostream& operator<<(std::ostream&, const User&);
     friend nlohmann::json& operator<<(nlohmann::json&, const User&);
 };
-
 
 #endif //USER_H

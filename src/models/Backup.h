@@ -5,62 +5,59 @@
 #ifndef BACKUP_H
 #define BACKUP_H
 
+#include "../services/Crypt.h"
 #include <iostream>
 #include <string.h>
 #include <string>
 #include "Data.h"
 #include "Directory.h"
 #include "Frequency.h"
-#include "../services/Crypt.h"
+#include "FtpTarget.h"
 
 #include "../../includes/json.hpp"
 
 class Backup {
 
-
-    enum target_type{
-        normal = 0,
-        ftp = 1
-    };
-    static const char *target_type_tag[];
-
     char key[32];
     std::string name;
+    std::string lastSave;//TODO type Date -> prop: QDateTime (?) -> créer unu en accord avec Frequency?
     std::string source;
-    std::string target;
-    std::string targetType;
-    std::string lastSave;//TODO type Date
+    const AbsTarget *target;
     Frequency frequency;
     const Data* data;
     std::string note;
+    bool dataIsLoaded;
+    std::string ownerLogPass[2];
+
+    void saveFtpData();
+    void restoreFtpData();
+
+    void saveNormalData();
+    void restoreNormalData();
 
 public:
     Backup(const Backup&);
     Backup(
-            const char* key = "null",
+            const char* _key = Crypt::genKey(32),
             std::string name="test",
-            std::string source="test",
-            std::string target = "test",
-            std::string targetType = target_type_tag[target_type::normal],
             std::string lastSave= "1/1/1970",
+            std::string source="test",
+            const AbsTarget *target = NULL,
             Frequency freq = Frequency(),
+            const Data *data = NULL,
             std::string note = "test",
-            const Data *data = NULL)
+            bool data_loaded = false)
         : name(name),
+          lastSave(lastSave),
           source(source),
           target(target),
-          targetType(targetType),
-          lastSave(lastSave),
           frequency(freq),
           data(data),
-          note(note)
+          note(note),
+          dataIsLoaded(data_loaded)
     {
-        if(strcmp("null",key) == 0)
-            memcpy(this->key,Crypt::genKey(32),32);
-        else
-            strcpy(this->key,key);
+        setKey(_key);
     }
-    Backup(std::string,std::string,std::string,std::string,std::string,Frequency,Data*);
 
     void saveData();//TODO sauvegarde des données (data) vers des fichiers .vy
 
@@ -69,23 +66,26 @@ public:
     std::string getKey() const;
     std::string getName() const;
     std::string getSource() const;
-    std::string getTarget() const;
-    std::string getTargetType() const;
+    const AbsTarget *getTarget() const;
     std::string getLastSave() const;//TODO type Date
+    std::string getNote() const;
     Frequency getFrequency() const;
     const Data* getData() const;
-    std::string getNote() const;
+    bool hasLoadedData() const;
+    std::string getOwnersLogin() const;
+    std::string getOwnersPass() const;
 
     void setKey(const char*);
     void setName(const std::string);
     void setSource(const std::string);
-    void setTarget(const std::string);
-    void setTargetType(const std::string);
+    void setTarget(const AbsTarget*);
     void setLastSave(const std::string);//TODO type Date
+    void setNote(const std::string);
     void setFrequency(const Frequency);
     void setData(const Data*);
-    void setNote(const std::string);
-
+    void setDataLoaded(const bool);
+    void setOwnersLogin(const std::string);
+    void setOwnersPass(const std::string);
 
     bool operator==(const Backup&);
     bool operator!=(const Backup&);

@@ -10,8 +10,9 @@
 
 #include "../models/User.h"
 #include "../models/Backup.h"
-
 #include <json.hpp>
+
+#define LOCAL_CONFIG_FILE "config.json"
 
 using json = nlohmann::json;
 
@@ -21,10 +22,11 @@ private:
         json config;
         std::string configFilename;
 
-        json readOrInitRootUsers();
+        json readOrInitUserRoot();
+        json readOrInitUserBackups(std::string);
         json readOrInitAppRoot();
 
-        ConfigManager() : configFilename("config.json")
+        ConfigManager()
         {}
 
         ConfigManager(ConfigManager const&);
@@ -35,21 +37,21 @@ public:
             return instance;
         }
 
-        std::map<std::string,std::string>loadLoginPassList();
+        std::map<std::string,std::string>loadLoginPassCouples();
 
         User* loadUser(std::string);
-        void loadUsersBackupData(User*,std::string);
-        void loadUsersBackupList(User*);
+        json saveUser(User*);
+        void deleteUser(std::string);
+        void updateUser(User*);
+
+        Backup* getUsersDistantBackup(std::string,std::string);
+        json saveUsersBackupData(Backup*);
+        void deleteUsersBackupData(std::string,std::string);
+        std::list<Backup*> getUsersDistantBackupList(User*);
 
         std::string loadAutoLoginUserLogin();
         void setAutoLoginUser(std::string);
-        void unsetAutoLoginUser();
-
-        json saveUser(User*);
-        json saveUsersBackup(User*,Backup*);
-
-        void deleteUser(std::string);
-        void deleteUsersBackup(std::string,std::string);
+        void unsetAutoLoginUser(std::string);
 
         void setJsonFile(std::string);
         void persist();

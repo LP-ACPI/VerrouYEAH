@@ -14,12 +14,12 @@
 #include "datatest.hpp"
 #include "ftptests.hpp"
 
-
 using namespace std;
 
 int main(int argc, char* argv[])
 {
     QCoreApplication app(argc,argv);
+
     ConfigManager::getInstance().setJsonFile(CONFIG_FILE);
     cout << ConfigManager::getInstance() << endl;
 
@@ -37,8 +37,6 @@ int main(int argc, char* argv[])
     UnitTest<void*>::results();
 
     return EXIT_SUCCESS;
-
-
 }
 
 
