@@ -151,7 +151,11 @@ void BackupForm::onTargetSelected(QString targetTag){
     backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( backup_info["target_id"] );
 }
 
-void BackupForm::on_FrequencyButton_clicked()
-{
+void BackupForm::on_FrequencyButton_clicked(){
     frequencyForm->show();
+    connect(frequencyForm,SIGNAL(frequencySelected(QString)),this,SLOT(onFrequencySelected(QString)));
+}
+
+void BackupForm::onFrequencySelected(QString frequencyTag){
+
 }

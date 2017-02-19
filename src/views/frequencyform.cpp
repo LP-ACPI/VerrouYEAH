@@ -2,8 +2,8 @@
 
 FrequencyForm::FrequencyForm(QWidget *parent) : QDialog(parent){
     init();
-}
 
+}
 
 void FrequencyForm::init(){
     setupUi(this);
@@ -11,11 +11,10 @@ void FrequencyForm::init(){
 
 }
 
-
-
 void FrequencyForm::on_buttonBox_accepted()
 {
-
+    emit frequencySelected(dateEdit->text() + timeEdit->text());
+    close();
 }
 
 void FrequencyForm::on_buttonBox_rejected()

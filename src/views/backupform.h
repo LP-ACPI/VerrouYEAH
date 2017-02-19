@@ -48,6 +48,10 @@ protected slots:
     void onNewBackupAdded(std::map<std::string,std::string>);
     void onBackupUpdated(std::map<std::string,std::string>);
     void onTargetSelected(QString);
+
+private slots:
+    void on_FrequencyButton_clicked();
+    void onFrequencySelected(QString);
 };
 
 #endif // FORMSAUVEGARDE_H
