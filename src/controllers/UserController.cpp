@@ -10,7 +10,7 @@ void UserController::setCurrentUser(std::string login)
     //Lancement du scheduler au chargement de l'utilisateur
     Scheduler s = Scheduler::getInstance();
     s.clear();
-    s.add(currentUser);
+    s.addFromUser(currentUser);
     s.start();
 }
 
