@@ -3,7 +3,7 @@
 #include "../controllers/BackupController.h"
 #include "../controllers/UsersBackupController.h"
 #include "../controllers/TargetController.h"
-#include <QDirModel>
+#include "filesystemmodel.h"
 #include "QJsonModel.h"
 #include <QDebug>
 
@@ -29,29 +29,57 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
 
     nameLabel->setText(QString::fromStdString(backupInfo["name"]));
     sourcePathLabel->setText(QString::fromStdString(backupInfo["source_path"]));
-
     std::string targetType = TargetController::getInstance().getFavoriteTargetsType(backupInfo["target_id"]);
-    if(targetType == "FTP")
+
+    QPixmap state_icon;
+    QString targetPath;
+
+    if(targetType == "FTP"){
         targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(backupInfo["target_id"]);
-    else
+        targetHostLabel->setText(QString::fromStdString(targetInfo["host"]) );
+        targetPath ="/"+ QString::fromStdString(targetInfo["path"]);
+        if(backupInfo["data_loaded"] == "oui")
+            state_icon = QPixmap(":/images/cloud-ok.png");
+        else
+            state_icon = QPixmap(":/images/cloud-ko.png");
+
+   } else {
         targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_id"]);
+        targetPath = QString::fromStdString(targetInfo["path"]);
+        targetHostLabel->hide();
 
+        if(backupInfo["data_loaded"] == "oui")
+                state_icon = QPixmap(":/images/usb-ok.png");
+            else
+                state_icon = QPixmap(":/images/usb-ko.png");
+    }
 
-    targetPathLabel->setText(QString::fromStdString(targetInfo["path"]));
+    stateIcon->setScaledContents(true);
+    stateIcon->setPixmap(state_icon);
+
+    targetNameLabel->setText(QString::fromStdString(targetInfo["tag"]));
+    targetPathLabel->setText(targetPath);
 
     //Récup des data nécéssaire avant
     //debug json:
+    QString sourcePath = QString::fromStdString(backupInfo["source_path"])+"/";
+    model = new FileSystemModel(this);
+    model->setRootPath(sourcePath);
+    model->setFilter(QDir::NoDotAndDotDot |
+                     QDir::Dirs | QDir::Files | QDir::Hidden
+    );
+    treeView->setModel(model);
+    treeView->setRootIndex(model->index(sourcePath));
 
-    json jsonBackupData = BackupController::getInstance().getJsonifiedDataTree(backupKey);
-    if(jsonBackupData != NULL) {
-        std::string json_data = jsonBackupData.dump(2);
-        QByteArray byte_array(json_data.c_str(), json_data.length());
-        QJsonModel * model = new QJsonModel;
-        treeView->setModel(model);
-        model->loadJson(byte_array);
-    } else {
+//    json jsonBackupData = BackupController::getInstance().getJsonifiedDataTree(backupKey);
+//    if(jsonBackupData != NULL) {
+//        std::string json_data = jsonBackupData.dump(2);
+//        QByteArray byte_array(json_data.c_str(), json_data.length());
+//        QJsonModel * model = new QJsonModel;
+//        model->loadJson(byte_array);
+//    } else {
 
-    }
+//    }
     //backupItem->
     //il manque :
     // prendre les informations sur la planification et treeView avec l'arborescence
@@ -60,5 +88,6 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
 
 BackupDetailsDialog::~BackupDetailsDialog()
 {
+    delete model;
     close();
 }

@@ -9,6 +9,7 @@ TargetChoiceDialog::TargetChoiceDialog(QWidget *parent) : QDialog(parent)
     setupUi(this);
     setWindowTitle("Choix de destination");
 
+
     for(std::string ftp_tag : TargetController::getInstance().listFavoriteFtpTargetTags())
         ftpTagList.append(QString::fromStdString(ftp_tag));
 

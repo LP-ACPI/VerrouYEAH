@@ -69,6 +69,13 @@ void MainWindow::on_actionDeconnexion_triggered(){
     authDialog.exec();
 }
 
+void MainWindow::on_actionDecryptDestination_triggered(){
+    if(!QDir("decrypt").exists())
+        actionDecryptDestination->setDisabled(true);
+    QString path = QDir::toNativeSeparators("decrypt");
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+}
+
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
      BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
      detailBakcupDialog = new BackupDetailsDialog(bcW->getBackupKey(),this);
@@ -91,14 +98,6 @@ void MainWindow::onBackupDeleted(std::string backupKey){
 
 }
     UsersBackupController::getInstance().deleteUsersBackup(backupKey);
-}
-
-void MainWindow::on_disconnectButton_clicked(){
-    on_actionDeconnexion_triggered();
-}
-
-void MainWindow::on_userInfoButton_clicked(){
-    on_actionUtilisateur_triggered();
 }
 
 void MainWindow::on_recoverBackupButton_clicked(){

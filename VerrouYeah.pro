@@ -40,7 +40,8 @@ SOURCES	+=  \
     src/main.cpp \
     src/models/absTarget.cpp \
     src/models/Target.cpp \
-    src/views/backupdetailsdialog.cpp
+    src/views/backupdetailsdialog.cpp \
+    src/views/filesystemmodel.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -70,7 +71,8 @@ HEADERS	+=  \
     src/views/QJsonModel.h \
     src/models/absTarget.h \
     src/models/Target.h \
-    src/views/backupdetailsdialog.h
+    src/views/backupdetailsdialog.h \
+    src/views/filesystemmodel.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \

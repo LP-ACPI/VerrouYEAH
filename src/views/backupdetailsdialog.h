@@ -3,7 +3,7 @@
 
 #include "ui_backupdetailsdialog.h"
 #include <QDialog>
-#include <QListWidget>
+#include <QFileSystemModel>
 #include "backupwidget.h"
 
 class BackupDetailsDialog : public  QDialog, private Ui::BackupDetailsDialog
@@ -11,6 +11,7 @@ class BackupDetailsDialog : public  QDialog, private Ui::BackupDetailsDialog
     Q_OBJECT
 
     QWidget _parent;
+    QFileSystemModel *model ;
 
 public:
     explicit BackupDetailsDialog(std::string, QWidget *parent = 0);

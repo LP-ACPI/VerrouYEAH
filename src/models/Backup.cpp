@@ -91,7 +91,7 @@ bool Backup::saveFtpData(){
     Ftp::getInstance().prepareFtp(host,username,pass,port);
     Ftp::getInstance().ftpUpload(temp_dest_crypt+".vy",ftpTarget->getPath());
     loopUp.exec();
-    Ftp::getInstance().ftpUpload(temp_dest_data+".vy",ftpTarget->getPath());
+    Ftp::getInstance().ftpUpload(temp_dest_data,ftpTarget->getPath());
     loopUp.exec();
 
     QDir dir("tmp");

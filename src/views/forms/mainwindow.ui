@@ -79,6 +79,16 @@
        <property name="text">
         <string>Nouvelle sauvegarde</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../../res/res.qrc">
+         <normaloff>:/images/plus-sign.png</normaloff>:/images/plus-sign.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>60</width>
+         <height>65</height>
+        </size>
+       </property>
       </widget>
       <widget class="QWidget" name="">
        <property name="geometry">
@@ -101,6 +111,16 @@
           <property name="text">
            <string>Mes Destinations Favorites</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../../res/res.qrc">
+            <normaloff>:/images/favorite-location.png</normaloff>:/images/favorite-location.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>40</width>
+            <height>25</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
@@ -114,20 +134,30 @@
           <property name="text">
            <string>Rechercher des sauvegardes</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../../res/res.qrc">
+            <normaloff>:/images/search-icon.png</normaloff>:/images/search-icon.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="helpIcon">
           <property name="minimumSize">
            <size>
-            <width>25</width>
-            <height>25</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>20</width>
-            <height>20</height>
+            <width>40</width>
+            <height>40</height>
            </size>
           </property>
           <property name="toolTip">
@@ -141,64 +171,6 @@
           </property>
           <property name="scaledContents">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="userInfoButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>42</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="../../../res/res.qrc">
-            <normaloff>:/images/user-config.png</normaloff>:/images/user-config.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="disconnectButton">
-          <property name="minimumSize">
-           <size>
-            <width>40</width>
-            <height>42</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>48</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="../../../res/res.qrc">
-            <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
           </property>
          </widget>
         </item>
@@ -223,6 +195,7 @@
      <string>options</string>
     </property>
     <addaction name="actionUtilisateur"/>
+    <addaction name="actionDecryptDestination"/>
     <addaction name="separator"/>
     <addaction name="actionDeconnexion"/>
    </widget>
@@ -241,6 +214,10 @@
    </property>
   </action>
   <action name="actionUtilisateur">
+   <property name="icon">
+    <iconset resource="../../../res/res.qrc">
+     <normaloff>:/images/user-config.png</normaloff>:/images/user-config.png</iconset>
+   </property>
    <property name="text">
     <string>Utilisateur</string>
    </property>
@@ -251,8 +228,21 @@
    </property>
   </action>
   <action name="actionDeconnexion">
+   <property name="icon">
+    <iconset resource="../../../res/res.qrc">
+     <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+   </property>
    <property name="text">
     <string>Déconnexion</string>
+   </property>
+  </action>
+  <action name="actionDecryptDestination">
+   <property name="icon">
+    <iconset resource="../../../res/res.qrc">
+     <normaloff>:/images/unlock-icon.png</normaloff>:/images/unlock-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Dossier de decryptage</string>
    </property>
   </action>
  </widget>
