@@ -1,11 +1,17 @@
 #include "UserController.h"
 #include "../services/ConfigManager.h"
 #include "../services/Crypt.h"
-
+#include "../services/Scheduler.h"
 
 void UserController::setCurrentUser(std::string login)
 {
-  currentUser = ConfigManager::getInstance().loadUser(login);
+    currentUser = ConfigManager::getInstance().loadUser(login);
+
+    //Lancement du scheduler au chargement de l'utilisateur
+    Scheduler s = Scheduler::getInstance();
+    s.clear();
+    s.addFromUser(currentUser);
+    s.start();
 }
 
 bool UserController::favoriteUserExists() {

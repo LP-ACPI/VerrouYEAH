@@ -1,7 +1,3 @@
-//
-// Created by ryweal on 05/12/16.
-//
-
 #include "ConfigManager.h"
 #include "../models/Directory.h"
 #include "../models/File.h"

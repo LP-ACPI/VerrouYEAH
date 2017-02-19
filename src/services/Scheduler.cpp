@@ -42,6 +42,11 @@ void Scheduler::add(Backup& backup)
 {
     saves.push_back(backup);
 }
+void Scheduler::addFromUser(User* user)
+{
+    for (auto iterator = user->getBackups().begin(); iterator != user->getBackups().end(); ++iterator)
+        saves.push_back(*iterator);
+}
 
 void Scheduler::remove(Backup& backup)
 {

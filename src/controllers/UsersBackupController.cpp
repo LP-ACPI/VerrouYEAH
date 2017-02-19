@@ -1,8 +1,9 @@
 #include "UsersBackupController.h"
-#include "BackupController.h"
+#include "backupcontroller.h"
 #include "UserController.h"
-#include "TargetController.h"
+#include "targetcontroller.h"
 #include "../services/ConfigManager.h"
+#include "../services/Scheduler.h"
 #include <QDebug>
 
 UsersBackupController UsersBackupController::instance = UsersBackupController();
