@@ -1,6 +1,7 @@
 #include "UsersBackupController.h"
 #include "BackupController.h"
 #include "UserController.h"
+#include "TargetController.h"
 #include "../services/ConfigManager.h"
 #include "../services/Scheduler.h"
 #include <QDebug>
@@ -26,17 +27,14 @@ std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std:
 }
 
 std::map<std::string,std::string> UsersBackupController::addNewUsersBackup(std::map<std::string,std::string> backupInfo){
-    //TODO :
-    //ou plutôt un BackupController qui s'en charge
     backupInfo["key"] = std::string(Crypt::genKey(32));
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     new_backup.setOwnersLogin(user->getLogin());
     new_backup.setOwnersPass(user->getPassword());
     new_backup.saveData();
     user->addBackup(new_backup);
-
     ConfigManager::getInstance().updateUser(user);
-    return backupInfo;
+    return BackupController::getInstance().getInfoMapFromBackup(&new_backup);
 }
 
 void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> backupInfo){
@@ -77,9 +75,16 @@ std::list<std::string> UsersBackupController::getUsersBackupNameList(){
 }
 
 
-std::list<std::map<std::string,std::string>> UsersBackupController::recoverCurrentUserNonRegistrededBackups(std::string confirmPass){
+std::list<std::map<std::string,std::string>> UsersBackupController::recoverUsersNonRegistrededBackups(std::string login,std::string pass,std::string targetId){
+   std::string target_type = TargetController::getInstance().getFavoriteTargetsType(targetId);
+   std::map<std::string,std::string> targetInfoMap;
+   if(target_type == "FTP")
+        targetInfoMap = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetId);
+   else
+       targetInfoMap = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetId);
+
     try {
-        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(user->getLogin(),confirmPass)){
+        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(login,pass)){
 
         } else {
 
@@ -87,8 +92,4 @@ std::list<std::map<std::string,std::string>> UsersBackupController::recoverCurre
     } catch (std::exception& e) {
         throw std::runtime_error(e.what());
     }
-}
-
-std::list<std::map<std::string,std::string>> UsersBackupController::recoverAnotherUserNonRegistrededBackups(std::string login,std::string pass){
-
 }

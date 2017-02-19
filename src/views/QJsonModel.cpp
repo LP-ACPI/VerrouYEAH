@@ -110,12 +110,9 @@ QJsonTreeItem* QJsonTreeItem::load(const QJsonValue& value, QJsonTreeItem* paren
         for (QString key : value.toObject().keys()){
             QJsonValue v = value.toObject().value(key);
             QJsonTreeItem * child = load(v,rootItem);
-
-
             child->setKey(key);
             child->setType(v.type());
             rootItem->appendChild(child);
-
         }
 
     }
@@ -203,13 +200,21 @@ QVariant QJsonModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole ) {
         if (index.column() == 0 ){
-            return item->key();
+                return item->key();
         }
 
         if (index.column() == 1){
-            return item->value();
+                return item->value();
         }
      }
+//    if (role == Qt::ForegroundRole) {
+//        qDebug()<< item->value();
+//        if(item->value() == "file")
+//            return QFileIconProvider().icon(QFileIconProvider::File).pixmap(10,10);
+
+//        if(item->value() == "dir")
+//            return QFileIconProvider().icon(QFileIconProvider::Folder).pixmap(10,10);
+//    }
     return QVariant();
 
 }
@@ -220,7 +225,6 @@ QVariant QJsonModel::headerData(int section, Qt::Orientation orientation, int ro
         return QVariant();
 
     if (orientation == Qt::Horizontal) {
-
         return mHeaders.value(section);
     }
     else

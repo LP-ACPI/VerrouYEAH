@@ -27,12 +27,19 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 {
     init();
 
-    std::map<std::string,std::string> backup_info = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
+     backup_info = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
 
-    nameInput->setText(QString::fromStdString(backup_info["name"]));
+    std::string targetTag;
+    backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType(backup_info["target_id"]);
+    if(backup_info["target_type"]  == "FTP")
+        targetTag = TargetController::getInstance().favoriteFtpTargetToInfoMap(backup_info["target_id"])["tag"];
+   else
+        targetTag = TargetController::getInstance().favoriteNormalTargetToInfoMap(backup_info["target_id"])["tag"];
+
     sourceChoiceButton->setText(QString::fromStdString(backup_info["source_path"]));
-    targetChoiceButton->setText(QString::fromStdString(backup_info["target_id"]));
     noteInput->setPlainText(QString::fromStdString(backup_info["note"]));
+    nameInput->setText(QString::fromStdString(backup_info["name"]));
+    targetChoiceButton->setText(QString::fromStdString(targetTag));
 
     connect(this,SIGNAL(postUpdateBackupData(std::map<std::string,std::string>)),
             this,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
@@ -140,6 +147,5 @@ void BackupForm::on_targetChoiceButton_clicked(){
 void BackupForm::onTargetSelected(QString targetTag){
     targetChoiceButton->setText(targetTag);
     targetChoiceButton->setToolTip(targetTag);
-    backup_info["target_id"] = TargetController::getInstance().targetCouplesTagKey()[targetTag.toStdString()];
     backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( backup_info["target_id"] );
 }

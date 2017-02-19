@@ -17,5 +17,7 @@
         <file>images/unlock-icon.png</file>
         <file>images/user-config.png</file>
         <file>images/logout.png</file>
+        <file>images/search-icon.png</file>
+        <file>images/favorite-location.png</file>
     </qresource>
 </RCC>

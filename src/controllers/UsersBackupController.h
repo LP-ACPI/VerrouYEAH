@@ -26,8 +26,7 @@ public:
     std::list<std::map<std::string,std::string>> getUsersBackupInfoList();
     std::list<std::string> getUsersBackupNameList();
 
-    std::list<std::map<std::string,std::string>> recoverCurrentUserNonRegistrededBackups(std::string);
-    std::list<std::map<std::string,std::string>> recoverAnotherUserNonRegistrededBackups(std::string,std::string);
+    std::list<std::map<std::string,std::string>> recoverUsersNonRegistrededBackups(std::string,std::string,std::string);
 
     void operator=(UsersBackupController const&) = delete;
 };

@@ -33,6 +33,9 @@
    </property>
   </widget>
   <widget class="QComboBox" name="tagChoice">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -49,8 +52,14 @@
      <bold>false</bold>
     </font>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="styleSheet">
-    <string notr="true">padding-left:50</string>
+    <string notr="true"/>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
    </property>
    <property name="insertPolicy">
     <enum>QComboBox::InsertAtBottom</enum>
@@ -143,7 +152,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">padding-left:30</string>
+    <string notr="true"/>
    </property>
    <item>
     <property name="text">

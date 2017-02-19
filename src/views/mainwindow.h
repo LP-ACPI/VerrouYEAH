@@ -37,9 +37,8 @@ protected slots:
     void on_newBackupButton_clicked();
     void on_actionUtilisateur_triggered();
     void on_actionDeconnexion_triggered();
+    void on_actionDecryptDestination_triggered();
 
-    void on_disconnectButton_clicked();
-    void on_userInfoButton_clicked();
     void on_recoverBackupButton_clicked();
     void on_favoriteTargetsButton_clicked();
 
