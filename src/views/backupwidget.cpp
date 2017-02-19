@@ -21,14 +21,12 @@ BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
     QIcon configButIcon(QPixmap(":/images/config-icon.png"));
     configButton->setIconSize(QSize(40,40));
     configButton->setIcon(configButIcon);
-
 }
 
 void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
     backupKey = backupInfo["key"];
     backupName->setText(QString::fromStdString(backupInfo["name"]));
     backupSource->setText(QString::fromStdString(backupInfo["source_path"]));
-    backupTarget->setText(QString::fromStdString(backupInfo["target_tag"]));
 
     std::string targetType = TargetController::getInstance().getFavoriteTargetsType(backupInfo["target_id"]);
     if(targetType == "FTP")
@@ -36,10 +34,27 @@ void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
     else
         targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_id"]);
 
-    QString tool_tip_text = "<b>Key: </b> "+ QString::fromStdString(backupKey)+
-                                            "<br/><b>target:</b>"+QString::fromStdString(targetInfo["target_tag"])+
-                                            "";
+    backupTarget->setText("("+QString::fromStdString(targetType)+
+                           ") "+QString::fromStdString(targetInfo["tag"]));
 
+    QString tool_tip_text = "<b>Nom: </b> "+ QString::fromStdString(backupInfo["name"])+
+                                          "<br/><b>destination:</b>("+QString::fromStdString(targetType)+
+                                            ") "+QString::fromStdString(targetInfo["tag"])+
+                                            "<br/>est accessible : " +QString::fromStdString(backupInfo["data_loaded"]);
+   QPixmap state_icon;
+    if(targetType == "FTP")
+        if(backupInfo["data_loaded"] == "oui")
+            state_icon = QPixmap(":/images/cloud-ok.png");
+        else
+            state_icon = QPixmap(":/images/cloud-ko.png");
+    else
+        if(backupInfo["data_loaded"] == "oui")
+            state_icon = QPixmap(":/images/usb-ok.png");
+        else
+            state_icon = QPixmap(":/images/usb-ko.png");
+
+    stateIcon->setScaledContents(true);
+    stateIcon->setPixmap(state_icon);
 
     setToolTip(tool_tip_text);
 
@@ -66,6 +81,8 @@ void BackupWidget::on_configButton_clicked(){
 
 void BackupWidget::on_decryptButton_clicked(){
     ProgressDialog *progressDialog = new ProgressDialog(_parent);
+    progressDialog->setFtp(targetInfo["type"] == "FTP");
+    progressDialog->setUpload(false);
     progressDialog->init();
     progressDialog->show();
     BackupController::getInstance().restoreBackupData(backupKey);

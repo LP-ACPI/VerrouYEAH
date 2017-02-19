@@ -46,7 +46,7 @@ nlohmann::json FtpTarget::to_json() const{
             {"host", getHost()},
             {"port", getPort()},
             {"username", getUserName()},
-            {"pass", getHost()}
+            {"pass", getFtpPass()}
           }
     }};
     return j;

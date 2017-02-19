@@ -31,7 +31,7 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 
     nameInput->setText(QString::fromStdString(backup_info["name"]));
     sourceChoiceButton->setText(QString::fromStdString(backup_info["source_path"]));
-    targetChoiceButton->setText(QString::fromStdString(backup_info["target_tag"]));
+    targetChoiceButton->setText(QString::fromStdString(backup_info["target_id"]));
     noteInput->setPlainText(QString::fromStdString(backup_info["note"]));
 
     connect(this,SIGNAL(postUpdateBackupData(std::map<std::string,std::string>)),
@@ -92,6 +92,8 @@ void BackupForm::on_backupButtonBox_rejected(){
 void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
     //TODO : verif si FTP/NORMAL + Upload
 
+    progressDialog->setFtp(backup_info["target_type"]  == "FTP");
+    progressDialog->setUpload(true);
     progressDialog->init();
     progressDialog->show();
 
@@ -104,6 +106,8 @@ void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
 void BackupForm::onBackupUpdated(std::map<std::string,std::string> backupInfo){
     progressDialog = new ProgressDialog(this);
     //TODO : verif si FTP/NORMAL + Upload
+    progressDialog->setFtp(backup_info["target_type"]  == "FTP");
+    progressDialog->setUpload(true);
     progressDialog->init();
     progressDialog->show();
     UsersBackupController::getInstance().updateUsersBackup(backupInfo);
@@ -130,10 +134,12 @@ void BackupForm::on_sourceChoiceButton_clicked(){
 
 void BackupForm::on_targetChoiceButton_clicked(){
     targetChoice->show();
+    connect(targetChoice,SIGNAL(targetSelected(QString)),this,SLOT(onTargetSelected(QString)));
 }
 
 void BackupForm::onTargetSelected(QString targetTag){
     targetChoiceButton->setText(targetTag);
     targetChoiceButton->setToolTip(targetTag);
     backup_info["target_id"] = TargetController::getInstance().targetCouplesTagKey()[targetTag.toStdString()];
+    backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( backup_info["target_id"] );
 }

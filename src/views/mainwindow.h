@@ -5,7 +5,7 @@
 #include "backupform.h"
 #include "userform.h"
 #include "backupwidget.h"
-#include "detailssauvegarde.h"
+#include "backupdetailsdialog.h"
 
 #include "../controllers/UsersBackupController.h"
 #include <QMainWindow>
@@ -17,7 +17,7 @@ class MainWindow :
     Q_OBJECT
 
     QList<BackupWidget*> backupWidgetList;
-    DetailsSauvegarde *detailBakcupDialog;
+    BackupDetailsDialog *detailBakcupDialog;
     BackupForm *backupForm;
     UserForm *userForm;
 
@@ -37,6 +37,11 @@ protected slots:
     void on_newBackupButton_clicked();
     void on_actionUtilisateur_triggered();
     void on_actionDeconnexion_triggered();
+
+    void on_disconnectButton_clicked();
+    void on_userInfoButton_clicked();
+    void on_recoverBackupButton_clicked();
+    void on_favoriteTargetsButton_clicked();
 
     void onBackupItemClicked(QListWidgetItem*);
     void onBackupDeleted(std::string);

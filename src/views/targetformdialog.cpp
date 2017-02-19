@@ -33,7 +33,8 @@ TargetFormDialog::TargetFormDialog(std::string targetKey, QWidget *parent)
         hostInput->setText(QString::fromStdString(ftpTargetInfo["host"]));
         usernameInput->setText(QString::fromStdString(ftpTargetInfo["username"]));
         passInput->setText(QString::fromStdString(ftpTargetInfo["pass"]));
-        pathInput->setText(QString::fromStdString(ftpTargetInfo["path"]));        
+        pathInput->setText(QString::fromStdString(ftpTargetInfo["path"]));
+        portInput->setText(QString::fromStdString(ftpTargetInfo["port"]));
 
         connect(this,SIGNAL(postFtpTargetData(std::map<std::string,std::string>)),
                                      this,SLOT(onFtpTargetUpdate(std::map<std::string,std::string>)));
@@ -51,22 +52,36 @@ TargetFormDialog::TargetFormDialog(std::string targetKey, QWidget *parent)
 void TargetFormDialog::refreshLayout(QString selectedType){
     if(selectedType == "FTP"){
         dirChoice->hide();
-        hostInput->show();
-        passInput->show();
+        portLabel->show();
+        portInput->show();
         pathInput->show();
+        passInput->show();
+        hostInput->show();
         usernameInput->show();
-        setMinimumHeight(325);
-        setMaximumHeight(325);
-        buttonBox->move(buttonBox->pos().x(), 280);
+        setMinimumHeight(350);
+        setMaximumHeight(350);
+        buttonBox->move(buttonBox->pos().x(), 310);
+        helpIcon->setToolTip("<p>entrez votre destination ftp favorite. </p>"
+                             "<p>Par exemple:</p>"
+                             "<p><b>host</b>: ftp://mondomaine</p>"
+                             "<p><b>identifiant</b>: toto</p>"
+                             "<p><b>mot de passe</b>: ***</p>"
+                             "<p><b>dossier de destination</b>: dossierSurServeur<i >(doit exister)</i>"
+                             "</p><p><b>n°Port : </b>21</p>");
     } else {
-        usernameInput->hide();
-        hostInput->hide();
-        passInput->hide();
-        pathInput->hide();
         dirChoice->show();
+        portLabel->hide();
+        portInput->hide();
+        pathInput->hide();
+        passInput->hide();
+        hostInput->hide();
+        usernameInput->hide();
         setMinimumHeight(225);
         setMaximumHeight(225);
         buttonBox->move(buttonBox->pos().x(), 160);
+        helpIcon->setToolTip("<p>entrez votre destination favorite locale,</p>"
+                             "<p>usb ou dossier synchronisé avec un service cloud.</p>"
+                             "<p>Utilisez une étiquette facicelement reconnaissable</p>");
     }
 }
 
@@ -86,6 +101,8 @@ void TargetFormDialog::on_buttonBox_accepted(){
         targetInfo["host"] = hostInput->text().toStdString();
         targetInfo["username"] = usernameInput->text().toStdString();
         targetInfo["path"] = pathInput->text().toStdString();
+        targetInfo["port"] = portInput->text().toStdString();
+        targetInfo["pass"] = passInput->text().toStdString();
         emit postFtpTargetData(targetInfo);
     }    else   {
         if(!isNormalFormValid())

@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>271</width>
-    <height>320</height>
+    <width>270</width>
+    <height>350</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>270</width>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>270</width>
+    <height>350</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -17,32 +29,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>280</y>
-     <width>231</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-   <property name="centerButtons">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="tagInput">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>68</y>
+     <y>310</y>
      <width>225</width>
      <height>32</height>
     </rect>
@@ -55,50 +42,25 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>200</width>
+     <width>225</width>
      <height>16777215</height>
     </size>
    </property>
-   <property name="text">
-    <string/>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
    </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
-   <property name="placeholderText">
-    <string>etiquette</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="dirChoice">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>110</y>
-     <width>225</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="text">
-    <string>chemin</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>22</width>
-     <height>22</height>
-    </size>
+   <property name="centerButtons">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLineEdit" name="passInput">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>190</y>
+     <x>22</x>
+     <y>184</y>
      <width>225</width>
      <height>32</height>
     </rect>
@@ -125,63 +87,11 @@
     <string>mot de passe</string>
    </property>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>41</x>
-     <y>21</y>
-     <width>189</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Type</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QComboBox" name="typeChoice">
-      <property name="minimumSize">
-       <size>
-        <width>130</width>
-        <height>32</height>
-       </size>
-      </property>
-      <item>
-       <property name="text">
-        <string>NORMAL</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>FTP</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QLineEdit" name="hostInput">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>110</y>
+     <x>22</x>
+     <y>108</y>
      <width>225</width>
      <height>32</height>
     </rect>
@@ -211,8 +121,8 @@
   <widget class="QLineEdit" name="usernameInput">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>150</y>
+     <x>22</x>
+     <y>146</y>
      <width>225</width>
      <height>32</height>
     </rect>
@@ -242,8 +152,8 @@
   <widget class="QLineEdit" name="pathInput">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>231</y>
+     <x>22</x>
+     <y>222</y>
      <width>225</width>
      <height>32</height>
     </rect>
@@ -270,14 +180,256 @@
     <string>dossier de destination</string>
    </property>
   </widget>
-  <zorder>passInput</zorder>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>22</x>
+     <y>260</y>
+     <width>225</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="portLayout">
+    <item>
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="portLabel">
+      <property name="text">
+       <string>n° Port</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="portInput">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>21</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>dossier de destination</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>221</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="typeLayout">
+    <item>
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Type</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QComboBox" name="typeChoice">
+      <property name="minimumSize">
+       <size>
+        <width>130</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">text-align:center</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>NORMAL</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>FTP</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="helpIcon">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="../../../res/res.qrc">:/images/info.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLineEdit" name="tagInput">
+   <property name="geometry">
+    <rect>
+     <x>22</x>
+     <y>67</y>
+     <width>225</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>200</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="placeholderText">
+    <string>etiquette</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="dirChoice">
+   <property name="geometry">
+    <rect>
+     <x>22</x>
+     <y>105</y>
+     <width>225</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>225</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>225</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>chemin</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+  </widget>
   <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>tagInput</zorder>
+  <zorder>dirChoice</zorder>
+  <zorder>passInput</zorder>
   <zorder>hostInput</zorder>
   <zorder>usernameInput</zorder>
   <zorder>pathInput</zorder>
-  <zorder>dirChoice</zorder>
   <zorder>buttonBox</zorder>
-  <zorder>tagInput</zorder>
  </widget>
  <tabstops>
   <tabstop>typeChoice</tabstop>
@@ -288,6 +440,8 @@
   <tabstop>passInput</tabstop>
   <tabstop>pathInput</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

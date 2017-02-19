@@ -27,29 +27,25 @@ Directory::Directory(const Directory &dir)
  *
  * Stratégie :  construit récursivement un arbre
  *      formé de Datas (Directory et Files) ayant pour base
- *      un Directory (càd l'objet implicite) construit par défaut
- *      (la véritable racine est donc l'unique élément
- *          de $dataList de cette Directory)
+ *      un Directory (càd l'objet implicite)
  */
 Directory::Directory(json &jsonDataTree){
 
     for (json::iterator it = jsonDataTree.begin(); it != jsonDataTree.end(); it++){
         string type  = it.value()["type"];
-        bool isAFile = type == "file";
+        bool isADir = type == "dir";
 
-        // Create a new File and add it to the Directory data
-        if( isAFile ){
-
-            string fileName = it.key();
-            string filePath = it.value()["path"];
-            Data* newData = new File(fileName,filePath);
-            addData(newData);
-
-        // Else, create a new Directory and add it to the Directory data
-        }else{
+        string dataName = it.key();
+        string dataPath = it.value()["path"];
+        // Create a new Directory and add it to the Directory data
+        if( isADir ){
+            setName(dataName);
+            setPath(dataPath);
             Data* newData = new Directory(it.value()["data"]);
-            newData->setPath(it.value()["path"]);
-            newData->setName(it.key());
+            addData(newData);
+        // else, create a new File and add it to the Directory data
+        }else{
+            Data* newData = new File(dataName,dataPath);
             addData(newData);
         }
     }

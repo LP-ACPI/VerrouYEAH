@@ -8,28 +8,6 @@
 
 BackupController BackupController::instance = BackupController();
 
-bool BackupController::updateDataIfAccessible(Backup *backup){
-
-    //TODO FTP
-    if(backup->getTarget()->getType() == "NORMAL"){
-        std::string distant_config = backup->getTarget()->getPath()
-                + QDir::separator().toLatin1()
-                + UserController::getInstance().getCurrentUserLogin()
-                + ".json";
-
-        ConfigManager::getInstance().setJsonFile(distant_config);
-
-       Backup *distant_backup =  ConfigManager::getInstance().getUsersDistantBackup(
-                UserController::getInstance().getCurrentUserLogin(),
-                backup->getKey()
-            );
-       backup->setData(distant_backup->getData());
-
-        ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
-    }
-    return backup->getData() != NULL;
-}
-
 
 void BackupController::restoreBackupData(std::string backupKey){
     UserController::getInstance().getCurrentUser()->getBackupByKey(backupKey).recoverData();
@@ -63,22 +41,22 @@ std::map<std::string,std::string> BackupController::getInfoMapFromBackup(Backup*
     backup_info["key"]                   = backupToInfo->getKey();
     backup_info["name"]               = backupToInfo->getName();
     backup_info["source_path"] = backupToInfo->getSource();
-    backup_info["target_id"]       = backupToInfo->getTarget()->getId();
-    backup_info["target_tag"]     = backupToInfo->getTarget()->getTag();
+    backup_info["target_id"]        = backupToInfo->getTarget()->getId();
     backup_info["last_save"]       = backupToInfo->getLastSave();
     backup_info["note"]                = backupToInfo->getNote();
     backup_info["frequency"]     = backupToInfo->getFrequency().toString();
-    backup_info["data_loaded"] = backupToInfo->hasLoadedData() ? "true" : "false";
+    backup_info["data_loaded"] = backupToInfo->hasLoadedData() ? "oui" : "non";
 
     return backup_info;
 
 }
 
-
-
-
 json BackupController::getJsonifiedDataTree(std::string la_cle){
     User* user = UserController::getInstance().getCurrentUser();
     Backup backupByKey = user->getBackupByKey(la_cle);
-    return backupByKey.getData()->to_json();
+    if(backupByKey.hasLoadedData())
+        return backupByKey.getData()->to_json();
+    else
+        return NULL;
 }
+

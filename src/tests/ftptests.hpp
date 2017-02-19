@@ -23,9 +23,6 @@ class FtpTest {
          Ftp::getInstance().prepareFtp(TEST_HOST,TEST_USER,TEST_PASS);
         bool upload_result =  Ftp::getInstance().ftpUpload(TEST_UPLOAD_FILE,TEST_UPLOAD_DEST);
 
-        QEventLoop loopUp;
-        QObject::connect(&ftpServUpl, SIGNAL(finished()), &loopUp, SLOT(quit()));
-        loopUp.exec();
         UnitTest<bool>::assertTrue(upload_result);
     }
 
@@ -35,9 +32,6 @@ class FtpTest {
         Ftp::getInstance().prepareFtp(TEST_HOST,TEST_USER,TEST_PASS);
         bool download_result =  Ftp::getInstance().ftpDownload(TEST_DOWNLOAD_FILE,TEST_DOWNLOAD_DEST);
 
-        QEventLoop loopDwn;
-        QObject::connect(&ftpServDownl, SIGNAL(finished()), &loopDwn, SLOT(quit()));
-        loopDwn.exec();
         UnitTest<bool>::assertTrue(download_result);
 
     }

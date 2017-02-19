@@ -98,9 +98,11 @@ void User::addBackup(const Backup backup){
     else throw invalid_argument("Il existe déja une sauvegarde du même nom...");
 }
 
-void User::removeBackup(const Backup backup){
-    if(hasBackup(backup))
+void User::removeBackup(Backup backup){
+    if(hasBackup(backup)){
+        backup.deleteFromJson();
         backups.remove(backup);
+    }
 }
 
 void User::removeBackups(){

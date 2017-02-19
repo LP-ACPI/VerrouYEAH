@@ -34,13 +34,13 @@ SOURCES	+=  \
     src/views/userform.cpp \
     src/views/backupwidget.cpp \
     src/views/progressdialog.cpp \
-    src/views/detailssauvegarde.cpp \
     src/views/targetformdialog.cpp \
     src/views/targetchoicedialog.cpp \
     src/views/QJsonModel.cpp \
     src/main.cpp \
     src/models/absTarget.cpp \
-    src/models/Target.cpp
+    src/models/Target.cpp \
+    src/views/backupdetailsdialog.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -65,12 +65,12 @@ HEADERS	+=  \
     src/views/userform.h \
     src/views/backupwidget.h \
     src/views/progressdialog.h  \
-    src/views/detailssauvegarde.h \
     src/views/targetchoicedialog.h \
     src/views/targetformdialog.h \
     src/views/QJsonModel.h \
     src/models/absTarget.h \
-    src/models/Target.h
+    src/models/Target.h \
+    src/views/backupdetailsdialog.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
@@ -79,10 +79,11 @@ FORMS	+=  \
     src/views/forms/userformdialog.ui \
     src/views/forms/backupformdialog.ui \
     src/views/forms/progressdialog.ui \
-    src/views/forms/detailssauvegarde.ui \
     src/views/forms/targetformdialog.ui \
     src/views/forms/targetchoicedialog.ui \
-    src/views/forms/frequencydialog.ui
+    src/views/forms/frequencydialog.ui \
+    src/views/forms/backupdetailsdialog.ui \
+    src/views/forms/recoverbackupsdialog.ui
 
 RESOURCES += \
     res/res.qrc

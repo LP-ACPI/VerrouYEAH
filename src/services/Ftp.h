@@ -44,6 +44,8 @@ public:
     void setDownloadRewrite(bool rewriteFile)
     {    rewriteDownloadedFile = rewriteFile;   }
 
+    void emitTransferDone();
+
 signals:
     void downloadStarted();
     void uploadStarted();

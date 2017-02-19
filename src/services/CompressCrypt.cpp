@@ -1,7 +1,7 @@
 #include "CompressCrypt.h"
 #include <iostream>
+#include <QUrl>
 #include <QCoreApplication>
-#include <QDebug>
 
 CompressCrypt::CompressCrypt(QObject *parent) :
     QObject(parent)

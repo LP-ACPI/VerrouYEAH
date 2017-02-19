@@ -33,8 +33,8 @@ std::vector<std::string> UserController::getLoginList() {
     return logins;
 }
 
-bool UserController::authentifyUser(std::string userLogin, std::string userPass){
-    std::string hashed_pass = Crypt::generateHashedPass(userPass);
+bool UserController::authentifyUser(std::string userLogin, std::string enteredUserPass){
+    std::string hashed_pass = Crypt::generateHashedPass(enteredUserPass);
     return userLoginPassCouples[userLogin] == hashed_pass;
 }
 
@@ -64,8 +64,13 @@ bool UserController::updateUser(std::string newLogin, std::string newPass){
     if(update_user){
         setCurrentUser(newLogin);
         userLoginPassCouples[newLogin] = hashed_pass;
+        std::list<Backup>::iterator it = currentUser->getBackups().begin();
+        while(it != currentUser->getBackups().end()){
+            it->setOwnersLogin(newLogin);
+            it->setOwnersPass(hashed_pass);
+            ++it;
+        }
     }
-
     return update_user;
 }
 

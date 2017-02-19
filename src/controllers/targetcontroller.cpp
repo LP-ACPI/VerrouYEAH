@@ -5,6 +5,7 @@
 
 TargetController TargetController::instance = TargetController();
 
+
 std::map<std::string,std::string>TargetController::favoriteFtpTargetToInfoMap(std::string key){
     FtpTarget *ftp_target =  (FtpTarget*)UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(key);
     std::map<std::string,std::string> ftp_target_info_map;
@@ -15,6 +16,7 @@ std::map<std::string,std::string>TargetController::favoriteFtpTargetToInfoMap(st
     ftp_target_info_map["pass"] = ftp_target->getFtpPass();
     ftp_target_info_map["port"] = ftp_target->getPort();
     ftp_target_info_map["target_id"] = key;
+    ftp_target_info_map["type"] = "FTP";
 
     return ftp_target_info_map;
 }
@@ -38,6 +40,8 @@ std::map<std::string,std::string> TargetController::favoriteNormalTargetToInfoMa
     target_info_map["tag"] = target->getTag();
     target_info_map["path"] = target->getPath();
     target_info_map["target_id"] = key;
+    target_info_map["type"] = "NORMAL";
+
     return target_info_map;
 }
 
@@ -58,33 +62,32 @@ void TargetController::updateFavoriteNormalTarget( std::map<std::string,std::str
     Target *new_target = getNormalTargetFromInfoMap(infoMap);
 
     UserController::getInstance().getCurrentUser()->replaceFavoriteTarget(old_target,new_target);
-    ConfigManager::getInstance().saveUser(UserController::getInstance().getCurrentUser());
+    ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::updateFavoriteFtpTarget( std::map<std::string,std::string> infoMap){
     FtpTarget *old_target = (FtpTarget *)UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(infoMap["target_id"]);
     FtpTarget *new_target = getFtpTargetFromInfoMap(infoMap);
     UserController::getInstance().getCurrentUser()->replaceFavoriteTarget(old_target,new_target);
-    ConfigManager::getInstance().saveUser(UserController::getInstance().getCurrentUser());
+    ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::addNewFavoriteNormalTarget(std::map<std::string,std::string> infoMap){
     Target *new_target = getNormalTargetFromInfoMap(infoMap);
     UserController::getInstance().getCurrentUser()->addFavoriteTarget(new_target);
-    ConfigManager::getInstance().saveUser(UserController::getInstance().getCurrentUser());
+    ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::addNewFavoriteFtpTarget(std::map<std::string,std::string> infoMap){
     FtpTarget *new_target = getFtpTargetFromInfoMap(infoMap);
     UserController::getInstance().getCurrentUser()->addFavoriteTarget(new_target);
-    ConfigManager::getInstance().saveUser(UserController::getInstance().getCurrentUser());
+    ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::deleteFavoriteTarget(std::string targetKey){
-    Target *target_to_delete =(Target*)UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(targetKey);
-
+    AbsTarget *target_to_delete = UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(targetKey);
     UserController::getInstance().getCurrentUser()->removeFavoriteTarget(target_to_delete);
-    ConfigManager::getInstance().saveUser(UserController::getInstance().getCurrentUser());
+    ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 std::list<std::string> TargetController::listlFavoriteNormalTargetTags(){

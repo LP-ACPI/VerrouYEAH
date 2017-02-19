@@ -55,6 +55,9 @@ bool Ftp::ftpUpload(std::string fileToUpload, std::string destination){
     QString fullUploadPath = host + "/"
             + QString::fromStdString(destination) + "/"
             + fileInfo.fileName();
+qDebug() << fileInfo.fileName()
+         << fileInfo.filePath()
+         << fullUploadPath;
 
     url->setUrl( fullUploadPath );
 
@@ -94,10 +97,10 @@ bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationDir
 
     QFileInfo fileInfo(url->path());
 
-    QString fullNewFilePath = QString::fromStdString(destinationDir)
-            + QDir::separator()
-            + fileInfo.fileName();
-
+    QDir dest(QString::fromStdString(destinationDir));
+    if(!dest.exists())
+        dest.mkpath(dest.absolutePath());
+    QString fullNewFilePath = dest.absoluteFilePath(fileInfo.fileName());
 
     if (QFile::exists(fullNewFilePath)){
         std::cout << fileInfo.fileName().toStdString() << " existe déjà" << std::endl;
@@ -120,7 +123,7 @@ bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationDir
     emit downloadStarted();
     std::cout << "téléchargement de " << fileInfo.fileName().toStdString() << "..." << std::endl;
 
-    return startTransfert(networkReply) || !rewriteDownloadedFile;
+    return startTransfert( networkReply) ||  !rewriteDownloadedFile;
 }
 
 /**
@@ -194,8 +197,10 @@ void Ftp::requestFinished() {
             file = 0;
         }
     }
-
     emit finished();
+}
+
+void Ftp::emitTransferDone(){
 }
 
 /**

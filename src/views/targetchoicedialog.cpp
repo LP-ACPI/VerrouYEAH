@@ -7,19 +7,6 @@
 TargetChoiceDialog::TargetChoiceDialog(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
-    QIcon delIcon(QPixmap(":/images/trash-icon.png"));
-    removeTarget->setIconSize(QSize(30,30));
-    removeTarget->setIcon(delIcon);
-
-    QIcon configIcon(QPixmap(":/images/config-icon.png"));
-    configTarget->setIconSize(QSize(35,35));
-    configTarget->setIcon(configIcon);
-
-
-    QIcon plusIcon(QPixmap(":/images/plus-sign.png"));
-    addTarget->setIconSize(QSize(35,35));
-    addTarget->setIcon(plusIcon);
-
     setWindowTitle("Choix de destination");
 
     for(std::string ftp_tag : TargetController::getInstance().listFavoriteFtpTargetTags())
@@ -28,9 +15,7 @@ TargetChoiceDialog::TargetChoiceDialog(QWidget *parent) : QDialog(parent)
     for(std::string normal_tag : TargetController::getInstance().listlFavoriteNormalTargetTags())
         normalTagList.append(QString::fromStdString(normal_tag));
 
-
     connect(typeChoice,SIGNAL(currentIndexChanged(int)),this,SLOT(onTypeChoiceChanged(int)));
-    connect(this,SIGNAL(targetSelected(QString)),parent,SLOT(onTargetSelected(QString)));
 
     tagChoice->addItems(normalTagList);
     refreshTargetChoice();

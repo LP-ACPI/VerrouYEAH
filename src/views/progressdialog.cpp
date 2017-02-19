@@ -1,12 +1,13 @@
 #include "progressdialog.h"
 #include "../controllers/backupcontroller.h"
+#include <QDesktopServices>
 
 
 ProgressDialog::ProgressDialog(QWidget *parent) : QDialog(parent){
 
     setupUi(this);
     setModal(true);
-    isFtp       = false;
+    isFtp       = true;
     isUpload    = true;
 }
 
@@ -48,8 +49,10 @@ void ProgressDialog::setUpConnections(){
 
 
     if(isFtp){
-        connect(&Ftp::getInstance(),SIGNAL(uploadStarted()),this,SLOT(onUploadBegan()));
-        connect(&Ftp::getInstance(),SIGNAL(downloadStarted()),this,SLOT(onDownloadBegan()));
+        if(isUpload)
+            connect(&Ftp::getInstance(),SIGNAL(uploadStarted()),this,SLOT(onUploadBegan()));
+        else
+            connect(&Ftp::getInstance(),SIGNAL(downloadStarted()),this,SLOT(onDownloadBegan()));
         connect(&Ftp::getInstance(),SIGNAL(transferProgress(quint64,quint64)),this,SLOT(onTransferProgress(quint64,quint64)));
         connect(this,SIGNAL(canceled()),&Ftp::getInstance(),SLOT(cancelTranfer()));
     }
@@ -110,19 +113,18 @@ void ProgressDialog::onUploadBegan(){
 }
 
 void ProgressDialog::onTransferProgress(quint64 done,quint64 total){
-    QString upDownLoad = isUpload ? " téléversées " : " téléchargées ";
     if(isUpload){
         bottomBar->setMaximum(total);
         bottomBar->setValue(done);
+        bottomLabel->setText(QString::number(done) + "  données téléversées sur "+QString::number(total) );
     }  else {
         topBar->setMaximum(total);
         topBar->setValue(done);
+        topLabel->setText(QString::number(done) + "  données téléchargées sur "+QString::number(total) );
     }
-    topLabel->setText(QString::number(done) + "  données" + upDownLoad + "sur "+QString::number(total) );
 }
 
 void ProgressDialog::onDownloadBegan(){
-    isUpload = false;
     midBar->setDisabled(true);
     bottomBar->setDisabled(true);
     midLabel->setText("Decompression en attente...");
@@ -130,30 +132,30 @@ void ProgressDialog::onDownloadBegan(){
 }
 
 void ProgressDialog::onDecompressBegan(){
-    connect(&CompressCrypt::getInstance(),SIGNAL(decryptingDone()),this,SLOT(onAllDone()));
+    connect(&CompressCrypt::getInstance(),SIGNAL(decryptingDone()),this,SLOT(onDecryptDone()));
     if(!isFtp){
         midBar->setDisabled(true);
         midLabel->setText("Décryptage en attente...");
         topLabel->setText("Décompression en cours");
         topBar->setMaximum(0);
         topBar->setMinimum(0);
-
     } else {
-
         midLabel->setText("Décompression en cours" );
         midBar->setDisabled(false);
         topLabel->setText("Téléchargement terminé");
-        midBar->setMaximum(100);
-        midBar->setValue(100);
+        midBar->setMaximum(0);
+        midBar->setValue(0);
     }
 }
 
 void ProgressDialog::onDecryptBegan(){
     if(!isFtp){
+        topBar->setMaximum(100);
         topBar->setValue(100);
         midBar->setDisabled(false);
         topLabel->setText("Décompression terminée");
     } else {
+        midBar->setMaximum(100);
         midBar->setValue(100);
         bottomBar->setDisabled(false);
         midLabel->setText("Décompression terminée");
@@ -173,6 +175,11 @@ void ProgressDialog::onDecryptProgress(quint64 done,quint64 total){
     }
 }
 
+void ProgressDialog::onDecryptDone(){
+    QString path = QDir::toNativeSeparators("decrypt");
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+    onAllDone();
+}
 
 void ProgressDialog::onAllDone(){
     close();

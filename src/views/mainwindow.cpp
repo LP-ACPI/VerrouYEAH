@@ -71,7 +71,7 @@ void MainWindow::on_actionDeconnexion_triggered(){
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
      BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
-     detailBakcupDialog = new DetailsSauvegarde(bcW->getBackupKey(),this);
+     detailBakcupDialog = new BackupDetailsDialog(bcW->getBackupKey(),this);
      detailBakcupDialog->show();
 }
 
@@ -91,6 +91,23 @@ void MainWindow::onBackupDeleted(std::string backupKey){
 
 }
     UsersBackupController::getInstance().deleteUsersBackup(backupKey);
+}
+
+void MainWindow::on_disconnectButton_clicked(){
+    on_actionDeconnexion_triggered();
+}
+
+void MainWindow::on_userInfoButton_clicked(){
+    on_actionUtilisateur_triggered();
+}
+
+void MainWindow::on_recoverBackupButton_clicked(){
+
+}
+
+void MainWindow::on_favoriteTargetsButton_clicked(){
+   TargetChoiceDialog *targetChoice = new TargetChoiceDialog(this);
+   targetChoice->show();
 }
 
 

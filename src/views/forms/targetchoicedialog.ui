@@ -41,6 +41,28 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>MS Shell Dlg 2</family>
+     <pointsize>16</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">padding-left:50</string>
+   </property>
+   <property name="insertPolicy">
+    <enum>QComboBox::InsertAtBottom</enum>
+   </property>
+   <property name="frame">
+    <bool>true</bool>
+   </property>
+   <item>
+    <property name="text">
+     <string>test</string>
+    </property>
+   </item>
   </widget>
   <widget class="QPushButton" name="configTarget">
    <property name="geometry">
@@ -53,6 +75,16 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../res/res.qrc">
+     <normaloff>:/images/config-icon.png</normaloff>:/images/config-icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="removeTarget">
@@ -67,6 +99,16 @@
    <property name="text">
     <string/>
    </property>
+   <property name="icon">
+    <iconset resource="../../../res/res.qrc">
+     <normaloff>:/images/trash-icon.png</normaloff>:/images/trash-icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
   </widget>
   <widget class="QPushButton" name="addTarget">
    <property name="geometry">
@@ -80,18 +122,28 @@
    <property name="text">
     <string/>
    </property>
+   <property name="icon">
+    <iconset resource="../../../res/res.qrc">
+     <normaloff>:/images/plus-sign.png</normaloff>:/images/plus-sign.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
   </widget>
   <widget class="QComboBox" name="typeChoice">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>40</x>
      <y>20</y>
      <width>131</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">text-align:center</string>
+    <string notr="true">padding-left:30</string>
    </property>
    <item>
     <property name="text">
@@ -104,7 +156,43 @@
     </property>
    </item>
   </widget>
+  <widget class="QLabel" name="helpIcon">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>30</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Ici vous avez accès à vos destination favorites.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt; Elles sont soit normales (locale, usb, dossier synchronisé avec un service cloud), soit de type ftp: protocole de transmission de fichier. &lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;Pour ce dernier, assurez-vous d'avoir une (bonne) connexion internet et une limite d'envoi de fichier acceptable (au delà de 10Mo)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../../../res/res.qrc">:/images/info.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>
