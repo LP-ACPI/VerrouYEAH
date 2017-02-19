@@ -11,6 +11,7 @@ UsersBackupController UsersBackupController::instance = UsersBackupController();
 void UsersBackupController::setCurrentUser(){
     //TODO Vider le scheduler?
     user = UserController::getInstance().getCurrentUser();
+
     //Lancement du scheduler au chargement de l'utilisateur
     Scheduler s = Scheduler::getInstance();
     for (auto iterator = user.getBackups().begin(); iterator != user.getBackups().end(); ++iterator) {
