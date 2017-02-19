@@ -53,6 +53,7 @@ void BackupForm::init(){
     setModal(true);
     progressDialog = new ProgressDialog(this);
     targetChoice = new TargetChoiceDialog(this);
+    frequencyForm = new FrequencyForm(this);
 
     icon->setPixmap(QFileIconProvider().icon(QFileIconProvider::File).pixmap(30,30));
     sourceIcon->setPixmap(QFileIconProvider().icon(QFileIconProvider::Folder).pixmap(25,25));
@@ -148,4 +149,9 @@ void BackupForm::onTargetSelected(QString targetTag){
     targetChoiceButton->setText(targetTag);
     targetChoiceButton->setToolTip(targetTag);
     backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( backup_info["target_id"] );
+}
+
+void BackupForm::on_FrequencyButton_clicked()
+{
+    frequencyForm->show();
 }

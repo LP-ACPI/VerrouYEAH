@@ -41,7 +41,8 @@ SOURCES	+=  \
     src/models/absTarget.cpp \
     src/models/Target.cpp \
     src/views/backupdetailsdialog.cpp \
-    src/views/filesystemmodel.cpp
+    src/views/filesystemmodel.cpp \
+    src/views/frequencyform.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -72,7 +73,8 @@ HEADERS	+=  \
     src/models/absTarget.h \
     src/models/Target.h \
     src/views/backupdetailsdialog.h \
-    src/views/filesystemmodel.h
+    src/views/filesystemmodel.h \
+    src/views/frequencyform.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \
@@ -86,6 +88,7 @@ FORMS	+=  \
     src/views/forms/frequencydialog.ui \
     src/views/forms/backupdetailsdialog.ui \
     src/views/forms/recoverbackupsdialog.ui
+
 
 RESOURCES += \
     res/res.qrc

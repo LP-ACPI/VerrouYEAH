@@ -215,7 +215,7 @@
      </spacer>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="frequencyChoiseButton">
       <property name="minimumSize">
        <size>
         <width>120</width>
