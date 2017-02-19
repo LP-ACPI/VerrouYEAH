@@ -29,7 +29,7 @@ public:
     void remove(Backup& backup);
     void clear()
     {
-        saves = saves.clear();
+        saves.clear();
     }
 };
 
