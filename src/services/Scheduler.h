@@ -27,6 +27,10 @@ public:
     void stop();
     void add(Backup& backup);
     void remove(Backup& backup);
+    void clear()
+    {
+        saves = saves.clear();
+    }
 };
 
 #endif //SCHEDULER_H
