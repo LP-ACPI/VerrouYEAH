@@ -4,7 +4,9 @@
 #include "Backup.h"
 #include "../services/CompressCrypt.h"
 #include "../services/ConfigManager.h"
+#include "../services/Ftp.h"
 #include <QDebug>
+#include <QEventLoop>
 
 using namespace std;
 using json = nlohmann::json;
@@ -24,17 +26,20 @@ Backup::Backup(const Backup &backupToCopy)
     setOwnersPass( backupToCopy.getOwnersPass() );
 }
 
-void Backup::saveData(){
+bool Backup::saveData(){
     //TODO sauvegarde des données (data) vers des fichiers .vy
 
     QFileInfo info(QString::fromStdString(getSource()));
     Data* root_dir = new Directory(info);
     setData(root_dir);
+    setDataLoaded(true);
 
     //TODO :FTP
 
     if(target->getType() == "NORMAL"){
-        saveNormalData();
+        return saveNormalData();
+    }else{
+        return saveFtpData();
     }
 
 }
@@ -53,45 +58,67 @@ void Backup::recoverData(){
     }
 }
 
-void Backup::saveNormalData(){
-    QString target_path = QString::fromStdString(target->getPath() +"/"+ name);
-    QString source_path = QString::fromStdString(source);
-    CompressCrypt::getInstance().cryptDir(source_path ,target_path+"_temp",key);
-    CompressCrypt::getInstance().compressDir(target_path+"_temp",target_path+".vy");
-    QDir dir(target_path+"_temp");
-    dir.removeRecursively();
+bool Backup::saveNormalData(){
+    bool saveOk = true;
+    saveOk += compressCryptFromTo(source,target->getPath() +"/"+ name);
 
     std::string distant_config = target->getPath()
             + QDir::separator().toLatin1()
             + getOwnersLogin()+".config";
 
-    ConfigManager::getInstance().setJsonFile(distant_config);
-    ConfigManager::getInstance().deleteUsersBackupData(getOwnersLogin(),key );
-    ConfigManager::getInstance().saveUsersBackupData(this);
-    ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+    saveOk += saveJsonDataTo(distant_config);
+    return saveOk;
 }
 
 void Backup::restoreNormalData(){
-    QString decrypt_from = QString::fromStdString(target->getPath()+"/"+ name);
-    QString decrypt_to = QString::fromStdString("decrypt/"+name);
-    qDebug() << decrypt_from;
-    qDebug() << decrypt_to;
-
-    CompressCrypt::getInstance().decompressDir(decrypt_from+".vy",decrypt_from+"_temp");
-    CompressCrypt::getInstance().decryptDir(decrypt_from+"_temp",decrypt_to,key);
-    QDir dir(decrypt_from+"_temp");
-    dir.removeRecursively();
+    decryptDecompressFromTo(target->getPath()+"/"+ name,"decrypt/"+name);
 }
 
-void Backup::saveFtpData(){
+bool Backup::saveFtpData(){
+    string temp_dest_crypt = "tmp/"+name;
+    string temp_dest_data  = "tmp/"+getOwnersLogin()+".config";
+    compressCryptFromTo(source, temp_dest_crypt);
+    saveJsonDataTo(temp_dest_data);
 
+    FtpTarget *ftpTarget = (FtpTarget *)target;
+    string host = ftpTarget->getHost();
+    string username = ftpTarget->getUserName();
+    string pass = ftpTarget->getFtpPass();
+    int port = stoi(ftpTarget->getPort());
+
+    QEventLoop loopUp;
+    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
+    Ftp::getInstance().prepareFtp(host,username,pass,port);
+    Ftp::getInstance().ftpUpload(temp_dest_crypt+".vy",ftpTarget->getPath());
+    loopUp.exec();
+    Ftp::getInstance().ftpUpload(temp_dest_data+".vy",ftpTarget->getPath());
+    loopUp.exec();
+
+    QDir dir("tmp");
+    dir.removeRecursively();
 }
 
 void Backup::restoreFtpData(){
 
+    FtpTarget *ftpTarget = (FtpTarget *)target;
+    string host = ftpTarget->getHost();
+    string username = ftpTarget->getUserName();
+    string pass = ftpTarget->getFtpPass();
+    int port = stoi(ftpTarget->getPort());
+
+    QEventLoop loopUp;
+    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
+    Ftp::getInstance().prepareFtp(host,username,pass,port);
+    Ftp::getInstance().ftpDownload(target->getPath()+"/"+name+".vy","tmp");
+    loopUp.exec();
+
+    decryptDecompressFromTo("tmp/"+name,"decrypt/"+name);
+
+    QDir dir("tmp");
+    dir.removeRecursively();
 }
 
-bool Backup::loadDistantJson(){
+bool Backup::loadJsonData(){
     if(target->getType() == "FTP")
         return loadFtpJson();
     else
@@ -100,27 +127,104 @@ bool Backup::loadDistantJson(){
 
 bool Backup::loadFtpJson() {
 
+    string json_data = getOwnersLogin()+".config";
+
+    FtpTarget *ftpTarget = (FtpTarget *)target;
+    string host = ftpTarget->getHost();
+    string username = ftpTarget->getUserName();
+    string pass = ftpTarget->getFtpPass();
+    int port = stoi(ftpTarget->getPort());
+    QEventLoop loopUp;
+    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
+    Ftp::getInstance().prepareFtp(host,username,pass,port);
+    Ftp::getInstance().ftpDownload(target->getPath()+"/"+json_data, "tmp");
+    loopUp.exec();
+
+    bool loadOk = loadJsonDataFrom( "tmp/"+json_data);
+
+    QDir dir("tmp");
+    dir.removeRecursively();
+
+    return loadOk;
 }
 
 bool Backup::loadNormalJson() {
-    std::string distant_config = getTarget()->getPath()
+    std::string config_file = getTarget()->getPath()
             + QDir::separator().toLatin1()
             + getOwnersLogin()
             + ".config";
 
-    QFile file(QString::fromStdString(distant_config));
+    return loadJsonDataFrom(config_file);
+}
+
+bool Backup::compressCryptFromTo(std::string source_dir,std::string dest_file){
+    bool compCryptOk = true;
+    QString crypt_from = QString::fromStdString(source_dir);
+    QString crypt_to = QString::fromStdString(dest_file);
+
+    compCryptOk &= CompressCrypt::getInstance().cryptDir(crypt_from ,crypt_to+"_temp",key);
+    compCryptOk &= CompressCrypt::getInstance().compressDir(crypt_to+"_temp",crypt_to+".vy");
+
+    QDir dir(crypt_to+"_temp");
+    dir.removeRecursively();
+
+    return compCryptOk;
+}
+
+bool Backup::decryptDecompressFromTo(std::string source_file,std::string dest_dir){
+    bool decompCryptOk = true;
+
+    QString decrypt_from = QString::fromStdString(source_file);
+    QString decrypt_to = QString::fromStdString(dest_dir);
+
+    decompCryptOk &= CompressCrypt::getInstance().decompressDir(decrypt_from+".vy",decrypt_from+"_temp");
+    decompCryptOk &= CompressCrypt::getInstance().decryptDir(decrypt_from+"_temp",decrypt_to,key);
+
+    QDir dir(decrypt_from+"_temp");
+    dir.removeRecursively();
+
+    return decompCryptOk;
+}
+
+bool Backup::saveJsonDataTo(string configFile){
+    ConfigManager::getInstance().setJsonFile(configFile);
+    ConfigManager::getInstance().deleteUsersBackupData(getOwnersLogin(),key );
+    auto  res = ConfigManager::getInstance().saveUsersBackupData(this);
+    ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+    return res != NULL;
+}
+
+bool Backup::loadJsonDataFrom(std::string configFile){
+    QFile file(QString::fromStdString(configFile));
     if(file.exists()){
-        ConfigManager::getInstance().setJsonFile(distant_config);
+        ConfigManager::getInstance().setJsonFile(configFile);
         Backup *distant_partial_backup =  ConfigManager::getInstance().getUserBackupsData(getOwnersLogin(),key );
         if(distant_partial_backup){
             setDataLoaded(distant_partial_backup->hasLoadedData());
             setData(distant_partial_backup->getData());
             setLastSave(distant_partial_backup->getLastSave());
-            ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+            setNote(distant_partial_backup->getNote());
         }
+        ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
         return true && hasLoadedData();
     }
     return false;
+}
+
+void Backup::deleteFromJson(){
+    std::string config_file;
+    if(target->getType() == "FTP"){
+
+    }else{
+         config_file = getTarget()->getPath()
+                + QDir::separator().toLatin1()
+                + getOwnersLogin()
+                + ".config";
+    }
+
+    ConfigManager::getInstance().setJsonFile(config_file);
+    ConfigManager::getInstance().deleteUsersBackupData(getOwnersLogin(),key);
+    ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
 }
 
 string Backup::getKey() const
@@ -172,7 +276,7 @@ void Backup::setOwnersPass(const std::string pass)
 {   ownerLogPass[1] = pass; }
 
 bool Backup::operator==(const Backup &backup)
-{   return (strcmp(key, backup.getKey().c_str())==0) ;  }
+{   return (strcmp(key, backup.getKey().c_str())==0 && name == backup.getName())  ;  }
 
 bool Backup::operator!=(const Backup &backup){
     return !operator==(backup);
@@ -226,7 +330,8 @@ json Backup::toDistantJson(){
             key,{
                 {"Data", jData},
                 {"name", name},
-                {"last_save", lastSave}
+                {"last_save", lastSave},
+                 {"note", note}
             }
     }};
     return jOut ;

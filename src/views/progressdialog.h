@@ -32,6 +32,7 @@ public slots:
 
     void onCryptBegan();
     void onDecryptBegan();
+    void onDecryptDone();
 
     void onUploadBegan();
     void onDownloadBegan();

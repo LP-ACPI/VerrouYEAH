@@ -93,6 +93,23 @@ void MainWindow::onBackupDeleted(std::string backupKey){
     UsersBackupController::getInstance().deleteUsersBackup(backupKey);
 }
 
+void MainWindow::on_disconnectButton_clicked(){
+    on_actionDeconnexion_triggered();
+}
+
+void MainWindow::on_userInfoButton_clicked(){
+    on_actionUtilisateur_triggered();
+}
+
+void MainWindow::on_recoverBackupButton_clicked(){
+
+}
+
+void MainWindow::on_favoriteTargetsButton_clicked(){
+   TargetChoiceDialog *targetChoice = new TargetChoiceDialog(this);
+   targetChoice->show();
+}
+
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {

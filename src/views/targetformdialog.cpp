@@ -61,6 +61,13 @@ void TargetFormDialog::refreshLayout(QString selectedType){
         setMinimumHeight(350);
         setMaximumHeight(350);
         buttonBox->move(buttonBox->pos().x(), 310);
+        helpIcon->setToolTip("<p>entrez votre destination ftp favorite. </p>"
+                             "<p>Par exemple:</p>"
+                             "<p><b>host</b>: ftp://mondomaine</p>"
+                             "<p><b>identifiant</b>: toto</p>"
+                             "<p><b>mot de passe</b>: ***</p>"
+                             "<p><b>dossier de destination</b>: dossierSurServeur<i >(doit exister)</i>"
+                             "</p><p><b>n°Port : </b>21</p>");
     } else {
         dirChoice->show();
         portLabel->hide();
@@ -72,6 +79,9 @@ void TargetFormDialog::refreshLayout(QString selectedType){
         setMinimumHeight(225);
         setMaximumHeight(225);
         buttonBox->move(buttonBox->pos().x(), 160);
+        helpIcon->setToolTip("<p>entrez votre destination favorite locale,</p>"
+                             "<p>usb ou dossier synchronisé avec un service cloud.</p>"
+                             "<p>Utilisez une étiquette facicelement reconnaissable</p>");
     }
 }
 
@@ -92,6 +102,7 @@ void TargetFormDialog::on_buttonBox_accepted(){
         targetInfo["username"] = usernameInput->text().toStdString();
         targetInfo["path"] = pathInput->text().toStdString();
         targetInfo["port"] = portInput->text().toStdString();
+        targetInfo["pass"] = passInput->text().toStdString();
         emit postFtpTargetData(targetInfo);
     }    else   {
         if(!isNormalFormValid())

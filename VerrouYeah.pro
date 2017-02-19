@@ -82,7 +82,8 @@ FORMS	+=  \
     src/views/forms/targetformdialog.ui \
     src/views/forms/targetchoicedialog.ui \
     src/views/forms/frequencydialog.ui \
-    src/views/forms/backupdetailsdialog.ui
+    src/views/forms/backupdetailsdialog.ui \
+    src/views/forms/recoverbackupsdialog.ui
 
 RESOURCES += \
     res/res.qrc

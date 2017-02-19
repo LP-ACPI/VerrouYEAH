@@ -25,6 +25,7 @@
 #include "qjsonmodel.h"
 #include <QFile>
 #include <QDebug>
+#include <QFileIconProvider>
 #include <QFont>
 
 
@@ -99,7 +100,6 @@ QJsonValue::Type QJsonTreeItem::type() const
 QJsonTreeItem* QJsonTreeItem::load(const QJsonValue& value, QJsonTreeItem* parent)
 {
 
-
     QJsonTreeItem * rootItem = new QJsonTreeItem(parent);
     rootItem->setKey("root");
 
@@ -110,6 +110,8 @@ QJsonTreeItem* QJsonTreeItem::load(const QJsonValue& value, QJsonTreeItem* paren
         for (QString key : value.toObject().keys()){
             QJsonValue v = value.toObject().value(key);
             QJsonTreeItem * child = load(v,rootItem);
+
+
             child->setKey(key);
             child->setType(v.type());
             rootItem->appendChild(child);
@@ -146,8 +148,8 @@ QJsonModel::QJsonModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
     mRootItem = new QJsonTreeItem;
-    mHeaders.append("key");
-    mHeaders.append("value");
+    mHeaders.append("nom");
+    mHeaders.append("chemin");
 }
 
 bool QJsonModel::load(const QString &fileName)
@@ -199,17 +201,15 @@ QVariant QJsonModel::data(const QModelIndex &index, int role) const
     QJsonTreeItem *item = static_cast<QJsonTreeItem*>(index.internalPointer());
 
 
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole ) {
+        if (index.column() == 0 ){
+            return item->key();
+        }
 
-        if (index.column() == 0)
-            return QString("%1").arg(item->key());
-
-        if (index.column() == 1)
-            return QString("%1").arg(item->value());
-    }
-
-
-
+        if (index.column() == 1){
+            return item->value();
+        }
+     }
     return QVariant();
 
 }

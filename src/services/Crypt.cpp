@@ -70,14 +70,14 @@ void Crypt::crypt_file_DES(string nom_source, string nom_destination, char* cle,
 
  char* Crypt::genKey( size_t key_size) {
 
-     char* key;
+     char key[key_size];
     memset(key,0,key_size);
     static const char alphanum[] =
             "0123456789"
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             "abcdefghijklmnopqrstuvwxyz";
 
-        for (int i = 0; i < key_size-1; i++) {
+        for (size_t i = 0; i < key_size-1; i++) {
             key[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
         }
 

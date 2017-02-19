@@ -37,7 +37,7 @@ public:
     Backup getBackupAt(const unsigned);
     Backup getBackupByKey(const std::string);
     void addBackup(const Backup);
-    void removeBackup(const Backup);
+    void removeBackup( Backup);
     void replaceBackupAt(const unsigned,const Backup);
     void replaceBackup(const Backup, const Backup);
     void removeBackups();

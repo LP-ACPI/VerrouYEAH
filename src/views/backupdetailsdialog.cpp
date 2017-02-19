@@ -2,6 +2,7 @@
 #include "ui_backupdetailsdialog.h"
 #include "../controllers/BackupController.h"
 #include "../controllers/UsersBackupController.h"
+#include "../controllers/TargetController.h"
 #include <QDirModel>
 #include "QJsonModel.h"
 #include <QDebug>
@@ -11,19 +12,12 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
 {
     setupUi(this);
 
-    std::map<std::string,std::string> infoMap = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
+    std::map<std::string,std::string> backupInfo = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
+    std::map<std::string,std::string> targetInfo;
 
+//Non: on est en MVC : pas d'objet de classe métier dans une view
+ //   + y a déjà toutes les infos dans backupInfo et plus bas dans targetInfo
 
-    //TODO : Bug Data est toujours vide
-    /*const Data* data = BackupController::getInstance().getData(cle);
-    QJsonModel* model = new QJsonModel;
-    ui->treeView->setModel(model);
-    model->loadJson(QByteArray::fromStdString(data->to_json()));*/
-
-
-
-//Non: on est en MVC : pas de d'objet de classe métier dans une view
- //   + y a déjà toutes les infos dans infoMap
 //    const Backup backup = BackupController::getInstance().getBackupFromInfoMap(info);
 //    label_7->setText(QString::fromStdString(backup.getLastSave()));
    /* std::__cxx11::string targetType = backup.getTargetType();
@@ -33,10 +27,17 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
         ui->label_8->setPixmap(logoUSB);
     } */
 
-    nameLabel->setText(QString::fromStdString(infoMap["name"]));
-    sourcePathLabel->setText(QString::fromStdString(infoMap["source_path"]));
-    targetPathLabel->setText(QString::fromStdString(infoMap["target_path"]));
+    nameLabel->setText(QString::fromStdString(backupInfo["name"]));
+    sourcePathLabel->setText(QString::fromStdString(backupInfo["source_path"]));
 
+    std::string targetType = TargetController::getInstance().getFavoriteTargetsType(backupInfo["target_id"]);
+    if(targetType == "FTP")
+        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(backupInfo["target_id"]);
+    else
+        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_id"]);
+
+
+    targetPathLabel->setText(QString::fromStdString(targetInfo["path"]));
 
     //Récup des data nécéssaire avant
     //debug json:

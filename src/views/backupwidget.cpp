@@ -21,7 +21,6 @@ BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
     QIcon configButIcon(QPixmap(":/images/config-icon.png"));
     configButton->setIconSize(QSize(40,40));
     configButton->setIcon(configButIcon);
-
 }
 
 void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
@@ -42,7 +41,20 @@ void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
                                           "<br/><b>destination:</b>("+QString::fromStdString(targetType)+
                                             ") "+QString::fromStdString(targetInfo["tag"])+
                                             "<br/>est accessible : " +QString::fromStdString(backupInfo["data_loaded"]);
+   QPixmap state_icon;
+    if(targetType == "FTP")
+        if(backupInfo["data_loaded"] == "oui")
+            state_icon = QPixmap(":/images/cloud-ok.png");
+        else
+            state_icon = QPixmap(":/images/cloud-ko.png");
+    else
+        if(backupInfo["data_loaded"] == "oui")
+            state_icon = QPixmap(":/images/usb-ok.png");
+        else
+            state_icon = QPixmap(":/images/usb-ko.png");
 
+    stateIcon->setScaledContents(true);
+    stateIcon->setPixmap(state_icon);
 
     setToolTip(tool_tip_text);
 
@@ -69,6 +81,8 @@ void BackupWidget::on_configButton_clicked(){
 
 void BackupWidget::on_decryptButton_clicked(){
     ProgressDialog *progressDialog = new ProgressDialog(_parent);
+    progressDialog->setFtp(targetInfo["type"] == "FTP");
+    progressDialog->setUpload(false);
     progressDialog->init();
     progressDialog->show();
     BackupController::getInstance().restoreBackupData(backupKey);

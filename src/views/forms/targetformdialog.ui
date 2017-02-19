@@ -180,7 +180,7 @@
     <string>dossier de destination</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>22</x>
@@ -253,10 +253,10 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>22</x>
-     <y>21</y>
-     <width>225</width>
-     <height>34</height>
+     <x>30</x>
+     <y>10</y>
+     <width>221</width>
+     <height>51</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="typeLayout">
@@ -329,6 +329,34 @@
       </property>
      </spacer>
     </item>
+    <item>
+     <widget class="QLabel" name="helpIcon">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="../../../res/res.qrc">:/images/info.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QLineEdit" name="tagInput">
@@ -393,13 +421,15 @@
     </size>
    </property>
   </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>tagInput</zorder>
+  <zorder>dirChoice</zorder>
   <zorder>passInput</zorder>
   <zorder>hostInput</zorder>
   <zorder>usernameInput</zorder>
   <zorder>pathInput</zorder>
   <zorder>buttonBox</zorder>
-  <zorder>portInput</zorder>
-  <zorder>portLabel</zorder>
  </widget>
  <tabstops>
   <tabstop>typeChoice</tabstop>
@@ -410,6 +440,8 @@
   <tabstop>passInput</tabstop>
   <tabstop>pathInput</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

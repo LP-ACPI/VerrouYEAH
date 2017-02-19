@@ -18,11 +18,11 @@ SOURCES	+=  \
     ../models/Directory.cpp \
     ../models/File.cpp \
     ../models/Frequency.cpp \
-    ../models/Scheduler.cpp \
     ../models/User.cpp \
     ../services/Crypt.cpp \
     ../services/ConfigManager.cpp \
     ../services/Ftp.cpp \
+    ../services/Scheduler.cpp \
     ../services/CompressCrypt.cpp \
     ../controllers/UsersBackupController.cpp \
     ../controllers/UserController.cpp \
@@ -35,9 +35,9 @@ HEADERS	+=  \
     ../models/Directory.h \
     ../models/File.h \
     ../models/Frequency.h \
-    ../models/Scheduler.h \
     ../models/User.h \
     ../services/Crypt.h \
+    ../services/Scheduler.h \
     ../services/ConfigManager.h \
     ../services/Ftp.h \
     ../services/CompressCrypt.h \

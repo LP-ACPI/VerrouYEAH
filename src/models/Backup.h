@@ -29,14 +29,20 @@ class Backup {
     bool dataIsLoaded;
     std::string ownerLogPass[2];
 
-    void saveFtpData();
+    bool saveFtpData();
     void restoreFtpData();
 
-    void saveNormalData();
+    bool saveNormalData();
     void restoreNormalData();
 
     bool loadFtpJson() ;
     bool loadNormalJson() ;
+
+    bool compressCryptFromTo(std::string,std::string);
+    bool decryptDecompressFromTo(std::string,std::string);
+    bool loadJsonDataFrom(std::string);
+    bool saveJsonDataTo(std::string);
+
 public:
     Backup(const Backup&);
     Backup(
@@ -61,9 +67,11 @@ public:
         setKey(_key);
     }
 
-    void saveData();//TODO sauvegarde des données (data) vers des fichiers .vy
+    bool saveData();//TODO sauvegarde des données (data) vers des fichiers .vy
 
     void recoverData();//TODO chargement des données (data) depuis les fichiers .vy
+
+    void deleteFromJson();
 
     std::string getKey() const;
     std::string getName() const;
@@ -75,7 +83,7 @@ public:
     const Data* getData() const;
     bool hasLoadedData() const;
 
-    bool loadDistantJson() ;
+    bool loadJsonData() ;
     std::string getOwnersLogin() const;
     std::string getOwnersPass() const;
 

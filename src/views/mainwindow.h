@@ -38,6 +38,11 @@ protected slots:
     void on_actionUtilisateur_triggered();
     void on_actionDeconnexion_triggered();
 
+    void on_disconnectButton_clicked();
+    void on_userInfoButton_clicked();
+    void on_recoverBackupButton_clicked();
+    void on_favoriteTargetsButton_clicked();
+
     void onBackupItemClicked(QListWidgetItem*);
     void onBackupDeleted(std::string);
     void onBackupAdd(std::map<std::string,std::string>);

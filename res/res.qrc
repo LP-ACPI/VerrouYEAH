@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>images/icone_temporaire.png</file>
         <file>images/LetsEncrypt_Logo.png</file>
-        <file>images/Lock-Unlock-icon.png</file>
         <file>images/Logo.svg</file>
         <file>images/logo_temporaire.png</file>
         <file>images/logo_temporaire_clef.png</file>
@@ -10,5 +9,13 @@
         <file>images/trash-icon.png</file>
         <file>images/config-icon.png</file>
         <file>images/plus-sign.png</file>
+        <file>images/cloud-ko.png</file>
+        <file>images/cloud-ok.png</file>
+        <file>images/usb-ko.png</file>
+        <file>images/usb-ok.png</file>
+        <file>images/info.png</file>
+        <file>images/unlock-icon.png</file>
+        <file>images/user-config.png</file>
+        <file>images/logout.png</file>
     </qresource>
 </RCC>

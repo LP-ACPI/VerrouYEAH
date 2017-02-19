@@ -68,3 +68,19 @@ std::list<std::string> UsersBackupController::getUsersBackupNameList(){
     return name_list;
 }
 
+
+std::list<std::map<std::string,std::string>> UsersBackupController::recoverCurrentUserNonRegistrededBackups(std::string confirmPass){
+    try {
+        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(user->getLogin(),confirmPass)){
+
+        } else {
+
+        }
+    } catch (std::exception& e) {
+        throw std::runtime_error(e.what());
+    }
+}
+
+std::list<std::map<std::string,std::string>> UsersBackupController::recoverAnotherUserNonRegistrededBackups(std::string login,std::string pass){
+
+}

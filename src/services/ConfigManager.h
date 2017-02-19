@@ -23,8 +23,8 @@ private:
         std::string configFilename;
 
         json readOrInitUserRoot();
-        json readOrInitUserBackups(std::string);
         json readOrInitAppRoot();
+        json readOrInitUserBackups(std::string);
 
         ConfigManager()
         {}
@@ -48,6 +48,7 @@ public:
         Backup* getUserBackupsData(std::string,std::string);
         void deleteUsersBackupData(std::string,std::string);
         std::list<Backup*> getUsersDistantBackupList(User*);
+       bool authentifyDistantBackupsOwner(std::string, std::string);
 
         std::string loadAutoLoginUserLogin();
         void setAutoLoginUser(std::string);

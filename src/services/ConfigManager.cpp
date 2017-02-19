@@ -9,6 +9,8 @@
 #include "../models/Target.h"
 #include <QDebug>
 
+#define LOCAL_CONFIG_FILE "config.json"
+
 using namespace std;
 
 map<string,string>ConfigManager::loadLoginPassCouples(){
@@ -80,7 +82,7 @@ User* ConfigManager::loadUser(string login){
         backup.setOwnersPass(password);
         AbsTarget *target = user->getFavoriteTargetByTag(targetTag);
         backup.setTarget(target);
-        backup.loadDistantJson();
+        backup.loadJsonData();
 
         user->addBackup(backup);
     }
@@ -147,6 +149,7 @@ Backup* ConfigManager::getUserBackupsData(string login, string backupKey){
         new_backup->setData(root_data);
         new_backup->setName(users_backup["name"]);
         new_backup->setLastSave(users_backup["last_save"]);
+        new_backup->setNote(users_backup["note"]);
         return new_backup;
 
     }    else
@@ -176,15 +179,29 @@ json ConfigManager::saveUsersBackupData(Backup *backup){
     return jsonBackup;
 }
 
-
 void ConfigManager::deleteUsersBackupData(string userLogin,string bcKey){
-        json users_backups = readOrInitUserBackups(userLogin);
+    json users_backups = readOrInitUserBackups(userLogin);
 
     for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it)
-        if(it.key() == bcKey)
+        if(it.key() == bcKey){
             config.at(userLogin).at("backups").erase(it.key());
+            cout << bcKey;
+            cout << config.dump(2);
+        }
     persist();
+}
 
+bool ConfigManager::authentifyDistantBackupsOwner(string login, string hashedPass) {
+    json user_root;
+    bool authOk = false;
+    try{
+         user_root = config.at(login);
+         authOk = user_root["password"]  == hashedPass;
+         return authOk;
+    }catch(const out_of_range&){
+        throw runtime_error("Utilisateur non trouvé! ");
+    }
+    return false;
 }
 
 json ConfigManager::merge(const json &a, const json &b) {

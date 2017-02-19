@@ -42,6 +42,8 @@ signals:
     void decryptInProgress(quint64,quint64);
     void decryptingDone();
 
+    void error();
+
 private:
     QFile file;
     QDataStream dataStream;

@@ -16,6 +16,7 @@ std::map<std::string,std::string>TargetController::favoriteFtpTargetToInfoMap(st
     ftp_target_info_map["pass"] = ftp_target->getFtpPass();
     ftp_target_info_map["port"] = ftp_target->getPort();
     ftp_target_info_map["target_id"] = key;
+    ftp_target_info_map["type"] = "FTP";
 
     return ftp_target_info_map;
 }
@@ -39,6 +40,8 @@ std::map<std::string,std::string> TargetController::favoriteNormalTargetToInfoMa
     target_info_map["tag"] = target->getTag();
     target_info_map["path"] = target->getPath();
     target_info_map["target_id"] = key;
+    target_info_map["type"] = "NORMAL";
+
     return target_info_map;
 }
 
