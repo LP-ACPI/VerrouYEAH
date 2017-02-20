@@ -19,17 +19,14 @@ class BackupForm : public QDialog, private Ui::BackupFormDialog
     std::map<std::string,std::string> backup_info;
 
     bool isFormValid();
+    bool isCreateFormValid();
+
     void init();
 public:
     explicit BackupForm(QWidget *parent = 0);
     explicit BackupForm(std::string backupKey, QWidget *parent = 0);
 
-    ~BackupForm(){
-        if(progressDialog)
-            delete progressDialog;
-        if(targetChoice)
-            delete targetChoice;
-    }
+    ~BackupForm();
 
     void setSourceText(QString);
 
@@ -44,13 +41,13 @@ protected slots:
 
     void on_sourceChoiceButton_clicked();
     void on_targetChoiceButton_clicked();
+    void on_frequencyButton_clicked();
 
     void onNewBackupAdded(std::map<std::string,std::string>);
     void onBackupUpdated(std::map<std::string,std::string>);
     void onTargetSelected(QString);
 
 private slots:
-    void on_FrequencyButton_clicked();
     void onFrequencySelected(QString);
 };
 

@@ -36,13 +36,13 @@ SOURCES	+=  \
     src/views/progressdialog.cpp \
     src/views/targetformdialog.cpp \
     src/views/targetchoicedialog.cpp \
-    src/views/QJsonModel.cpp \
     src/main.cpp \
     src/models/absTarget.cpp \
     src/models/Target.cpp \
     src/views/backupdetailsdialog.cpp \
     src/views/filesystemmodel.cpp \
-    src/views/frequencyform.cpp
+    src/views/frequencyform.cpp \
+    src/views/recoverbackupdialog.cpp
 
 HEADERS	+=  \
     src/models/Backup.h \
@@ -69,12 +69,13 @@ HEADERS	+=  \
     src/views/progressdialog.h  \
     src/views/targetchoicedialog.h \
     src/views/targetformdialog.h \
-    src/views/QJsonModel.h \
     src/models/absTarget.h \
     src/models/Target.h \
     src/views/backupdetailsdialog.h \
     src/views/filesystemmodel.h \
-    src/views/frequencyform.h
+    src/views/frequencyform.h \
+    src/views/recoverbackupdialog.h \
+    src/services/Observer.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \

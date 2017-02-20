@@ -6,15 +6,25 @@
 #include "../services/ConfigManager.h"
 #include <QDir>
 
-BackupController BackupController::instance = BackupController();
 
+void BackupController::subscribeObserverToBackup(Observer *obs,std::string bcKey){
+    UserController::getInstance().getCurrentUser()->getBackupByKey(bcKey).attach(obs);
+}
+
+void BackupController::unsubscribeObserverFromBackup(Observer *obs,std::string bcKey){
+    UserController::getInstance().getCurrentUser()->getBackupByKey(bcKey).detach(obs);
+}
 
 void BackupController::restoreBackupData(std::string backupKey){
     UserController::getInstance().getCurrentUser()->getBackupByKey(backupKey).recoverData();
 }
 
 bool BackupController::isBackupFtp(std::string backupKey){
-    return UserController::getInstance().getCurrentUser()->getBackupByKey(backupKey).getTarget()->getType() == "FTP";
+    return UserController::getInstance().getCurrentUser()->getBackupByKey(backupKey).getTarget()->isFtp();
+}
+
+bool BackupController::hasBackupLoadedData(std::string backupKey){
+    return UserController::getInstance().getCurrentUser()->getBackupByKey(backupKey).hasLoadedData();
 }
 
 Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> backupInfo){
@@ -27,9 +37,9 @@ Backup BackupController::getBackupFromInfoMap(std::map<std::string,std::string> 
             getCurrentUser()->getFavoriteTargetByKey(backupInfo["target_id"]);
 
     backup_from_info.setTarget(target);
+    backup_from_info.setFrequency(backupInfo["frequency"]);
     backup_from_info.setLastSave(backupInfo["last_save"]);
     backup_from_info.setNote(backupInfo["note"]);
-//    backup_from_info.setFrequency(std::string("20-10-5-5-5"));
 
     return backup_from_info;
 
@@ -48,7 +58,6 @@ std::map<std::string,std::string> BackupController::getInfoMapFromBackup(Backup*
     backup_info["data_loaded"] = backupToInfo->hasLoadedData() ? "oui" : "non";
 
     return backup_info;
-
 }
 
 json BackupController::getJsonifiedDataTree(std::string la_cle){

@@ -3,13 +3,12 @@
 
 using namespace std;
 
-Scheduler Scheduler::instance = Scheduler();
-
 void Scheduler::saveLoop()
 {
     for(auto it = saves.begin();it != saves.end();++it)
         if(it->getFrequency().isNow())
             it->saveData();
+
 
 
     if(loop)
@@ -38,19 +37,19 @@ void Scheduler::stop()
         delete(th);
     }
 }
-void Scheduler::add(Backup& backup)
+void Scheduler::add(Backup &backup)
 {
     saves.push_back(backup);
 }
 void Scheduler::addFromUser(User* user)
 {
-    for (auto iterator = user->getBackups().begin(); iterator != user->getBackups().end(); ++iterator)
-        saves.push_back(*iterator);
+    for (auto it = user->getBackups().begin(); it != user->getBackups().end() ; ++it)
+        saves.push_back(*it);
 }
 
-void Scheduler::remove(Backup& backup)
+void Scheduler::remove(Backup &backup)
 {
-    for(auto it = saves.begin();it != saves.end();++it)
-        if(*it == backup)
-            saves.erase(it);
+//    for(auto it = saves.begin();it != saves.end();++it)
+//        if(*it == backup)
+            saves.remove(backup);
 }

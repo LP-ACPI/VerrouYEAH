@@ -11,6 +11,9 @@ public:
         : AbsTarget(tag,path,type)
     {}
 
+    virtual bool isFtp() const override
+    {   return false;   }
+
     virtual nlohmann::json to_json() const override;
 
 };

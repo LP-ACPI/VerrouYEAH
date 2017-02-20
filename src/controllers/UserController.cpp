@@ -5,13 +5,10 @@
 
 void UserController::setCurrentUser(std::string login)
 {
-    currentUser = ConfigManager::getInstance().loadUser(login);
-
     //Lancement du scheduler au chargement de l'utilisateur
-   /* Scheduler s = Scheduler::getInstance();
-    s.clear();
-    s.addFromUser(currentUser);
-    s.start();*/
+    Scheduler::getInstance().clear();
+    currentUser = ConfigManager::getInstance().loadUser(login);
+    Scheduler::getInstance().start();
 }
 
 bool UserController::favoriteUserExists() {
@@ -20,7 +17,7 @@ bool UserController::favoriteUserExists() {
 }
 
 std::string UserController::getFavoriteUser(){
-    return ConfigManager::getInstance().loadAutoLoginUserLogin();;
+    return ConfigManager::getInstance().loadAutoLoginUserLogin();
 }
 
 void UserController::setFavoriteUser(std::string userLogin){
@@ -53,6 +50,10 @@ bool UserController::createUser(std::string userLogin, std::string userPass){
         return true;
     }
     return false;
+}
+
+bool UserController::saveCurrentUser(){
+    ConfigManager::getInstance().saveUser(currentUser);
 }
 
 bool UserController::updateUser(std::string newLogin, std::string newPass){

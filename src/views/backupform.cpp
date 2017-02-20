@@ -1,6 +1,7 @@
 #include "backupform.h"
 #include "../controllers/UsersBackupController.h"
 #include "../controllers/TargetController.h"
+#include "../controllers/BackupController.h"
 #include <QFileDialog>
 #include <QFileIconProvider>
 #include <QMessageBox>
@@ -48,11 +49,20 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 
 }
 
+BackupForm::~BackupForm(){
+    if(progressDialog)
+        delete progressDialog;
+    if(targetChoice)
+        delete targetChoice;
+    if(frequencyForm)
+        delete frequencyForm;
+}
+
 void BackupForm::init(){
     setupUi(this);
     setModal(true);
     progressDialog = new ProgressDialog(this);
-    targetChoice = new TargetChoiceDialog(this);
+    targetChoice     = new TargetChoiceDialog(this);
     frequencyForm = new FrequencyForm(this);
 
     icon->setPixmap(QFileIconProvider().icon(QFileIconProvider::File).pixmap(30,30));
@@ -68,26 +78,28 @@ void BackupForm::setSourceText(QString sourcePath){
 
 void BackupForm::on_backupButtonBox_accepted(){
 
-    if(!isFormValid())
-        return;
-
-    backup_info["name"]         = nameInput->text().toStdString();
+    backup_info["name"]                = nameInput->text().toStdString();
     backup_info["source_path"]  = sourceChoiceButton->text().toStdString();
-    //TODO - destination favorites d'utilisateur + form
-    backup_info["target_tag"]  = targetChoiceButton->text().toStdString();
-
-    backup_info["note"]         = noteInput->toPlainText().toStdString();
+    backup_info["target_tag"]      = targetChoiceButton->text().toStdString();
+    backup_info["note"]                  = noteInput->toPlainText().toStdString();
 
     //TODO - lastSave : DateTime
     QDateTime date_time;
-    backup_info["last_save"] = date_time.currentDateTime().toString().toStdString();
-    //TODO - implém fréquence + form
-//    backup_info["frequency"] = "*-*-*-*-*";
+    backup_info["last_save"]    = date_time.currentDateTime().toString().toStdString();
+    backup_info["frequency"]  = frequencyButton->text().toStdString();
 
-    hide();
     if(_backupKey == "null"){
+
+        if(!isCreateFormValid())
+            return;
+
+        hide();
         emit postCreateBackupData(backup_info);
     } else {
+        if(!isFormValid())
+            return;
+
+        hide();
         backup_info["key"] = _backupKey;
         emit postUpdateBackupData(backup_info);
     }
@@ -98,8 +110,6 @@ void BackupForm::on_backupButtonBox_rejected(){
 }
 
 void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
-    //TODO : verif si FTP/NORMAL + Upload
-
     progressDialog->setFtp(backup_info["target_type"]  == "FTP");
     progressDialog->setUpload(true);
     progressDialog->init();
@@ -113,8 +123,7 @@ void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
 
 void BackupForm::onBackupUpdated(std::map<std::string,std::string> backupInfo){
     progressDialog = new ProgressDialog(this);
-    //TODO : verif si FTP/NORMAL + Upload
-    progressDialog->setFtp(backup_info["target_type"]  == "FTP");
+    progressDialog->setFtp(BackupController::getInstance().isBackupFtp(backupInfo["key"]));
     progressDialog->setUpload(true);
     progressDialog->init();
     progressDialog->show();
@@ -124,11 +133,29 @@ void BackupForm::onBackupUpdated(std::map<std::string,std::string> backupInfo){
 bool BackupForm::isFormValid(){
     bool empty_entries = sourceChoiceButton->text().isEmpty()
             || nameInput->text().isEmpty()
-            || targetChoiceButton->text().isEmpty();
+            || targetChoiceButton->text().isEmpty()
+            || frequencyButton->text().isEmpty();
 
     if(empty_entries){
         QMessageBox::warning(this, "Attention!",
           "Merci de remplir toutes les informations");
+      return false;
+    }
+    return true;
+}
+
+bool BackupForm::isCreateFormValid(){
+    if(!isFormValid())
+        return false;
+
+    bool backup_name_taken = false;
+    for(std::string bc_name : UsersBackupController::getInstance().getUsersBackupNameList())
+        if(bc_name == nameInput->text().toStdString())
+            backup_name_taken = true;
+
+    if(backup_name_taken){
+        QMessageBox::warning(this, "Attention!",
+          "Vous avez déjà une sauvegarde <b>"+nameInput->text()+"</b>");
       return false;
     }
     return true;
@@ -148,14 +175,16 @@ void BackupForm::on_targetChoiceButton_clicked(){
 void BackupForm::onTargetSelected(QString targetTag){
     targetChoiceButton->setText(targetTag);
     targetChoiceButton->setToolTip(targetTag);
+    backup_info["target_id"] = TargetController::getInstance().targetCouplesTagKey()[ targetTag.toStdString()  ];
     backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( backup_info["target_id"] );
 }
 
-void BackupForm::on_FrequencyButton_clicked(){
+void BackupForm::on_frequencyButton_clicked(){
     frequencyForm->show();
     connect(frequencyForm,SIGNAL(frequencySelected(QString)),this,SLOT(onFrequencySelected(QString)));
 }
 
 void BackupForm::onFrequencySelected(QString frequencyTag){
-
+    frequencyButton->setText(frequencyTag);
+    frequencyButton->setToolTip(frequencyTag);
 }

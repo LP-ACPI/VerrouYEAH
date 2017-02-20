@@ -65,7 +65,7 @@
        <height>291</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="loginLayout">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
       </property>
@@ -283,7 +283,7 @@ text-align:center;</string>
        <x>30</x>
        <y>72</y>
        <width>201</width>
-       <height>211</height>
+       <height>236</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">

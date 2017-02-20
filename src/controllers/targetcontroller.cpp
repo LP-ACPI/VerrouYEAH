@@ -3,9 +3,6 @@
 #include "../services/ConfigManager.h"
 #include <QDebug>
 
-TargetController TargetController::instance = TargetController();
-
-
 std::map<std::string,std::string>TargetController::favoriteFtpTargetToInfoMap(std::string key){
     FtpTarget *ftp_target =  (FtpTarget*)UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(key);
     std::map<std::string,std::string> ftp_target_info_map;

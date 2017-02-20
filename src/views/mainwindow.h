@@ -6,6 +6,7 @@
 #include "userform.h"
 #include "backupwidget.h"
 #include "backupdetailsdialog.h"
+#include "recoverbackupdialog.h"
 
 #include "../controllers/UsersBackupController.h"
 #include <QMainWindow>
@@ -17,7 +18,8 @@ class MainWindow :
     Q_OBJECT
 
     QList<BackupWidget*> backupWidgetList;
-    BackupDetailsDialog *detailBakcupDialog;
+    RecoverBackupsDialog *recoverBackupDialog;
+    BackupDetailsDialog *detailBackupDialog;
     BackupForm *backupForm;
     UserForm *userForm;
 

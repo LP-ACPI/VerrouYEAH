@@ -9,9 +9,11 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    setupUi(this);
-    newBackupButton->setAcceptDrops(true);
     UsersBackupController::getInstance().setCurrentUser();
+
+    setupUi(this);
+
+    newBackupButton->setAcceptDrops(true);
     initBackupList();
 
     connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
@@ -20,13 +22,16 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow(){
-    if(detailBakcupDialog)
-        delete detailBakcupDialog;
+    if(detailBackupDialog)
+        delete detailBackupDialog;
     if(backupForm)
         delete backupForm;
     if(userForm)
         delete userForm;
+    if(recoverBackupDialog)
+        delete recoverBackupDialog;
     close();
+
 }
 
 void MainWindow::initBackupList(){
@@ -78,8 +83,8 @@ void MainWindow::on_actionDecryptDestination_triggered(){
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
      BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
-     detailBakcupDialog = new BackupDetailsDialog(bcW->getBackupKey(),this);
-     detailBakcupDialog->show();
+     detailBackupDialog = new BackupDetailsDialog(bcW->getBackupKey(),this);
+     detailBackupDialog->show();
 }
 
 void MainWindow::onBackupAdd(std::map<std::string, std::string> generatedBcInfo){
@@ -87,7 +92,6 @@ void MainWindow::onBackupAdd(std::map<std::string, std::string> generatedBcInfo)
 }
 
 void MainWindow::onBackupDeleted(std::string backupKey){
-
     int row = 0;
     for(BackupWidget *bcW: backupWidgetList){
         if(bcW->getBackupKey() == backupKey){
@@ -95,13 +99,13 @@ void MainWindow::onBackupDeleted(std::string backupKey){
             backupWidgetList.removeAt(row);
         }
         ++row;
-
 }
     UsersBackupController::getInstance().deleteUsersBackup(backupKey);
 }
 
 void MainWindow::on_recoverBackupButton_clicked(){
-
+    recoverBackupDialog = new RecoverBackupsDialog(this);
+    recoverBackupDialog->show();
 }
 
 void MainWindow::on_favoriteTargetsButton_clicked(){

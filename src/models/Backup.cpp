@@ -11,62 +11,60 @@
 using namespace std;
 using json = nlohmann::json;
 
-Backup::Backup(const Backup &backupToCopy)
-     : name(backupToCopy.getName()),
-        lastSave(backupToCopy.getLastSave()),
-        source(backupToCopy.getSource()),
-        target(backupToCopy.getTarget()),
-        frequency(backupToCopy.getFrequency()),
-        data(backupToCopy.getData()),
-        note(backupToCopy.getNote()),
-        dataIsLoaded(backupToCopy.hasLoadedData())
-{
+Backup::Backup(const Backup &backupToCopy){
+
     setKey(backupToCopy.getKey().c_str());
+    name                = backupToCopy.getName();
+    source              = backupToCopy.getSource();
+    target               = backupToCopy.getTarget();
+    lastSave           = backupToCopy.getLastSave();
+    frequency       = backupToCopy.getFrequency();
+    data                   = backupToCopy.getData();
+    note                   = backupToCopy.getNote();
+    dataIsLoaded = backupToCopy.hasLoadedData();
     setOwnersLogin(backupToCopy.getOwnersLogin());
     setOwnersPass( backupToCopy.getOwnersPass() );
+
 }
 
 bool Backup::saveData(){
-    //TODO sauvegarde des données (data) vers des fichiers .vy
-
     QFileInfo info(QString::fromStdString(getSource()));
     Data* root_dir = new Directory(info);
     setData(root_dir);
     setDataLoaded(true);
 
-    //TODO :FTP
+    bool saveDone = true;
 
-    if(target->getType() == "NORMAL"){
-        return saveNormalData();
-    }else{
-        return saveFtpData();
+    if(target->getType() == "NORMAL")
+        saveDone &= saveNormalData();
+    else
+        saveDone &= saveFtpData();
+
+    if(saveDone){
+        QDateTime date_time;
+        lastSave   = date_time.currentDateTime().toString().toStdString();
     }
 
+    notify();
+    return saveDone;
 }
 
 void Backup::recoverData(){
-    //Decrypt cible vers source
-
-    //TODO chargement des données (data) depuis les fichiers .vy
-    // -> form de choix de destinations preferes à scanner pour éventuelle sauvegarde
-    // TODO : FTP
-    //
-    if(target->getType() == "NORMAL"){
+    if(target->getType() == "NORMAL")
         restoreNormalData();
-    } else {
+    else
         restoreFtpData();
-    }
 }
 
 bool Backup::saveNormalData(){
     bool saveOk = true;
-    saveOk += compressCryptFromTo(source,target->getPath() +"/"+ name);
+    saveOk &= compressCryptFromTo(source,target->getPath() +"/"+ name);
 
     std::string distant_config = target->getPath()
             + QDir::separator().toLatin1()
             + getOwnersLogin()+".config";
 
-    saveOk += saveJsonDataTo(distant_config);
+    saveOk &= saveJsonDataTo(distant_config);
     return saveOk;
 }
 
@@ -75,10 +73,12 @@ void Backup::restoreNormalData(){
 }
 
 bool Backup::saveFtpData(){
+    bool saveOk = true;
     string temp_dest_crypt = "tmp/"+name;
     string temp_dest_data  = "tmp/"+getOwnersLogin()+".config";
-    compressCryptFromTo(source, temp_dest_crypt);
-    saveJsonDataTo(temp_dest_data);
+
+     saveOk &= compressCryptFromTo(source, temp_dest_crypt);
+    saveOk &= saveJsonDataTo(temp_dest_data);
 
     FtpTarget *ftpTarget = (FtpTarget *)target;
     string host = ftpTarget->getHost();
@@ -89,17 +89,18 @@ bool Backup::saveFtpData(){
     QEventLoop loopUp;
     QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
     Ftp::getInstance().prepareFtp(host,username,pass,port);
-    Ftp::getInstance().ftpUpload(temp_dest_crypt+".vy",ftpTarget->getPath());
+     saveOk &= Ftp::getInstance().ftpUpload(temp_dest_crypt+".vy",ftpTarget->getPath());
     loopUp.exec();
-    Ftp::getInstance().ftpUpload(temp_dest_data,ftpTarget->getPath());
+    saveOk &=  Ftp::getInstance().ftpUpload(temp_dest_data,ftpTarget->getPath());
     loopUp.exec();
 
     QDir dir("tmp");
     dir.removeRecursively();
+
+    return  saveOk;
 }
 
 void Backup::restoreFtpData(){
-
     FtpTarget *ftpTarget = (FtpTarget *)target;
     string host = ftpTarget->getHost();
     string username = ftpTarget->getUserName();
@@ -134,6 +135,7 @@ bool Backup::loadFtpJson() {
     string username = ftpTarget->getUserName();
     string pass = ftpTarget->getFtpPass();
     int port = stoi(ftpTarget->getPort());
+
     QEventLoop loopUp;
     QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
     Ftp::getInstance().prepareFtp(host,username,pass,port);
@@ -206,14 +208,14 @@ bool Backup::loadJsonDataFrom(std::string configFile){
             setNote(distant_partial_backup->getNote());
         }
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
-        return true && hasLoadedData();
+        return hasLoadedData();
     }
     return false;
 }
 
 void Backup::deleteFromJson(){
     std::string config_file;
-    if(target->getType() == "FTP"){
+    if(target->getType() == "FTP"){//TODO
 
     }else{
          config_file = getTarget()->getPath()
@@ -264,6 +266,8 @@ void Backup::setLastSave(const string _lastSave)
 {    this->lastSave = _lastSave;    }
 void Backup::setFrequency(const Frequency _frequency)
 {    this->frequency = _frequency;  }
+void Backup::setFrequency(const string frequency)
+{ this->frequency = Frequency(frequency);   }
 void Backup::setData(const Data *_data)
 {    this->data = _data;     }
 void Backup::setNote(const string _note)
@@ -276,13 +280,13 @@ void Backup::setOwnersPass(const std::string pass)
 {   ownerLogPass[1] = pass; }
 
 bool Backup::operator==(const Backup &backup)
-{   return (strcmp(key, backup.getKey().c_str())==0 && name == backup.getName())  ;  }
+{   return (strcmp(key, backup.getKey().c_str())==0 ) ;  }
 
-bool Backup::operator!=(const Backup &backup){
-    return !operator==(backup);
-}
+bool Backup::operator!=(const Backup &backup)
+{   return !operator==(backup);     }
 
 void Backup::operator=(const Backup &backup){
+    setKey(backup.getKey().c_str());
     name                = backup.getName();
     source              = backup.getSource();
     target               = backup.getTarget();
@@ -291,7 +295,6 @@ void Backup::operator=(const Backup &backup){
     data                   = backup.getData();
     note                   = backup.getNote();
     dataIsLoaded = backup.hasLoadedData();
-    setKey(backup.getKey().c_str());
     setOwnersLogin(backup.getOwnersLogin());
     setOwnersPass( backup.getOwnersPass() );
 }
@@ -308,17 +311,17 @@ ostream& operator<<(ostream &out, const Backup &backup){
 
 json& operator<<(json &j, const Backup &backup){
     j = {
-            {"key", backup.getKey()},
-            {"name", backup.getName()},
-            {"src", backup.getSource()},
-            {"dest",{
-                    {"type",backup.getTarget()->getType()},
-                    {"tag", backup.getTarget()->getTag()}
-                }
-            },
-            {"freq", backup.getFrequency().toString()},
-            {"last_save", backup.getLastSave()},
-            {"note", backup.getNote()},
+        {"key",      backup.getKey()},
+        {"name",  backup.getName()},
+        {"src",       backup.getSource()},
+        {"dest",    {
+             {"type",   backup.getTarget()->getType()},
+             {"tag",     backup.getTarget()->getTag()}
+         }
+        },
+        {"freq", backup.getFrequency().toString()},
+        {"last_save", backup.getLastSave()},
+        {"note", backup.getNote()},
     };
     return j;
 }
@@ -335,5 +338,21 @@ json Backup::toDistantJson(){
             }
     }};
     return jOut ;
+}
+
+
+void Backup::notify(){
+    json this_info;
+    for(Observer *o : observerList)
+        o->update(this_info << (*this));
+}
+
+void Backup::attach(Observer *o){
+    observerList.push_back(o);
+    notify();
+}
+
+void Backup::detach(Observer *o){
+    observerList.erase(std::remove(observerList.begin(), observerList.end(), o), observerList.end());
 }
 

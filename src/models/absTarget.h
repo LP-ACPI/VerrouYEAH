@@ -25,6 +25,8 @@ public:
 
     virtual ~AbsTarget() {}
 
+    virtual bool isFtp() const = 0;
+
     std::string getTag() const
     { return targetTag;    }
     std::string getPath() const
@@ -43,11 +45,12 @@ public:
     void setId(const std::string id)
     {    targetId =  atoi(id.c_str());   }
 
-    virtual nlohmann::json to_json() const =0;
     bool operator ==(const AbsTarget &targ)
-    { return std::to_string(targetId) == targ.getId(); }
+    { return std::to_string(targetId) == targ.getId();
+    }
     bool operator !=(const AbsTarget &targ)
     {   return !(operator ==(targ));    }
+
     void operator=(const AbsTarget &ftpTarget){
         targetTag  = ftpTarget.getTag();
         targetPath = ftpTarget.getPath();
@@ -55,7 +58,7 @@ public:
         setId(ftpTarget.getId());
     }
 
-
+    virtual nlohmann::json to_json() const =0;
    friend nlohmann::json& operator <<(nlohmann::json&, const AbsTarget&);
 
 };

@@ -5,7 +5,7 @@
 #include <QDebug>
 
 TargetFormDialog::TargetFormDialog(QWidget *parent)
-    : QDialog(parent), _targetId("null")
+    : QDialog(parent)
 {
     setupUi(this);
 
@@ -125,7 +125,6 @@ void TargetFormDialog::on_dirChoice_clicked(){
 
 
 void TargetFormDialog::onNewNormalTargetAdd(std::map<std::string,std::string> targetInfo){
-
     TargetController::getInstance().addNewFavoriteNormalTarget(targetInfo);
     emit normalTargetChange();
 }

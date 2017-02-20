@@ -82,7 +82,6 @@ string Frequency::number_to_string(char* tab,char length,char type){
                         str += to_string(begin+1) + "-" + to_string(end+1);
                     else
                         str += to_string(begin) + "-" + to_string(end);
-
                 }
                 empty   =  0;
                 begin   = -1;
@@ -96,6 +95,7 @@ string Frequency::number_to_string(char* tab,char length,char type){
         str += "0";
     return str;
 }
+
 string Frequency::toString(){
     string freq = number_to_string(minutes,N_MINUTE,NORMAL_TYPE)+" ";
     freq += number_to_string(hours,N_HOUR,NORMAL_TYPE)+" ";

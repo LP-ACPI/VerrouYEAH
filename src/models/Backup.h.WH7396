@@ -13,7 +13,6 @@
 #include "Directory.h"
 #include "Frequency.h"
 #include "FtpTarget.h"
-#include "../services/Observer.h"
 
 #include "../../includes/json.hpp"
 
@@ -29,7 +28,6 @@ class Backup {
     std::string note;
     bool dataIsLoaded;
     std::string ownerLogPass[2];
-    std::vector<Observer*> observerList;
 
     bool saveFtpData();
     void restoreFtpData();
@@ -96,15 +94,11 @@ public:
     void setLastSave(const std::string);//TODO type Date
     void setNote(const std::string);
     void setFrequency(const Frequency);
-    void setFrequency(const std::string);
     void setData(const Data*);
     void setDataLoaded(const bool);
     void setOwnersLogin(const std::string);
     void setOwnersPass(const std::string);
 
-    void notify();
-    void attach(Observer*);
-    void detach(Observer*);
     bool operator==(const Backup&);
     bool operator!=(const Backup&);
     void operator=(const Backup&);

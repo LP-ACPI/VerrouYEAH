@@ -95,12 +95,11 @@ Backup User::getBackupByKey(const string key){
 void User::addBackup(const Backup backup){
     if(!hasBackup(backup))
         backups.push_back(backup);
-    else throw invalid_argument("Il existe déja une sauvegarde du même nom...");
+    else throw invalid_argument("cette sauvegarde existe déjà...");
 }
 
 void User::removeBackup(Backup backup){
     if(hasBackup(backup)){
-        backup.deleteFromJson();
         backups.remove(backup);
     }
 }

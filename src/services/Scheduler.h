@@ -1,20 +1,19 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#include <vector>
 #include <thread>
 #include <unistd.h>
 #include "../models/Backup.h"
 #include "../models/User.h"
 
-class Scheduler {
-    static Scheduler instance;
-    std::vector<Backup> saves;
+class Scheduler  {
+
+    std::list<Backup> saves;
     std::thread* th;
     bool loop;
 
     Scheduler()
-        :   saves(std::vector<Backup>()),
+        :   saves(std::list<Backup>()),
             th(NULL),
             loop(false)
     {}
@@ -22,13 +21,14 @@ class Scheduler {
 
 public:
     static Scheduler& getInstance()
-    {    return instance;    }
+    {      static Scheduler instance;
+            return instance;    }
 
     void start();
     void stop();
-    void add(Backup& backup);
+    void add(Backup &backup);
     void addFromUser(User* user);
-    void remove(Backup& backup);
+    void remove(Backup &backup);
     void clear()
     {
         saves.clear();

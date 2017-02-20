@@ -1,4 +1,5 @@
 #include "ConfigManager.h"
+#include "Scheduler.h"
 #include "../models/Directory.h"
 #include "../models/File.h"
 #include "../models/FtpTarget.h"
@@ -39,9 +40,10 @@ User* ConfigManager::loadUser(string login){
     json favorite_targets = user_config["fav_dests"];
 
     for (json::iterator it = favorite_targets.begin(); it != favorite_targets.end(); ++it){
-        string tag = it.key();
+        string tag   = it.key();
         string type = favorite_targets[it.key()]["type"];
         string path = favorite_targets[it.key()]["path"];
+
         AbsTarget *fav_trg;
         if(type == "FTP"){
             FtpTarget *fav_trg = new FtpTarget(tag,path);
@@ -49,18 +51,17 @@ User* ConfigManager::loadUser(string login){
             fav_trg->setUserName(favorite_targets[it.key()]["username"]);
             fav_trg->setFtpPass(favorite_targets[it.key()]["pass"]);
             fav_trg->setPort(favorite_targets[it.key()]["port"]);
-            user->addFavoriteTarget(fav_trg);
         } else {
             fav_trg = new Target(tag,path);
-            user->addFavoriteTarget(fav_trg);
         }
+        user->addFavoriteTarget(fav_trg);
     }
 
     json backups = user_config["backups"];
     for (json bc : backups) {
 
-        string key = bc["key"];
-        string name = bc["name"];
+        string key      = bc["key"];
+        string name  = bc["name"];
         string sourcePath = bc["src"];
         string note = bc["note"];
         //TODO : DateTime format
@@ -81,6 +82,7 @@ User* ConfigManager::loadUser(string login){
         backup.loadJsonData();
 
         user->addBackup(backup);
+        Scheduler::getInstance().add(backup);
     }
 
     return user ;
@@ -109,7 +111,6 @@ json ConfigManager::saveUser(User *user){
     persist();
     return jsonUser;
 }
-
 
 void ConfigManager::deleteUser(std::string userLogin) {
 
@@ -179,11 +180,9 @@ void ConfigManager::deleteUsersBackupData(string userLogin,string bcKey){
     json users_backups = readOrInitUserBackups(userLogin);
 
     for (json::iterator it = users_backups.begin(); it != users_backups.end(); ++it)
-        if(it.key() == bcKey){
+        if(it.key() == bcKey)
             config.at(userLogin).at("backups").erase(it.key());
-            cout << bcKey;
-            cout << config.dump(2);
-        }
+
     persist();
 }
 

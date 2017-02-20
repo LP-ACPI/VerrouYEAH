@@ -7,7 +7,7 @@ ProgressDialog::ProgressDialog(QWidget *parent) : QDialog(parent){
 
     setupUi(this);
     setModal(true);
-    isFtp       = true;
+    isFtp            = true;
     isUpload    = true;
 }
 

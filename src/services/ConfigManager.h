@@ -40,6 +40,7 @@ public:
         std::map<std::string,std::string>loadLoginPassCouples();
 
         json saveUser(User*);
+        json saveUsersBackup(std::string,Backup*);
         User* loadUser(std::string);
         void deleteUser(std::string);
         void updateUser(User*);

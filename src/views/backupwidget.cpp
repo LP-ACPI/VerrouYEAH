@@ -11,16 +11,20 @@ BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
     setupUi(this);
 }
 
+BackupWidget::~BackupWidget(){
+    BackupController::getInstance().unsubscribeObserverFromBackup(this,backupKey);
+}
+
 void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
     backupKey = backupInfo["key"];
+
+    BackupController::getInstance().subscribeObserverToBackup(this,backupKey);
+
     backupName->setText(QString::fromStdString(backupInfo["name"]));
     backupSource->setText(QString::fromStdString(backupInfo["source_path"]));
-
-    std::string targetType = TargetController::getInstance().getFavoriteTargetsType(backupInfo["target_id"]);
-
     QPixmap state_icon;
 
-    if(targetType == "FTP"){
+    if(BackupController::getInstance().isBackupFtp(backupKey)){
         targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(backupInfo["target_id"]);
 
         if(backupInfo["data_loaded"] == "oui")
@@ -40,12 +44,10 @@ void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
     stateIcon->setScaledContents(true);
     stateIcon->setPixmap(state_icon);
 
-    backupTarget->setText("("+QString::fromStdString(targetType)+
-                           ") "+QString::fromStdString(targetInfo["tag"]));
+    backupTarget->setText(QString::fromStdString(targetInfo["tag"]));
 
     QString tool_tip_text = "<b>Nom: </b> "+ QString::fromStdString(backupInfo["name"])+
-                                          "<br/><b>destination:</b>("+QString::fromStdString(targetType)+
-                                            ") "+QString::fromStdString(targetInfo["tag"])+
+                                          "<br/><b>destination:</b>"+QString::fromStdString(targetInfo["tag"])+
                                             "<br/>est accessible : " +QString::fromStdString(backupInfo["data_loaded"]);
 
     setToolTip(tool_tip_text);
@@ -82,4 +84,8 @@ void BackupWidget::on_decryptButton_clicked(){
 
 void BackupWidget::onBackupUpdated(std::map<std::string,std::string> backupInfo){
         setBackupInfo(backupInfo);
+}
+
+void BackupWidget::update(nlohmann::json backupInfo) const {
+
 }

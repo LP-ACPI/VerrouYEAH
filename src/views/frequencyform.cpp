@@ -1,4 +1,4 @@
-#include "../views/frequencyform.h"
+#include "frequencyform.h"
 
 FrequencyForm::FrequencyForm(QWidget *parent) : QDialog(parent){
     init();
@@ -8,12 +8,16 @@ FrequencyForm::FrequencyForm(QWidget *parent) : QDialog(parent){
 void FrequencyForm::init(){
     setupUi(this);
     setModal(true);
-
 }
 
-void FrequencyForm::on_buttonBox_accepted()
-{
-    emit frequencySelected(dateEdit->text() + timeEdit->text());
+void FrequencyForm::on_buttonBox_accepted() {
+
+    QString postInfo  =   minutes->text().remove( QRegExp("^[0]*") )+' '+
+                                            hours->text().remove( QRegExp("^[0]*") ) +' '+
+                                            daysOfMonth->text() +' '+
+                                            QString::number(monthsOfYear->currentIndex() +1)+' '+
+                                             QString::number(daysOfWeek->currentIndex());
+    emit frequencySelected(postInfo);
     close();
 }
 

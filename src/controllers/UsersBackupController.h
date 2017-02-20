@@ -5,7 +5,6 @@
 
 class UsersBackupController{
 
-    static UsersBackupController instance;
 
     User* user;
 
@@ -14,6 +13,7 @@ class UsersBackupController{
 
 public:
     static UsersBackupController& getInstance(){
+        static UsersBackupController instance;
         return instance;
     }
 
@@ -21,8 +21,10 @@ public:
 
     std::map<std::string,std::string> getUsersBackupInfo(std::string);
     std::map<std::string,std::string> addNewUsersBackup(std::map<std::string,std::string>);
+
     void updateUsersBackup(std::map<std::string,std::string>);
     void deleteUsersBackup(std::string);
+
     std::list<std::map<std::string,std::string>> getUsersBackupInfoList();
     std::list<std::string> getUsersBackupNameList();
 

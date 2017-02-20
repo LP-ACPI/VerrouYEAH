@@ -2,10 +2,12 @@
 #define BACKUPWIDGET_H
 
 #include "ui_backupwidget.h"
+#include "../services/Observer.h"
+#include "json.hpp"
 #include <QWidget>
 #include <QListWidgetItem>
 
-class BackupWidget : public QWidget, private Ui::BackupWidget
+class BackupWidget : public QWidget, private Ui::BackupWidget, public Observer
 {
     Q_OBJECT
     std::string backupKey;
@@ -13,8 +15,12 @@ class BackupWidget : public QWidget, private Ui::BackupWidget
 
     QWidget *_parent;
 
+    virtual void update(nlohmann::json) const override;
+
 public:
     explicit BackupWidget(QWidget *parent = 0);
+
+    ~BackupWidget();
 
     void setBackupInfo(std::map<std::string,std::string>);
 

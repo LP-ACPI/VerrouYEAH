@@ -15,6 +15,9 @@ public:
         : AbsTarget(tag,path,type)
     {}
 
+    virtual bool isFtp() const override
+    {   return true;   }
+
     std::string getHost() const;
     std::string getUserName() const;
     std::string getFtpPass() const;

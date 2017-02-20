@@ -47,6 +47,7 @@ public:
         std::vector<std::string> tokens;
         while (std::getline(ss, buffer, ' '))
             tokens.push_back(buffer);
+std::cout << buffer;
         if(tokens.size() == 5){
             minutes                  = parser(tokens[0],N_MINUTE);
             hours                       = parser(tokens[1],N_HOUR);

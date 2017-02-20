@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>RecoverBackupsDialog</class>
+ <widget class="QDialog" name="RecoverBackupsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,7 +32,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="loginInput">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -48,7 +48,7 @@
     <string>nom d'utilisateur</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="passInput">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -64,7 +64,7 @@
     <string>mot de passe</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="targetChoiceButton">
    <property name="geometry">
     <rect>
      <x>50</x>

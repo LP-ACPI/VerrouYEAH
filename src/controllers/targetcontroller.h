@@ -8,14 +8,15 @@
 
 class TargetController
 {
-    static TargetController instance;
 
     TargetController()
     {}
 
 public:
     static TargetController getInstance()
-    {     return instance;  }
+    {         static TargetController instance;
+              return instance;
+    }
 
     std::map<std::string,std::string> favoriteFtpTargetToInfoMap(std::string);
     std::map<std::string,std::string> favoriteNormalTargetToInfoMap(std::string);

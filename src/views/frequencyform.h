@@ -5,19 +5,19 @@
 #include "ui_frequencydialog.h"
 
 
-class FrequencyForm : public QDialog, private Ui::FrequancyDialog
+class FrequencyForm : public QDialog, private Ui::FrequencyDialog
 {
+    Q_OBJECT
     void init();
 public:
     explicit FrequencyForm(QWidget *parent = 0);
 
-
-private slots:
-    void on_buttonBox_accepted();
-    void on_buttonBox_rejected();
-
 signals:
     void frequencySelected(QString);
+
+protected slots:
+    void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
 
 
 };

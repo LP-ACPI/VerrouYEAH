@@ -4,38 +4,28 @@
 #include "../controllers/UsersBackupController.h"
 #include "../controllers/TargetController.h"
 #include "filesystemmodel.h"
-#include "QJsonModel.h"
 #include <QDebug>
 
-BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent) :
-     QDialog(parent),_parent(parent)
+BackupDetailsDialog::BackupDetailsDialog(std::string _backupKey, QWidget *parent) :
+     QDialog(parent),_parent(parent), backupKey(_backupKey)
 {
     setupUi(this);
 
+    BackupController::getInstance().subscribeObserverToBackup(this,backupKey);
     std::map<std::string,std::string> backupInfo = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
     std::map<std::string,std::string> targetInfo;
 
-//Non: on est en MVC : pas d'objet de classe métier dans une view
- //   + y a déjà toutes les infos dans backupInfo et plus bas dans targetInfo
-
-//    const Backup backup = BackupController::getInstance().getBackupFromInfoMap(info);
-//    label_7->setText(QString::fromStdString(backup.getLastSave()));
-   /* std::__cxx11::string targetType = backup.getTargetType();
-    if (targetType.compare(std::string("NORMAL"))){
-        //TODO : si cle disponible image ok sinon image disconnect
-        QPixmap logoUSB(":/images/usb_connect.png");
-        ui->label_8->setPixmap(logoUSB);
-    } */
-
     nameLabel->setText(QString::fromStdString(backupInfo["name"]));
     sourcePathLabel->setText(QString::fromStdString(backupInfo["source_path"]));
-    std::string targetType = TargetController::getInstance().getFavoriteTargetsType(backupInfo["target_id"]);
+    frequencyLabel->setText(QString::fromStdString(backupInfo["frequency"]));
+    lastSaveLabel->setText(QString::fromStdString(backupInfo["last_save"]));
 
     QPixmap state_icon;
     QString targetPath;
+    targetId = backupInfo["target_id"];
 
-    if(targetType == "FTP"){
-        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(backupInfo["target_id"]);
+    if(BackupController::getInstance().isBackupFtp(backupKey)){
+        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetId);
         targetHostLabel->setText(QString::fromStdString(targetInfo["host"]) );
         targetPath ="/"+ QString::fromStdString(targetInfo["path"]);
         if(backupInfo["data_loaded"] == "oui")
@@ -44,7 +34,7 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
             state_icon = QPixmap(":/images/cloud-ko.png");
 
    } else {
-        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_id"]);
+        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetId);
         targetPath = QString::fromStdString(targetInfo["path"]);
         targetHostLabel->hide();
 
@@ -60,8 +50,6 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
     targetNameLabel->setText(QString::fromStdString(targetInfo["tag"]));
     targetPathLabel->setText(targetPath);
 
-    //Récup des data nécéssaire avant
-    //debug json:
     QString sourcePath = QString::fromStdString(backupInfo["source_path"])+"/";
     model = new FileSystemModel(this);
     model->setRootPath(sourcePath);
@@ -70,24 +58,16 @@ BackupDetailsDialog::BackupDetailsDialog(std::string backupKey, QWidget *parent)
     );
     treeView->setModel(model);
     treeView->setRootIndex(model->index(sourcePath));
-
-//    json jsonBackupData = BackupController::getInstance().getJsonifiedDataTree(backupKey);
-//    if(jsonBackupData != NULL) {
-//        std::string json_data = jsonBackupData.dump(2);
-//        QByteArray byte_array(json_data.c_str(), json_data.length());
-//        QJsonModel * model = new QJsonModel;
-//        model->loadJson(byte_array);
-//    } else {
-
-//    }
-    //backupItem->
-    //il manque :
-    // prendre les informations sur la planification et treeView avec l'arborescence
-
 }
+
 
 BackupDetailsDialog::~BackupDetailsDialog()
 {
     delete model;
+    BackupController::getInstance().unsubscribeObserverFromBackup(this,backupKey);
     close();
+}
+
+void BackupDetailsDialog::update(nlohmann::json backupInfo) const{
+
 }

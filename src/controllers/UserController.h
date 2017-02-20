@@ -40,6 +40,8 @@ public:
 
     void setCurrentUser(std::string);
 
+    bool saveCurrentUser();
+
     bool updateUser(std::string,std::string);
     bool createUser(std::string,std::string);
     void deleteUser();

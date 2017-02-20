@@ -4,9 +4,9 @@
 #include "targetcontroller.h"
 #include "../services/ConfigManager.h"
 #include "../services/Scheduler.h"
+#include "../services/Ftp.h"
 #include <QDebug>
 
-UsersBackupController UsersBackupController::instance = UsersBackupController();
 
 void UsersBackupController::setCurrentUser(){
     user = UserController::getInstance().getCurrentUser();
@@ -20,12 +20,14 @@ std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std:
 }
 
 std::map<std::string,std::string> UsersBackupController::addNewUsersBackup(std::map<std::string,std::string> backupInfo){
-    backupInfo["key"] = std::string(Crypt::genKey(32));
+    char *key = Crypt::genKey(32);
+    backupInfo["key"] = std::string(key);
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     new_backup.setOwnersLogin(user->getLogin());
     new_backup.setOwnersPass(user->getPassword());
     new_backup.saveData();
     user->addBackup(new_backup);
+    Scheduler::getInstance().add(new_backup);
     ConfigManager::getInstance().updateUser(user);
     return BackupController::getInstance().getInfoMapFromBackup(&new_backup);
 }
@@ -37,16 +39,20 @@ void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> 
     backup_to_update.setOwnersLogin(user->getLogin());
     backup_to_update.setOwnersPass(user->getPassword());
     Backup old_backup = user->getBackupByKey(backup_to_update.getKey());
-    user->replaceBackup(old_backup,backup_to_update);
     backup_to_update.saveData();
+    user->replaceBackup(old_backup,backup_to_update);
+
+//    Scheduler::getInstance().remove(old_backup);
+//    Scheduler::getInstance().add(backup_to_update);
     ConfigManager::getInstance().updateUser(user);
 }
 
 void UsersBackupController::deleteUsersBackup(std::string bcKey){
     //TODO: avertissement "suppression données sauvegardés"
-    // + supprimer le fichier .vy
+    // + supprimer le fichier .vy?
     Backup bc_to_delete = user->getBackupByKey(bcKey);
     user->removeBackup(bc_to_delete);
+//    Scheduler::getInstance().remove(bc_to_delete);
     ConfigManager::getInstance().updateUser(user);
 }
 
@@ -67,21 +73,28 @@ std::list<std::string> UsersBackupController::getUsersBackupNameList(){
     return name_list;
 }
 
-
+//TODO
 std::list<std::map<std::string,std::string>> UsersBackupController::recoverUsersNonRegistrededBackups(std::string login,std::string pass,std::string targetId){
    std::string target_type = TargetController::getInstance().getFavoriteTargetsType(targetId);
    std::map<std::string,std::string> targetInfoMap;
-   if(target_type == "FTP")
+   if(target_type == "FTP"){
         targetInfoMap = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetId);
-   else
+
+//        Ftp::getInstance().prepareFtp(targetInfoMap["host"],targetInfoMap["username"],pass,port);
+//         saveOk &= Ftp::getInstance().ftpUpload(temp_dest_crypt+".vy",ftpTarget->getPath());
+//        loopUp.exec();
+//        saveOk &=  Ftp::getInstance().ftpUpload(temp_dest_data,ftpTarget->getPath());
+   }else
        targetInfoMap = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetId);
 
+   std::string hashedPass = Crypt::generateHashedPass(pass);
     try {
-        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(login,pass)){
+        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(login,hashedPass )){
 
         } else {
-
+            throw std::invalid_argument("Erreur Authentification");
         }
+        ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
     } catch (std::exception& e) {
         throw std::runtime_error(e.what());
     }
