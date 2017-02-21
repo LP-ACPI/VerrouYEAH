@@ -134,8 +134,8 @@ class PersistanceTest{
         Backup *backup_2 = new Backup(test_user.getBackupAt(1));
         //Dans contrôleur correspondant: choix de telle ou telle sauvegarde à persister
         // dans backup.getTarget
-        ConfigManager::getInstance().saveUsersBackupData(&test_user,backup_2);
-        ConfigManager::getInstance().saveUsersBackupData(&test_user,backup_1);
+        ConfigManager::getInstance().saveUsersBackupData(backup_2);
+        ConfigManager::getInstance().saveUsersBackupData(backup_1);
 
 
 //TODO tests
@@ -155,7 +155,7 @@ class PersistanceTest{
 //        Backup backup  = test_user.getBackupAt(0);
 
         ConfigManager::getInstance().setJsonFile(DISTANT_BACKUP_CONFIG_FILE);
-        ConfigManager::getInstance().loadUsersBackupData(&test_user,"2");
+        ConfigManager::getInstance().getUserBackupsData(test_user.getLogin(),"2");
 
         Backup backup_test = test_user.getBackupByKey("2");
 

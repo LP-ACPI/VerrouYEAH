@@ -125,22 +125,48 @@ void TargetFormDialog::on_dirChoice_clicked(){
 
 
 void TargetFormDialog::onNewNormalTargetAdd(std::map<std::string,std::string> targetInfo){
-    TargetController::getInstance().addNewFavoriteNormalTarget(targetInfo);
+    try{
+        TargetController::getInstance().addNewFavoriteNormalTarget(targetInfo);
+    }catch(const std::invalid_argument &e){
+        QMessageBox::warning(this, "Attention!",
+            QString::fromStdString(e.what()));
+        show();
+        return;
+    }
     emit normalTargetChange();
 }
 
 void TargetFormDialog::onNormalTargetUpdate(std::map<std::string,std::string> targetInfo){
-    TargetController::getInstance().updateFavoriteNormalTarget(targetInfo);
+    try{
+        TargetController::getInstance().updateFavoriteNormalTarget(targetInfo);
+    }catch(const std::invalid_argument &e){
+        QMessageBox::warning(this, "Attention!",
+            QString::fromStdString(e.what()));
+        return;
+    }
     emit normalTargetChange();
 }
 
 void TargetFormDialog::onNewFtpTargetAdd(std::map<std::string,std::string> targetInfo){
-    TargetController::getInstance().addNewFavoriteFtpTarget(targetInfo);
+    try{
+        TargetController::getInstance().addNewFavoriteFtpTarget(targetInfo);
+    }catch(const std::invalid_argument &e){
+        QMessageBox::warning(this, "Attention!",
+            QString::fromStdString(e.what()));
+        return;
+    }
     emit ftpTargetChange();
 }
 
 void TargetFormDialog::onFtpTargetUpdate(std::map<std::string,std::string> targetInfo){
-    TargetController::getInstance().updateFavoriteFtpTarget(targetInfo);
+    try{
+        TargetController::getInstance().updateFavoriteFtpTarget(targetInfo);
+    }catch(const std::invalid_argument &e){
+        QMessageBox::warning(this, "Attention!",
+            QString::fromStdString(e.what()));
+        return;
+    }
+
     emit ftpTargetChange();
 
 }

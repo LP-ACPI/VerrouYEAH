@@ -19,6 +19,7 @@ void User::addFavoriteTarget(AbsTarget *favTarget){
     if(!hasFavoriteTarget(favTarget))
         favoriteTargets.push_back(favTarget);
     else throw invalid_argument("Il existe déja une destination du même nom...");
+    return;
 }
 
 list<AbsTarget*> User::getFavoriteTargets() const{
@@ -39,6 +40,7 @@ AbsTarget *User::getFavoriteTargetByKey(const std::string key){
         return (*it);
     else
         throw invalid_argument("exception: recherche de destination qui n'existe pas...");
+    return NULL;
 }
 
 AbsTarget *User::getFavoriteTargetByTag(const std::string tag){
@@ -49,6 +51,7 @@ AbsTarget *User::getFavoriteTargetByTag(const std::string tag){
         return (*it);
     else
         throw invalid_argument("exception: recherche de destination qui n'existe pas...");
+    return NULL;
 }
 
 void User::replaceFavoriteTarget(AbsTarget *oldTarget, AbsTarget *newTarget){
@@ -66,7 +69,7 @@ void User::removeFavoriteTarget(AbsTarget *favTarget){
 bool User::hasFavoriteTarget(AbsTarget *favTarget){
     bool found = false;
     for(AbsTarget *favT : favoriteTargets){
-        if(favT == favTarget) {
+        if(favT->getTag() == favTarget->getTag()) {
             found = true;
             break;
         }
@@ -80,6 +83,7 @@ Backup User::getBackupAt(const unsigned position){
         advance(it, position);
         return (*it);
     } else throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
+    return NULL;
 }
 
 Backup User::getBackupByKey(const string key){
@@ -90,11 +94,14 @@ Backup User::getBackupByKey(const string key){
         return (*it);
     else
         throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
+    return NULL;
 }
 
-void User::addBackup(const Backup backup){
-    if(!hasBackup(backup))
+void User::addBackup( Backup backup){
+    if(!hasBackup(backup)){
         backups.push_back(backup);
+        backup.notify();
+    }
     else throw invalid_argument("cette sauvegarde existe déjà...");
 }
 
@@ -108,13 +115,15 @@ void User::removeBackups(){
     backups.clear();
 }
 
-void User::replaceBackup(const Backup oldBackup, const Backup newBackup){
-    if(!hasBackup(newBackup) ||  newBackup.getName() == oldBackup.getName())
+void User::replaceBackup(const Backup oldBackup,  Backup newBackup){
+    if(!hasBackup(newBackup) ||  newBackup.getName() == oldBackup.getName()){
         replace(backups.begin(),backups.end(),oldBackup,newBackup);
+        newBackup.notify();
+    }
     else throw invalid_argument("Il existe déja une autre sauvegarde du même nom...");
 }
 
-void User::replaceBackupAt(const unsigned position,const Backup newBackup){
+void User::replaceBackupAt(const unsigned position, Backup newBackup){
     replaceBackup(getBackupAt(position),newBackup);
 }
 
@@ -127,7 +136,7 @@ void User::setBackups(const list<Backup> newBackups){
 bool User::hasBackup(const Backup backup){
     bool found = false;
     for(Backup bc : backups){
-        if(bc == backup) {
+        if(bc.getName() == backup.getName()) {
             found = true;
             break;
         }

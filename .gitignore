@@ -2,4 +2,4 @@
 /tests/qt-google-drive
 /build
 
-*.user
+*.user*

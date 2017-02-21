@@ -16,13 +16,23 @@ class BackupDetailsDialog : public  QDialog, private Ui::BackupDetailsDialog, pu
     std::string backupKey;
     std::string targetId;
 
-    virtual void update(nlohmann::json) const override;
+    virtual void update(nlohmann::json)  override;
 
 public:
     explicit BackupDetailsDialog(std::string, QWidget *parent = 0);
     ~BackupDetailsDialog();
 
+signals:
+    void removed(std::string);
+public slots:
+    void on_configButton_clicked();
+    void on_trashButton_clicked();
+    void on_decryptButton_clicked();
+    void on_backButton_clicked();
+    void onBackupUpdated(std::map<std::string,std::string>);
+
 private:
+    void updateBackupInfo(std::string);
 
 };
 

@@ -6,7 +6,7 @@
 class Observer
 {
 public:
-    virtual void update(nlohmann::json) const = 0;
+    virtual void update(nlohmann::json)  = 0;
 };
 
 #endif // OBSERVATOR_H

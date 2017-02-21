@@ -6,9 +6,9 @@ using namespace std;
 void Scheduler::saveLoop()
 {
     for(auto it = saves.begin();it != saves.end();++it)
-        if(it->getFrequency().isNow())
+        if(it->getFrequency().isNow()){
             it->saveData();
-
+    }
 
 
     if(loop)

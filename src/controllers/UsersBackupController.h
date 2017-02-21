@@ -22,13 +22,15 @@ public:
     std::map<std::string,std::string> getUsersBackupInfo(std::string);
     std::map<std::string,std::string> addNewUsersBackup(std::map<std::string,std::string>);
 
+    bool anotherBackupAlreadyExists(std::string, std::string);
+    bool backupAlreadyExists(std::string);
     void updateUsersBackup(std::map<std::string,std::string>);
     void deleteUsersBackup(std::string);
 
     std::list<std::map<std::string,std::string>> getUsersBackupInfoList();
     std::list<std::string> getUsersBackupNameList();
 
-    std::list<std::map<std::string,std::string>> recoverUsersNonRegistrededBackups(std::string,std::string,std::string);
+    nlohmann::json recoverUsersNonRegistrededBackups(std::string,std::string,std::string);
 
     void operator=(UsersBackupController const&) = delete;
 };

@@ -105,7 +105,14 @@ void TargetChoiceDialog::on_removeTarget_clicked(){
 
        std::string tag = tagChoice->currentText().toStdString();
        std::string key = TargetController::getInstance().targetCouplesTagKey()[tag];
-       TargetController::getInstance().deleteFavoriteTarget(key);
+       try{
+           TargetController::getInstance().deleteFavoriteTarget(key);
+       } catch(const std::invalid_argument &e){
+           QMessageBox::warning(this, "Attention!",
+                 QString::fromStdString(e.what()) +
+                                "\n merci de choisir d'abord une autre destination pour cette sauvegarde");
+           return;
+       }
 
        if(typeChoice->currentText() == "FTP")
            removeFtpTarget(tagChoice->currentText());

@@ -18,6 +18,8 @@ private:
     QFile *file;
     bool requestCanceled;
     bool rewriteDownloadedFile;
+    bool isBusy = false;
+
 
     bool startTransfert(QNetworkReply*);
 
@@ -44,7 +46,10 @@ public:
     void setDownloadRewrite(bool rewriteFile)
     {    rewriteDownloadedFile = rewriteFile;   }
 
-    void emitTransferDone();
+
+    bool isCurrentlyBusy(){
+        return isBusy;
+    }
 
 signals:
     void downloadStarted();

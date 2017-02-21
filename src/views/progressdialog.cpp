@@ -1,5 +1,7 @@
 #include "progressdialog.h"
 #include "../controllers/backupcontroller.h"
+#include "../services/Scheduler.h"
+#include <QMessageBox>
 #include <QDesktopServices>
 
 
@@ -9,6 +11,8 @@ ProgressDialog::ProgressDialog(QWidget *parent) : QDialog(parent){
     setModal(true);
     isFtp            = true;
     isUpload    = true;
+    comprCryptServ = &CompressCrypt::getInstance();
+    ftpServ = &Ftp::getInstance();
 }
 
 void ProgressDialog::setFtp(bool ftp){
@@ -21,6 +25,13 @@ void ProgressDialog::setUpload(bool upload){
 
 void ProgressDialog::init(){
 
+    if(ftpServ->isCurrentlyBusy() || comprCryptServ->isCurrentlyBusy()){
+        QMessageBox::warning(this, "Attention!",
+                             "les services sont actuellement occupés à effectuer une sauvegarde. "
+                             "\nMerci de reéssayer plus tard");
+        destroy();
+        return;
+    }
     setUpConnections();
 
     topBar->setMinimum(0);
@@ -50,25 +61,25 @@ void ProgressDialog::setUpConnections(){
 
     if(isFtp){
         if(isUpload)
-            connect(&Ftp::getInstance(),SIGNAL(uploadStarted()),this,SLOT(onUploadBegan()));
+            connect(ftpServ,SIGNAL(uploadStarted()),this,SLOT(onUploadBegan()));
         else
-            connect(&Ftp::getInstance(),SIGNAL(downloadStarted()),this,SLOT(onDownloadBegan()));
-        connect(&Ftp::getInstance(),SIGNAL(transferProgress(quint64,quint64)),this,SLOT(onTransferProgress(quint64,quint64)));
-        connect(this,SIGNAL(canceled()),&Ftp::getInstance(),SLOT(cancelTranfer()));
+            connect(ftpServ,SIGNAL(downloadStarted()),this,SLOT(onDownloadBegan()));
+        connect(ftpServ,SIGNAL(transferProgress(quint64,quint64)),this,SLOT(onTransferProgress(quint64,quint64)));
+        connect(this,SIGNAL(canceled()),ftpServ,SLOT(cancelTranfer()));
     }
 
-    connect(&CompressCrypt::getInstance(),SIGNAL(compressStarted()), this,SLOT(onCompressBegan()));
-    connect(&CompressCrypt::getInstance(),SIGNAL(compressInProgress(quint64,quint64)),
+    connect(comprCryptServ,SIGNAL(compressStarted()), this,SLOT(onCompressBegan()));
+    connect(comprCryptServ,SIGNAL(compressInProgress(quint64,quint64)),
                                     this,SLOT(onCompressProgress(quint64,quint64)));
 
-    connect(&CompressCrypt::getInstance(),SIGNAL(decompressStarted()), this,SLOT(onDecompressBegan()));
+    connect(comprCryptServ,SIGNAL(decompressStarted()), this,SLOT(onDecompressBegan()));
 
-    connect(&CompressCrypt::getInstance(),SIGNAL(cryptingStarted()), this,SLOT(onCryptBegan()));
-    connect(&CompressCrypt::getInstance(),SIGNAL(cryptInProgress(quint64,quint64)),
+    connect(comprCryptServ,SIGNAL(cryptingStarted()), this,SLOT(onCryptBegan()));
+    connect(comprCryptServ,SIGNAL(cryptInProgress(quint64,quint64)),
                                     this,SLOT(onCryptProgress(quint64,quint64)));
 
-    connect(&CompressCrypt::getInstance(),SIGNAL(decryptingStarted()), this,SLOT(onDecryptBegan()));
-    connect(&CompressCrypt::getInstance(),SIGNAL(decryptInProgress(quint64,quint64)),
+    connect(comprCryptServ,SIGNAL(decryptingStarted()), this,SLOT(onDecryptBegan()));
+    connect(comprCryptServ,SIGNAL(decryptInProgress(quint64,quint64)),
                                      this,SLOT(onDecryptProgress(quint64,quint64)));
 }
 
@@ -82,11 +93,11 @@ void ProgressDialog::onCryptBegan(){
     midLabel->setText("Compression en attente...");
 
     if(!isFtp){
-        connect(&CompressCrypt::getInstance(),SIGNAL(compressDone()),this,SLOT(onAllDone()));
+        connect(comprCryptServ,SIGNAL(compressDone()),this,SLOT(onAllDone()));
     } else {
         bottomBar->setDisabled(true);
         bottomLabel->setText("Envoi sur serveur en attente...");
-        connect(&Ftp::getInstance(),SIGNAL(finished()),this,SLOT(onAllDone()));
+        connect(ftpServ,SIGNAL(finished()),this,SLOT(onAllDone()));
     }
 }
 
@@ -132,7 +143,7 @@ void ProgressDialog::onDownloadBegan(){
 }
 
 void ProgressDialog::onDecompressBegan(){
-    connect(&CompressCrypt::getInstance(),SIGNAL(decryptingDone()),this,SLOT(onDecryptDone()));
+    connect(comprCryptServ,SIGNAL(decryptingDone()),this,SLOT(onDecryptDone()));
     if(!isFtp){
         midBar->setDisabled(true);
         midLabel->setText("Décryptage en attente...");

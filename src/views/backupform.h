@@ -20,6 +20,7 @@ class BackupForm : public QDialog, private Ui::BackupFormDialog
 
     bool isFormValid();
     bool isCreateFormValid();
+    bool isUpdateFormValid();
 
     void init();
 public:

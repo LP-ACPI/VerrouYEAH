@@ -21,6 +21,7 @@ bool CompressCrypt::compressDir(const QString &sourceFolder, const QString &dest
 
     emit(compressStarted());
 
+    isBusy = true;
     totalDataCount = countFiles(sourceFolder,0);
 
     bool success = compress(sourceFolder, "",0) > 0;
@@ -28,6 +29,7 @@ bool CompressCrypt::compressDir(const QString &sourceFolder, const QString &dest
 
     emit(compressDone());
 
+    isBusy = false;
     return success;
 }
 
@@ -84,6 +86,7 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
 
     emit(decompressStarted());
 
+    isBusy = true;
     while(!dataStream.atEnd())
     {
         QString fileName;
@@ -118,6 +121,7 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
 
     emit(decompressDone());
 
+    isBusy = false;
     return true;
 }
 
@@ -128,12 +132,12 @@ bool CompressCrypt::cryptDir(const QString &source,const QString &cible, char *k
         return false;
 
     emit(cryptingStarted());
-
+    isBusy = true;
     totalDataCount = countFiles(source,0);
     bool success = cryptDirWithCount(source,cible,0,key) > 0;
 
     emit cryptingDone();
-
+    isBusy = false;
     return success;
 }
 
@@ -170,11 +174,14 @@ bool CompressCrypt::decryptDir(const QString &source,const QString &cible,  char
         return false;
 
     emit(decryptingStarted());
+
+    isBusy = true;
     totalDataCount = countFiles(source,0);
 
     bool success = decryptDirWithCount(source,cible,0, key) > 0;
     emit(decryptingDone());
 
+    isBusy = false;
     return success;
 }
 

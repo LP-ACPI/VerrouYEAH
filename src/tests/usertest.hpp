@@ -32,10 +32,12 @@ class UserTest{
         Backup backup4("test");
 
         User test;
+        try{
         test.addBackup(backup1);
         test.addBackup(backup2);
         test.addBackup(backup3);
         test.addBackup(backup4);
+        } catch( std::exception &e) {}
 
         UnitTest<uint32_t>::assertEquals("testAjout Sauvegardes Doublons",1,test.getBackups().size());
     }

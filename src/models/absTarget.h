@@ -46,7 +46,7 @@ public:
     {    targetId =  atoi(id.c_str());   }
 
     bool operator ==(const AbsTarget &targ)
-    { return std::to_string(targetId) == targ.getId();
+    { return targetTag == targ.getPath() &&  std::to_string(targetId) == targ.getId() ;
     }
     bool operator !=(const AbsTarget &targ)
     {   return !(operator ==(targ));    }

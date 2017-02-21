@@ -1,7 +1,6 @@
 #include "BackupController.h"
 #include "UserController.h"
 #include "TargetController.h"
-#include "../views/progressdialog.h"
 #include "../services/Crypt.h"
 #include "../services/ConfigManager.h"
 #include <QDir>

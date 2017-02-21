@@ -13,6 +13,7 @@ class ProgressDialog : public QDialog, private Ui::ProgressDialog
     bool isUpload;
 
     Ftp *ftpServ;
+    CompressCrypt *comprCryptServ;
 
     void setUpConnections();
 public:

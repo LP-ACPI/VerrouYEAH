@@ -15,12 +15,10 @@ class BackupWidget : public QWidget, private Ui::BackupWidget, public Observer
 
     QWidget *_parent;
 
-    virtual void update(nlohmann::json) const override;
+    virtual void update(nlohmann::json)  override;
 
 public:
     explicit BackupWidget(QWidget *parent = 0);
-
-    ~BackupWidget();
 
     void setBackupInfo(std::map<std::string,std::string>);
 

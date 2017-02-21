@@ -3,16 +3,13 @@
 #include "progressdialog.h"
 #include "../controllers/BackupController.h"
 #include "../controllers/TargetController.h"
+#include "../controllers/UsersBackupController.h"
 #include <QFileIconProvider>
 #include <QMessageBox>
 
 BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
 {
     setupUi(this);
-}
-
-BackupWidget::~BackupWidget(){
-    BackupController::getInstance().unsubscribeObserverFromBackup(this,backupKey);
 }
 
 void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
@@ -86,6 +83,17 @@ void BackupWidget::onBackupUpdated(std::map<std::string,std::string> backupInfo)
         setBackupInfo(backupInfo);
 }
 
-void BackupWidget::update(nlohmann::json backupInfo) const {
-
+void BackupWidget::update(nlohmann::json backup)  {
+    try{
+        std::map<std::string,std::string> bc_map;
+         bc_map["key"]                  = backup["key"];
+        bc_map["name"]               =backup["name"];
+        bc_map["source_path"] =backup["src"];
+        bc_map["last_save"]       = backup["last_save"];
+        bc_map["note"]                = backup["note"];
+        bc_map["frequency"]     = backup["freq"];
+        bc_map["target_id"]        =TargetController::getInstance().targetCouplesTagKey()[backup["dest"]["tag"]];
+        bc_map["data_loaded"] = BackupController::getInstance().hasBackupLoadedData( bc_map["key"]  ) ? "oui" : "non";
+        setBackupInfo(bc_map);
+    }catch(std::domain_error &e){}
 }

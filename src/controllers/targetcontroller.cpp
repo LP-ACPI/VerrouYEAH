@@ -58,31 +58,69 @@ void TargetController::updateFavoriteNormalTarget( std::map<std::string,std::str
     Target *old_target =(Target *) UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(infoMap["target_id"]);
     Target *new_target = getNormalTargetFromInfoMap(infoMap);
 
-    UserController::getInstance().getCurrentUser()->replaceFavoriteTarget(old_target,new_target);
+    try{
+        UserController::getInstance().getCurrentUser()->replaceFavoriteTarget(old_target,new_target);
+    } catch(const std::invalid_argument &e){
+        throw std::invalid_argument(e.what());
+        return;
+    }
+
+    std::list<Backup>::iterator it = UserController::getInstance().getCurrentUser()->getBackups().begin();
+    for(;it != UserController::getInstance().getCurrentUser()->getBackups().end();++it )
+        if(it->getTarget() == old_target)
+            it->setTarget(new_target);
+
     ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::updateFavoriteFtpTarget( std::map<std::string,std::string> infoMap){
     FtpTarget *old_target = (FtpTarget *)UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(infoMap["target_id"]);
     FtpTarget *new_target = getFtpTargetFromInfoMap(infoMap);
-    UserController::getInstance().getCurrentUser()->replaceFavoriteTarget(old_target,new_target);
+    try{
+        UserController::getInstance().getCurrentUser()->replaceFavoriteTarget(old_target,new_target);
+    } catch(const std::invalid_argument &e){
+        throw std::invalid_argument(e.what());
+        return;
+    }
+
+    std::list<Backup>::iterator it = UserController::getInstance().getCurrentUser()->getBackups().begin();
+    for(;it != UserController::getInstance().getCurrentUser()->getBackups().end();++it )
+        if(it->getTarget() == old_target)
+            it->setTarget(new_target);
+
     ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::addNewFavoriteNormalTarget(std::map<std::string,std::string> infoMap){
-    Target *new_target = getNormalTargetFromInfoMap(infoMap);
-    UserController::getInstance().getCurrentUser()->addFavoriteTarget(new_target);
+    try{
+        Target *new_target = getNormalTargetFromInfoMap(infoMap);
+        UserController::getInstance().getCurrentUser()->addFavoriteTarget(new_target);
+    } catch(const std::invalid_argument &e){
+        throw std::invalid_argument(e.what());
+        return;
+    }
     ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
 
 void TargetController::addNewFavoriteFtpTarget(std::map<std::string,std::string> infoMap){
-    FtpTarget *new_target = getFtpTargetFromInfoMap(infoMap);
-    UserController::getInstance().getCurrentUser()->addFavoriteTarget(new_target);
-    ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
+    try{
+        FtpTarget *new_target = getFtpTargetFromInfoMap(infoMap);
+        UserController::getInstance().getCurrentUser()->addFavoriteTarget(new_target);
+        ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
+    }  catch(const std::invalid_argument &e){
+        throw std::invalid_argument(e.what());
+    }
 }
 
 void TargetController::deleteFavoriteTarget(std::string targetKey){
     AbsTarget *target_to_delete = UserController::getInstance().getCurrentUser()->getFavoriteTargetByKey(targetKey);
+
+    std::list<Backup>::iterator it = UserController::getInstance().getCurrentUser()->getBackups().begin();
+    for(;it != UserController::getInstance().getCurrentUser()->getBackups().end();++it )
+        if(it->getTarget()==target_to_delete){
+            throw std::invalid_argument("Cette cible est utilisée par " + it->getName());
+            return;
+        }
     UserController::getInstance().getCurrentUser()->removeFavoriteTarget(target_to_delete);
     ConfigManager::getInstance().updateUser(UserController::getInstance().getCurrentUser());
 }
@@ -102,7 +140,6 @@ std::list<std::string> TargetController::listFavoriteFtpTargetTags(){
             tag_list.push_back(tg->getTag());
     return tag_list;
 }
-
 
 std::map<std::string,std::string> TargetController::targetCouplesTagKey(){
     std::map<std::string,std::string> tg_key_map;

@@ -29,6 +29,7 @@ void Ftp::prepareFtp(std::string host,
 
     rewriteDownloadedFile = rewriteDownloadFile;
 
+    isBusy = true;
     connect(this,SIGNAL(error()),this,SLOT(cancelTranfer()));
 }
 
@@ -142,6 +143,7 @@ bool Ftp::startTransfert(QNetworkReply *reply){
 
     if(requestCanceled)
         reply->abort();
+    isBusy = false;
     return !requestCanceled;
 }
 
@@ -197,10 +199,9 @@ void Ftp::requestFinished() {
             file = 0;
         }
     }
-    emit finished();
-}
 
-void Ftp::emitTransferDone(){
+    isBusy = false;
+    emit finished();
 }
 
 /**

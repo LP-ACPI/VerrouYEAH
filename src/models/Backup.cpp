@@ -31,7 +31,6 @@ bool Backup::saveData(){
     QFileInfo info(QString::fromStdString(getSource()));
     Data* root_dir = new Directory(info);
     setData(root_dir);
-    setDataLoaded(true);
 
     bool saveDone = true;
 
@@ -44,6 +43,7 @@ bool Backup::saveData(){
         QDateTime date_time;
         lastSave   = date_time.currentDateTime().toString().toStdString();
     }
+    setDataLoaded(saveDone);
 
     notify();
     return saveDone;
@@ -107,11 +107,17 @@ void Backup::restoreFtpData(){
     string pass = ftpTarget->getFtpPass();
     int port = stoi(ftpTarget->getPort());
 
-    QEventLoop loopUp;
-    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
+    if(Ftp::getInstance().isCurrentlyBusy()){
+        QEventLoop loop;
+        QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+    }
+
+    QEventLoop loopDown;
+    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopDown, SLOT(quit()));
     Ftp::getInstance().prepareFtp(host,username,pass,port);
     Ftp::getInstance().ftpDownload(target->getPath()+"/"+name+".vy","tmp");
-    loopUp.exec();
+    loopDown.exec();
 
     decryptDecompressFromTo("tmp/"+name,"decrypt/"+name);
 
@@ -136,11 +142,17 @@ bool Backup::loadFtpJson() {
     string pass = ftpTarget->getFtpPass();
     int port = stoi(ftpTarget->getPort());
 
-    QEventLoop loopUp;
-    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopUp, SLOT(quit()));
+    if(Ftp::getInstance().isCurrentlyBusy()){
+        QEventLoop loop;
+        QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+    }
+
+    QEventLoop loopDown;
+    QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopDown, SLOT(quit()));
     Ftp::getInstance().prepareFtp(host,username,pass,port);
     Ftp::getInstance().ftpDownload(target->getPath()+"/"+json_data, "tmp");
-    loopUp.exec();
+    loopDown.exec();
 
     bool loadOk = loadJsonDataFrom( "tmp/"+json_data);
 
@@ -164,6 +176,12 @@ bool Backup::compressCryptFromTo(std::string source_dir,std::string dest_file){
     QString crypt_from = QString::fromStdString(source_dir);
     QString crypt_to = QString::fromStdString(dest_file);
 
+    if(CompressCrypt::getInstance().isCurrentlyBusy()){
+        QEventLoop loop;
+        QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+    }
+
     compCryptOk &= CompressCrypt::getInstance().cryptDir(crypt_from ,crypt_to+"_temp",key);
     compCryptOk &= CompressCrypt::getInstance().compressDir(crypt_to+"_temp",crypt_to+".vy");
 
@@ -178,6 +196,12 @@ bool Backup::decryptDecompressFromTo(std::string source_file,std::string dest_di
 
     QString decrypt_from = QString::fromStdString(source_file);
     QString decrypt_to = QString::fromStdString(dest_dir);
+
+    if(CompressCrypt::getInstance().isCurrentlyBusy()){
+        QEventLoop loop;
+        QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+    }
 
     decompCryptOk &= CompressCrypt::getInstance().decompressDir(decrypt_from+".vy",decrypt_from+"_temp");
     decompCryptOk &= CompressCrypt::getInstance().decryptDir(decrypt_from+"_temp",decrypt_to,key);
@@ -207,9 +231,11 @@ bool Backup::loadJsonDataFrom(std::string configFile){
             setLastSave(distant_partial_backup->getLastSave());
             setNote(distant_partial_backup->getNote());
         }
+        notify();
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
         return hasLoadedData();
     }
+    notify();
     return false;
 }
 
@@ -280,7 +306,7 @@ void Backup::setOwnersPass(const std::string pass)
 {   ownerLogPass[1] = pass; }
 
 bool Backup::operator==(const Backup &backup)
-{   return (strcmp(key, backup.getKey().c_str())==0 ) ;  }
+{   return (strcmp(key, backup.getKey().c_str())==0  && name == backup.getName()) ;  }
 
 bool Backup::operator!=(const Backup &backup)
 {   return !operator==(backup);     }
@@ -349,7 +375,6 @@ void Backup::notify(){
 
 void Backup::attach(Observer *o){
     observerList.push_back(o);
-    notify();
 }
 
 void Backup::detach(Observer *o){

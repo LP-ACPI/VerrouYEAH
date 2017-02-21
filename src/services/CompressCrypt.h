@@ -12,6 +12,7 @@ class CompressCrypt : public QObject
     Q_OBJECT
     explicit CompressCrypt(QObject *parent = 0);
     quint64 totalDataCount;
+    bool isBusy = false;
 
 public:
     static CompressCrypt &getInstance(){
@@ -24,6 +25,10 @@ public:
 
     bool cryptDir(const QString&, const QString&, char*);
     bool decryptDir(const QString&,const QString&, char*);
+
+    bool isCurrentlyBusy(){
+        return isBusy;
+    }
 
 signals:
     void compressStarted();

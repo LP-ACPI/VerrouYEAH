@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iostream>
 
-class TestInfo { //nécéssaire car template initialise ses statiques à chaque spécif. de T
+class TestInfo {
 protected:
     static int countTests;
     static int countPassed;

@@ -19,33 +19,41 @@ SOURCES	+=  \
     ../models/File.cpp \
     ../models/Frequency.cpp \
     ../models/User.cpp \
+    ../models/FtpTarget.cpp \
+    ../controllers/UserController.cpp \
+    ../controllers/BackupController.cpp \
+    ../controllers/UsersBackupController.cpp \
+    ../controllers/TargetController.cpp \
+    ../services/Scheduler.cpp \
     ../services/Crypt.cpp \
     ../services/ConfigManager.cpp \
     ../services/Ftp.cpp \
-    ../services/Scheduler.cpp \
     ../services/CompressCrypt.cpp \
-    ../controllers/UsersBackupController.cpp \
-    ../controllers/UserController.cpp \
-    ../controllers/BackupController.cpp \
-    main.cpp
+    ../models/absTarget.cpp \
+    ../models/Target.cpp \
+            main.cpp
+
 
 HEADERS	+=  \
     ../models/Backup.h \
-    ../models/Data.h \
-    ../models/Directory.h \
+   ../models/Data.h \
+   ../models/Directory.h \
     ../models/File.h \
     ../models/Frequency.h \
     ../models/User.h \
-    ../services/Crypt.h \
+    ../models/FtpTarget.h \
+    ../controllers/UserController.h \
+    ../controllers/UsersBackupController.h \
+    ../controllers/BackupController.h \
+    ../controllers/TargetController.h \
     ../services/Scheduler.h \
+    ../services/CompressCrypt.h \
+    ../services/Crypt.h \
     ../services/ConfigManager.h \
     ../services/Ftp.h \
-    ../services/CompressCrypt.h \
-    ../controllers/UsersBackupController.h \
-    ../controllers/UserController.h \
-    ../controllers/BackupController.h \
-    persistancetest.hpp \
+    ../services/Observer.h \
     usertest.hpp \
+    persistanceTest.hpp \
     datatest.hpp \
     ftptests.hpp
 

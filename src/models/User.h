@@ -36,10 +36,10 @@ public:
 
     Backup getBackupAt(const unsigned);
     Backup getBackupByKey(const std::string);
-    void addBackup(const Backup);
+    void addBackup( Backup);
     void removeBackup( Backup);
-    void replaceBackupAt(const unsigned,const Backup);
-    void replaceBackup(const Backup, const Backup);
+    void replaceBackupAt(const unsigned, Backup);
+    void replaceBackup(const Backup,  Backup);
     void removeBackups();
     void setBackups(const std::list<Backup>);
     bool hasBackup(const Backup);

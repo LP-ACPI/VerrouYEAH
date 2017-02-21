@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "authdialog.h"
+#include "../controllers/BackupController.h"
+
 #include "progressdialog.h"
 
 #include <QtGui>
@@ -83,8 +85,11 @@ void MainWindow::on_actionDecryptDestination_triggered(){
 
 void MainWindow::onBackupItemClicked(QListWidgetItem *backupItem){
      BackupWidget *bcW = qobject_cast<BackupWidget*>(backupList->itemWidget(backupItem));
-     detailBackupDialog = new BackupDetailsDialog(bcW->getBackupKey(),this);
+     detailBackupDialog = new BackupDetailsDialog(bcW->getBackupKey(),bcW);
      detailBackupDialog->show();
+
+     connect(detailBackupDialog,SIGNAL(removed(std::string)),this,SLOT(onBackupDeleted(std::string)));
+
 }
 
 void MainWindow::onBackupAdd(std::map<std::string, std::string> generatedBcInfo){
@@ -97,9 +102,11 @@ void MainWindow::onBackupDeleted(std::string backupKey){
         if(bcW->getBackupKey() == backupKey){
             backupList->takeItem(row);
             backupWidgetList.removeAt(row);
+            BackupController::getInstance().unsubscribeObserverFromBackup(bcW,backupKey);
         }
         ++row;
 }
+
     UsersBackupController::getInstance().deleteUsersBackup(backupKey);
 }
 
@@ -135,5 +142,4 @@ void MainWindow::dropEvent(QDropEvent *event)
              event->acceptProposedAction();
          }
      }
-
 }
