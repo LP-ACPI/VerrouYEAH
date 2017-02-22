@@ -7,22 +7,24 @@
 #include <QFileIconProvider>
 #include <QMessageBox>
 
-BackupWidget::BackupWidget(QWidget *parent) : QWidget(parent),_parent(parent)
+BackupWidget::BackupWidget(std::string _backupKey,QWidget *parent)
+    : QWidget(parent),backupKey(_backupKey), _parent(parent)
 {
     setupUi(this);
 }
 
-void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
-    backupKey = backupInfo["key"];
-
+void BackupWidget::subscribeToBackup(){
     BackupController::getInstance().subscribeObserverToBackup(this,backupKey);
+}
+
+void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
 
     backupName->setText(QString::fromStdString(backupInfo["name"]));
     backupSource->setText(QString::fromStdString(backupInfo["source_path"]));
     QPixmap state_icon;
 
     if(BackupController::getInstance().isBackupFtp(backupKey)){
-        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(backupInfo["target_id"]);
+        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(backupInfo["target_tag"]);
 
         if(backupInfo["data_loaded"] == "oui")
             state_icon = QPixmap(":/images/cloud-ok.png");
@@ -30,7 +32,7 @@ void BackupWidget::setBackupInfo(std::map<std::string,std::string> backupInfo){
             state_icon = QPixmap(":/images/cloud-ko.png");
 
     }else{
-        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_id"]);
+        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(backupInfo["target_tag"]);
 
         if(backupInfo["data_loaded"] == "oui")
             state_icon = QPixmap(":/images/usb-ok.png");
@@ -71,6 +73,12 @@ void BackupWidget::on_configButton_clicked(){
 }
 
 void BackupWidget::on_decryptButton_clicked(){
+    if(BackupController::getInstance().servicesAreBusy()){
+        QMessageBox::warning(this, "Attention!",
+                             "les services sont actuellement occupés à effectuer une sauvegarde. "
+                             "\nMerci de reéssayer plus tard");
+        return;
+    }
     ProgressDialog *progressDialog = new ProgressDialog(_parent);
     progressDialog->setFtp(targetInfo["type"] == "FTP");
     progressDialog->setUpload(false);
@@ -92,8 +100,9 @@ void BackupWidget::update(nlohmann::json backup)  {
         bc_map["last_save"]       = backup["last_save"];
         bc_map["note"]                = backup["note"];
         bc_map["frequency"]     = backup["freq"];
-        bc_map["target_id"]        =TargetController::getInstance().targetCouplesTagKey()[backup["dest"]["tag"]];
+        bc_map["target_tag"]    =backup["dest"]["tag"];
         bc_map["data_loaded"] = BackupController::getInstance().hasBackupLoadedData( bc_map["key"]  ) ? "oui" : "non";
         setBackupInfo(bc_map);
+        qDebug()<< QString::fromStdString(bc_map["name"]);
     }catch(std::domain_error &e){}
 }

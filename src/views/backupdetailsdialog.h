@@ -14,7 +14,7 @@ class BackupDetailsDialog : public  QDialog, private Ui::BackupDetailsDialog, pu
     QWidget _parent;
     QFileSystemModel *model ;
     std::string backupKey;
-    std::string targetId;
+    std::string targetTag;
 
     virtual void update(nlohmann::json)  override;
 

@@ -75,7 +75,8 @@ HEADERS	+=  \
     src/views/filesystemmodel.h \
     src/views/frequencyform.h \
     src/views/recoverbackupdialog.h \
-    src/services/Observer.h
+    src/services/Observer.h \
+    src/services/BackupSubject.h
 
 FORMS	+=  \
     src/views/forms/backupwidget.ui \

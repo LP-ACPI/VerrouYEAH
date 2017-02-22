@@ -25,13 +25,6 @@ void ProgressDialog::setUpload(bool upload){
 
 void ProgressDialog::init(){
 
-    if(ftpServ->isCurrentlyBusy() || comprCryptServ->isCurrentlyBusy()){
-        QMessageBox::warning(this, "Attention!",
-                             "les services sont actuellement occupés à effectuer une sauvegarde. "
-                             "\nMerci de reéssayer plus tard");
-        destroy();
-        return;
-    }
     setUpConnections();
 
     topBar->setMinimum(0);
@@ -64,8 +57,10 @@ void ProgressDialog::setUpConnections(){
             connect(ftpServ,SIGNAL(uploadStarted()),this,SLOT(onUploadBegan()));
         else
             connect(ftpServ,SIGNAL(downloadStarted()),this,SLOT(onDownloadBegan()));
+
         connect(ftpServ,SIGNAL(transferProgress(quint64,quint64)),this,SLOT(onTransferProgress(quint64,quint64)));
         connect(this,SIGNAL(canceled()),ftpServ,SLOT(cancelTranfer()));
+        connect(ftpServ,SIGNAL(error()),this,SLOT(onConnectivityErrorOccured()));
     }
 
     connect(comprCryptServ,SIGNAL(compressStarted()), this,SLOT(onCompressBegan()));
@@ -74,13 +69,15 @@ void ProgressDialog::setUpConnections(){
 
     connect(comprCryptServ,SIGNAL(decompressStarted()), this,SLOT(onDecompressBegan()));
 
-    connect(comprCryptServ,SIGNAL(cryptingStarted()), this,SLOT(onCryptBegan()));
+    connect(comprCryptServ,SIGNAL(cryptingStarted(QString)), this,SLOT(onCryptBegan(QString)));
     connect(comprCryptServ,SIGNAL(cryptInProgress(quint64,quint64)),
                                     this,SLOT(onCryptProgress(quint64,quint64)));
 
     connect(comprCryptServ,SIGNAL(decryptingStarted()), this,SLOT(onDecryptBegan()));
     connect(comprCryptServ,SIGNAL(decryptInProgress(quint64,quint64)),
                                      this,SLOT(onDecryptProgress(quint64,quint64)));
+    connect(comprCryptServ,SIGNAL(error(QString)),this,SLOT(onCompressCryptErrorOccured(QString)));
+
 }
 
 void ProgressDialog::on_cancelButton_clicked(){
@@ -88,7 +85,7 @@ void ProgressDialog::on_cancelButton_clicked(){
     close();
 }
 
-void ProgressDialog::onCryptBegan(){
+void ProgressDialog::onCryptBegan(QString){
     midBar->setDisabled(true);
     midLabel->setText("Compression en attente...");
 
@@ -194,4 +191,21 @@ void ProgressDialog::onDecryptDone(){
 
 void ProgressDialog::onAllDone(){
     close();
+}
+
+void ProgressDialog::onConnectivityErrorOccured(){
+    QMessageBox::warning(this, "Attention!",
+                         "Une erreur de connection est survenue.\n "
+                         "Etes-vous connectés à internet?\n"
+                         "Merci de reéssayer plus tard");
+    close();
+    return;
+}
+
+void ProgressDialog::onCompressCryptErrorOccured(QString errMessage){
+    QMessageBox::warning(this, "Attention!",
+                         "Une erreur de (dé)cryptage/compression est survenue :\n "
+                         + errMessage);
+    close();
+    return;
 }

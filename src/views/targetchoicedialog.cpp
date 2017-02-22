@@ -66,8 +66,7 @@ void TargetChoiceDialog::on_addTarget_clicked(){
 
 void TargetChoiceDialog::on_configTarget_clicked(){
     std::string tag = tagChoice->currentText().toStdString();
-    std::string key = TargetController::getInstance().targetCouplesTagKey()[tag];
-    targFormDialog = new TargetFormDialog(key,this);
+    targFormDialog = new TargetFormDialog(tag,this);
     targFormDialog->show();
 
     if(typeChoice->currentText() == "FTP")
@@ -99,14 +98,13 @@ void TargetChoiceDialog::on_removeTarget_clicked(){
       "Vous allez supprimer votre destination "
                          +tagChoice->currentText()
                          +"\nEtes-vous sûr?",
-                QMessageBox::Yes|QMessageBox::No);
+                QMessageBox::Yes | QMessageBox::No);
 
    if(response == QMessageBox::Yes){
 
        std::string tag = tagChoice->currentText().toStdString();
-       std::string key = TargetController::getInstance().targetCouplesTagKey()[tag];
        try{
-           TargetController::getInstance().deleteFavoriteTarget(key);
+           TargetController::getInstance().deleteFavoriteTarget(tag);
        } catch(const std::invalid_argument &e){
            QMessageBox::warning(this, "Attention!",
                  QString::fromStdString(e.what()) +

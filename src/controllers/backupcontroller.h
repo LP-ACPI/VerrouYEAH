@@ -19,6 +19,7 @@ public:
     void subscribeObserverToBackup(Observer*,std::string);
     void unsubscribeObserverFromBackup(Observer*,std::string);
 
+    bool servicesAreBusy();
     bool updateDataIfAccessible(Backup*);
     void restoreBackupData(std::string);
 

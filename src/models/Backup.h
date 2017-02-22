@@ -29,7 +29,7 @@ class Backup {
     std::string note;
     bool dataIsLoaded;
     std::string ownerLogPass[2];
-    std::vector<Observer*> observerList;
+    std::list<Observer*> observerList;
 
     bool saveFtpData();
     void restoreFtpData();
@@ -84,6 +84,7 @@ public:
     Frequency getFrequency() const;
     const Data* getData() const;
     bool hasLoadedData() const;
+    std::list<Observer*> getObservers() const;
 
     bool loadJsonData() ;
     std::string getOwnersLogin() const;
@@ -101,6 +102,7 @@ public:
     void setDataLoaded(const bool);
     void setOwnersLogin(const std::string);
     void setOwnersPass(const std::string);
+    void resetObservers(const std::list<Observer*>);
 
     void notify();
     void attach(Observer*);

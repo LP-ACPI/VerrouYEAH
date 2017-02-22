@@ -32,10 +32,10 @@ void BackupDetailsDialog::updateBackupInfo(std::string backupKey){
 
     QPixmap state_icon;
     QString targetPath;
-    targetId = backupInfo["target_id"];
+    targetTag = backupInfo["target_tag"];
 
     if(BackupController::getInstance().isBackupFtp(backupKey)){
-        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetId);
+        targetInfo = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetTag);
         targetHostLabel->setText(QString::fromStdString(targetInfo["host"]) );
         targetPath ="/"+ QString::fromStdString(targetInfo["path"]);
         if(backupInfo["data_loaded"] == "oui")
@@ -44,7 +44,7 @@ void BackupDetailsDialog::updateBackupInfo(std::string backupKey){
             state_icon = QPixmap(":/images/cloud-ko.png");
 
    } else {
-        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetId);
+        targetInfo = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetTag);
         targetPath = QString::fromStdString(targetInfo["path"]);
         targetHostLabel->hide();
 
@@ -57,7 +57,7 @@ void BackupDetailsDialog::updateBackupInfo(std::string backupKey){
     stateIcon->setScaledContents(true);
     stateIcon->setPixmap(state_icon);
 
-    targetNameLabel->setText(QString::fromStdString(targetInfo["tag"]));
+    targetNameLabel->setText(QString::fromStdString(targetTag));
     targetPathLabel->setText(targetPath);
 
     QString sourcePath = QString::fromStdString(backupInfo["source_path"])+"/";
@@ -96,11 +96,19 @@ void BackupDetailsDialog::on_trashButton_clicked(){
 }
 
 void BackupDetailsDialog::on_decryptButton_clicked(){
+
+    if(BackupController::getInstance().servicesAreBusy()){
+        QMessageBox::warning(this, "Attention!",
+                             "les services sont actuellement occupés à effectuer une sauvegarde. "
+                             "\nMerci de reéssayer plus tard");
+        return;
+    }
+
     ProgressDialog *progressDialog = new ProgressDialog(this);
     progressDialog->setFtp(BackupController::getInstance().isBackupFtp(backupKey));
     progressDialog->setUpload(false);
-    progressDialog->show();
     progressDialog->init();
+    progressDialog->show();
     BackupController::getInstance().restoreBackupData(backupKey);
 }
 
@@ -110,6 +118,6 @@ void BackupDetailsDialog::on_backButton_clicked(){
 
 void BackupDetailsDialog::update(nlohmann::json backupInfo) {
     try{
-      updateBackupInfo(backupInfo["key"]);
+      updateBackupInfo(backupKey);
     }catch(std::domain_error &e){}
 }

@@ -10,6 +10,7 @@
 
 #include "../controllers/UsersBackupController.h"
 #include <QMainWindow>
+#include <QSystemTrayIcon>
 
 class MainWindow :
         public QMainWindow,
@@ -22,6 +23,8 @@ class MainWindow :
     BackupDetailsDialog *detailBackupDialog;
     BackupForm *backupForm;
     UserForm *userForm;
+
+    QSystemTrayIcon *systemTrayIcon;
 
     void addBackupItem(std::map<std::string,std::string>);
     void initBackupList();
@@ -47,6 +50,9 @@ protected slots:
     void onBackupItemClicked(QListWidgetItem*);
     void onBackupDeleted(std::string);
     void onBackupAdd(std::map<std::string,std::string>);
+
+    void showEventMessage(QString);
+   void iconActivated(QSystemTrayIcon::ActivationReason);
 };
 
 #endif // MAINWINDOW_H

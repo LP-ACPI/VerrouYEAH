@@ -11,7 +11,7 @@ class TargetFormDialog : public QDialog, private Ui::TargetFormDialog
     bool isFtpFormValid();
     bool isNormalFormValid();
     bool isNotValid();
-    std::string _targetId;
+    std::string _targetTag;
 public:
     explicit TargetFormDialog(QWidget *parent = 0);
     explicit TargetFormDialog(std::string, QWidget *parent = 0);

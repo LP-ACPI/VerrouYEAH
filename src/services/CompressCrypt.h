@@ -39,7 +39,7 @@ signals:
     void decompressInProgress(quint64,quint64);
     void decompressDone();
 
-    void cryptingStarted();
+    void cryptingStarted(QString);
     void cryptInProgress(quint64,quint64);
     void cryptingDone();
 
@@ -47,7 +47,7 @@ signals:
     void decryptInProgress(quint64,quint64);
     void decryptingDone();
 
-    void error();
+    void error(QString);
 
 private:
     QFile file;

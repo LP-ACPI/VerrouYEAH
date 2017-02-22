@@ -1,15 +1,15 @@
 #include "Scheduler.h"
 #include <chrono>
+#include <algorithm>
 
 using namespace std;
 
 void Scheduler::saveLoop()
 {
     for(auto it = saves.begin();it != saves.end();++it)
-        if(it->getFrequency().isNow()){
-            it->saveData();
-    }
-
+            if(it->getFrequency().isNow()){
+                it->saveData();
+            }
 
     if(loop)
     {
@@ -41,15 +41,21 @@ void Scheduler::add(Backup &backup)
 {
     saves.push_back(backup);
 }
-void Scheduler::addFromUser(User* user)
+void Scheduler::addFromUser(User *user)
 {
-    for (auto it = user->getBackups().begin(); it != user->getBackups().end() ; ++it)
-        saves.push_back(*it);
+    for (Backup bc : user->getBackups())
+        add(bc);
 }
 
 void Scheduler::remove(Backup &backup)
 {
-//    for(auto it = saves.begin();it != saves.end();++it)
-//        if(*it == backup)
             saves.remove(backup);
 }
+void Scheduler::replace(const Backup &oldBackup,Backup &newBackup)
+{
+    for(auto it = saves.begin();it != saves.end();++it)
+        if(oldBackup.getKey() == it->getKey())
+           (*it) = newBackup;
+}
+
+

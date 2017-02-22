@@ -31,7 +31,7 @@ public slots:
 
     void onAllDone();
 
-    void onCryptBegan();
+    void onCryptBegan(QString);
     void onDecryptBegan();
     void onDecryptDone();
 
@@ -45,6 +45,10 @@ public slots:
     void onDecryptProgress(quint64,quint64);
     void onCompressProgress(quint64,quint64);
     void onTransferProgress(quint64,quint64);
+
+    void onConnectivityErrorOccured();
+    void onCompressCryptErrorOccured(QString);
+
 };
 
 #endif // PROGRESSDIALOG_H

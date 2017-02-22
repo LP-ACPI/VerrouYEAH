@@ -44,17 +44,17 @@ User* ConfigManager::loadUser(string login){
         string type = favorite_targets[it.key()]["type"];
         string path = favorite_targets[it.key()]["path"];
 
-        AbsTarget *fav_trg;
         if(type == "FTP"){
-            FtpTarget *fav_trg = new FtpTarget(tag,path);
+            FtpTarget* fav_trg =new FtpTarget(tag,path);
             fav_trg->setHost(favorite_targets[it.key()]["host"]);
             fav_trg->setUserName(favorite_targets[it.key()]["username"]);
             fav_trg->setFtpPass(favorite_targets[it.key()]["pass"]);
             fav_trg->setPort(favorite_targets[it.key()]["port"]);
+            user->addFavoriteTarget(fav_trg);
         } else {
-            fav_trg = new Target(tag,path);
+            Target* fav_trg = new Target(tag,path);
+            user->addFavoriteTarget(fav_trg);
         }
-        user->addFavoriteTarget(fav_trg);
     }
 
     json backups = user_config["backups"];
@@ -82,7 +82,7 @@ User* ConfigManager::loadUser(string login){
         backup.loadJsonData();
 
         user->addBackup(backup);
-        Scheduler::getInstance().add(backup);
+//        Scheduler::getInstance().add(backup);
     }
 
     return user ;

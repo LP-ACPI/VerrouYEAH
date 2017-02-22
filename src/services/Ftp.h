@@ -16,8 +16,8 @@ private:
     QString host;
     QUrl* url;
     QFile *file;
-    bool requestCanceled;
     bool rewriteDownloadedFile;
+    bool requestCanceled = false;
     bool isBusy = false;
 
 
@@ -49,6 +49,9 @@ public:
 
     bool isCurrentlyBusy(){
         return isBusy;
+    }
+    bool connectionErrorOccured(){
+        return requestCanceled;
     }
 
 signals:

@@ -10,21 +10,20 @@
 class BackupWidget : public QWidget, private Ui::BackupWidget, public Observer
 {
     Q_OBJECT
-    std::string backupKey;
     std::map<std::string,std::string> targetInfo;
-
+    std::string backupKey;
     QWidget *_parent;
-
     virtual void update(nlohmann::json)  override;
 
 public:
-    explicit BackupWidget(QWidget *parent = 0);
+    explicit BackupWidget(std::string,QWidget *parent = 0);
 
     void setBackupInfo(std::map<std::string,std::string>);
 
     std::string getBackupKey()
     { return backupKey; }
 
+    void subscribeToBackup();
 
 signals:
     void removed(std::string);

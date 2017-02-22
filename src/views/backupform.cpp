@@ -30,17 +30,10 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
 
      backup_info = UsersBackupController::getInstance().getUsersBackupInfo(backupKey);
 
-    std::string targetTag;
-    backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType(backup_info["target_id"]);
-    if(backup_info["target_type"]  == "FTP")
-        targetTag = TargetController::getInstance().favoriteFtpTargetToInfoMap(backup_info["target_id"])["tag"];
-   else
-        targetTag = TargetController::getInstance().favoriteNormalTargetToInfoMap(backup_info["target_id"])["tag"];
-
-    setSourceText(QString::fromStdString(backup_info["source_path"]));
+    targetChoiceButton->setText(QString::fromStdString(backup_info["target_tag"]));
     noteInput->setPlainText(QString::fromStdString(backup_info["note"]));
+    setSourceText(QString::fromStdString(backup_info["source_path"]));
     nameInput->setText(QString::fromStdString(backup_info["name"]));
-    targetChoiceButton->setText(QString::fromStdString(targetTag));
 
     connect(this,SIGNAL(postUpdateBackupData(std::map<std::string,std::string>)),
             this,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
@@ -108,12 +101,18 @@ void BackupForm::on_backupButtonBox_rejected(){
 }
 
 void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
+    if(BackupController::getInstance().servicesAreBusy()){
+        QMessageBox::warning(this, "Attention!",
+                             "les services sont actuellement occupés à effectuer une sauvegarde. "
+                             "\nMerci de reéssayer plus tard");
+        return;
+    }
 
     progressDialog = new ProgressDialog(this);
     progressDialog->setFtp(backup_info["target_type"]  == "FTP");
     progressDialog->setUpload(true);
-    progressDialog->show();
     progressDialog->init();
+    progressDialog->show();
 
     std::map<std::string,std::string> bc_info_wth_key
             = UsersBackupController::getInstance().addNewUsersBackup(backupInfo);
@@ -122,12 +121,17 @@ void BackupForm::onNewBackupAdded(std::map<std::string,std::string> backupInfo){
 
 
 void BackupForm::onBackupUpdated(std::map<std::string,std::string> backupInfo){
-
+    if(BackupController::getInstance().servicesAreBusy()){
+        QMessageBox::warning(this, "Attention!",
+                             "les services sont actuellement occupés à effectuer une sauvegarde. "
+                             "\nMerci de reéssayer plus tard");
+        return;
+    }
     progressDialog = new ProgressDialog(this);
     progressDialog->setFtp(BackupController::getInstance().isBackupFtp(backupInfo["key"]));
     progressDialog->setUpload(true);
-    progressDialog->show();
     progressDialog->init();
+    progressDialog->show();
     UsersBackupController::getInstance().updateUsersBackup(backupInfo);
 
 }
@@ -187,8 +191,7 @@ void BackupForm::on_targetChoiceButton_clicked(){
 void BackupForm::onTargetSelected(QString targetTag){
     targetChoiceButton->setText(targetTag);
     targetChoiceButton->setToolTip(targetTag);
-    backup_info["target_id"] = TargetController::getInstance().targetCouplesTagKey()[ targetTag.toStdString()  ];
-    backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( backup_info["target_id"] );
+    backup_info["target_type"] = TargetController::getInstance().getFavoriteTargetsType( targetTag.toStdString() );
 }
 
 void BackupForm::on_frequencyButton_clicked(){

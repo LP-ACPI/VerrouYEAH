@@ -15,12 +15,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupUi(this);
 
+    std::string userName = UserController::getInstance().getCurrentUserLogin();
+    setWindowTitle(QString::fromStdString("VerrouYeah" + userName));
+
     newBackupButton->setAcceptDrops(true);
     initBackupList();
 
     connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
             this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
 
+    systemTrayIcon = new QSystemTrayIcon(QIcon(":/images/icone_temporaire.png"),this);
+    systemTrayIcon->show();
+    systemTrayIcon->setToolTip("VerrouYeah");
+    connect(&CompressCrypt::getInstance(),SIGNAL(cryptingStarted(QString)),this,SLOT(showEventMessage(QString)));
+    connect(systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                    this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 }
 
 MainWindow::~MainWindow(){
@@ -46,7 +55,8 @@ void MainWindow::initBackupList(){
 
 void MainWindow::addBackupItem(std::map<std::string,std::string> backup_info){
     QListWidgetItem *item = new QListWidgetItem;
-    BackupWidget *bcW = new BackupWidget(this);
+    BackupWidget *bcW = new BackupWidget(backup_info["key"],this);
+    bcW->subscribeToBackup();
     bcW->setBackupInfo(backup_info);
 
     item->setSizeHint(QSize(1,80));
@@ -97,6 +107,13 @@ void MainWindow::onBackupAdd(std::map<std::string, std::string> generatedBcInfo)
 }
 
 void MainWindow::onBackupDeleted(std::string backupKey){
+    if(BackupController::getInstance().servicesAreBusy()){
+        QMessageBox::warning(this, "Attention!",
+                             "les services sont actuellement occupés à effectuer une sauvegarde. "
+                             "\nMerci de reéssayer plus tard");
+        return;
+    }
+
     int row = 0;
     for(BackupWidget *bcW: backupWidgetList){
         if(bcW->getBackupKey() == backupKey){
@@ -105,9 +122,8 @@ void MainWindow::onBackupDeleted(std::string backupKey){
             BackupController::getInstance().unsubscribeObserverFromBackup(bcW,backupKey);
         }
         ++row;
-}
-
-    UsersBackupController::getInstance().deleteUsersBackup(backupKey);
+    }
+        UsersBackupController::getInstance().deleteUsersBackup(backupKey);
 }
 
 void MainWindow::on_recoverBackupButton_clicked(){
@@ -128,6 +144,27 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
+void MainWindow::showEventMessage(QString backupName){
+
+    systemTrayIcon->showMessage("Info",
+                                backupName+" est en cours de sauvegarde. "
+                                           "\nLes services risquent d'être occupés pendant un instant" );
+}
+
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+ {
+     switch (reason) {
+     case QSystemTrayIcon::Trigger:
+         showEventMessage("test");
+         break;
+     case QSystemTrayIcon::DoubleClick:
+         break;
+     case QSystemTrayIcon::MiddleClick:
+         break;
+     default:
+         ;
+     }
+ }
 void MainWindow::dropEvent(QDropEvent *event)
 {
     QList<QUrl> droppedUrls = event->mimeData()->urls();

@@ -25,21 +25,21 @@ void RecoverBackupsDialog::on_buttonBox_accepted(){
     if(!isFormValid())
         return;
 
-    std::string target_id = TargetController::getInstance().targetCouplesTagKey()[targetChoiceButton->text().toStdString()];
+    std::string target_tag = targetChoiceButton->text().toStdString();
     std::string login = loginInput->text().toStdString();
     std::string pass  = passInput->text().toStdString();
 
-    emit postData(login,pass,target_id);
+    emit postData(login,pass,target_tag);
 }
 
 void RecoverBackupsDialog::on_buttonBox_rejected(){
     close();
 }
 
-void RecoverBackupsDialog::startResearchBackup(std::string  login,std::string  pass,std::string targetId){
+void RecoverBackupsDialog::startResearchBackup(std::string  login,std::string  pass,std::string targetTag){
     try {
         nlohmann::json backups;
-        backups = UsersBackupController::getInstance().recoverUsersNonRegistrededBackups(login,pass,targetId);
+        backups = UsersBackupController::getInstance().findUsersNonRegistrededBackups(login,pass,targetTag);
     } catch(const std::exception &e){
         QMessageBox::warning(this, "Attention!",
           QString::fromStdString(e.what()));

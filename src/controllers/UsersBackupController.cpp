@@ -3,8 +3,8 @@
 #include "UserController.h"
 #include "targetcontroller.h"
 #include "../services/ConfigManager.h"
-#include "../services/Scheduler.h"
 #include "../services/Ftp.h"
+#include "../services/CompressCrypt.h"
 #include <QEventLoop>
 
 
@@ -30,22 +30,21 @@ void UsersBackupController::setCurrentUser(){
 }
 
 std::map<std::string,std::string> UsersBackupController::getUsersBackupInfo(std::string bcpKey){
-    Backup backup = user->getBackupByKey(bcpKey);
+    Backup *backup = user->getBackupByKey(bcpKey);
 
-    std::map<std::string,std::string> backup_info = BackupController::getInstance().getInfoMapFromBackup(&backup);
+    std::map<std::string,std::string> backup_info = BackupController::getInstance().getInfoMapFromBackup(backup);
     return backup_info;
 }
 
 std::map<std::string,std::string> UsersBackupController::addNewUsersBackup(std::map<std::string,std::string> backupInfo){
+
     char *key = Crypt::genKey(32);
     backupInfo["key"] = std::string(key);
     Backup new_backup = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
     new_backup.setOwnersLogin(user->getLogin());
     new_backup.setOwnersPass(user->getPassword());
     try{
-        new_backup.saveData();
         user->addBackup(new_backup);
-        Scheduler::getInstance().add(new_backup);
         ConfigManager::getInstance().updateUser(user);
         return BackupController::getInstance().getInfoMapFromBackup(&new_backup);
     }catch(std::invalid_argument &e){
@@ -55,31 +54,23 @@ std::map<std::string,std::string> UsersBackupController::addNewUsersBackup(std::
 }
 
 void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> backupInfo){
-    //TODO: avertissement "modif' données sauvegardés"
-    //déplacer vers nouvelle desti + suppr ancienne -> dans backup.saveData?replaceBackup?
+
     try{
         Backup backup_to_update = BackupController::getInstance().getBackupFromInfoMap(backupInfo);
         backup_to_update.setOwnersLogin(user->getLogin());
         backup_to_update.setOwnersPass(user->getPassword());
-        Backup old_backup = user->getBackupByKey(backup_to_update.getKey());
+        Backup *old_backup = user->getBackupByKey(backup_to_update.getKey());
         backup_to_update.saveData();
-        user->replaceBackup(old_backup,backup_to_update);
-
-        Scheduler::getInstance().remove(old_backup);
-        Scheduler::getInstance().add(backup_to_update);
+        user->replaceBackup(*old_backup,backup_to_update);
         ConfigManager::getInstance().updateUser(user);
     }catch(std::invalid_argument &e){
         throw std::invalid_argument(e.what());
-        return;
     }
 }
 
 void UsersBackupController::deleteUsersBackup(std::string bcKey){
-    //TODO: avertissement "suppression données sauvegardés"
-    // + supprimer le fichier .vy?
-    Backup bc_to_delete = user->getBackupByKey(bcKey);
-    user->removeBackup(bc_to_delete);
-    Scheduler::getInstance().remove(bc_to_delete);
+    Backup* bc_to_delete = user->getBackupByKey(bcKey);
+    user->removeBackup(*bc_to_delete);
     ConfigManager::getInstance().updateUser(user);
 }
 
@@ -101,31 +92,53 @@ std::list<std::string> UsersBackupController::getUsersBackupNameList(){
 }
 
 //TODO
-nlohmann::json UsersBackupController::recoverUsersNonRegistrededBackups(std::string login,std::string pass,std::string targetId){
-   std::string target_type = TargetController::getInstance().getFavoriteTargetsType(targetId);
+json UsersBackupController::findUsersNonRegistrededBackups(std::string login,std::string pass,std::string targetTag){
+   std::string target_type = TargetController::getInstance().getFavoriteTargetsType(targetTag);
    std::map<std::string,std::string> targetInfoMap;
    std::string config_file_path;
-   nlohmann::json jsonBackupData;
+   json jsonBackupData = json::array();
    bool downOk = true;
    if(target_type == "FTP"){
-        targetInfoMap = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetId);
+        targetInfoMap = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetTag);
         int port = stoi(targetInfoMap["port"]);
+
+       while(Ftp::getInstance().isCurrentlyBusy());
 
         QEventLoop loopDown;
         QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopDown, SLOT(quit()));
-        Ftp::getInstance().prepareFtp(targetInfoMap["host"],targetInfoMap["username"],pass,port);
+        Ftp::getInstance().prepareFtp(targetInfoMap["host"],targetInfoMap["username"],targetInfoMap["pass"],port);
          downOk &= Ftp::getInstance().ftpDownload(targetInfoMap["path"]+"/"+login+".config","tmp_recover");
         loopDown.exec();
+
         config_file_path = "tmp_recover/"+login+".config";
-   }else
-       targetInfoMap = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetId);
+
+   }else{
+       targetInfoMap = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetTag);
+       config_file_path=targetInfoMap["path"] + QDir::separator().toLatin1() + login + ".config";
+   }
 
    std::string hashedPass = Crypt::generateHashedPass(pass);
     try {
-        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(login,hashedPass )){
+       ConfigManager::getInstance().setJsonFile(config_file_path);
 
-        } else {
-            throw std::invalid_argument("Erreur Authentification");
+       if(ConfigManager::getInstance().authentifyDistantBackupsOwner(login,hashedPass )){
+            User *tmp_user = new User(login,hashedPass);
+            for(Backup *bc : ConfigManager::getInstance().getUsersDistantBackupList(tmp_user)){
+                json tmp_json = json{
+                {"key",bc->getKey()},
+                {"name",bc->getName()},
+                {"target_tag",targetInfoMap["tag"]},
+                {"user",login},
+                {"pass",hashedPass}
+            };
+                 json jsonBc;
+                 jsonBc << *bc;
+                 jsonBackupData += tmp_json;
+                 qDebug() <<QString::fromStdString(jsonBc.dump(2));
+
+           }
+       } else {
+            throw std::invalid_argument("Erreur");
         }
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
     } catch (std::exception& e) {
@@ -133,3 +146,5 @@ nlohmann::json UsersBackupController::recoverUsersNonRegistrededBackups(std::str
     }
    return jsonBackupData;
 }
+
+

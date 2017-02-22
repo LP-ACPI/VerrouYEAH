@@ -27,12 +27,16 @@ public:
     void start();
     void stop();
     void add(Backup &backup);
-    void addFromUser(User* user);
     void remove(Backup &backup);
+    void replace(const Backup &oldBackup,Backup &newBackup);
+    void addFromUser(User *user);
     void clear()
     {
         saves.clear();
     }
+
+//    void addObserverToBackup(Observer*);
+//    void removeObserverToBackup(Observer*);
 };
 
 #endif //SCHEDULER_H

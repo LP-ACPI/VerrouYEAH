@@ -13,8 +13,8 @@ class BackupForm : public QDialog, private Ui::BackupFormDialog
     Q_OBJECT
     std::string _backupKey;
     ProgressDialog *progressDialog;
-    TargetChoiceDialog* targetChoice;
     FrequencyForm* frequencyForm;
+    TargetChoiceDialog* targetChoice;
 
     std::map<std::string,std::string> backup_info;
 

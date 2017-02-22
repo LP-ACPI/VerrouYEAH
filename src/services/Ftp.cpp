@@ -25,11 +25,9 @@ void Ftp::prepareFtp(std::string host,
     url->setUserName(QString::fromStdString(username));
     url->setPassword(QString::fromStdString(pass));
     url->setPort(portNumber);
-    requestCanceled = false;
 
     rewriteDownloadedFile = rewriteDownloadFile;
 
-    isBusy = true;
     connect(this,SIGNAL(error()),this,SLOT(cancelTranfer()));
 }
 
@@ -56,9 +54,6 @@ bool Ftp::ftpUpload(std::string fileToUpload, std::string destination){
     QString fullUploadPath = host + "/"
             + QString::fromStdString(destination) + "/"
             + fileInfo.fileName();
-qDebug() << fileInfo.fileName()
-         << fileInfo.filePath()
-         << fullUploadPath;
 
     url->setUrl( fullUploadPath );
 
@@ -143,7 +138,8 @@ bool Ftp::startTransfert(QNetworkReply *reply){
 
     if(requestCanceled)
         reply->abort();
-    isBusy = false;
+
+    isBusy = true;
     return !requestCanceled;
 }
 
@@ -211,8 +207,9 @@ void Ftp::requestFinished() {
  */
 void Ftp::requestError(QNetworkReply::NetworkError err) {
      qDebug() << "error : "<< err;
+     requestCanceled = true;
      emit error();
-
+     emit finished();
 }
 
 /**
@@ -233,5 +230,4 @@ void Ftp::sslErrors(const QList<QSslError> &sslErrors)
 
 void Ftp::cancelTranfer(){
     networkReply->abort();
-    requestCanceled = true;
 }

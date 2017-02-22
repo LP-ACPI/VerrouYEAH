@@ -30,7 +30,8 @@ public:
     std::list<std::map<std::string,std::string>> getUsersBackupInfoList();
     std::list<std::string> getUsersBackupNameList();
 
-    nlohmann::json recoverUsersNonRegistrededBackups(std::string,std::string,std::string);
+    nlohmann::json findUsersNonRegistrededBackups(std::string,std::string,std::string);
+    void recoverDataIfConfirmed(json);
 
     void operator=(UsersBackupController const&) = delete;
 };

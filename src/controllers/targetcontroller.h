@@ -24,8 +24,8 @@ public:
 
     Target *getNormalTargetFromInfoMap(std::map<std::string,std::string>);
     FtpTarget *getFtpTargetFromInfoMap(std::map<std::string,std::string>);
-    void updateFavoriteNormalTarget(std::map<std::string,std::string>);
-    void updateFavoriteFtpTarget(std::map<std::string,std::string>);
+    void updateFavoriteNormalTarget(std::string,std::map<std::string,std::string>);
+    void updateFavoriteFtpTarget(std::string,std::map<std::string,std::string>);
     void addNewFavoriteNormalTarget(std::map<std::string,std::string>);
     void addNewFavoriteFtpTarget(std::map<std::string,std::string>);
     void deleteFavoriteTarget(std::string);

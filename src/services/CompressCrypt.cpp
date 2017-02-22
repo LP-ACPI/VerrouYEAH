@@ -10,12 +10,16 @@ CompressCrypt::CompressCrypt(QObject *parent) :
 bool CompressCrypt::compressDir(const QString &sourceFolder, const QString &destinationFile)
 {
     QDir src(sourceFolder);
-    if(!src.exists())
+    if(!src.exists()){
+        emit error(sourceFolder +"n'existe pas");
         return false;
+    }
 
     file.setFileName(destinationFile);
-    if(!file.open(QIODevice::WriteOnly))
+    if(!file.open(QIODevice::WriteOnly)){
+        emit error("impossible de lire "+destinationFile);
         return false;
+    }
 
     dataStream.setDevice(&file);
 
@@ -54,8 +58,10 @@ quint64 CompressCrypt::compress(const QString &source,const QString &prefex, qui
     } else {
 
         QFile file(source);
-        if(!file.open(QIODevice::ReadOnly))
+        if(!file.open(QIODevice::ReadOnly)){
+            emit error("impossible de lire "+source);
             return 0;
+        }
 
         dataStream << prefex;
         dataStream << qCompress(file.readAll());
@@ -71,16 +77,22 @@ quint64 CompressCrypt::compress(const QString &source,const QString &prefex, qui
 bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &destinationFolder) {
 
     QFile src(sourceFile);
-    if(!src.exists())
+    if(!src.exists()){
+        emit error(sourceFile +"n'existe pas");
         return false;
+    }
 
     QDir dir;
-    if(!dir.mkpath(destinationFolder))
+    if(!dir.mkpath(destinationFolder)){
+        emit error("impossible de créer "+destinationFolder);
         return false;
+    }
 
     file.setFileName(sourceFile);
-    if(!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly)){
+        emit error("impossible de lire "+sourceFile);
         return false;
+    }
 
     dataStream.setDevice(&file);
 
@@ -108,8 +120,8 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
 
         QFile outFile(destinationFolder+fileName);
         if(!outFile.open(QIODevice::WriteOnly)){
-
             file.close();
+            emit error("impossible de lire" + fileName);
             return false;
         }
         outFile.write(qUncompress(data));
@@ -128,10 +140,14 @@ bool CompressCrypt::decompressDir(const QString &sourceFile,const QString &desti
 bool CompressCrypt::cryptDir(const QString &source,const QString &cible, char *key){
 
     QDir sourceDir(source);
-    if(!sourceDir.exists())
+    if(!sourceDir.exists()){
+        emit error(source +"n'existe pas");
         return false;
+    }
 
-    emit(cryptingStarted());
+    QFileInfo infoCible(cible);
+    QString baseBackupName=infoCible.baseName().split("_",QString::SkipEmptyParts).at(0);
+    emit(cryptingStarted(baseBackupName));
     isBusy = true;
     totalDataCount = countFiles(source,0);
     bool success = cryptDirWithCount(source,cible,0,key) > 0;
@@ -147,8 +163,10 @@ quint64 CompressCrypt::cryptDirWithCount(const QString &source,const QString &ci
     if (sourceDir.exists()) {
 
         QDir targetDir;
-        if (!targetDir.mkpath(cible))
+        if (!targetDir.mkpath(cible)){
+            emit error("impossible de créer "+cible);
             return -1;
+        }
 
         sourceDir.setFilter(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
         QStringList sub_dirs = sourceDir.entryList();
@@ -160,8 +178,14 @@ quint64 CompressCrypt::cryptDirWithCount(const QString &source,const QString &ci
             QCoreApplication::processEvents();
         }
     } else {
-        cryptMan.cryptFile(source.toStdString(), cible.toStdString(), key);
-        crypted++;
+        try{
+            cryptMan.cryptFile(source.toStdString(), cible.toStdString(), key);
+            crypted++;
+        } catch(const std::invalid_argument &e){
+            emit error(QString::fromStdString(e.what()));
+            std::cerr << e.what() << std::endl;
+            return -1;
+        }
     }
     emit(cryptInProgress(crypted,totalDataCount));
     return crypted;
@@ -170,8 +194,10 @@ quint64 CompressCrypt::cryptDirWithCount(const QString &source,const QString &ci
 bool CompressCrypt::decryptDir(const QString &source,const QString &cible,  char* key){
 
     QDir sourceDir(source);
-    if(!sourceDir.exists())
+    if(!sourceDir.exists()){
+        emit error(source +"n'existe pas");
         return false;
+    }
 
     emit(decryptingStarted());
 
@@ -191,8 +217,10 @@ quint64 CompressCrypt::decryptDirWithCount(const QString &source,const QString &
     if (sourceDir.exists()) {
 
         QDir targetDir;
-        if (!targetDir.mkpath(cible))
+        if (!targetDir.mkpath(cible)){
+            emit error("impossible de créer "+cible);
             return -1;
+        }
 
         sourceDir.setFilter(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden);
         QStringList sub_dirs = sourceDir.entryList();
@@ -205,8 +233,14 @@ quint64 CompressCrypt::decryptDirWithCount(const QString &source,const QString &
             QCoreApplication::processEvents();
         }
     } else {
-        cryptMan.decryptFile(source.toStdString(), cible.toStdString(), key);
-        decrypted++;
+        try{
+            cryptMan.decryptFile(source.toStdString(), cible.toStdString(), key);
+            decrypted++;
+        } catch(const std::invalid_argument &e){
+            emit error(QString::fromStdString(e.what()));
+            std::cerr << e.what() << std::endl;
+            return -1;
+        }
     }
     emit(decryptInProgress(decrypted,totalDataCount));
     return decrypted;

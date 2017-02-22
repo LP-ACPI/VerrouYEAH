@@ -3,6 +3,7 @@
 //
 #include "User.h"
 #include "../services/ConfigManager.h"
+#include "../services/Scheduler.h"
 #include <stdexcept>
 #include <algorithm>
 
@@ -32,36 +33,31 @@ void User::setFavoriteTargets(const std::list<AbsTarget*> favTargetList){
         addFavoriteTarget(favTarget);
 }
 
-AbsTarget *User::getFavoriteTargetByKey(const std::string key){
-    list<AbsTarget*>::iterator it = favoriteTargets.begin();
-    while((*it)->getId() != key && it!=favoriteTargets.end())
-        ++it;
-    if(it != favoriteTargets.end())
-        return (*it);
-    else
-        throw invalid_argument("exception: recherche de destination qui n'existe pas...");
-    return NULL;
-}
-
 AbsTarget *User::getFavoriteTargetByTag(const std::string tag){
-    list<AbsTarget*>::iterator it = favoriteTargets.begin();
-    while((*it)->getTag() != tag && it!=favoriteTargets.end())
-        ++it;
-    if(it != favoriteTargets.end())
-        return (*it);
-    else
-        throw invalid_argument("exception: recherche de destination qui n'existe pas...");
-    return NULL;
+    for(AbsTarget* targ : getFavoriteTargets())
+        if(tag == targ->getTag())
+            return targ;
+
+    throw invalid_argument("exception: recherche de destination qui n'existe pas...");
 }
 
 void User::replaceFavoriteTarget(AbsTarget *oldTarget, AbsTarget *newTarget){
-    if(!hasFavoriteTarget(newTarget) || oldTarget->getTag() == newTarget->getTag())
+    if(!hasFavoriteTarget(newTarget)){
         replace(favoriteTargets.begin(),favoriteTargets.end(),oldTarget,newTarget);
+
+        for(auto backup = backups.begin();backup != backups.end();++backup)
+            if(backup->getTarget() == oldTarget)
+                    backup->setTarget(newTarget);
+    }
     else throw invalid_argument("il existe déjà une autre destination de ce nom...");
 
 }
 
 void User::removeFavoriteTarget(AbsTarget *favTarget){
+    for(Backup bc : getBackups() )
+        if(favTarget == bc.getTarget())
+            throw std::invalid_argument("Cette cible est utilisée par " +bc.getName());
+
     if(hasFavoriteTarget(favTarget))
         favoriteTargets.remove(favTarget);
 }
@@ -77,37 +73,31 @@ bool User::hasFavoriteTarget(AbsTarget *favTarget){
     return found;
 }
 
-Backup User::getBackupAt(const unsigned position){
-    if (backups.size() > position){
-        list<Backup>::iterator it = backups.begin();
-        advance(it, position);
-        return (*it);
-    } else throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
-    return NULL;
-}
 
-Backup User::getBackupByKey(const string key){
+Backup* User::getBackupByKey(const string key){
     list<Backup>::iterator it = backups.begin();
     while(key != it->getKey() && it != backups.end())
         ++it;
     if(it != backups.end())
-        return (*it);
+        return &(*it);
     else
         throw invalid_argument("exception: recherche de sauvegarde qui n'existe pas...");
     return NULL;
 }
 
-void User::addBackup( Backup backup){
+void User::addBackup( Backup &backup){
     if(!hasBackup(backup)){
         backups.push_back(backup);
-        backup.notify();
+        Scheduler::getInstance().add(backup);
+        backup.saveData();
     }
     else throw invalid_argument("cette sauvegarde existe déjà...");
 }
 
-void User::removeBackup(Backup backup){
+void User::removeBackup(Backup &backup){
     if(hasBackup(backup)){
         backups.remove(backup);
+        Scheduler::getInstance().remove(backup);
     }
 }
 
@@ -115,16 +105,12 @@ void User::removeBackups(){
     backups.clear();
 }
 
-void User::replaceBackup(const Backup oldBackup,  Backup newBackup){
-    if(!hasBackup(newBackup) ||  newBackup.getName() == oldBackup.getName()){
-        replace(backups.begin(),backups.end(),oldBackup,newBackup);
-        newBackup.notify();
-    }
-    else throw invalid_argument("Il existe déja une autre sauvegarde du même nom...");
-}
-
-void User::replaceBackupAt(const unsigned position, Backup newBackup){
-    replaceBackup(getBackupAt(position),newBackup);
+void User::replaceBackup(const Backup &oldBackup,  Backup &newBackup){
+    for(auto it = backups.begin(); it != backups.end(); ++it)
+        if(oldBackup.getKey() == it->getKey()){
+            (*it) = newBackup;
+            Scheduler::getInstance().replace(*it,newBackup);
+        }
 }
 
 void User::setBackups(const list<Backup> newBackups){

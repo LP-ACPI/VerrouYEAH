@@ -31,16 +31,15 @@ void Crypt::crypt_DES(char* entree, char* sortie, char* raw_key, int type){
 void Crypt::crypt_file_DES(string nom_source, string nom_destination, char* cle, int type)
 {
     ifstream source(nom_source, ifstream::binary);
-    //TODO: Ajouter un throw > Impossible de trouver/ouvrir le fichier source
     if(!source){
-        cerr << strerror(errno) << endl;
+        throw invalid_argument("Impossible de trouver/ouvrir le fichier source " + nom_source );
         return;
     }
 
     ofstream destination(nom_destination, ofstream::binary);
     //TODO: Ajouter un throw > Impossible de trouver/ouvrir le fichier cible
     if(!destination) {
-        cerr << strerror(errno) << endl;
+        throw invalid_argument("Impossible de trouver/ouvrir le fichier destination " + nom_destination );
         return;
     }
 
@@ -104,17 +103,33 @@ std::string Crypt::generateHashedPass(std::string userPass){
 
 void Crypt::crypt(char* in, char* out, char* raw_key)
 {
-    crypt_DES(in,out,raw_key,DES_ENCRYPT);
+    try{
+        crypt_DES(in,out,raw_key,DES_ENCRYPT);
+    } catch(const invalid_argument &e){
+        throw invalid_argument(e.what() );
+    }
 }
 void Crypt::decrypt(char* in, char* out, char* raw_key)
 {
-    crypt_DES(in,out,raw_key,DES_DECRYPT);
+    try{
+        crypt_DES(in,out,raw_key,DES_DECRYPT);
+    } catch(const invalid_argument &e){
+        throw invalid_argument(e.what() );
+    }
 }
 void Crypt::cryptFile(string nom_source, string nom_destination, char* cle)
 {
-    crypt_file_DES(nom_source,nom_destination,cle,DES_ENCRYPT);
+    try{
+        crypt_file_DES(nom_source,nom_destination,cle,DES_ENCRYPT);
+    } catch(const invalid_argument &e){
+        throw invalid_argument(e.what() );
+    }
 }
 void Crypt::decryptFile(string nom_source, string nom_destination, char* cle)
 {
-    crypt_file_DES(nom_source,nom_destination,cle,DES_DECRYPT);
+    try{
+        crypt_file_DES(nom_source,nom_destination,cle,DES_DECRYPT);
+    } catch(const invalid_argument &e){
+        throw invalid_argument(e.what() );
+    }
 }

@@ -53,7 +53,7 @@ bool UserController::createUser(std::string userLogin, std::string userPass){
 }
 
 bool UserController::saveCurrentUser(){
-    ConfigManager::getInstance().saveUser(currentUser);
+   return ConfigManager::getInstance().saveUser(currentUser) != NULL;
 }
 
 bool UserController::updateUser(std::string newLogin, std::string newPass){

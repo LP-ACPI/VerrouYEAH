@@ -18,7 +18,7 @@ TargetFormDialog::TargetFormDialog(QWidget *parent)
 
 
 TargetFormDialog::TargetFormDialog(std::string targetKey, QWidget *parent)
-    : QDialog(parent),_targetId(targetKey)
+    : _targetTag(targetKey), QDialog(parent)
 {
     setupUi(this);
 
@@ -93,9 +93,9 @@ void TargetFormDialog::setCurrentTargetType(QString targetType){
 void TargetFormDialog::on_buttonBox_accepted(){
 
     std::map<std::string,std::string> targetInfo;
-    targetInfo["target_id"] = _targetId;
     targetInfo["tag"] = tagInput->text().toStdString();
     if(typeChoice->currentText()=="FTP")    {
+
         if(!isFtpFormValid())
             return;
         targetInfo["host"] = hostInput->text().toStdString();
@@ -105,6 +105,7 @@ void TargetFormDialog::on_buttonBox_accepted(){
         targetInfo["pass"] = passInput->text().toStdString();
         emit postFtpTargetData(targetInfo);
     }    else   {
+
         if(!isNormalFormValid())
             return;
         targetInfo["path"] = dirChoice->text().toStdString();
@@ -138,7 +139,7 @@ void TargetFormDialog::onNewNormalTargetAdd(std::map<std::string,std::string> ta
 
 void TargetFormDialog::onNormalTargetUpdate(std::map<std::string,std::string> targetInfo){
     try{
-        TargetController::getInstance().updateFavoriteNormalTarget(targetInfo);
+        TargetController::getInstance().updateFavoriteNormalTarget(_targetTag,targetInfo);
     }catch(const std::invalid_argument &e){
         QMessageBox::warning(this, "Attention!",
             QString::fromStdString(e.what()));
@@ -160,7 +161,7 @@ void TargetFormDialog::onNewFtpTargetAdd(std::map<std::string,std::string> targe
 
 void TargetFormDialog::onFtpTargetUpdate(std::map<std::string,std::string> targetInfo){
     try{
-        TargetController::getInstance().updateFavoriteFtpTarget(targetInfo);
+        TargetController::getInstance().updateFavoriteFtpTarget(_targetTag,targetInfo);
     }catch(const std::invalid_argument &e){
         QMessageBox::warning(this, "Attention!",
             QString::fromStdString(e.what()));
