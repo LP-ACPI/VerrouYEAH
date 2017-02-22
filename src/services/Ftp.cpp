@@ -28,7 +28,7 @@ void Ftp::prepareFtp(std::string host,
 
     rewriteDownloadedFile = rewriteDownloadFile;
 
-    connect(this,SIGNAL(error()),this,SLOT(cancelTranfer()));
+    connect(this,SIGNAL(error(QString)),this,SLOT(cancelTranfer(QString)));
 }
 
 /**
@@ -59,12 +59,14 @@ bool Ftp::ftpUpload(std::string fileToUpload, std::string destination){
 
     if (!file->open(QIODevice::ReadOnly)){
         std::cerr << fileInfo.fileName().toStdString() << ": lecture fichier impossible!" << std::endl;
+        emit error("Ftp : le fichier "+fileInfo.fileName() + " ne peut être lu" );
         requestCanceled = true;
     }
 
     QByteArray data = file->readAll();
     if(data.count() <= 0){
         std::cerr << fileInfo.fileName().toStdString() << ": fichier inateignable!" << std::endl;
+        emit error("Ftp : le fichier "+fileInfo.fileName() + " ne peut être lu" );
         requestCanceled = true;
     }
 
@@ -107,6 +109,7 @@ bool Ftp::ftpDownload(std::string filePathToDownload, std::string destinationDir
         file = new QFile(fullNewFilePath);
         if(!file->open(QIODevice::WriteOnly)){//TODO throw? les abort de NetoworkReply s'en occuppent + signal error()
             std::cerr << fileInfo.fileName().toStdString() << ": écriture impossible" << std::endl;
+            emit error("Ftp : le fichier "+fileInfo.fileName() + " n'autorise pas l'écriture" );
             requestCanceled = true;
         }
     }
@@ -208,7 +211,7 @@ void Ftp::requestFinished() {
 void Ftp::requestError(QNetworkReply::NetworkError err) {
      qDebug() << "error : "<< err;
      requestCanceled = true;
-     emit error();
+     emit error("erreur de connexion: " +err);
      emit finished();
 }
 
@@ -225,9 +228,9 @@ void Ftp::sslErrors(const QList<QSslError> &sslErrors)
 #else
     Q_UNUSED(sslErrors);
 #endif
-    emit error();
+    emit error("erreur SSL (merci de choisir un serveur ftp simple)");
 }
 
-void Ftp::cancelTranfer(){
+void Ftp::cancelTranfer(QString){
     networkReply->abort();
 }

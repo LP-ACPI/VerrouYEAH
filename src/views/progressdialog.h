@@ -46,7 +46,7 @@ public slots:
     void onCompressProgress(quint64,quint64);
     void onTransferProgress(quint64,quint64);
 
-    void onConnectivityErrorOccured();
+    void onConnectivityErrorOccured(QString);
     void onCompressCryptErrorOccured(QString);
 
 };

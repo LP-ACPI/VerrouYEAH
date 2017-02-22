@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <list>
-#include "../../includes/json.hpp"
+#include <json.hpp>
 
 class Data {
 

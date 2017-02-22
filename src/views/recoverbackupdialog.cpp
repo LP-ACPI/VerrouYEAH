@@ -2,6 +2,7 @@
 #include "../controllers/UsersBackupController.h"
 #include "../controllers/TargetController.h"
 #include <QMessageBox>
+#include <QProgressDialog>
 
 RecoverBackupsDialog::RecoverBackupsDialog(QWidget *parent)
     : QDialog(parent)
@@ -38,8 +39,47 @@ void RecoverBackupsDialog::on_buttonBox_rejected(){
 
 void RecoverBackupsDialog::startResearchBackup(std::string  login,std::string  pass,std::string targetTag){
     try {
-        nlohmann::json backups;
-        backups = UsersBackupController::getInstance().findUsersNonRegistrededBackups(login,pass,targetTag);
+
+        QProgressDialog *waitDialog = new QProgressDialog(this);
+        waitDialog->setWindowTitle("Merci de patienter durant la récupération...");
+        waitDialog->setMaximum(0);
+        waitDialog->setMinimum(0);
+        waitDialog->show();
+
+        nlohmann::json found_backups;
+        found_backups = UsersBackupController::getInstance()
+                .recoverUsersNonRegistrededBackups(login,pass,targetTag);
+
+        QStringList foundBackupNames;
+        QStringList existingBackupNames;
+
+        for(json backup : found_backups["found"] ){
+
+            foundBackupNames.append(QString::fromStdString(backup["name"]));
+
+            std::map<std::string,std::string> bc_map
+                    = UsersBackupController::getInstance().getUsersBackupInfo(backup["key"]);
+
+            emit addFoundData(bc_map);
+        }
+
+        for(json backup : found_backups["exist"] ){
+            existingBackupNames.append(QString::fromStdString(backup["name"]));
+        }
+
+        delete waitDialog;
+
+        QString resultMessage =
+                "Les sauvegardes suivantes ont été récupérées: \n\n"+
+                foundBackupNames.join("\n");
+        emit researchFinished(resultMessage);
+
+        if(existingBackupNames.size()>0)
+            QMessageBox::warning(this, "Résultat des recherches",
+                                 " Les sauvegardes suivantes sont en conflit avec les vôtres: <br/><br/>"
+                                 "<b>"+existingBackupNames.join("<br/>")+
+                                 "</b> <br/> Veuillez les renommer avent une nouvelle tentative.");
+
     } catch(const std::exception &e){
         QMessageBox::warning(this, "Attention!",
           QString::fromStdString(e.what()));

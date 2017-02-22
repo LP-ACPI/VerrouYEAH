@@ -24,7 +24,7 @@ FtpTarget *TargetController::getFtpTargetFromInfoMap(std::map<std::string,std::s
     target->setUserName(infoMap["username"]);
     target->setFtpPass(infoMap["pass"]);
     target->setPort(infoMap["port"]);
-
+    target->setType("FTP");
     return target;
 }
 
@@ -41,6 +41,7 @@ std::map<std::string,std::string> TargetController::favoriteNormalTargetToInfoMa
 Target *TargetController::getNormalTargetFromInfoMap(std::map<std::string,std::string> infoMap){
     Target  *target = new Target(infoMap["tag"]);
     target->setPath(infoMap["path"]);
+    target->setType("NORMAL");
     return target;
 }
 

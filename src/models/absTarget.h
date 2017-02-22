@@ -2,7 +2,7 @@
 #define ABSTARGET_H
 
 #include <iostream>
-#include "json.hpp"
+#include <json.hpp>
 
 class AbsTarget
 {

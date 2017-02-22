@@ -58,7 +58,7 @@ signals:
     void downloadStarted();
     void uploadStarted();
     void finished();
-    void error();
+    void error(QString);
     void transferProgress(quint64,quint64);
 
 private slots:
@@ -67,7 +67,7 @@ private slots:
     void requestFinished();
     void requestError(QNetworkReply::NetworkError);
     void sslErrors(const QList<QSslError>&);
-    void cancelTranfer();
+    void cancelTranfer(QString);
 };
 
 

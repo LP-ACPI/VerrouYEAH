@@ -77,7 +77,7 @@ bool Backup::saveNormalData(){
 }
 
 void Backup::restoreNormalData(){
-    decryptDecompressFromTo(target->getPath()+"/"+ name,"decrypt/"+name);
+    decryptDecompressFromTo(target->getPath()+"/"+ name,"decrypt/"+name+"_"+getOwnersLogin());
 }
 
 bool Backup::saveFtpData(){
@@ -133,7 +133,7 @@ void Backup::restoreFtpData(){
         return;
     }
 
-    decryptDecompressFromTo("tmp/"+name,"decrypt/"+name);
+    decryptDecompressFromTo("tmp/"+name,"decrypt/"+ name + "_" + getOwnersLogin() );
 
     dir.removeRecursively();
 }

@@ -111,7 +111,6 @@ void TargetFormDialog::on_buttonBox_accepted(){
         targetInfo["path"] = dirChoice->text().toStdString();
         emit postNormalTargetData(targetInfo);
     }
-    close();
 }
 
 void TargetFormDialog::on_buttonBox_rejected(){
@@ -128,10 +127,10 @@ void TargetFormDialog::on_dirChoice_clicked(){
 void TargetFormDialog::onNewNormalTargetAdd(std::map<std::string,std::string> targetInfo){
     try{
         TargetController::getInstance().addNewFavoriteNormalTarget(targetInfo);
+        close();
     }catch(const std::invalid_argument &e){
         QMessageBox::warning(this, "Attention!",
             QString::fromStdString(e.what()));
-        show();
         return;
     }
     emit normalTargetChange();
@@ -140,6 +139,7 @@ void TargetFormDialog::onNewNormalTargetAdd(std::map<std::string,std::string> ta
 void TargetFormDialog::onNormalTargetUpdate(std::map<std::string,std::string> targetInfo){
     try{
         TargetController::getInstance().updateFavoriteNormalTarget(_targetTag,targetInfo);
+        close();
     }catch(const std::invalid_argument &e){
         QMessageBox::warning(this, "Attention!",
             QString::fromStdString(e.what()));
@@ -151,6 +151,7 @@ void TargetFormDialog::onNormalTargetUpdate(std::map<std::string,std::string> ta
 void TargetFormDialog::onNewFtpTargetAdd(std::map<std::string,std::string> targetInfo){
     try{
         TargetController::getInstance().addNewFavoriteFtpTarget(targetInfo);
+        close();
     }catch(const std::invalid_argument &e){
         QMessageBox::warning(this, "Attention!",
             QString::fromStdString(e.what()));
@@ -162,6 +163,7 @@ void TargetFormDialog::onNewFtpTargetAdd(std::map<std::string,std::string> targe
 void TargetFormDialog::onFtpTargetUpdate(std::map<std::string,std::string> targetInfo){
     try{
         TargetController::getInstance().updateFavoriteFtpTarget(_targetTag,targetInfo);
+        close();
     }catch(const std::invalid_argument &e){
         QMessageBox::warning(this, "Attention!",
             QString::fromStdString(e.what()));

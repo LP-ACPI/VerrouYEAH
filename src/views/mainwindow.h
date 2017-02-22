@@ -51,7 +51,10 @@ protected slots:
     void onBackupDeleted(std::string);
     void onBackupAdd(std::map<std::string,std::string>);
 
-    void showEventMessage(QString);
+    void showEventTrayMessage(QString);
+    void showCustomTrayMessage(QString);
+    void showTrayErrorMessage(QString);
+
    void iconActivated(QSystemTrayIcon::ActivationReason);
 };
 

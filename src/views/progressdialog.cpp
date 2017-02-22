@@ -60,7 +60,7 @@ void ProgressDialog::setUpConnections(){
 
         connect(ftpServ,SIGNAL(transferProgress(quint64,quint64)),this,SLOT(onTransferProgress(quint64,quint64)));
         connect(this,SIGNAL(canceled()),ftpServ,SLOT(cancelTranfer()));
-        connect(ftpServ,SIGNAL(error()),this,SLOT(onConnectivityErrorOccured()));
+        connect(ftpServ,SIGNAL(error(QString)),this,SLOT(onConnectivityErrorOccured(QString)));
     }
 
     connect(comprCryptServ,SIGNAL(compressStarted()), this,SLOT(onCompressBegan()));
@@ -133,6 +133,7 @@ void ProgressDialog::onTransferProgress(quint64 done,quint64 total){
 }
 
 void ProgressDialog::onDownloadBegan(){
+    topLabel->setText("Téléchargement en cours...");
     midBar->setDisabled(true);
     bottomBar->setDisabled(true);
     midLabel->setText("Decompression en attente...");
@@ -193,7 +194,7 @@ void ProgressDialog::onAllDone(){
     close();
 }
 
-void ProgressDialog::onConnectivityErrorOccured(){
+void ProgressDialog::onConnectivityErrorOccured(QString){
     QMessageBox::warning(this, "Attention!",
                          "Une erreur de connection est survenue.\n "
                          "Etes-vous connectés à internet?\n"

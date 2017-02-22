@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupUi(this);
 
     std::string userName = UserController::getInstance().getCurrentUserLogin();
-    setWindowTitle(QString::fromStdString("VerrouYeah" + userName));
+    setWindowTitle(QString::fromStdString("VerrouYEAH - " + userName));
 
     newBackupButton->setAcceptDrops(true);
     initBackupList();
@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     systemTrayIcon = new QSystemTrayIcon(QIcon(":/images/icone_temporaire.png"),this);
     systemTrayIcon->show();
     systemTrayIcon->setToolTip("VerrouYeah");
-    connect(&CompressCrypt::getInstance(),SIGNAL(cryptingStarted(QString)),this,SLOT(showEventMessage(QString)));
+    connect(&CompressCrypt::getInstance(),SIGNAL(cryptingStarted(QString)),this,SLOT(showEventTrayMessage(QString)));
+    connect(&CompressCrypt::getInstance(),SIGNAL(error(QString)),this,SLOT(showTrayErrorMessage(QString)));
+    connect(&Ftp::getInstance(),SIGNAL(error(QString)),this,SLOT(showTrayErrorMessage(QString)));
     connect(systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                     this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 }
@@ -129,6 +131,10 @@ void MainWindow::onBackupDeleted(std::string backupKey){
 void MainWindow::on_recoverBackupButton_clicked(){
     recoverBackupDialog = new RecoverBackupsDialog(this);
     recoverBackupDialog->show();
+    connect(recoverBackupDialog,SIGNAL(addFoundData(std::map<std::string,std::string>)),
+            this,SLOT(onBackupAdd(std::map<std::string,std::string>)));
+    connect(recoverBackupDialog,SIGNAL(researchFinished(QString)),
+            this,SLOT(showCustomTrayMessage(QString)));
 }
 
 void MainWindow::on_favoriteTargetsButton_clicked(){
@@ -144,18 +150,30 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void MainWindow::showEventMessage(QString backupName){
+void MainWindow::showEventTrayMessage(QString backupName){
 
-    systemTrayIcon->showMessage("Info",
+    systemTrayIcon->showMessage("VerrouYEAH",
                                 backupName+" est en cours de sauvegarde. "
                                            "\nLes services risquent d'être occupés pendant un instant" );
+}
+
+void MainWindow::showCustomTrayMessage(QString message){
+    systemTrayIcon->showMessage("VerrouYEAH",message);
+}
+
+void MainWindow::showTrayErrorMessage(QString errMessg){
+
+    systemTrayIcon->showMessage("VerrouYEAH",
+                              "Une erreur est survenue lors de l'éxécution de la sauvegarde :\n"+
+                                errMessg,
+                               QSystemTrayIcon::Warning );
 }
 
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
  {
      switch (reason) {
      case QSystemTrayIcon::Trigger:
-         showEventMessage("test");
+         showEventTrayMessage("test");
          break;
      case QSystemTrayIcon::DoubleClick:
          break;

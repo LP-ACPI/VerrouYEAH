@@ -17,6 +17,8 @@ public:
     ~RecoverBackupsDialog();
 signals:
     void postData(std::string,std::string,std::string);
+    void researchFinished(QString);
+    void addFoundData(std::map<std::string,std::string>);
 
 protected slots:
     void on_targetChoiceButton_clicked();

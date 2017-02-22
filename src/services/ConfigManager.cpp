@@ -82,7 +82,6 @@ User* ConfigManager::loadUser(string login){
         backup.loadJsonData();
 
         user->addBackup(backup);
-//        Scheduler::getInstance().add(backup);
     }
 
     return user ;
@@ -124,7 +123,7 @@ void ConfigManager::deleteUser(std::string userLogin) {
 }
 
 void ConfigManager::updateUser(User *user){
-    string login        = user->getLogin();
+    string login               = user->getLogin();
     json user_config    = readOrInitUserRoot()[login];
 
     user_config << *user;
@@ -147,6 +146,7 @@ Backup* ConfigManager::getUserBackupsData(string login, string backupKey){
         new_backup->setName(users_backup["name"]);
         new_backup->setLastSave(users_backup["last_save"]);
         new_backup->setNote(users_backup["note"]);
+        new_backup->setFrequency("5 * * * *");
         return new_backup;
 
     }    else

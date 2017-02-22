@@ -42,7 +42,7 @@ AbsTarget *User::getFavoriteTargetByTag(const std::string tag){
 }
 
 void User::replaceFavoriteTarget(AbsTarget *oldTarget, AbsTarget *newTarget){
-    if(!hasFavoriteTarget(newTarget)){
+    if(!hasFavoriteTarget(newTarget) || oldTarget->getTag() == newTarget->getTag()){
         replace(favoriteTargets.begin(),favoriteTargets.end(),oldTarget,newTarget);
 
         for(auto backup = backups.begin();backup != backups.end();++backup)
@@ -88,8 +88,6 @@ Backup* User::getBackupByKey(const string key){
 void User::addBackup( Backup &backup){
     if(!hasBackup(backup)){
         backups.push_back(backup);
-        Scheduler::getInstance().add(backup);
-        backup.saveData();
     }
     else throw invalid_argument("cette sauvegarde existe déjà...");
 }
@@ -97,7 +95,6 @@ void User::addBackup( Backup &backup){
 void User::removeBackup(Backup &backup){
     if(hasBackup(backup)){
         backups.remove(backup);
-        Scheduler::getInstance().remove(backup);
     }
 }
 
@@ -109,7 +106,6 @@ void User::replaceBackup(const Backup &oldBackup,  Backup &newBackup){
     for(auto it = backups.begin(); it != backups.end(); ++it)
         if(oldBackup.getKey() == it->getKey()){
             (*it) = newBackup;
-            Scheduler::getInstance().replace(*it,newBackup);
         }
 }
 

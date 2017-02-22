@@ -1,7 +1,7 @@
 #ifndef OBSERVATOR_H
 #define OBSERVATOR_H
 
-#include "json.hpp"
+#include <json.hpp>
 
 class Observer
 {

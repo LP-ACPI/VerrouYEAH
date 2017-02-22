@@ -2,10 +2,12 @@
 #include "backupcontroller.h"
 #include "UserController.h"
 #include "targetcontroller.h"
-#include "../services/ConfigManager.h"
 #include "../services/Ftp.h"
+#include "../services/Scheduler.h"
 #include "../services/CompressCrypt.h"
+#include "../services/ConfigManager.h"
 #include <QEventLoop>
+#include <QDesktopServices>
 
 
 bool UsersBackupController::anotherBackupAlreadyExists(std::string key, std::string new_name){
@@ -44,7 +46,9 @@ std::map<std::string,std::string> UsersBackupController::addNewUsersBackup(std::
     new_backup.setOwnersLogin(user->getLogin());
     new_backup.setOwnersPass(user->getPassword());
     try{
+        new_backup.saveData();
         user->addBackup(new_backup);
+        Scheduler::getInstance().add(new_backup);
         ConfigManager::getInstance().updateUser(user);
         return BackupController::getInstance().getInfoMapFromBackup(&new_backup);
     }catch(std::invalid_argument &e){
@@ -62,6 +66,7 @@ void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> 
         Backup *old_backup = user->getBackupByKey(backup_to_update.getKey());
         backup_to_update.saveData();
         user->replaceBackup(*old_backup,backup_to_update);
+        Scheduler::getInstance().replace(*old_backup,backup_to_update);
         ConfigManager::getInstance().updateUser(user);
     }catch(std::invalid_argument &e){
         throw std::invalid_argument(e.what());
@@ -71,6 +76,7 @@ void UsersBackupController::updateUsersBackup(std::map<std::string,std::string> 
 void UsersBackupController::deleteUsersBackup(std::string bcKey){
     Backup* bc_to_delete = user->getBackupByKey(bcKey);
     user->removeBackup(*bc_to_delete);
+    Scheduler::getInstance().remove(*bc_to_delete);
     ConfigManager::getInstance().updateUser(user);
 }
 
@@ -92,29 +98,37 @@ std::list<std::string> UsersBackupController::getUsersBackupNameList(){
 }
 
 //TODO
-json UsersBackupController::findUsersNonRegistrededBackups(std::string login,std::string pass,std::string targetTag){
-   std::string target_type = TargetController::getInstance().getFavoriteTargetsType(targetTag);
-   std::map<std::string,std::string> targetInfoMap;
+json UsersBackupController::recoverUsersNonRegistrededBackups(std::string login,std::string pass,std::string targetTag){
+   AbsTarget *abs_target = user->getFavoriteTargetByTag(targetTag);
    std::string config_file_path;
-   json jsonBackupData = json::array();
+   std::string tmp_config_dir = "tmp_recover";
+
+   json jsonBackupData;
+   json existing_backups = json::array();
+   json new_backups = json::array();
+
    bool downOk = true;
-   if(target_type == "FTP"){
-        targetInfoMap = TargetController::getInstance().favoriteFtpTargetToInfoMap(targetTag);
-        int port = stoi(targetInfoMap["port"]);
+   if(abs_target->isFtp()){
+       FtpTarget  *ftp_target =(FtpTarget *)abs_target;
+        int port = stoi(ftp_target->getPort());
 
        while(Ftp::getInstance().isCurrentlyBusy());
 
         QEventLoop loopDown;
         QObject::connect(&Ftp::getInstance(), SIGNAL(finished()), &loopDown, SLOT(quit()));
-        Ftp::getInstance().prepareFtp(targetInfoMap["host"],targetInfoMap["username"],targetInfoMap["pass"],port);
-         downOk &= Ftp::getInstance().ftpDownload(targetInfoMap["path"]+"/"+login+".config","tmp_recover");
+        Ftp::getInstance().prepareFtp(
+                    ftp_target->getHost(),
+                    ftp_target->getUserName(),
+                    ftp_target->getFtpPass(),
+                    port);
+         downOk &= Ftp::getInstance().ftpDownload(ftp_target->getPath()+"/"+login+".config",tmp_config_dir);
         loopDown.exec();
 
-        config_file_path = "tmp_recover/"+login+".config";
+        config_file_path = tmp_config_dir+QDir::separator().toLatin1()+login+".config";
 
    }else{
-       targetInfoMap = TargetController::getInstance().favoriteNormalTargetToInfoMap(targetTag);
-       config_file_path=targetInfoMap["path"] + QDir::separator().toLatin1() + login + ".config";
+       Target  *target = (Target*) abs_target;
+       config_file_path=target->getPath() + QDir::separator().toLatin1() + login + ".config";
    }
 
    std::string hashedPass = Crypt::generateHashedPass(pass);
@@ -122,25 +136,54 @@ json UsersBackupController::findUsersNonRegistrededBackups(std::string login,std
        ConfigManager::getInstance().setJsonFile(config_file_path);
 
        if(ConfigManager::getInstance().authentifyDistantBackupsOwner(login,hashedPass )){
-            User *tmp_user = new User(login,hashedPass);
-            for(Backup *bc : ConfigManager::getInstance().getUsersDistantBackupList(tmp_user)){
-                json tmp_json = json{
-                {"key",bc->getKey()},
-                {"name",bc->getName()},
-                {"target_tag",targetInfoMap["tag"]},
-                {"user",login},
-                {"pass",hashedPass}
-            };
-                 json jsonBc;
-                 jsonBc << *bc;
-                 jsonBackupData += tmp_json;
-                 qDebug() <<QString::fromStdString(jsonBc.dump(2));
 
-           }
+           User *tmp_user = new User(login,hashedPass);
+            for(Backup *bc : ConfigManager::getInstance().getUsersDistantBackupList(tmp_user)){
+
+                try{
+                bc->setTarget(abs_target);
+
+                bc->setOwnersLogin(user->getLogin());
+                bc->setOwnersPass(user->getPassword());
+                if( bc->getData()){
+                    QDir source( QString::fromStdString(bc->getData()->getPath()));
+                    if(source.exists())
+                        bc->setSource(bc->getData()->getPath());
+                    else {
+                        bc->recoverData();
+                        bc->setSource("decrypt/"+bc->getName()+"_"+user->getLogin());
+                        QString path = QDir::toNativeSeparators("decrypt");
+                        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+                    }
+                }
+
+                    user->addBackup(*bc);
+                    Scheduler::getInstance().add(*bc);
+                    new_backups +=  json{
+                         {"key", bc->getKey()},
+                         {"name" , bc->getName()}
+                    };
+
+                } catch(const std::invalid_argument){
+                    existing_backups += json{{"name",bc->getName()}};
+                }
+
+            }
+            jsonBackupData = json{
+                    {"found", new_backups},
+                    {"exist", existing_backups}
+              };
+
+            delete tmp_user;
+            QDir tmp_dir(QString::fromStdString(tmp_config_dir));
+            if(tmp_dir.exists())
+                tmp_dir.removeRecursively();
+
        } else {
             throw std::invalid_argument("Erreur");
         }
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
+        ConfigManager::getInstance().updateUser(user);
     } catch (std::exception& e) {
         throw std::runtime_error(e.what());
     }

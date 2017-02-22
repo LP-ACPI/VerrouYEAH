@@ -64,7 +64,7 @@ Directory::Directory(QFileInfo &rootDirTree,string rootPath){
 
     if(rootDirTree.isDir()){
 
-        rootPath += rootDirTree.fileName().toStdString() +"/";
+        rootPath += rootDirTree.absolutePath().toStdString() +"/";
 
         QDir dir(rootDirTree.filePath());
         setName(rootDirTree.fileName().toStdString());

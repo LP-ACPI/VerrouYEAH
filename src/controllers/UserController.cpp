@@ -6,8 +6,9 @@
 void UserController::setCurrentUser(std::string login)
 {
     //Lancement du scheduler au chargement de l'utilisateur
-    Scheduler::getInstance().clear();
     currentUser = ConfigManager::getInstance().loadUser(login);
+    Scheduler::getInstance().clear();
+    Scheduler::getInstance().addFromUser(currentUser);
     Scheduler::getInstance().start();
 }
 
