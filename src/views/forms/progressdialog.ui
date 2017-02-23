@@ -29,7 +29,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>Téléchargement en cours...</string>
    </property>
   </widget>
   <widget class="QLabel" name="midLabel">

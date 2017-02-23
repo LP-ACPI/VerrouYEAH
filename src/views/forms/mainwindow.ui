@@ -90,7 +90,7 @@
         </size>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -161,7 +161,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string/>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ici vous gérez vos sauvegardes: ajout, modification, suppression, visualisation...&lt;/p&gt;&lt;p&gt;Les modifications ou des suppressions n'influent pas sur les destination choisies préalablement, seulement sur la fréquence de sauvegarde (modifée ou non automatique). Les fichiers &amp;quot;.vy&amp;quot; et &amp;quot;.config&amp;quot; sont donc à supprimer ou déplacer par vos soins.&lt;/p&gt;&lt;p&gt;Pour récupérer une sauvegarde supprimée ou sauvegardée sous un autre identifiant sur un autre poste, l'outil de Recherhe de sauvegarde vous le permet.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string/>

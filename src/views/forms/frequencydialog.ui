@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>245</width>
-    <height>242</height>
+    <width>200</width>
+    <height>180</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>200</width>
+    <height>180</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>200</width>
+    <height>180</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -16,9 +28,9 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>190</y>
-     <width>241</width>
+     <x>10</x>
+     <y>130</y>
+     <width>171</width>
      <height>31</height>
     </rect>
    </property>
@@ -32,295 +44,257 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Sauvegarder tou(te)s les</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QComboBox" name="daysOfWeek">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>40</y>
-     <width>181</width>
-     <height>136</height>
+     <y>90</y>
+     <width>131</width>
+     <height>20</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <property name="text">
+     <string>Dimanche</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Lundi</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Mardi</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Mercredi</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Jeudi</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Vendredi</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Samedi</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="monthsOfYear">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>90</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Janvier</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Février</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Mars</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Avril</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Mai</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Juin</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Juillet</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Août</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Septembre</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Octobre</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Novembre</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Décembre</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="mainChoice">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Toutes les minutes</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Toutes les heures</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tous les jours</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Toutes les semaines</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tous les mois </string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tous les ans</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="helpIcon">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>10</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ici vous choisissez votre sauvegarde.&lt;/p&gt;&lt;p&gt;Le format est celui de Cron, le programme de planification de systèmes unix (&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lien wiki&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;(exemple: tous le 5&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000; vertical-align:super;&quot;&gt;e &lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;jour du &lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;mois à 12h : 0 12 5 * *)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Toutes les fréquences dépassant les heures sont programmées par défaut à 12h00&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../../../res/res.qrc">:/images/info.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>90</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="amountChoice">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QTimeEdit" name="minutes">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimumDateTime">
-         <datetime>
-          <hour>0</hour>
-          <minute>1</minute>
-          <second>0</second>
-          <year>2000</year>
-          <month>1</month>
-          <day>1</day>
-         </datetime>
-        </property>
-        <property name="displayFormat">
-         <string>mm</string>
-        </property>
-        <property name="calendarPopup">
-         <bool>false</bool>
-        </property>
-        <property name="time">
-         <time>
-          <hour>0</hour>
-          <minute>1</minute>
-          <second>0</second>
-         </time>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="minutesLab">
-        <property name="text">
-         <string>minutes</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QLabel" name="prepLabel">
+      <property name="text">
+       <string>à</string>
+      </property>
+     </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBox_2">
-        <property name="maximumSize">
-         <size>
-          <width>15</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTimeEdit" name="hours">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimumDateTime">
-         <datetime>
-          <hour>1</hour>
-          <minute>0</minute>
-          <second>0</second>
-          <year>2000</year>
-          <month>1</month>
-          <day>1</day>
-         </datetime>
-        </property>
-        <property name="maximumTime">
-         <time>
-          <hour>23</hour>
-          <minute>59</minute>
-          <second>59</second>
-         </time>
-        </property>
-        <property name="displayFormat">
-         <string>HH</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>heures</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QCheckBox" name="checkBox_3">
-        <property name="maximumSize">
-         <size>
-          <width>15</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="daysOfWeek">
-        <item>
-         <property name="text">
-          <string>Lundi</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Mardi</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Mercredi</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Jeudi</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Vendredi</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Samedi</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Dimanche</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QSpinBox" name="numberInput">
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QCheckBox" name="checkBox_4">
-        <property name="maximumSize">
-         <size>
-          <width>15</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDateEdit" name="daysOfMonth">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="displayFormat">
-         <string>dd</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;e&lt;/span&gt; jours du mois&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QCheckBox" name="checkBox_5">
-        <property name="maximumSize">
-         <size>
-          <width>15</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="monthsOfYear">
-        <item>
-         <property name="text">
-          <string>Janvier</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Février</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Mars</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Avril</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Mai</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Juin</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Juillet</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Août</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Septembre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Octobre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Novembre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Décembre</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QLabel" name="secondaryTypeLabel">
+      <property name="text">
+       <string>minute(s)</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

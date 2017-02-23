@@ -8,7 +8,15 @@
 class FrequencyForm : public QDialog, private Ui::FrequencyDialog
 {
     Q_OBJECT
+    QString postData;
+
     void init();
+    void minuteChoiceLayout();
+    void hourChoiceLayout();
+    void dayChoiceLayout();
+    void weekChoiceLayout();
+    void monthChoiceLayout();
+    void yearChoiceLayout();
 public:
     explicit FrequencyForm(QWidget *parent = 0);
 
@@ -19,7 +27,7 @@ protected slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
 
-
+    void onMainChoiceChanged(int);
 };
 
 #endif // FREQUENCYFORM_H
