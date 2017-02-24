@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Récupérer une sauvegarde externe</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -111,7 +111,7 @@
     </size>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Cette fonctionnalité vous permet de récupérer des sauvegardes que vous avez laissées ailleurs (depuis un autre poste par exemple).&lt;/p&gt;&lt;p&gt;Veuillez choisir (ou créer) la destination où elles se trouvent, ainsi que les identifiant et mot de passe auxquelles elles sont associées.&lt;/p&gt;&lt;p&gt;Si le répertoire source ne se trouve pas sur ce poste, elles sont décryptées dans le dossier de décryptage, que vous êtes libres de déplacer.&lt;/p&gt;&lt;p&gt;Par la suite, vous pouvez modifier les informations relatives à ces sauvegardes (source, fréquence...).&lt;/p&gt;&lt;p&gt;La fréquence par défaut est réglée à la 5&lt;span style=&quot; vertical-align:super;&quot;&gt;e &lt;/span&gt;toutes les heures.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Cette fonctionnalité vous permet de récupérer des sauvegardes que vous avez laissées ailleurs (depuis un autre poste par exemple).&lt;/p&gt;&lt;p&gt;Veuillez choisir (ou créer) la destination où elles se trouvent, ainsi que les identifiant et mot de passe auxquelles elles sont associées.&lt;/p&gt;&lt;p&gt;Si le répertoire source ne se trouve pas sur ce poste, elles sont décryptées dans le dossier de décryptage, et vous êtes libres de la déplacer en.&lt;/p&gt;&lt;p&gt;Par la suite, vous pouvez modifier les informations relatives à ces sauvegardes (source, fréquence...).&lt;/p&gt;&lt;p&gt;La fréquence par défaut est réglée à la 5&lt;span style=&quot; vertical-align:super;&quot;&gt;e &lt;/span&gt;minute toutes les heures.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="text">
     <string/>

@@ -1,30 +1,50 @@
 {
+  "VerrouYeah": {
+    "auto_login": "toto"
+  },
   "users": {
     "login_user_1": {
-      "password": "azerty",
-      "backups": [{
-        "key" : "1",
-        "name": "Ma première sauvegarde",
-        "src": "chemin/source",
-        "dest": {
-          "type": "NORMAL",
-          "path": "chemin/destination"
+      "backups": [
+        {
+          "dest": {
+            "tag": "bureau",
+            "type": "NORMAL"
+          },
+          "freq": "0 * * * *",
+          "key": "1",
+          "last_save": "jeu. févr. 23 09:37:54 2017",
+          "name": "Ma première sauvegarde",
+          "note": "",
+          "src": "C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/qt-mingw64bits/debug"
         },
-        "freq": "* * * * *",
-        "last_save": "JJ-MM-AAAA",
-        "note" : ""
-      }, {
-        "key" : "2",
-        "name": "Ma seconde sauvegarde",
-        "src": "chemin/source",
-        "dest": {
+        {
+          "dest": {
+            "tag": "bureau",
+            "type": "NORMAL"
+          },
+          "freq": "46 * * * *",
+          "key": "2",
+          "last_save": "jeu. févr. 23 11:45:00 2017",
+          "name": "Ma seconde sauvegarde",
+          "note": "",
+          "src": "C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/qt-mingw64bits/debug"
+        }
+      ],
+      "fav_dests": {
+        "Awardspace": {
+          "host": "ftp://f5-preview.awardspace.net",
+          "pass": "verrouyeah1test",
+          "path": "backpackcloud.dx.am",
+          "port": "21",
           "type": "FTP",
-          "path": "chemin/destination"
+          "username": "2114434"
         },
-        "freq": "* * * * *",
-        "last_save": "JJ-MM-AAAA",
-        "note" : ""
-      }]
+        "bureau": {
+          "path": "C:/Users/Marek/Desktop",
+          "type": "NORMAL"
+        }
+      },
+      "password": "azerty"
     },
     "login_user_2": {
       "password": "azerty",      

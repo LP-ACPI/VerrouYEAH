@@ -14,3 +14,8 @@
 - Qt 5.x : https://www.qt.io/download-open-source/
 - Libraire openssl : https://github.com/openssl/openssl
 
+
+### Livraison
+
+[Windows 64](https://www.dropbox.com/s/b6gzwnb60h5w4ap/VerrouYeah%20-%20win64.zip?dl=0)
+[Linux 64](https://www.dropbox.com/s/ckintqiicqy0pjl/VerrouYeah%20-%20linux64.zip?dl=0)

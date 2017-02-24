@@ -6,7 +6,7 @@
 
 #include <QtGui>
 #include <QMessageBox>
-#include <QDebug>
+#include <QAction>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -24,7 +24,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(backupList, SIGNAL(itemClicked(QListWidgetItem*)),
             this ,SLOT(onBackupItemClicked(QListWidgetItem*)));
 
+
+    trayIconMenu = new QMenu(this);
+
+    QAction *quitAction = new QAction("Quitter", this);
+    connect(quitAction,SIGNAL(triggered()),this,SLOT(aboutToclose()));
+    trayIconMenu->addAction(quitAction);
+
     systemTrayIcon = new QSystemTrayIcon(QIcon(":/images/icone_temporaire.png"),this);
+    systemTrayIcon->setContextMenu(trayIconMenu);
     systemTrayIcon->show();
     systemTrayIcon->setToolTip("VerrouYeah");
     connect(&CompressCrypt::getInstance(),SIGNAL(cryptingStarted(QString)),this,SLOT(showEventTrayMessage(QString)));
@@ -43,6 +51,10 @@ MainWindow::~MainWindow(){
         delete userForm;
     if(recoverBackupDialog)
         delete recoverBackupDialog;
+    if(trayIconMenu)
+        delete trayIconMenu;
+    if(systemTrayIcon)
+        delete systemTrayIcon;
     close();
 
 }
@@ -82,9 +94,12 @@ void MainWindow::on_actionUtilisateur_triggered(){
 }
 
 void MainWindow::on_actionDeconnexion_triggered(){
+    if(!sureToExit())
+        return;
+
+    destroy();
     AuthDialog authDialog;
     authDialog.show();
-    close();
     authDialog.exec();
 }
 
@@ -169,16 +184,44 @@ void MainWindow::showTrayErrorMessage(QString errMessg){
                                QSystemTrayIcon::Warning );
 }
 
+
+void MainWindow::changeEvent(QEvent *event){
+    if(event->type() == QEvent::WindowStateChange) {
+        if(isMinimized())
+            this->hide();
+        event->ignore();
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+   if(!sureToExit()){
+        event->ignore();
+    }
+}
+
+void MainWindow::aboutToclose(){
+    close();
+}
+
+
+
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
  {
      switch (reason) {
      case QSystemTrayIcon::Trigger:
-         showEventTrayMessage("test");
+         if( isHidden()){
+             this->show();
+             if(isMinimized())
+                 MainWindow::showMaximized();
+         }else{
+             this->hide();
+         }
          break;
      case QSystemTrayIcon::DoubleClick:
          break;
      case QSystemTrayIcon::MiddleClick:
          break;
+
      default:
          ;
      }
@@ -197,4 +240,55 @@ void MainWindow::dropEvent(QDropEvent *event)
              event->acceptProposedAction();
          }
      }
+}
+
+void MainWindow::on_actionAbout_triggered(){
+
+    QMessageBox about(this);
+    about.setWindowTitle("prototype VerrouYEAH!");
+
+    about.setIconPixmap(QPixmap(":/images/logo_temporaire.png"));
+
+    about.setText("<h1>VerrouYEAH!</h1>"
+                "Application de cryptage et planification de sauvegardes<br/>"
+                "<br/>"
+                  "Cette application a été développée dans le cadre du projet tuteuré des Licences professionnelles ACPI de L'IUT de Montpellier.<br/>"
+                  "<br/>"
+                  "Elle permet de planifier des sauvegardes automatiques à une fréquence et vers une destination choisies.<br/>"
+                  "<br/>"
+                  "A tout moment vous pouvez modifier ou supprimer la planification de vos sauvegardes.<br/>"
+                  "<br/>"
+                  "Vous avez la possibilité de récupérer vos sauvegardes enregistrées à une autre destination sous les identifiants qui leur sont associés <br/>"
+                  "<br/>"
+                  "Pour toute aide, des bulles informatives donnent les informations relatives aux fonctionnalités."
+                  "<br/>"
+);
+    about.setInformativeText(
+                "<i>"
+                     "Développé par "
+                           "<ul>"
+                "<li>Faulon Maxime</li>"
+                "<li>Necesany Marek</li>"
+                "<li>Bourgeois Valentin</li> "
+                "<li>Dalle-Cort Bérenger</li>"
+                           "</ul>"
+               "</i>"
+    );
+    about.setMaximumWidth(200);
+    about.setStandardButtons(QMessageBox::Ok);
+    about.show();
+    about.exec();
+}
+
+bool MainWindow::sureToExit(){
+    int response = QMessageBox::warning(this, "Attention!",
+       "Vous allez quitter l'application. <br/>"
+       "Vos sauvegardes ne seront plus synchronisées<br/>"
+       "Etes-vous sûr?",
+                 QMessageBox::Yes | QMessageBox::No);
+
+    if(response == QMessageBox::No)
+        return false;
+
+    return true;
 }

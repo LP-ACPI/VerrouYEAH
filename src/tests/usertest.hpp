@@ -48,10 +48,10 @@ class UserTest{
 
         User test;
 
-        Backup backup1("backup1");
-        Backup backup2("backup2");
-        Backup backup3("backup3");
-        Backup backup4("backup4");
+        Backup backup1("backup1","backup1");
+        Backup backup2("backup2","backup2");
+        Backup backup3("backup3","backup3");
+        Backup backup4("backup4","backup4");
 
         test.addBackup(backup1);
         test.addBackup(backup2);

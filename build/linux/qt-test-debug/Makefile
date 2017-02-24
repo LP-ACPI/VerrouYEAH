@@ -53,29 +53,33 @@ SOURCES       = ../../../src/models/Backup.cpp \
 		../../../src/models/Directory.cpp \
 		../../../src/models/File.cpp \
 		../../../src/models/Frequency.cpp \
-		../../../src/models/Scheduler.cpp \
 		../../../src/models/User.cpp \
+		../../../src/models/FtpTarget.cpp \
+		../../../src/services/Scheduler.cpp \
 		../../../src/services/Crypt.cpp \
 		../../../src/services/ConfigManager.cpp \
 		../../../src/services/Ftp.cpp \
-		../../../src/controllers/UsersBackupController.cpp \
-		../../../src/controllers/UserController.cpp \
-		../../../src/controllers/BackupController.cpp \
-		../../../src/tests/main.cpp moc_Ftp.cpp
+		../../../src/services/CompressCrypt.cpp \
+		../../../src/models/absTarget.cpp \
+		../../../src/models/Target.cpp \
+		../../../src/tests/main.cpp moc_CompressCrypt.cpp \
+		moc_Ftp.cpp
 OBJECTS       = Backup.o \
 		Data.o \
 		Directory.o \
 		File.o \
 		Frequency.o \
-		Scheduler.o \
 		User.o \
+		FtpTarget.o \
+		Scheduler.o \
 		Crypt.o \
 		ConfigManager.o \
 		Ftp.o \
-		UsersBackupController.o \
-		UserController.o \
-		BackupController.o \
+		CompressCrypt.o \
+		absTarget.o \
+		Target.o \
 		main.o \
+		moc_CompressCrypt.o \
 		moc_Ftp.o
 DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/ramik/Qt/5.7/gcc_64/mkspecs/common/unix.conf \
@@ -233,30 +237,31 @@ DIST          = /home/ramik/Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../src/models/Directory.h \
 		../../../src/models/File.h \
 		../../../src/models/Frequency.h \
-		../../../src/models/Scheduler.h \
 		../../../src/models/User.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/services/Scheduler.h \
+		../../../src/services/CompressCrypt.h \
 		../../../src/services/Crypt.h \
 		../../../src/services/ConfigManager.h \
 		../../../src/services/Ftp.h \
-		../../../src/controllers/UsersBackupController.h \
-		../../../src/controllers/UserController.h \
-		../../../src/controllers/BackupController.h \
-		../../../src/tests/persistancetest.hpp \
+		../../../src/services/Observer.h \
 		../../../src/tests/usertest.hpp \
+		../../../src/tests/persistanceTest.hpp \
 		../../../src/tests/datatest.hpp \
 		../../../src/tests/ftptests.hpp ../../../src/models/Backup.cpp \
 		../../../src/models/Data.cpp \
 		../../../src/models/Directory.cpp \
 		../../../src/models/File.cpp \
 		../../../src/models/Frequency.cpp \
-		../../../src/models/Scheduler.cpp \
 		../../../src/models/User.cpp \
+		../../../src/models/FtpTarget.cpp \
+		../../../src/services/Scheduler.cpp \
 		../../../src/services/Crypt.cpp \
 		../../../src/services/ConfigManager.cpp \
 		../../../src/services/Ftp.cpp \
-		../../../src/controllers/UsersBackupController.cpp \
-		../../../src/controllers/UserController.cpp \
-		../../../src/controllers/BackupController.cpp \
+		../../../src/services/CompressCrypt.cpp \
+		../../../src/models/absTarget.cpp \
+		../../../src/models/Target.cpp \
 		../../../src/tests/main.cpp
 QMAKE_TARGET  = VerrouYeah-UnitTests
 DESTDIR       = 
@@ -592,8 +597,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/Scheduler.h ../../../src/models/User.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/services/Ftp.h ../../../src/controllers/UsersBackupController.h ../../../src/controllers/UserController.h ../../../src/controllers/BackupController.h ../../../src/tests/persistancetest.hpp ../../../src/tests/usertest.hpp ../../../src/tests/datatest.hpp ../../../src/tests/ftptests.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/Scheduler.cpp ../../../src/models/User.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/services/Ftp.cpp ../../../src/controllers/UsersBackupController.cpp ../../../src/controllers/UserController.cpp ../../../src/controllers/BackupController.cpp ../../../src/tests/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.h ../../../src/models/Data.h ../../../src/models/Directory.h ../../../src/models/File.h ../../../src/models/Frequency.h ../../../src/models/User.h ../../../src/models/FtpTarget.h ../../../src/services/Scheduler.h ../../../src/services/CompressCrypt.h ../../../src/services/Crypt.h ../../../src/services/ConfigManager.h ../../../src/services/Ftp.h ../../../src/services/Observer.h ../../../src/tests/usertest.hpp ../../../src/tests/persistanceTest.hpp ../../../src/tests/datatest.hpp ../../../src/tests/ftptests.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../src/models/Backup.cpp ../../../src/models/Data.cpp ../../../src/models/Directory.cpp ../../../src/models/File.cpp ../../../src/models/Frequency.cpp ../../../src/models/User.cpp ../../../src/models/FtpTarget.cpp ../../../src/services/Scheduler.cpp ../../../src/services/Crypt.cpp ../../../src/services/ConfigManager.cpp ../../../src/services/Ftp.cpp ../../../src/services/CompressCrypt.cpp ../../../src/models/absTarget.cpp ../../../src/models/Target.cpp ../../../src/tests/main.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -619,9 +624,73 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_Ftp.cpp
+compiler_moc_header_make_all: moc_CompressCrypt.cpp moc_Ftp.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Ftp.cpp
+	-$(DEL_FILE) moc_CompressCrypt.cpp moc_Ftp.cpp
+moc_CompressCrypt.cpp: ../../../src/services/Crypt.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFile \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QObject \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDir \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdir.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDataStream \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
+		../../../src/services/CompressCrypt.h \
+		/home/ramik/Qt/5.7/gcc_64/bin/moc
+	/home/ramik/Qt/5.7/gcc_64/bin/moc $(DEFINES) -I/home/ramik/Qt/5.7/gcc_64/mkspecs/linux-g++ -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/src/tests -I/mnt/hgfs/partage_VM/LP_ACPI/VerrouYEAH/includes -I/home/ramik/Qt/5.7/gcc_64/include -I/home/ramik/Qt/5.7/gcc_64/include/QtNetwork -I/home/ramik/Qt/5.7/gcc_64/include/QtCore -I. -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../src/services/CompressCrypt.h -o moc_CompressCrypt.cpp
+
 moc_Ftp.cpp: /home/ramik/Qt/5.7/gcc_64/include/QtCore/QUrl \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurl.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
@@ -736,67 +805,11 @@ Backup.o: ../../../src/models/Backup.cpp ../../../src/models/Backup.h \
 		../../../src/models/Data.h \
 		../../../includes/json.hpp \
 		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Backup.o ../../../src/models/Backup.cpp
-
-Data.o: ../../../src/models/Data.cpp ../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/File.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Data.o ../../../src/models/Data.cpp
-
-Directory.o: ../../../src/models/Directory.cpp ../../../src/models/Directory.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/File.h \
-		../../../src/services/ConfigManager.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/services/Crypt.h \
-		../../../src/models/Frequency.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Directory.o ../../../src/models/Directory.cpp
-
-File.o: ../../../src/models/File.cpp ../../../src/models/File.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o File.o ../../../src/models/File.cpp
-
-Frequency.o: ../../../src/models/Frequency.cpp ../../../src/models/Frequency.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Frequency.o ../../../src/models/Frequency.cpp
-
-Scheduler.o: ../../../src/models/Scheduler.cpp ../../../src/models/Scheduler.h \
-		../../../src/models/Backup.h \
-		../../../src/services/Crypt.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scheduler.o ../../../src/models/Scheduler.cpp
-
-User.o: ../../../src/models/User.cpp ../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/services/Crypt.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o User.o ../../../src/models/User.cpp
-
-Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Crypt.o ../../../src/services/Crypt.cpp
-
-ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/ConfigManager.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/services/Crypt.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/models/File.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
@@ -819,37 +832,460 @@ ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/C
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		../../../src/models/Frequency.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../src/services/Observer.h \
+		../../../src/services/CompressCrypt.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFile \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QObject \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDir \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdir.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDataStream \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
+		../../../src/services/ConfigManager.h \
+		../../../src/models/User.h \
+		../../../src/services/Ftp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QUrl \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurlquery.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/QNetworkReply \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qnetworkreply.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QIODevice \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QString \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QVariant \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/QNetworkRequest \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/QSslConfiguration \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qsslsocket.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qsslerror.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qsslcertificate.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatetime.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qssl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFlags \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		/home/ramik/Qt/5.7/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QtGlobal \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QMetaType \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QEventLoop \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Backup.o ../../../src/models/Backup.cpp
+
+Data.o: ../../../src/models/Data.cpp ../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		../../../src/models/File.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Data.o ../../../src/models/Data.cpp
+
+Directory.o: ../../../src/models/Directory.cpp ../../../src/models/Directory.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		../../../src/models/File.h \
+		../../../src/services/ConfigManager.h \
+		../../../src/models/User.h \
+		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
+		../../../src/models/Frequency.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../src/services/Observer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDir \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdir.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDirIterator \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdiriterator.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Directory.o ../../../src/models/Directory.cpp
+
+File.o: ../../../src/models/File.cpp ../../../src/models/File.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o File.o ../../../src/models/File.cpp
+
+Frequency.o: ../../../src/models/Frequency.cpp ../../../src/models/Frequency.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Frequency.o ../../../src/models/Frequency.cpp
+
+User.o: ../../../src/models/User.cpp ../../../src/models/User.h \
+		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		../../../src/models/Frequency.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../src/services/Observer.h \
+		../../../src/services/ConfigManager.h \
+		../../../src/services/Scheduler.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o User.o ../../../src/models/User.cpp
+
+FtpTarget.o: ../../../src/models/FtpTarget.cpp ../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../includes/json.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FtpTarget.o ../../../src/models/FtpTarget.cpp
+
+Scheduler.o: ../../../src/services/Scheduler.cpp ../../../src/services/Scheduler.h \
+		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		../../../src/models/Frequency.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../src/services/Observer.h \
+		../../../src/models/User.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scheduler.o ../../../src/services/Scheduler.cpp
+
+Crypt.o: ../../../src/services/Crypt.cpp ../../../src/services/Crypt.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Crypt.o ../../../src/services/Crypt.cpp
+
+ConfigManager.o: ../../../src/services/ConfigManager.cpp ../../../src/services/ConfigManager.h \
+		../../../src/models/User.h \
+		../../../src/models/Backup.h \
+		../../../src/services/Crypt.h \
+		../../../src/models/Data.h \
+		../../../includes/json.hpp \
+		../../../src/models/Directory.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qisenum.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlogging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qflags.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		../../../src/models/Frequency.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../src/services/Observer.h \
+		../../../src/services/Scheduler.h \
+		../../../src/models/File.h \
+		../../../src/models/Target.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
@@ -1095,20 +1531,12 @@ Ftp.o: ../../../src/services/Ftp.cpp ../../../src/services/Ftp.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ftp.o ../../../src/services/Ftp.cpp
 
-UsersBackupController.o: ../../../src/controllers/UsersBackupController.cpp ../../../src/controllers/UsersBackupController.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
+CompressCrypt.o: ../../../src/services/CompressCrypt.cpp ../../../src/services/CompressCrypt.h \
 		../../../src/services/Crypt.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/controllers/BackupController.h \
-		../../../src/controllers/UserController.h \
-		../../../src/services/ConfigManager.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDebug \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFile \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qglobal.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qconfig.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
@@ -1131,64 +1559,55 @@ UsersBackupController.o: ../../../src/controllers/UsersBackupController.cpp ../.
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmutex.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qchar.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlist.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiterator.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpair.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstring.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qregexp.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QObject \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDir \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdir.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvector.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qpoint.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UsersBackupController.o ../../../src/controllers/UsersBackupController.cpp
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QDataStream \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QUrl \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurl.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qurlquery.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QCoreApplication \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CompressCrypt.o ../../../src/services/CompressCrypt.cpp
 
-UserController.o: ../../../src/controllers/UserController.cpp ../../../src/controllers/UserController.h \
-		../../../src/models/User.h \
-		../../../src/models/Backup.h \
-		../../../src/services/Crypt.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h \
-		../../../src/services/ConfigManager.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o UserController.o ../../../src/controllers/UserController.cpp
+absTarget.o: ../../../src/models/absTarget.cpp ../../../src/models/absTarget.h \
+		../../../includes/json.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o absTarget.o ../../../src/models/absTarget.cpp
 
-BackupController.o: ../../../src/controllers/BackupController.cpp ../../../src/controllers/backupcontroller.h \
-		../../../src/models/Backup.h \
-		../../../src/services/Crypt.h \
-		../../../src/models/Data.h \
-		../../../includes/json.hpp \
-		../../../src/models/Directory.h \
-		../../../src/models/Frequency.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BackupController.o ../../../src/controllers/BackupController.cpp
+Target.o: ../../../src/models/Target.cpp ../../../src/models/Target.h \
+		../../../src/models/absTarget.h \
+		../../../includes/json.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Target.o ../../../src/models/Target.cpp
 
 main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCoreApplication \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1249,7 +1668,17 @@ main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCo
 		../../../src/models/Backup.h \
 		../../../src/services/Crypt.h \
 		../../../src/models/Directory.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QFileInfo \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
+		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
 		../../../src/models/Frequency.h \
+		../../../src/models/FtpTarget.h \
+		../../../src/models/absTarget.h \
+		../../../src/services/Observer.h \
 		../../../src/services/ConfigManager.h \
 		../../../src/tests/usertest.hpp \
 		../../../src/tests/datatest.hpp \
@@ -1268,11 +1697,8 @@ main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCo
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qvariant.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qmap.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdebug.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qhash.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qlocale.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qset.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
@@ -1285,9 +1711,6 @@ main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCo
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qbuffer.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdir.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileinfo.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfile.h \
-		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qdiriterator.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/qfileselector.h \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QObject \
@@ -1412,6 +1835,9 @@ main.o: ../../../src/tests/main.cpp /home/ramik/Qt/5.7/gcc_64/include/QtCore/QCo
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QtGlobal \
 		/home/ramik/Qt/5.7/gcc_64/include/QtCore/QMetaType
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../src/tests/main.cpp
+
+moc_CompressCrypt.o: moc_CompressCrypt.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CompressCrypt.o moc_CompressCrypt.cpp
 
 moc_Ftp.o: moc_Ftp.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Ftp.o moc_Ftp.cpp

@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Choix de fréquence</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -221,7 +221,7 @@
     </size>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ici vous choisissez votre sauvegarde.&lt;/p&gt;&lt;p&gt;Le format est celui de Cron, le programme de planification de systèmes unix (&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lien wiki&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;(exemple: tous le 5&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000; vertical-align:super;&quot;&gt;e &lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;jour du &lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;mois à 12h : 0 12 5 * *)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Toutes les fréquences dépassant les heures sont programmées par défaut à 12h00&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;p&gt;Le format de fréquence est au celui de Cron, le programme de planification de systèmes unix (&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lien wiki)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;exemple:&lt;/p&gt;&lt;p&gt; tous le 5&lt;span style=&quot; color:#000000; vertical-align:super;&quot;&gt;e &lt;/span&gt;jour du mois à 12h : 0 12 5 * *&lt;/p&gt;&lt;p&gt;Toutes les fréquences dépassant les heures sont programmées par défaut à 12h00&lt;/p&gt;</string>
    </property>
    <property name="text">
     <string/>

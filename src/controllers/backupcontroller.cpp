@@ -77,4 +77,3 @@ json BackupController::getJsonifiedDataTree(std::string la_cle){
     else
         return NULL;
 }
-

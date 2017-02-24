@@ -27,15 +27,15 @@ class PersistanceTest{
         UnitTest<void*>::insertTitle("Test chargement utilisateurs");
         User* test1 =  ConfigManager::getInstance().loadUser("login_user_1");
         User* test2 =  ConfigManager::getInstance().loadUser("login_user_2");
-        Backup test_1_1stBcp = test1->getBackupAt(0);
-        Backup test_1_2ndBcp = test1->getBackupAt(1);
+	Backup *test_1_1stBcp = test1->getBackupByKey("1");
+	Backup *test_1_2ndBcp = test1->getBackupByKey("2");
 
         UnitTest<string>::assertEquals("pass == 'azerty' ", test1->getPassword() ,(string) "azerty");
         UnitTest<string>::assertEquals("login == 'login_user_1' ", test1->getLogin() ,(string) "login_user_1");
         UnitTest<string>::assertEquals("pass == 'azerty' ", test2->getPassword() ,(string) "azerty");
         UnitTest<string>::assertEquals("login == 'login_user_2' ", test2->getLogin() ,(string) "login_user_2");
-        UnitTest<string>::assertEquals(test_1_1stBcp.getName(),(string) "Ma première sauvegarde");
-        UnitTest<string>::assertEquals(test_1_2ndBcp.getName(),(string) "Ma seconde sauvegarde");
+	UnitTest<string>::assertEquals(test_1_1stBcp->getName(),(string) "Ma première sauvegarde");
+	UnitTest<string>::assertEquals(test_1_2ndBcp->getName(),(string) "Ma seconde sauvegarde");
     }
 
     static void testPersistanceDutilisateurs(){
@@ -53,31 +53,34 @@ class PersistanceTest{
         ConfigManager::getInstance().saveUser(&toto);
 
         User* test2 = ConfigManager::getInstance().loadUser("login_test");
+        UnitTest<void*>::insertTitle("Test persistance 1er utilisateur (avec login changé)");
         User* testToto = ConfigManager::getInstance().loadUser("login_toto");
-        Backup test_2_1stBcp= test2->getBackupAt(0);
-        Backup test_2_2ndBcp= test2->getBackupAt(1);
+	Backup *test_2_1stBcp= test2->getBackupByKey("1");
+	Backup *test_2_2ndBcp= test2->getBackupByKey("2");
 
-        Backup test_toto_1stBcp("");
-        Backup test_toto_2ndBcp("");
+	Backup *test_toto_1stBcp = new Backup("");
+	Backup *test_toto_2ndBcp = new Backup("");
 
         try {
-            test_toto_1stBcp = testToto->getBackupAt(0);
-            test_toto_2ndBcp = testToto->getBackupAt(1);
+	    test_toto_1stBcp = testToto->getBackupByKey("1");
+	    test_toto_2ndBcp = testToto->getBackupByKey("2");
         }
         catch( const invalid_argument &e) {
             cerr <<  e.what() << endl;
         }
 
-        UnitTest<void*>::insertTitle("Test persistance 1er utilisateur (avec login changé)");
         UnitTest<string>::assertEquals("pass == 'qwertz'", (string) "qwertz", test2->getPassword());
         UnitTest<string>::assertEquals("login == 'login_test'", (string) "login_test",test2->getLogin());
-        UnitTest<string>::assertEquals((string) "Ma première sauvegarde",test_2_1stBcp.getName());
-        UnitTest<string>::assertEquals((string) "Ma seconde sauvegarde", test_2_2ndBcp.getName());
+	UnitTest<string>::assertEquals((string) "Ma première sauvegarde",test_2_1stBcp->getName());
+	UnitTest<string>::assertEquals((string) "Ma seconde sauvegarde", test_2_2ndBcp->getName());
 
         UnitTest<void*>::insertTitle("Test persistance 2nd utilisateur");
         UnitTest<string>::assertEquals("pass == 'qwertyop'", (string) "qwertyop", testToto->getPassword());
         UnitTest<string>::assertEquals("login == 'login_toto'", (string) "login_toto",testToto->getLogin());
         UnitTest<uint32_t>::assertEquals((string) "pas de sauvegardes pour toto",0,toto.getBackups().size());
+
+	delete test_toto_1stBcp;
+	delete test_toto_2ndBcp;
     }
 
     static void chargementCouplesLoginPass(){
@@ -127,11 +130,10 @@ class PersistanceTest{
         backup_dir.addData(&test_dir_2);
         backup_dir.addData(&test_dir_3);
 
-        Backup newBackup(test_user.getBackupAt(1));
-        newBackup.setData(&backup_dir);
-        test_user.replaceBackupAt(1,newBackup);
-        Backup *backup_1 = new Backup(test_user.getBackupAt(0));
-        Backup *backup_2 = new Backup(test_user.getBackupAt(1));
+	Backup newBackup(*test_user.getBackupByKey("2"));
+	newBackup.setData(&backup_dir);
+	Backup *backup_1 = new Backup(*test_user.getBackupByKey("1"));
+	Backup *backup_2 = new Backup(*test_user.getBackupByKey("2"));
         //Dans contrôleur correspondant: choix de telle ou telle sauvegarde à persister
         // dans backup.getTarget
         ConfigManager::getInstance().saveUsersBackupData(backup_2);
@@ -145,6 +147,8 @@ class PersistanceTest{
         test << backup_dir;
         cout << test.dump(2) << endl;
 
+	delete backup_1;
+	delete backup_2;
     }
 
     static void testChargementDeSauvegardeDUtilisateur(){
@@ -152,14 +156,14 @@ class PersistanceTest{
 
         ConfigManager::getInstance().setJsonFile(LOCAL_CONFIG_FILE);
         User test_user = *ConfigManager::getInstance().loadUser("login_user_1");
-//        Backup backup  = test_user.getBackupAt(0);
+//        Backup backup  = test_user.getBackupByKey(0);
 
         ConfigManager::getInstance().setJsonFile(DISTANT_BACKUP_CONFIG_FILE);
         ConfigManager::getInstance().getUserBackupsData(test_user.getLogin(),"2");
 
-        Backup backup_test = test_user.getBackupByKey("2");
+	Backup *backup_test = test_user.getBackupByKey("2");
 
-        const Data* data_test = backup_test.getData();
+	const Data* data_test = backup_test->getData();
 
         cout << "unit-test: "<< data_test->to_json().dump(2);
 

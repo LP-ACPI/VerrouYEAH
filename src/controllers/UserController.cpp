@@ -58,28 +58,24 @@ bool UserController::saveCurrentUser(){
 }
 
 bool UserController::updateUser(std::string newLogin, std::string newPass){
-    bool update_user;
+
     std::string hashed_pass = Crypt::generateHashedPass(newPass);
 
-    if(newLogin != getCurrentUserLogin()){
-        deleteUser();
-        update_user = createUser(newLogin,newPass);
-    } else {
-        ConfigManager::getInstance().saveUser(new User(newLogin,hashed_pass));
-        update_user = true;
-    }
+    User *tmp_user = new User(newLogin,hashed_pass);
+    for(AbsTarget *tg: currentUser->getFavoriteTargets())
+        tmp_user->addFavoriteTarget(tg);
 
-    if(update_user){
-        setCurrentUser(newLogin);
-        userLoginPassCouples[newLogin] = hashed_pass;
-        std::list<Backup>::iterator it = currentUser->getBackups().begin();
-        while(it != currentUser->getBackups().end()){
-            it->setOwnersLogin(newLogin);
-            it->setOwnersPass(hashed_pass);
-            ++it;
-        }
-    }
-    return update_user;
+    for(Backup bc : currentUser->getBackups())
+        tmp_user->addBackup(bc);
+
+    deleteUser();
+    ConfigManager::getInstance().saveUser(tmp_user);
+
+    setCurrentUser(newLogin);
+    userLoginPassCouples[newLogin] = hashed_pass;
+
+    delete tmp_user;
+    return true;
 }
 
 void UserController::deleteUser() {

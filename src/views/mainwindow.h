@@ -25,9 +25,10 @@ class MainWindow :
     UserForm *userForm;
 
     QSystemTrayIcon *systemTrayIcon;
-
+    QMenu *trayIconMenu;
     void addBackupItem(std::map<std::string,std::string>);
     void initBackupList();
+    bool sureToExit();
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -37,10 +38,12 @@ public:
     void dropEvent(QDropEvent *event);
 signals:
     void itemSelected();
+    void closeMessage();
 
 protected slots:
     void on_newBackupButton_clicked();
     void on_actionUtilisateur_triggered();
+    void on_actionAbout_triggered();
     void on_actionDeconnexion_triggered();
     void on_actionDecryptDestination_triggered();
 
@@ -56,6 +59,9 @@ protected slots:
     void showTrayErrorMessage(QString);
 
    void iconActivated(QSystemTrayIcon::ActivationReason);
+   void aboutToclose();
+   void changeEvent(QEvent*);
+   void closeEvent(QCloseEvent*);
 };
 
 #endif // MAINWINDOW_H

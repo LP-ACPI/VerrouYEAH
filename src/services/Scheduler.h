@@ -34,9 +34,6 @@ public:
     {
         saves.clear();
     }
-
-//    void addObserverToBackup(Observer*);
-//    void removeObserverToBackup(Observer*);
 };
 
 #endif //SCHEDULER_H

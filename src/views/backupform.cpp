@@ -34,6 +34,7 @@ BackupForm::BackupForm(std::string backupKey, QWidget *parent) :
     noteInput->setPlainText(QString::fromStdString(backup_info["note"]));
     setSourceText(QString::fromStdString(backup_info["source_path"]));
     nameInput->setText(QString::fromStdString(backup_info["name"]));
+    frequencyButton->setText(QString::fromStdString(backup_info["frequency"]));
 
     connect(this,SIGNAL(postUpdateBackupData(std::map<std::string,std::string>)),
             this,SLOT(onBackupUpdated(std::map<std::string,std::string>)));
@@ -55,7 +56,6 @@ void BackupForm::init(){
     setupUi(this);
     setModal(true);
 
-    icon->setPixmap(QFileIconProvider().icon(QFileIconProvider::File).pixmap(30,30));
     sourceIcon->setPixmap(QFileIconProvider().icon(QFileIconProvider::Folder).pixmap(25,25));
     targetIcon->setPixmap(style()->standardIcon(QStyle::SP_DialogSaveButton).pixmap(25,25));
 }

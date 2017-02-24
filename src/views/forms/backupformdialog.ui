@@ -52,7 +52,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Nom Sauvegarde</string>
+    <string>   Nom Sauvegarde</string>
    </property>
    <property name="frame">
     <bool>false</bool>
@@ -80,7 +80,13 @@
     </size>
    </property>
    <property name="text">
-    <string>icon</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../../../res/res.qrc">:/images/save-icon.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -201,7 +207,7 @@
     <rect>
      <x>60</x>
      <y>151</y>
-     <width>221</width>
+     <width>251</width>
      <height>41</height>
     </rect>
    </property>
@@ -251,6 +257,34 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="helpIcon">
+      <property name="minimumSize">
+       <size>
+        <width>30</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>&lt;p&gt;Le format de fréquence est au celui de Cron, le programme de planification de systèmes unix (&lt;a href=&quot;https://fr.wikipedia.org/wiki/Cron&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lien wiki)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;exemple:&lt;/p&gt;&lt;p&gt; tous le 5&lt;span style=&quot; color:#000000; vertical-align:super;&quot;&gt;e &lt;/span&gt;jour du mois à 12h : 0 12 5 * *&lt;/p&gt;&lt;p&gt;Toutes les fréquences dépassant les heures sont programmées par défaut à 12h00&lt;/p&gt;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="../../../res/res.qrc">:/images/info.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -353,6 +387,8 @@
   <zorder>sourceIcon</zorder>
   <zorder>targetIcon</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

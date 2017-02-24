@@ -13,6 +13,7 @@ BackupDetailsDialog::BackupDetailsDialog(std::string _backupKey, QWidget *parent
     setupUi(this);
     updateBackupInfo(backupKey );
     BackupController::getInstance().subscribeObserverToBackup(this,backupKey);
+
 }
 
 BackupDetailsDialog::~BackupDetailsDialog()
@@ -27,6 +28,7 @@ void BackupDetailsDialog::updateBackupInfo(std::string backupKey){
 
     nameLabel->setText(QString::fromStdString(backupInfo["name"]));
     sourcePathLabel->setText(QString::fromStdString(backupInfo["source_path"]));
+    sourcePathLabel->setToolTip(QString::fromStdString(backupInfo["source_path"]));
     frequencyLabel->setText(QString::fromStdString(backupInfo["frequency"]));
     lastSaveLabel->setText(QString::fromStdString(backupInfo["last_save"]));
 
@@ -57,8 +59,11 @@ void BackupDetailsDialog::updateBackupInfo(std::string backupKey){
     stateIcon->setScaledContents(true);
     stateIcon->setPixmap(state_icon);
 
+    noteInfoLabel->setText(QString::fromStdString(backupInfo["note"]));
+
     targetNameLabel->setText(QString::fromStdString(targetTag));
     targetPathLabel->setText(targetPath);
+    targetPathLabel->setToolTip(targetPath);
 
     QString sourcePath = QString::fromStdString(backupInfo["source_path"])+"/";
     model = new FileSystemModel(this);
@@ -118,6 +123,6 @@ void BackupDetailsDialog::on_backButton_clicked(){
 
 void BackupDetailsDialog::update(nlohmann::json backupInfo) {
     try{
-      updateBackupInfo(backupKey);
+      updateBackupInfo(backupInfo["key"]);
     }catch(std::domain_error &e){}
 }

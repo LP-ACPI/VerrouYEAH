@@ -6,6 +6,7 @@
 #define CRYPT_H
 
 #include <string>
+#include <stdexcept>
 
 #define CRYPT_KEY_SIZE 4
 #define CRYPT_BUFFER_SIZE 512

@@ -30,20 +30,17 @@ Directory::Directory(const Directory &dir)
  *      un Directory (càd l'objet implicite)
  */
 Directory::Directory(json &jsonDataTree){
-
     for (json::iterator it = jsonDataTree.begin(); it != jsonDataTree.end(); it++){
         string type  = it.value()["type"];
         bool isADir = type == "dir";
 
         string dataName = it.key();
         string dataPath = it.value()["path"];
-        // Create a new Directory and add it to the Directory data
         if( isADir ){
             setName(dataName);
             setPath(dataPath);
             Data* newData = new Directory(it.value()["data"]);
             addData(newData);
-        // else, create a new File and add it to the Directory data
         }else{
             Data* newData = new File(dataName,dataPath);
             addData(newData);

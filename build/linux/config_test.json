@@ -1,36 +1,39 @@
 {
-  "VerrouYeah": {
-    "auto_login": ""
-  },
   "users": {
     "login_test": {
       "backups": [
         {
           "dest": {
-            "path": "chemin/destination",
+            "tag": "bureau",
             "type": "NORMAL"
           },
-          "freq": "* * * * *",
+          "freq": "0 * * * *",
           "key": "1",
-          "last_save": "JJ-MM-AAAA",
+          "last_save": "jeu. févr. 23 09:37:54 2017",
           "name": "Ma première sauvegarde",
           "note": "",
-          "src": "chemin/source"
+          "src": "C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/qt-mingw64bits/debug"
         },
         {
           "dest": {
-            "path": "chemin/destination",
-            "type": "FTP"
+            "tag": "bureau",
+            "type": "NORMAL"
           },
-          "freq": "* * * * *",
+          "freq": "46 * * * *",
           "key": "2",
-          "last_save": "JJ-MM-AAAA",
+          "last_save": "jeu. févr. 23 11:45:00 2017",
           "name": "Ma seconde sauvegarde",
           "note": "",
-          "src": "chemin/source"
+          "src": "C:/Users/Marek/Desktop/partage_VM/LP_ACPI/VerrouYEAH/build/win/qt-mingw64bits/debug"
         }
       ],
+      "fav_dests": null,
       "password": "qwertz"
+    },
+    "login_toto": {
+      "backups": null,
+      "fav_dests": null,
+      "password": "qwertyop"
     }
   }
 }

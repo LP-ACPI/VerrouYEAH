@@ -155,10 +155,8 @@ bool Ftp::startTransfert(QNetworkReply *reply){
  *
  */
 void Ftp::transferInProgress(qint64 done, qint64 fileSize){
-
     if(requestCanceled)
         return;
-
     std::cout << "transfert :" << done <<"/" << fileSize << " octets"<< std::endl;
     emit transferProgress(done,fileSize);
 }

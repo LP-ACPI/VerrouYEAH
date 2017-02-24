@@ -38,13 +38,15 @@ void RecoverBackupsDialog::on_buttonBox_rejected(){
 }
 
 void RecoverBackupsDialog::startResearchBackup(std::string  login,std::string  pass,std::string targetTag){
-    try {
 
-        QProgressDialog *waitDialog = new QProgressDialog(this);
-        waitDialog->setWindowTitle("Merci de patienter durant la récupération...");
-        waitDialog->setMaximum(0);
-        waitDialog->setMinimum(0);
-        waitDialog->show();
+    QProgressDialog *waitDialog = new QProgressDialog(this);
+    waitDialog->setWindowTitle("Merci de patienter durant la récupération...");
+    waitDialog->setMaximum(0);
+    waitDialog->setMinimum(0);
+    waitDialog->setMinimumWidth(200);
+    waitDialog->show();
+
+    try {
 
         nlohmann::json found_backups;
         found_backups = UsersBackupController::getInstance()
@@ -67,7 +69,6 @@ void RecoverBackupsDialog::startResearchBackup(std::string  login,std::string  p
             existingBackupNames.append(QString::fromStdString(backup["name"]));
         }
 
-        delete waitDialog;
 
         QString resultMessage =
                 "Les sauvegardes suivantes ont été récupérées: \n\n"+
@@ -83,8 +84,10 @@ void RecoverBackupsDialog::startResearchBackup(std::string  login,std::string  p
     } catch(const std::exception &e){
         QMessageBox::warning(this, "Attention!",
           QString::fromStdString(e.what()));
-      return;
     }
+
+    delete waitDialog;
+    close();
 }
 
 bool RecoverBackupsDialog::isFormValid(){

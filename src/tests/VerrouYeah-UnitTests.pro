@@ -20,10 +20,6 @@ SOURCES	+=  \
     ../models/Frequency.cpp \
     ../models/User.cpp \
     ../models/FtpTarget.cpp \
-    ../controllers/UserController.cpp \
-    ../controllers/BackupController.cpp \
-    ../controllers/UsersBackupController.cpp \
-    ../controllers/TargetController.cpp \
     ../services/Scheduler.cpp \
     ../services/Crypt.cpp \
     ../services/ConfigManager.cpp \
@@ -36,16 +32,12 @@ SOURCES	+=  \
 
 HEADERS	+=  \
     ../models/Backup.h \
-   ../models/Data.h \
-   ../models/Directory.h \
+    ../models/Data.h \
+    ../models/Directory.h \
     ../models/File.h \
     ../models/Frequency.h \
     ../models/User.h \
     ../models/FtpTarget.h \
-    ../controllers/UserController.h \
-    ../controllers/UsersBackupController.h \
-    ../controllers/BackupController.h \
-    ../controllers/TargetController.h \
     ../services/Scheduler.h \
     ../services/CompressCrypt.h \
     ../services/Crypt.h \
