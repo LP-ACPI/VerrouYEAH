@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     std::string userName = UserController::getInstance().getCurrentUserLogin();
     setWindowTitle(QString::fromStdString("VerrouYEAH - " + userName));
 
+    if(!QDir("decrypt").exists())
+        actionDecryptDestination->setDisabled(true);
+
     newBackupButton->setAcceptDrops(true);
     initBackupList();
 
@@ -104,8 +107,6 @@ void MainWindow::on_actionDeconnexion_triggered(){
 }
 
 void MainWindow::on_actionDecryptDestination_triggered(){
-    if(!QDir("decrypt").exists())
-        actionDecryptDestination->setDisabled(true);
     QString path = QDir::toNativeSeparators("decrypt");
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 }
