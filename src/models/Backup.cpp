@@ -7,6 +7,7 @@
 #include "../services/Ftp.h"
 #include <QDebug>
 #include <QEventLoop>
+#include <qdatetime.h>
 
 using namespace std;
 using json = nlohmann::json;

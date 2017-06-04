@@ -1,5 +1,5 @@
 #include "progressdialog.h"
-#include "../controllers/backupcontroller.h"
+#include "src/controllers/BackupController.h"
 #include "../services/Scheduler.h"
 #include <QMessageBox>
 #include <QDesktopServices>

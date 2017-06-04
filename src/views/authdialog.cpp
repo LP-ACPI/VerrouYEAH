@@ -13,10 +13,6 @@ AuthDialog::AuthDialog(QWidget *parent):
     for(std::string login : UserController::getInstance().getLoginList())
         loginList->addItem(QString::fromStdString(login));
 
-    QPixmap appLogo(":/images/logo_temporaire.png");
-    logo->setScaledContents(true);
-    logo->setPixmap(appLogo);
-
     connect(loginList,SIGNAL(currentTextChanged(QString)),this,SLOT(onLoginListChanged(QString)));
 
     QString auto_login_user = QString::fromStdString( UserController::getInstance().getFavoriteUser() );
