@@ -20,9 +20,6 @@ UserForm::UserForm(QWidget *parent)
     userLogin->setText(login);
 
     autoLoginUserCheck->setChecked(isAutoLogin);
-    QPixmap warnIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(150,150));
-    warningIcon->setScaledContents(true);
-    warningIcon->setPixmap(warnIcon);
 
 }
 

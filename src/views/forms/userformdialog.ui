@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>262</width>
+    <width>260</width>
     <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>262</width>
+    <width>260</width>
     <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>262</width>
+    <width>260</width>
     <height>350</height>
    </size>
   </property>
@@ -33,19 +33,25 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>262</width>
+     <width>260</width>
      <height>350</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
-     <width>262</width>
+     <width>260</width>
      <height>350</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>262</width>
+     <width>260</width>
      <height>350</height>
     </size>
    </property>
@@ -54,7 +60,7 @@
    </property>
    <widget class="QWidget" name="modifyUser">
     <attribute name="title">
-     <string>Modifcation</string>
+     <string>Modification</string>
     </attribute>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -71,14 +77,19 @@
       </property>
       <item>
        <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">font-size:22px</string>
+         <string notr="true">font-size:12pt</string>
         </property>
         <property name="text">
          <string>Login</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -91,67 +102,42 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size:22px;
-text-align:center;</string>
+         <string notr="true">font-size:12pt;
+text-align:left;</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
+       <spacer name="verticalSpacer_3">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>40</height>
+          <height>20</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="autoLoginUserCheck">
-        <property name="layoutDirection">
-         <enum>Qt::RightToLeft</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>connexion automatique</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="userPassLabel_2">
+       <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
-          <family>DejaVu Sans</family>
           <pointsize>12</pointsize>
-          <italic>false</italic>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">font-size:12pt</string>
         </property>
         <property name="text">
-         <string>Ancien mot de passe</string>
+         <string>Mot de passe</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -172,37 +158,8 @@ text-align:center;</string>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="userPassLabel_4">
-        <property name="font">
-         <font>
-          <family>DejaVu Sans</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Nouveau mot de passe</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        <property name="placeholderText">
+         <string>Ancien mot de passe</string>
         </property>
        </widget>
       </item>
@@ -226,16 +183,41 @@ text-align:center;</string>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
+        <property name="placeholderText">
+         <string>Nouveau mot de passe</string>
+        </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <widget class="QCheckBox" name="autoLoginUserCheck">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>connexion automatique</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>20</width>
           <height>20</height>
          </size>
         </property>
@@ -258,40 +240,71 @@ text-align:center;</string>
     </widget>
    </widget>
    <widget class="QWidget" name="deleteUser">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>260</width>
+      <height>16777215</height>
+     </size>
+    </property>
     <attribute name="title">
      <string>Suppression</string>
     </attribute>
-    <widget class="QLabel" name="warningIcon">
+    <widget class="QWidget" name="layoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>10</x>
        <y>10</y>
-       <width>71</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>warnicon</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>72</y>
-       <width>201</width>
-       <height>236</height>
+       <width>241</width>
+       <height>301</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="sizeConstraint">
-       <enum>QLayout::SetMaximumSize</enum>
+       <enum>QLayout::SetMinimumSize</enum>
       </property>
       <item>
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QLabel" name="userInfo">
+        <property name="maximumSize">
+         <size>
+          <width>240</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>240</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="acceptDrops">
+         <bool>false</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-weight: bold
 </string>
@@ -300,13 +313,38 @@ text-align:center;</string>
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;Vos sauvegardes&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;ne seront plus &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;synchronisées&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; color:#dd4141;&quot;&gt;Attention !&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-weight:400; color:#dd4141;&quot;&gt;Si vous supprimez votre compte &lt;/span&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-weight:400; color:#dd4141;&quot;&gt;vos sauvegardes ne seront plus synchronisées &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Utilisateur actif :</string>
         </property>
        </widget>
       </item>
@@ -315,11 +353,11 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>100</height>
+          <height>0</height>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size:25px
+         <string notr="true">font-size:12pt
 	
 </string>
         </property>
@@ -332,6 +370,22 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="deleteUserButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -342,11 +396,22 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>50</height>
+          <height>30</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>Supprimer Utilisateur</string>
+         <string>Supprimer mon compte</string>
         </property>
        </widget>
       </item>

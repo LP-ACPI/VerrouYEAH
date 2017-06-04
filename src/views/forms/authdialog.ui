@@ -41,6 +41,11 @@
      <height>341</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="contextMenuPolicy">
     <enum>Qt::NoContextMenu</enum>
    </property>
@@ -60,18 +65,100 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>201</width>
-       <height>166</height>
+       <x>10</x>
+       <y>10</y>
+       <width>232</width>
+       <height>281</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QLabel" name="logo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>230</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>370</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../../../res/res.qrc">:/images/logo_temporaire.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="indent">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QComboBox" name="loginList">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">height:28px;
-font-size:21px;</string>
+         <string notr="true">font-size:12pt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="userPassInput">
+        <property name="font">
+         <font>
+          <family>Monospace</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+        <property name="placeholderText">
+         <string>Mot de passe</string>
         </property>
        </widget>
       </item>
@@ -89,6 +176,13 @@ font-size:21px;</string>
           <height>28</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <italic>true</italic>
+          <kerning>true</kerning>
+         </font>
+        </property>
         <property name="toolTip">
          <string>Connexion automaitique à cet utilisateur</string>
         </property>
@@ -99,45 +193,7 @@ font-size:21px;</string>
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>connexion automatique</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="userPassLabel">
-        <property name="font">
-         <font>
-          <family>DejaVu Sans</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Mot de passe</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="userPassInput">
-        <property name="font">
-         <font>
-          <family>Monospace</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="inputMethodHints">
-         <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <string>se rappeler de moi</string>
         </property>
        </widget>
       </item>
@@ -178,37 +234,6 @@ font-size:21px;</string>
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="logo">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>211</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Logo</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="indent">
-      <number>0</number>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="creationTab">
     <attribute name="title">
@@ -219,8 +244,8 @@ font-size:21px;</string>
       <rect>
        <x>10</x>
        <y>40</y>
-       <width>222</width>
-       <height>241</height>
+       <width>231</width>
+       <height>251</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -239,7 +264,7 @@ font-size:21px;</string>
          <string>Nouvel utilisateur</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
         </property>
        </widget>
       </item>
@@ -290,7 +315,7 @@ font-size:21px;</string>
          <string>Mot de passe</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
         </property>
        </widget>
       </item>
@@ -341,7 +366,7 @@ font-size:21px;</string>
          <string>Confirmer mot de passe</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
         </property>
        </widget>
       </item>
@@ -404,7 +429,7 @@ font-size:21px;</string>
     <widget class="QLabel" name="helpIcon">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>10</x>
        <y>10</y>
        <width>20</width>
        <height>20</height>
