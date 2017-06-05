@@ -29,8 +29,11 @@
    <iconset resource="../../../res/res.qrc">
     <normaloff>:/images/icone_temporaire.png</normaloff>:/images/icone_temporaire.png</iconset>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(255, 255, 255)</string>
   </property>
   <widget class="QTabWidget" name="authTabWidget">
    <property name="geometry">
@@ -53,7 +56,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
    </property>
    <property name="currentIndex">
     <number>0</number>
@@ -102,7 +105,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../../../res/res.qrc">:/images/logo_temporaire.png</pixmap>
+         <pixmap resource="../../../res/res.qrc">:/images/logo.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>

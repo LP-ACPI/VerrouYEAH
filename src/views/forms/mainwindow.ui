@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>HomeWindow</class>
  <widget class="QMainWindow" name="HomeWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,7 +35,13 @@
    <iconset resource="../../../res/res.qrc">
     <normaloff>:/images/icone_temporaire.png</normaloff>:/images/icone_temporaire.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255)</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -40,7 +49,7 @@
     <item>
      <widget class="QFrame" name="zoneDrop">
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
@@ -77,7 +86,7 @@
         <bool>true</bool>
        </property>
        <property name="text">
-        <string>Nouvelle sauvegarde</string>
+        <string>  Nouvelle sauvegarde</string>
        </property>
        <property name="icon">
         <iconset resource="../../../res/res.qrc">
@@ -85,7 +94,7 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>60</width>
+         <width>30</width>
          <height>65</height>
         </size>
        </property>
@@ -187,7 +196,7 @@
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuVerrouYEAH_accueil">
