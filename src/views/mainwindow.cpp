@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(quitAction,SIGNAL(triggered()),this,SLOT(aboutToclose()));
     trayIconMenu->addAction(quitAction);
 
-    systemTrayIcon = new QSystemTrayIcon(QIcon(":/images/icone_temporaire.png"),this);
+    systemTrayIcon = new QSystemTrayIcon(QIcon(":/images/logo.png"),this);
     systemTrayIcon->setContextMenu(trayIconMenu);
     systemTrayIcon->show();
     systemTrayIcon->setToolTip("VerrouYeah");
@@ -248,7 +248,7 @@ void MainWindow::on_actionAbout_triggered(){
     QMessageBox about(this);
     about.setWindowTitle("prototype VerrouYEAH!");
 
-    about.setIconPixmap(QPixmap(":/images/logo_temporaire.png"));
+    about.setIconPixmap(QPixmap(":/images/logo.png"));
 
     about.setText("<h1>VerrouYEAH!</h1>"
                 "Application de cryptage et planification de sauvegardes<br/>"

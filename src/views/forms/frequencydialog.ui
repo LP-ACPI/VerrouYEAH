@@ -25,6 +25,9 @@
   <property name="windowTitle">
    <string>Choix de fréquence</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255)</string>
+  </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
@@ -233,13 +236,13 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>90</y>
-     <width>131</width>
-     <height>22</height>
+     <width>147</width>
+     <height>28</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="amountChoice">
