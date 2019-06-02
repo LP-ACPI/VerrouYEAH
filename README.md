@@ -1,5 +1,6 @@
-
-# Projet: coffre fort electronique 
+![Logo VerrouYEAH!](https://raw.githubusercontent.com/LP-ACPI/VerrouYEAH/master/res/images/logo_temporaire_clef.png)
+# VerrouYEAH ! 
+### Projet de Licence: coffre fort electronique 
 
 *(Rév 3)*
 
